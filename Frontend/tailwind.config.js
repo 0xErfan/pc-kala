@@ -7,16 +7,41 @@ export default {
     theme: {
         container: {
             center: true,
-            padding: {
-                DEFAULT: "20px",
-                "lg": "10px",
+            screens: {
+                'sm': '640px',
+                'md': '768px',
+                'lg': '1024px',
+                'xl': '1200px',
             },
+            padding: {
+                DEFAULT: "14px",
+                "lg": "0px"
+            }
         },
 
         extend: {
-            screens: {
-                "xs": "460px",
+
+            colors: {
+                "dark-red": "#E30017",
+                "white-red": "FD0019",
+                "off-bgColor": "#ee273a",
+
+                "blue-dark": "#0C8BF6",
+                "blue-white": "#62B7FF",
+
+                "gold": "#FFD300",
+
+                "primary-black": "#292A2D",
+                "secondary-black": "#202124",
+
+                "title-text": "#e3e3e3",
+                "description-text": "#b7b7b7"
             },
+            fontFamily: {
+                "sans": "sans",
+                "sans-thin": "sans-thin",
+                "peyda": "peyda",
+            }
         },
     },
     plugins: [

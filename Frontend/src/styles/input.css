@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@font-face {
+    font-family: "sans";
+    src: url("/fonts/Iransans/IRANSans.ttf"), format("truetype");
+}
+
+@font-face {
+    font-family: "sans-thin";
+    src: url("/fonts/Iransans/IRANSansX\ Thin.ttf"), format("truetype");
+}
+
+@font-face {
+    font-family: "peyda";
+    src: url("/fonts/Peyda/PeydaWeb.ttf"), format("truetype");
+}
+
+* {
+    outline: none;
+}
+
+/* some helper classes */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+.primary-bg {
+    @apply absolute top-0 bottom-0 w-full h-full;
+    background-image: url("/images/backGround.webp");
+    background-color: rgb(41, 42, 45);
+}
