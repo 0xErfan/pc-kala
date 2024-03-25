@@ -18,18 +18,41 @@
     src: url("/fonts/Peyda/PeydaWeb.ttf"), format("truetype");
 }
 
-* {
-    outline: none;
-}
+@layer components {
 
-/* some helper classes */
-.flex-center {
-    display: flex;
-    align-items: center;
-    justify-content: center
-}
-.primary-bg {
-    @apply absolute top-0 bottom-0 w-full h-full;
-    background-image: url("/images/backGround.webp");
-    background-color: rgb(41, 42, 45);
+
+    * {
+        outline: none;
+    }
+
+    /* some helper classes */
+    .flex-center {
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+
+    .primary-bg {
+        @apply absolute top-0 bottom-0 w-full h-full;
+        background-image: url("/images/backGround.webp");
+        background-color: rgb(41, 42, 45);
+    }
+
+    .submenu:hover {
+        padding-right: 2rem;
+        transition: all 0.4s ease;
+    }
+
+    .submenu:hover:after {
+        content: "";
+        inset: 0;
+        border-radius: 3px;
+        width: 1.4rem;
+        height: .1rem;
+        background-color: red;
+        position: absolute;
+        top: -50%;
+        transform: translateY(-50%);
+        margin-top: 50%;
+    }
 }

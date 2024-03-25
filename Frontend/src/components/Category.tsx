@@ -6,7 +6,7 @@ export default function Category() {
     const [isCategoryShown, setIsCategoryShown] = useState(false)
 
     return (
-        <li className="flex-center relative flex-col gap-2">
+        <li className="flex-center relative flex-col gap-2 cursor-pointer">
 
             <div
                 onMouseLeave={() => setIsCategoryShown(false)}
@@ -19,14 +19,14 @@ export default function Category() {
             <div
                 onMouseLeave={() => setIsCategoryShown(false)}
                 onMouseOver={() => setIsCategoryShown(true)}
-                className={`absolute ${!isCategoryShown ? "invisible opacity-0" : "visible opacity-100"} duration-200 transition-all delay-75 cursor-pointe pt-12`}>
-                <ul className="border-t-4 border-b-4 border-dark-red bg-primary-black space-y-4 p-4 w-full fixed left-[50%] -translate-x-[50%] container rounded-xl overflow-hidden">
-                    <li>لپتاپ ۱</li>
-                    <li>لپتاپ ۱</li>
-                    <li>لپتاپ ۱</li>
-                    <li>لپتاپ ۱</li>
-                    <li>لپتاپ ۱</li>
-                    <li>لپتاپ ۱</li>
+                className={`absolute ${!isCategoryShown ? "invisible opacity-0" : "visible opacity-100"} left-[110px] duration-200 transition-all delay-75 cursor-pointe pt-12`}>
+                <ul className="border-t-2 border-b-2 border-dark-red bg-primary-black space-y-4 p-4 fixed w-full max-w-[150px] rounded-xl overflow-hidden ch:relative ">
+                    <li className="submenu" >لپتاپ ۱</li>
+                    <li className="submenu" >لپتاپ ۱</li>
+                    <li className="submenu" >لپتاپ ۱</li>
+                    <li className="submenu" >لپتاپ ۱</li>
+                    <li className="submenu" >لپتاپ ۱</li>
+                    <li className="submenu" >لپتاپ ۱</li>
                 </ul>
             </div>
         </li>
