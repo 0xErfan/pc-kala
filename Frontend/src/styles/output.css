@@ -1,6 +1,6 @@
-/*
-! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com
-*/
+/*! @import */
+
+/*! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -601,21 +601,60 @@ video {
 }
 
 .submenu:hover {
-  padding-right: 2rem;
+  padding-right: 1.3rem;
   transition: all 0.4s ease;
 }
 
-.submenu:hover:after {
+.submenu::after {
+  transition: all 0.4s ease;
   content: "";
   inset: 0;
+  opacity: 0;
   border-radius: 3px;
-  width: 1.4rem;
-  height: .1rem;
-  background-color: red;
+  width: 0.1rem;
+  height: .15rem;
+  background-color: transparent;
   position: absolute;
-  top: -50%;
-  transform: translateY(-50%);
-  margin-top: 50%;
+  margin-top: 10px;
+  padding-left: 0px;
+}
+
+.submenu:hover::after {
+  background-color: red;
+  opacity: 1;
+  padding-left: 14px;
+}
+
+.user-basket {
+  position: relative
+}
+
+.user-basket::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  --tw-bg-opacity: 1;
+  background-color: rgb(183 183 183 / var(--tw-bg-opacity))
+}
+
+.thin-title {
+  font-size: 12px;
+  line-height: 31px;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(183 183 183 / var(--tw-text-opacity))
+}
+
+.bold-title {
+  font-size: 50px;
+  font-family: peyda;
+  --tw-text-opacity: 1;
+  color: rgb(227 0 23 / var(--tw-text-opacity))
 }
 
 .visible {
@@ -652,6 +691,14 @@ video {
 
 .m-auto {
   margin: auto;
+}
+
+.mt-12 {
+  margin-top: 3rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
 }
 
 .mt-5 {
@@ -731,6 +778,10 @@ video {
 
 .gap-20 {
   gap: 5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
 }
 
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
@@ -888,6 +939,10 @@ video {
 .ch\:size-9 > * {
   width: 2.25rem;
   height: 2.25rem;
+}
+
+.ch\:flex-1 > * {
+  flex: 1 1 0%;
 }
 
 .ch\:rounded-md > * {

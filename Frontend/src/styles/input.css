@@ -1,3 +1,4 @@
+/*! @import */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -39,20 +40,54 @@
     }
 
     .submenu:hover {
-        padding-right: 2rem;
+        padding-right: 1.3rem;
         transition: all 0.4s ease;
     }
 
-    .submenu:hover:after {
+    .submenu::after {
+        transition: all 0.4s ease;
+        padding-left: 0px;
         content: "";
         inset: 0;
+        opacity: 0;
         border-radius: 3px;
-        width: 1.4rem;
-        height: .1rem;
-        background-color: red;
+        width: 0.1rem;
+        height: .15rem;
+        background-color: transparent;
         position: absolute;
-        top: -50%;
-        transform: translateY(-50%);
-        margin-top: 50%;
+        margin-top: 10px;
+        padding-left: 0px;
+    }
+
+    .submenu:hover::after {
+        background-color: red;
+        opacity: 1;
+        padding-left: 14px;
+    }
+
+    .user-basket {
+        position: relative
+    }
+
+    .user-basket::after {
+        content: "";
+        position: absolute;
+        left: -10px;
+        top: -10px;
+        width: 1.3rem;
+        height: 1.3rem;
+        border-radius: 50%;
+        @apply bg-description-text
+    }
+
+    .thin-title {
+        font-size: 12px;
+        line-height: 31px;
+        @apply text-description-text py-1
+    }
+
+    .bold-title {
+        font-size: 50px;
+        @apply font-peyda text-dark-red
     }
 }

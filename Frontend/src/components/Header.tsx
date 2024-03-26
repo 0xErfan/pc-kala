@@ -21,14 +21,17 @@ export default function Header() {
                     <div className="flex-center gap-1 " >
                         <div className="text-left" >
                             <div>۰۲۱۹۸۷۶۵</div>
-                            <div>۰۳۱۴۴۵۵۶۶۷۷</div>
+                            <div className="text-blue-dark" >۰۳۱۴۴۵۵۶۶۷۷</div>
                         </div>
-                        <MdPhoneInTalk className="size-7 text-blue-dark " />
+                        <MdPhoneInTalk className="size-7 text-blue-dark" />
                     </div>
 
-                    <div className="flex-center gap-2 ch:rounded-md ch:bg-primary-black ch:size-9 ch:p-2 ">
+                    <div className="flex-center gap-2 ch:rounded-md ch:bg-primary-black ch:size-9 ch:p-2">
                         <FaRegUser />
-                        <SlBasketLoaded />
+                        <div className="flex-center">
+                            {/* <span className="user-basket absolute ">12</span> */}
+                            <SlBasketLoaded />
+                        </div>
                     </div>
                 </div>
             </div>
