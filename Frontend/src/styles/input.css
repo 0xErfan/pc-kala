@@ -1,7 +1,7 @@
-/*! @import */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 
 
 @font-face {
@@ -19,75 +19,136 @@
     src: url("/fonts/Peyda/PeydaWeb.ttf"), format("truetype");
 }
 
-@layer components {
+* {
+    outline: none;
+}
 
+/* some helper classes */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
 
-    * {
-        outline: none;
-    }
+.primary-bg {
+    @apply absolute w-full;
+    background: url("/images/backGround.webp") repeat rgb(41, 42, 45);
+}
 
-    /* some helper classes */
-    .flex-center {
-        display: flex;
-        align-items: center;
-        justify-content: center
-    }
+.submenu:hover {
+    padding-right: 1.3rem;
+    transition: all 0.4s ease;
+}
 
-    .primary-bg {
-        @apply absolute top-0 bottom-0 w-full h-full;
-        background-image: url("/images/backGround.webp");
-        background-color: rgb(41, 42, 45);
-    }
+.submenu::after {
+    transition: all 0.4s ease;
+    padding-left: 0px;
+    content: "";
+    inset: 0;
+    opacity: 0;
+    border-radius: 3px;
+    width: 0.1rem;
+    height: .15rem;
+    background-color: transparent;
+    position: absolute;
+    margin-top: 10px;
+    padding-left: 0px;
+}
 
-    .submenu:hover {
-        padding-right: 1.3rem;
-        transition: all 0.4s ease;
-    }
+.submenu:hover::after {
+    background-color: red;
+    opacity: 1;
+    padding-left: 14px;
+}
 
-    .submenu::after {
-        transition: all 0.4s ease;
-        padding-left: 0px;
-        content: "";
-        inset: 0;
-        opacity: 0;
-        border-radius: 3px;
-        width: 0.1rem;
-        height: .15rem;
-        background-color: transparent;
-        position: absolute;
-        margin-top: 10px;
-        padding-left: 0px;
-    }
+.user-basket {
+    position: relative
+}
 
-    .submenu:hover::after {
-        background-color: red;
-        opacity: 1;
-        padding-left: 14px;
-    }
+.user-basket::after {
+    content: "";
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    width: 1.3rem;
+    height: 1.3rem;
+    border-radius: 50%;
+    @apply bg-description-text
+}
 
-    .user-basket {
-        position: relative
-    }
+.thin-title {
+    font-size: 12px;
+    line-height: 31px;
+    @apply text-description-text py-1
+}
 
-    .user-basket::after {
-        content: "";
-        position: absolute;
-        left: -10px;
-        top: -10px;
-        width: 1.3rem;
-        height: 1.3rem;
-        border-radius: 50%;
-        @apply bg-description-text
-    }
+.bold-title {
+    font-size: 50px;
+    font-weight: 600;
+    @apply font-peyda text-dark-red
+}
 
-    .thin-title {
-        font-size: 12px;
-        line-height: 31px;
-        @apply text-description-text py-1
-    }
+.bordered-btn {
+    @apply border-2 border-white-red bg-transparent relative
+}
 
-    .bold-title {
-        font-size: 50px;
-        @apply font-peyda text-dark-red
-    }
+.bordered-btn::after {
+    content: "";
+    position: absolute;
+    transition: all 0.5s ease;
+    inset: 0;
+    width: 0px;
+    z-index: 1;
+    @apply bg-white-red
+}
+
+.bordered-btn:hover::after {
+    width: 100%;
+}
+
+.dotted-border::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 85%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0.3;
+    border-bottom: 2px dotted #FFD300;
+}
+
+.disscount-border {
+    border-radius: 70% 30% 30% 70% / 60% 40% 60% 40%;
+}
+
+.red-line-through {
+    position: relative;
+}
+
+.red-line-through::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    @apply bg-dark-red top-[9px] h-[.3px] -rotate-[15deg]
+}
+
+/* Custom styles for Swiper pagination */
+.swiper-pagination {
+    color: #fff;
+    padding: 10px;
+    margin-top: 4rem;
+    border-radius: 5px;
+}
+
+.swiper-pagination-bullet {
+    background-color: #fff;
+    width: 15px;
+    height: 5px;
+    margin: 0 5px;
+    border-radius: 2px;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #ff5733;
 }

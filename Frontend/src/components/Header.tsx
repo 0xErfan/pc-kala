@@ -1,5 +1,5 @@
 import { IoSearch } from "react-icons/io5";
-import { SlBasketLoaded } from "react-icons/sl";
+import { CiShoppingBasket } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { MdPhoneInTalk } from "react-icons/md";
 import Category from "./Category";
@@ -8,7 +8,7 @@ import Category from "./Category";
 
 export default function Header() {
     return (
-        <section className="bg-secondary-black sticky top-0 py-4">
+        <section className="bg-secondary-black sticky top-0 py-4 z-40 ">
             <div className="container flex items-center m-auto justify-between w-full" >
                 <div className="max-w-[200px]" ><img className=" object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></div>
 
@@ -26,11 +26,11 @@ export default function Header() {
                         <MdPhoneInTalk className="size-7 text-blue-dark" />
                     </div>
 
-                    <div className="flex-center gap-2 ch:rounded-md ch:bg-primary-black ch:size-9 ch:p-2">
+                    <div className="flex-center gap-2 ch:rounded-md ch:bg-[#393A3D] ch:size-9 ch:p-2">
                         <FaRegUser />
                         <div className="flex-center">
                             {/* <span className="user-basket absolute ">12</span> */}
-                            <SlBasketLoaded />
+                            <CiShoppingBasket className="size-[35px] text-white" />
                         </div>
                     </div>
                 </div>

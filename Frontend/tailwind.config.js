@@ -8,14 +8,16 @@ export default {
         container: {
             center: true,
             screens: {
+                'xs': '480px',
                 'sm': '640px',
                 'md': '768px',
                 'lg': '1024px',
-                'xl': '1200px',
+                'xl': '1280px',
             },
             padding: {
                 DEFAULT: "14px",
-                "lg": "0px"
+                "lg": "0px",
+                "md": "20px"
             }
         },
 
@@ -23,7 +25,7 @@ export default {
 
             colors: {
                 "dark-red": "#E30017",
-                "white-red": "FD0019",
+                "white-red": "#FD0019",
                 "off-bgColor": "#ee273a",
 
                 "blue-dark": "#0C8BF6",
