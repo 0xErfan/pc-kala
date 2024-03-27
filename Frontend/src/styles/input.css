@@ -35,6 +35,11 @@
     background: url("/images/backGround.webp") repeat rgb(41, 42, 45);
 }
 
+.wave-bg {
+    @apply absolute w-full top-3 bottom-0;
+    background: url("/images/home/wave-red.webp") no-repeat;
+}
+
 .submenu:hover {
     padding-right: 1.3rem;
     transition: all 0.4s ease;
@@ -83,7 +88,6 @@
 }
 
 .bold-title {
-    font-size: 50px;
     font-weight: 600;
     @apply font-peyda text-dark-red
 }

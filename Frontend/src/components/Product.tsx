@@ -7,14 +7,14 @@ const Product: FC = () => {
     return (
         <div className="max-w-[316px] relative w-full bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
 
-            {"w" ? <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">۳%</div> : null}
+            {"w" ? <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">۳٪</div> : null}
 
             <img className="m-auto object-cover my-3 cursor-pointer" src="images/victus-15.webp" alt="product-name" />
 
             {"w" &&
                 <div className="flex items-center gap-3 justify-center text-title-text text-sm">
-                    <div className="red-line-through text-white ">12,233,433</div>
-                    <div className="text-blue-white">12,664,473 <span className="text-[10px] text-title-text">تومان</span></div>
+                    <div className="red-line-through text-white ">۲۳,۷۳۴,۱۷۴</div>
+                    <div className="text-blue-white">۲۳,۱۴۵,۶۲۵ <span className="text-[10px] text-title-text">تومان</span></div>
                 </div>
             }
 
