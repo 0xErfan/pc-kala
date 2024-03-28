@@ -4,7 +4,7 @@ interface ButtonProops {
     filled?: boolean
     active?: boolean
     fn: () => unknown
-    text: string
+    text?: string
     Icon?: ReactElement
 }
 

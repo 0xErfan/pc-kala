@@ -37,12 +37,13 @@
 
 .overlay {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    inset: 0;
-    background: #292A2D;
-    z-index: -2;
-    opacity: 0.3;
+    background-color: rgba(0, 0, 0, 2%);
+    z-index: -1;
+    pointer-events: none;
 }
 
 .submenu:hover {
@@ -160,4 +161,21 @@
 
 .swiper-pagination-bullet-active {
     background-color: #ff5733;
+}
+
+.pipe-sep::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    width: 1px;
+    height: 1.1rem;
+    @apply bg-gold/10 rounded-sm
+}
+
+.fake-namad {
+    position: absolute;
+    inset: 0;
+    width: 80%;
+    height: 2rem;
+    @apply bg-red-600 rounded-md m-auto -rotate-12 text-center text-xl pt-1
 }

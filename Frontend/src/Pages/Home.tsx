@@ -13,6 +13,7 @@ import { SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Slider from "../components/Slider";
+import Footer from "../components/Footer";
 
 
 export default function Home() {
@@ -117,7 +118,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <div className="h-[2000px]"></div>
+            <Footer />
         </section>
     )
 }
