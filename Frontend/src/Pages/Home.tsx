@@ -19,7 +19,7 @@ export default function Home() {
 
     return (
         <section className="primary-bg" >
-
+            <div className="overlay"></div>
             <Header />
 
             <div className="container flex ch:flex-1 gap-8 my-12">
@@ -41,7 +41,7 @@ export default function Home() {
                 </Slider>
             </div>
 
-            <div className="container flex ch:flex-1 gap-8 my-36">
+            <div className="container flex ch:flex-1 gap-8 mt-36 mb-24">
                 <div><img className="max-h-[480px] m-auto h-full  w-[200px] " src="/images/home/case.webp" alt="pc-kala" /></div>
                 <div>
                     <h3 className="thin-title mt-4" >تنوع فوق العاده</h3>
@@ -65,7 +65,7 @@ export default function Home() {
                 </Slider>
             </div>
 
-            <div className="container flex ch:flex-1 gap-8 my-36">
+            <div className="container flex ch:flex-1 gap-8 mt-36 mb-24">
                 <div className="px-[29px]">
                     <h3 className="thin-title mt-4" >انتخاب هوشمندانه</h3>
                     <h5 className="bold-title text-[42px]">خرید اقساطی کامپیوتر و لپ تاپ</h5>
@@ -75,7 +75,7 @@ export default function Home() {
                 <div className=" ch:mr-auto h-[481px]"><img className="max-w-[500px] object-cover" src="/images/home/ghesti.webp" alt="pc-kala" /></div>
             </div>
 
-            <div className="container flex ch:flex-1 gap-8 my-36">
+            <div className="container flex ch:flex-1 gap-8 mt-36 mb-24">
                 <div><img className="m-auto h-[600px] w-[500px]" src="/images/home/parts.webp" alt="pc-kala" /></div>
                 <div className="flex flex-col justify-center">
                     <h3 className="thin-title mt-4" >قدرت در دستان توست!</h3>
@@ -95,12 +95,13 @@ export default function Home() {
             </div>
 
             <section>
-                <img className="m-auto pt-36" src="/images/home/pckala.webp" alt="pc-kala-logo" />
+                <img className="m-auto pt-[130px]" src="/images/home/pckala.webp" alt="pc-kala-logo" />
                 <div className="flex items-center justify-center gap-24 mt-8">
-                    <img src="/images/home/cup-1.webp" alt="" />
-                    <img src="/images/home/cup-2.webp" alt="" />
-                    <img src="/images/home/cup-3.webp" alt="" />
-                    <img src="/images/home/cup-4.webp" alt="" />
+                    <img src="/images/home/cup-1.webp" />
+                    <img src="/images/home/cup-2.webp" />
+                    <img src="/images/home/cup-3.webp" />
+                    <img src="/images/home/cup-4.webp" />
+                    <img src="/images/home/cup-5.webp" />
                 </div>
             </section>
 

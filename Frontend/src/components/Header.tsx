@@ -3,6 +3,7 @@ import { CiShoppingBasket } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { MdPhoneInTalk } from "react-icons/md";
 import Category from "./Category";
+import { Link } from "react-router-dom";
 
 
 
@@ -10,7 +11,7 @@ export default function Header() {
     return (
         <section className="bg-secondary-black sticky top-0 py-4 z-40 ">
             <div className="container flex items-center m-auto justify-between w-full" >
-                <div className="max-w-[200px]" ><img className=" object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></div>
+                <Link to="/" className="max-w-[200px]" ><img className=" object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></Link>
 
                 <div className="flex-center text-white gap-2 ch:ml-auto bg-primary-black p-2 rounded-md  w-2/5 ">
                     <IoSearch />
@@ -26,12 +27,14 @@ export default function Header() {
                         <MdPhoneInTalk className="size-7 text-blue-dark" />
                     </div>
 
-                    <div className="flex-center gap-2 ch:rounded-md ch:bg-[#393A3D] ch:size-9 ch:p-2">
-                        <FaRegUser />
-                        <div className="flex-center">
-                            {/* <span className="user-basket absolute ">12</span> */}
-                            <CiShoppingBasket className="size-[35px] text-white" />
-                        </div>
+                    <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
+                        <Link to="/account"><FaRegUser /></Link>
+                        <Link to="/basket">
+                            <div className="flex-center">
+                                {/* <span className="user-basket absolute ">12</span> */}
+                                <CiShoppingBasket className="size-[35px] text-white" />
+                            </div>
+                        </Link>
                     </div>
                 </div>
             </div>
