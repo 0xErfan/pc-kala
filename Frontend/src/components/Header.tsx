@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
     return (
-        <section className="bg-secondary-black sticky top-0 py-4 z-40 ">
+        <section className="bg-secondary-black hidden md:block sticky top-0 py-4 z-40 ">
             <div className="container flex items-center m-auto justify-between w-full" >
                 <Link to="/" className="max-w-[200px]" ><img className=" object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></Link>
 
@@ -19,7 +19,7 @@ export default function Header() {
                 </div>
 
                 <div className="flex-center gap-12 text-description-text ">
-                    <div className="flex-center gap-1 " >
+                    <div className="lg:flex items-center justify-center gap-1 hidden">
                         <div className="text-left" >
                             <div>۰۲۱۹۸۷۶۵</div>
                             <div className="text-blue-dark" >۰۳۱۴۴۵۵۶۶۷۷</div>
@@ -40,7 +40,7 @@ export default function Header() {
             </div>
 
             <div className="container text-white ">
-                <ul className="flex items-center gap-20 mt-5 text-[14px] ">
+                <ul className="flex items-center lg:gap-[60px] gap-12 mt-5 text-[14px] ">
                     <Category />
                     <Category />
                     <Category />

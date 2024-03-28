@@ -19,7 +19,7 @@ export default function Category() {
             <div
                 onMouseLeave={() => setIsCategoryShown(false)}
                 onMouseOver={() => setIsCategoryShown(true)}
-                className={`absolute ${!isCategoryShown ? "invisible opacity-0" : "visible opacity-100"} left-[110px] duration-200 transition-all delay-[40] cursor-pointe pt-12`}>
+                className={`absolute ${!isCategoryShown ? "invisible opacity-0" : "visible opacity-100"} left-[60px] duration-200 transition-all delay-[40] cursor-pointe pt-12`}>
                 <ul className="border-t-2 border-b-2 border-dark-red bg-primary-black space-y-4 p-4 fixed w-full max-w-[150px] rounded-xl overflow-hidden ch:relative ">
                     <li className="submenu" >لپتاپ ۱</li>
                     <li className="submenu" >لپتاپ ۱</li>

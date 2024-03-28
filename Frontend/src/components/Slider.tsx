@@ -1,9 +1,13 @@
+import { ReactNode } from 'react';
 import 'swiper/css';
 import { Autoplay } from 'swiper/modules'
-import { FC, ReactNode } from 'react';
 import { Swiper } from 'swiper/react';
 
-const Slider: FC<{ children: ReactNode }> = ({ children }) => {
+interface SliderProps {
+    children: ReactNode,
+}
+
+const Slider = ({ children }: SliderProps) => {
 
     return (
 
@@ -23,9 +27,6 @@ const Slider: FC<{ children: ReactNode }> = ({ children }) => {
                     },
                     640: {
                         slidesPerView: 2,
-                    },
-                    768: {
-                        slidesPerView: 3
                     },
                     1024: {
                         slidesPerView: 4,

@@ -13,12 +13,12 @@ function Footer() {
             <div className="text-[12px]  text-description-text container space-y-2 ch:flex ch:items-center ch:gap-2">
 
                 <div>
-                    <CiLocationOn className="size-5 text-title-text" />
+                    <CiLocationOn className="size-5 shrink-0 text-title-text" />
                     <p>تهران، خیابان ولیعصر (عج)، تقاطع ولیعصر و طالقانی مجتمع تجاری اداری نور تهران طبقه همکف دوم پلاک 7010، فروشگاه کامپیوتر و لپ تاپ پی سی کالا </p>
                 </div>
 
                 <div className="pb-6">
-                    <MdOutlinePhoneAndroid className="size-5 text-title-text" />
+                    <MdOutlinePhoneAndroid className="size-5 text-title-text shrink-0"/>
                     <p>تماس : <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۳۸۹</span> - <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۴۴۰</span> - <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۴۶۵</span>
                         <span className="pipe-sep relative mx-2"></span> ساعات پاسخگویی: ساعت ۱۰ الی ۱۹
                         <span className="pipe-sep relative mx-2"></span>تهران، میدان ولیعصر، خیابان ولیعصر،خیابان ولدی (انبار مرکزی)</p>
@@ -26,9 +26,9 @@ function Footer() {
 
                 <span className="w-full h-[1px] bg-gold/10"></span>
 
-                <div className=" flex pt-6 pb-7">
+                <div className=" flex flex-col lg:flex-row pt-6 pb-10 sm:pb-6">
 
-                    <div className="flex-[2] pl-12">
+                    <div className="flex-[2]  p-0 lg:pl-12">
 
                         <div className="flex-[2] flex items-center text-white gap-2">
                             <BsInfoLg className="size-6 bg-dark-red p-1 rounded-full" />
@@ -37,7 +37,7 @@ function Footer() {
 
                         <p className="thin-title">فروشگاه پی سی کالا وابسته به گروه مهندسی لعل فام با بیش از ۱۵ سال سابقه فعالیت در زمینه قطعات کامپیوتر و حوزه دیجیتال برآن شده است تا برای سهولت حال مشتریان عزیز براساس فعالیت های آنها و میزان کارایی هر سیستم متناسب با فعالیت؛ قطعات را به صورت بهینه شده اسمبل کرده و در اختیار مشتریان عزیز قرار دهد. تا آنها برای خرید یک سیستم کامل و مناسب با فعالیت کاریشان دچار مشکل نباشند و در اسرع وقت به خواسته خود برسند. تمام تلاش ما رضایت شما و سهولت خرید یک سیستم مطمئن می باشد.</p>
 
-                        <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center flex-col sm:flex-row gap-4 justify-center sm:justify-between mt-2">
                             <div className="flex items-center gap-3 ch:ch:size-4 ch:rounded-md ch:p-4 ch:bg-primary-black">
                                 <Button fn={() => location.href = "https://t.me/0oErfan"} Icon={<FaTelegramPlane />} />
                                 <Button fn={() => location.href = "https://github.com/0xErfan"} Icon={<FaGithub />} />
@@ -51,12 +51,12 @@ function Footer() {
 
                     </div>
 
-                    <div className="flex-1 h-full relative"><span className="fake-namad">Fake</span><img className="h-[100%] mt-auto" src="/images/namads.png" alt="" /></div>
+                    <div className="flex-1 h-full mr-auto mt-8 relative"><span className="fake-namad">Fake</span><img className="h-[100%] mt-auto" src="/images/namads.png" alt="" /></div>
 
                 </div>
 
                 <div className="absolute bottom-0 left-0 right-0 bg-[#1F1F1F]">
-                    <div className="container flex items-center justify-between text-[15px] py-3">
+                    <div className="container sm:flex-row flex flex-col text-center sm:text-start items-center justify-between text-[15px] py-3">
                         <p>Created with ❤️ by <a className="underline text-blue-white" target="_blank" href="https://github.com/0xErfan">0xErfan</a></p>
                         <p>All Right Reserved ©2024</p>
                     </div>
