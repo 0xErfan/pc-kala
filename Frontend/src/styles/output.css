@@ -660,14 +660,13 @@ video {
   margin-bottom: 0.75rem;
 }
 
-.my-36 {
-  margin-top: 9rem;
-  margin-bottom: 9rem;
-}
-
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
+}
+
+.mb-24 {
+  margin-bottom: 6rem;
 }
 
 .ml-auto {
@@ -686,6 +685,10 @@ video {
   margin-top: 0.75rem;
 }
 
+.mt-36 {
+  margin-top: 9rem;
+}
+
 .mt-4 {
   margin-top: 1rem;
 }
@@ -700,14 +703,6 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
-}
-
-.mb-24 {
-  margin-bottom: 6rem;
-}
-
-.mt-36 {
-  margin-top: 9rem;
 }
 
 .line-clamp-2 {
