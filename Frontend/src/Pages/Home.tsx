@@ -111,7 +111,7 @@ export default function Home() {
             <section className=" mt-24 container lg:text-start text-center relative h-[700px]">
                 <h3 className="bold-title sm:text-[40px] text-[32px] text-center">برترین متخصصین کشور</h3>
                 <img src="/images/home/wave-red.webp" className="sm:absolute md:flex hidden left-[19px] lg:left-60 top-48 w-[400px] h-[450px]"></img>
-                {/* <img src="/images/home/wave-red.webp" className="absolute inset-0 -z-0 top-[50%] right-[50%] translate-x-[50%] size-1/2 brightness-[0.2] -translate-y-[50%]"></img> */}
+                <img src="/images/home/wave-red.webp" className="absolute inset-0 -z-[5] md:hidden block top-[50%] right-[50%] translate-x-[50%] size-2/3 brightness-[0.2] -translate-y-[50%]"></img>
                 <div className="lg:px-[200px] px-4 sm:px-[100px]">
                     <p className="text-description-text py-1 text-center text-sm leading-[31px]">برترین متخصصین را گرد هم اورده ایم تا بهترین را برای شما به ارمغان آوریم. وب سایت پیسی کالا که یکی از زیرحجموعه های گروه مهندسی لعل فام میباشد. متشکل از برترین کارشناسان جوزه تکنولوژی و فروش از بین جوانان میهنمان می باشد. هدف ما در این رقابت قدرت کسب رضایت حداکثری شما مشتریان گرامی است. هر روز و هر لحظه به دنبال خلق ایده های نو و ارايه خدمات با بهترین کیفیت به شما هستیم.</p>
                     <p className="text-white text-3xl font-bold text-center mb-2 lg:text-start mt-12">تماس با ما</p>
