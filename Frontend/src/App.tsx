@@ -1,5 +1,6 @@
 import { useRoutes } from "react-router-dom"
 import { routes } from "./routes"
+import Header from "./components/Header"
 
 function App() {
 
@@ -7,6 +8,7 @@ function App() {
 
     return (
         <div className="font-sans max-w-[1340px] w-full " >
+            <Header />
             {route}
         </div>
     )

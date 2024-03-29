@@ -788,6 +788,10 @@ video {
   margin-top: auto;
 }
 
+.mt-10 {
+  margin-top: 2.5rem;
+}
+
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -903,6 +907,10 @@ video {
 
 .max-h-screen {
   max-height: 100vh;
+}
+
+.min-h-screen {
+  min-height: 100vh;
 }
 
 .w-2\/5 {
@@ -1283,6 +1291,10 @@ video {
 
 .pt-\[150px\] {
   padding-top: 150px;
+}
+
+.pt-\[80px\] {
+  padding-top: 80px;
 }
 
 .text-left {

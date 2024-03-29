@@ -20,10 +20,10 @@ export default function Home() {
 
     return (
         <section className="primary-bg overflow-x-hidden">
-            <div className="overlay"></div>
-            <Header />
 
-            <div className="container flex-col-reverse lg:flex-row flex ch:flex-1 gap-8 my-12">
+            <div className="overlay"></div>
+
+            <div className="container pt-[80px] flex-col-reverse lg:flex-row flex ch:flex-1 gap-8 my-12">
                 <div className="">
                     <h3 className="thin-title mt-4" >بهترین قیمت</h3>
                     <h5 className="bold-title text-[40px] md:text-[52px]">خرید انواع لپ تاپ</h5>

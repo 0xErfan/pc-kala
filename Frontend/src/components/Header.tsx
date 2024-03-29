@@ -9,7 +9,7 @@ import SideMenu from "./SideMenu";
 export default function Header() {
 
     return (
-        <section className="z-40 sticky top-0 ">
+        <section className="z-40 fixed left-0 w-full">
 
             {/* for large screens */}
             <div className="hidden md:block bg-secondary-black py-4">
