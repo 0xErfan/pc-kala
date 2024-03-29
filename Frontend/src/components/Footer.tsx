@@ -37,7 +37,7 @@ function Footer() {
 
                         <p className="thin-title">فروشگاه پی سی کالا وابسته به گروه مهندسی لعل فام با بیش از ۱۵ سال سابقه فعالیت در زمینه قطعات کامپیوتر و حوزه دیجیتال برآن شده است تا برای سهولت حال مشتریان عزیز براساس فعالیت های آنها و میزان کارایی هر سیستم متناسب با فعالیت؛ قطعات را به صورت بهینه شده اسمبل کرده و در اختیار مشتریان عزیز قرار دهد. تا آنها برای خرید یک سیستم کامل و مناسب با فعالیت کاریشان دچار مشکل نباشند و در اسرع وقت به خواسته خود برسند. تمام تلاش ما رضایت شما و سهولت خرید یک سیستم مطمئن می باشد.</p>
 
-                        <div className="flex items-center flex-col sm:flex-row gap-4 justify-center sm:justify-between mt-2">
+                        <div className="flex items-center flex-col sm:flex-row gap-6 justify-center sm:justify-between mt-2">
                             <div className="flex items-center gap-3 ch:ch:size-4 ch:rounded-md ch:p-4 ch:bg-primary-black">
                                 <Button fn={() => location.href = "https://t.me/0oErfan"} Icon={<FaTelegramPlane />} />
                                 <Button fn={() => location.href = "https://github.com/0xErfan"} Icon={<FaGithub />} />
