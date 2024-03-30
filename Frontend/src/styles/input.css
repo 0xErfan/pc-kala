@@ -179,3 +179,35 @@
     height: 2rem;
     @apply bg-red-600 rounded-md m-auto -rotate-12 text-center text-xl pt-1
 }
+
+.active-section {
+    @apply text-dark-red bg-primary-black transition-all p-3 rounded-md mt-2;
+
+}
+
+.active-section::after {
+    content: "";
+    width: 2rem;
+    height: 2rem;
+    background-color: red;
+    top: -2rem;
+    right: 45%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    position: absolute;
+    @apply bg-primary-black
+}
+
+.active-section::before {
+    content: "";
+    width: 1rem;
+    height: 1rem;
+    z-index: 20;
+    background-color: red;
+    top: -1.4rem;
+    right: 47%;
+    transform: translateX(-68%);
+    border-radius: 50%;
+    position: absolute;
+    @apply bg-secondary-black
+}

@@ -4,10 +4,19 @@ import { FaAngleLeft } from "react-icons/fa";
 import { IoShareSocialOutline } from "react-icons/io5";
 import { FiMinus } from "react-icons/fi";
 import { LuPlus } from "react-icons/lu";
+import { GoCpu } from "react-icons/go";
 import { MdAddShoppingCart } from "react-icons/md";
+import { TbListDetails } from "react-icons/tb";
+import { MdOutlineInsertComment } from "react-icons/md";
+import { MdOutlinePhoneEnabled } from "react-icons/md";
+import { GoCommentDiscussion } from "react-icons/go";
+import { GrGroup } from "react-icons/gr";
 import Button from "../components/Button";
+import { useState } from "react";
 
 const Product = () => {
+
+    const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
 
     return (
 
@@ -21,6 +30,7 @@ const Product = () => {
             </div>
 
             <div className=" flex items-center gap-4 bg-secondary-black container rounded-md p-4 text-white">
+
                 <div className=" flex-1">
 
                     <div className="flex items-center justify-between text-[11px]">
@@ -129,10 +139,74 @@ const Product = () => {
                 </div>
 
                 <div className=" flex-1 text-[12px] text-white mb-auto">
-                    <div>
-                        <h4 className="bg-[#343539] py-1 px-2 rounded-sm">مشخصات اصلی محصول</h4>
+                    <div className="ch:rounded-sm space-y-1">
+                        <h4 className="bg-[#343539] mb-2 py-1 px-2">مشخصات اصلی محصول</h4>
+                        <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"> <GoCpu /> intel i9-13980HX</h4>
+                        <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"> <GoCpu /> +18inch QHD</h4>
+                        <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"> <GoCpu /> RTX4090-16G</h4>
+                        <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"> <GoCpu /> 32GB DDR5</h4>
+                        <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"> <GoCpu /> 2TB-SSD</h4>
+                    </div>
+
+                    <div className="mt-5">
+                        <div className="p-3 text-center rounded-sm cursor-pointer bg-dark-red text-[13px]">نحوه خرید اقساطی</div>
+                        <div className="flex items-center gap-2 mt-2 ch:rounded-sm ch:cursor-pointer">
+                            <div className="flex items-center flex-1 flex-center font-bold gap-2 p-2 bg-secondary-black text-title-text border-dashed hover:bg-blue-dark transition-all border border-blue-dark"><MdOutlinePhoneEnabled className="size-5" />نیاز به مشاوره</div>
+                            <div className="flex items-center flex-1 flex-center font-bold gap-2 p-2 text-secondary-black bg-title-text"><GrGroup className="size-5 text-tex" />امور مشتریان</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div className="flex items-center container h-[107px] text-description-text relative ch:transition-all bg-secondary-black text-[12px] mt-8 rounded-md p-4">
+
+                <div onClick={() => setActiveSection("details")} className={`flex-1 relative`}>
+                    <div className={`flex-center flex-col ${activeSection == "details" && "active-section"} gap-1`}>
+                        <TbListDetails className="text-description-text size-6" />
+                        <p>مشخصات فیزیکی</p>
                     </div>
                 </div>
+
+                <div onClick={() => setActiveSection("comments")} className={`flex-1 relative`}>
+                    <div className={`flex-center flex-col ${activeSection == "comments" && "active-section"} gap-1`}>
+                        <GoCommentDiscussion className="text-description-text size-6" />
+                        <p>نظرات کاربران</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div className="flex items-center container gap-5 text-description-text bg-secondary-black text-[12px] mt-8 rounded-md p-4">
+
+                <div className={`flex-1 space-y-3`}>
+                    <div className="flex items-center gap-2">
+                        <MdOutlineInsertComment className="size-8" />
+                        <h3>نظرات کاربران</h3>
+                    </div>
+                    <div className="border text-description-text rounded-md border-dotted border-gold/30 p-4">
+                        <span className="text-white">                        لطفا پیش از ارسال نظر، خلاصه قوانین زیر را مطالعه کنید:</span>
+                        <br /><br />
+                        فارسی بنویسید و از کیبورد فارسی استفاده کنید. بهتر است از فضای خالی (Space) بیش‌از‌حدِ معمول، شکلک یا ایموجی استفاده نکنید و از کشیدن حروف یا کلمات با صفحه‌کلید بپرهیزید.
+                        <br /><br />
+                        نظرات خود را براساس تجربه و استفاده‌ی عملی و با دقت به نکات فنی ارسال کنید؛ بدون تعصب به محصول خاص، مزایا و معایب را بازگو کنید و بهتر است از ارسال نظرات چندکلمه‌‌ای خودداری کنید.
+                        <br /><br />
+                        بهتر است در نظرات خود از تمرکز روی عناصر متغیر مثل قیمت، پرهیز کنید.
+                        <br /><br />
+                        به کاربران و سایر اشخاص احترام بگذارید. پیام‌هایی که شامل محتوای توهین‌آمیز و کلمات نامناسب باشند، حذف می‌شوند.
+                    </div>
+                </div>
+
+                <div className={`flex-1 mb-auto`}>
+                    <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “لپ تاپ لنوو IdeaPad GAMING3 i7-11370H/32GB/1TB/GTX 1650-4G”</p>
+                    <div className="mt-6">
+                        <label htmlFor="textArea">دیدگاه شما <span className="text-white-red">*</span></label>
+                        <textarea className="max-h-60 w-full rounded-md my-2 bg-primary-black border border-description-text/10" id="textArea" cols={30} rows={10}></textarea>
+                        <Button text="ثبت نظر" filled={true} fn={() => { }} />
+                    </div>
+                </div>
+
             </div>
 
             <div className="h-[500px]"></div>
