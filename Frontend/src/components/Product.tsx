@@ -1,15 +1,16 @@
-import { FC } from "react"
 import { CiHardDrive } from "react-icons/ci"
 import { FaRegHeart } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
-const Product: FC = () => {
+import { Link } from "react-router-dom";
+
+const Product = () => {
 
     return (
         <div className="max-w-[316px] relative w-full m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
 
             {"w" ? <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">۳٪</div> : null}
 
-            <img className="m-auto object-cover my-3 cursor-pointer" src="images/victus-15.webp" alt="product-name" />
+            <Link to="products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src="images/victus-15.webp" alt="product-name" /></Link>
 
             {"w" &&
                 <div className="flex items-center gap-3 justify-center text-title-text text-sm">
@@ -18,7 +19,7 @@ const Product: FC = () => {
                 </div>
             }
 
-            <p className="text-center px-3 transition-all line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">لپ تاپ ایسوس R565EP i7-1165G7/8GB/512GB/MX330-2G</p>
+            <Link to="products/324987fui32" className="text-center px-3 transition-all line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">لپ تاپ ایسوس R565EP i7-1165G7/8GB/512GB/MX330-2G</Link>
 
             <div className="grid grid-cols-4 gap-2 ch:bg-primary-black ch:rounded-md ch-gap-1">
 

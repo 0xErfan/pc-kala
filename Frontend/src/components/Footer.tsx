@@ -8,6 +8,7 @@ import Button from "./Button";
 function Footer() {
 
     return (
+
         <section className="bg-secondary-black p-8 relative">
 
             <div className="text-[12px]  text-description-text container space-y-2 ch:flex ch:items-center ch:gap-2">
@@ -18,7 +19,7 @@ function Footer() {
                 </div>
 
                 <div className="pb-6">
-                    <MdOutlinePhoneAndroid className="size-5 text-title-text shrink-0"/>
+                    <MdOutlinePhoneAndroid className="size-5 text-title-text shrink-0" />
                     <p>تماس : <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۳۸۹</span> - <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۴۴۰</span> - <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۴۶۵</span>
                         <span className="pipe-sep relative mx-2"></span> ساعات پاسخگویی: ساعت ۱۰ الی ۱۹
                         <span className="pipe-sep relative mx-2"></span>تهران، میدان ولیعصر، خیابان ولیعصر،خیابان ولدی (انبار مرکزی)</p>

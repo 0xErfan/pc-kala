@@ -7,7 +7,7 @@ function App() {
     const route = useRoutes(routes)
 
     return (
-        <div className="font-sans max-w-[1340px] w-full " >
+        <div className="font-sans max-w-[1340px] w-full">
             <Header />
             {route}
         </div>

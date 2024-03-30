@@ -1,7 +1,8 @@
 import Home from "./Pages/Home"
+import Product from "./Pages/Product"
 
 export const routes = [
     { path: "/", element: <Home /> },
-    { path: "/data", element: <div>ff</div> },
+    { path: "/products/:id", element: <Product /> },
     { path: "/*", element: <div>صفحه یافت نشد</div> },
 ]

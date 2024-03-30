@@ -31,6 +31,9 @@ export default {
                 "blue-white": "#62B7FF",
 
                 "gold": "#FFD300",
+                "dark-gold": "rgb(255 211 0 / 10%)",
+
+                "green": "#16723A",
 
                 "primary-black": "#292A2D",
                 "secondary-black": "#202124",

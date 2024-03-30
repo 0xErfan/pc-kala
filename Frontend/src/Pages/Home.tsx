@@ -1,5 +1,4 @@
 
-import Header from "../components/Header";
 import Button from "../components/Button";
 import BlockTitle from "../components/BlockTitle";
 import Product from "../components/Product";
@@ -8,8 +7,8 @@ import { BsLaptop } from 'react-icons/bs'
 import { CiDiscount1 } from "react-icons/ci";
 import { AiOutlinePartition } from "react-icons/ai";
 import { BsCpu } from "react-icons/bs";
-import "../styles/output.css"
 import { SwiperSlide } from 'swiper/react';
+import "../styles/output.css"
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Slider from "../components/Slider";
@@ -122,6 +121,7 @@ export default function Home() {
             </section>
 
             <Footer />
+
         </section>
     )
 }
