@@ -9,8 +9,9 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { MdOutlineInsertComment } from "react-icons/md";
 import { MdOutlinePhoneEnabled } from "react-icons/md";
+import { BiMessageSquareDetail } from "react-icons/bi";
 import { GoCommentDiscussion } from "react-icons/go";
-import { BsFilterLeft, BsFilterRight } from "react-icons/bs";
+import { BsFilterLeft } from "react-icons/bs";
 import { GrGroup } from "react-icons/gr";
 import Button from "../components/Button";
 import { useState } from "react";
@@ -76,7 +77,7 @@ const Product = () => {
                             </div>
                         </div>
 
-                        <div className="flex-[5] border relative border-dark-gold rounded-md text-description-text">
+                        <div className="flex-[5] text-[13px] border relative border-dark-gold rounded-md text-description-text">
                             <img className="flex-center w-full object-cover py-4" src="/images/victus-15.webp" />
                             <span className="absolute cursor-pointer flex-center size-10 border border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch /></span>
                             <span className="absolute size-10 border border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline /></span>
@@ -163,7 +164,7 @@ const Product = () => {
 
             </div>
 
-            <div className="flex items-center container h-[107px] text-description-text relative ch:transition-all bg-secondary-black text-[12px] mt-8 rounded-md p-4">
+            <div className="flex items-center container ch:cursor-pointer h-[107px] text-description-text relative ch:transition-all bg-secondary-black text-[12px] mt-8 rounded-md p-4">
 
                 <div onClick={() => setActiveSection("details")} className={`flex-1 relative`}>
                     <div className={`flex-center flex-col ${activeSection == "details" && "active-section"} gap-1`}>
@@ -181,7 +182,7 @@ const Product = () => {
 
             </div>
 
-            <div className="container text-description-text bg-secondary-black text-[12px] mt-8 rounded-md p-4">
+            <div className="container text-description-text bg-secondary-black text-[12px] mt-2 rounded-md mb-12 p-4">
 
                 {
                     activeSection == "comments"
@@ -245,12 +246,38 @@ const Product = () => {
                             </div>
                         </div>
                         :
-                        <div>HO</div>
+                        <div>
+                            <div className="flex items-center text-md gap-2">
+                                <BiMessageSquareDetail className="size-6" />
+                                <p>مشخصات کلی</p>
+                            </div>
+
+                            <div className="space-y-1 mt-4 text-white text-[10px]">
+
+                                <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
+                                    <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
+                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                </div>
+
+                                <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
+                                    <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
+                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                </div>
+
+                                <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
+                                    <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
+                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                </div>
+
+                                <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
+                                    <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
+                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                </div>
+                            </div>
+                        </div>
                 }
 
             </div>
-
-            <div className="h-[500px]"></div>
 
             <Footer />
         </section>
