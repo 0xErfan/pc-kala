@@ -10,9 +10,12 @@ import { TbListDetails } from "react-icons/tb";
 import { MdOutlineInsertComment } from "react-icons/md";
 import { MdOutlinePhoneEnabled } from "react-icons/md";
 import { GoCommentDiscussion } from "react-icons/go";
+import { BsFilterLeft, BsFilterRight } from "react-icons/bs";
 import { GrGroup } from "react-icons/gr";
 import Button from "../components/Button";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Comment from "../components/Comment";
 
 const Product = () => {
 
@@ -178,34 +181,72 @@ const Product = () => {
 
             </div>
 
-            <div className="flex items-center container gap-5 text-description-text bg-secondary-black text-[12px] mt-8 rounded-md p-4">
+            <div className="container text-description-text bg-secondary-black text-[12px] mt-8 rounded-md p-4">
 
-                <div className={`flex-1 space-y-3`}>
-                    <div className="flex items-center gap-2">
-                        <MdOutlineInsertComment className="size-8" />
-                        <h3>نظرات کاربران</h3>
-                    </div>
-                    <div className="border text-description-text rounded-md border-dotted border-gold/30 p-4">
-                        <span className="text-white">                        لطفا پیش از ارسال نظر، خلاصه قوانین زیر را مطالعه کنید:</span>
-                        <br /><br />
-                        فارسی بنویسید و از کیبورد فارسی استفاده کنید. بهتر است از فضای خالی (Space) بیش‌از‌حدِ معمول، شکلک یا ایموجی استفاده نکنید و از کشیدن حروف یا کلمات با صفحه‌کلید بپرهیزید.
-                        <br /><br />
-                        نظرات خود را براساس تجربه و استفاده‌ی عملی و با دقت به نکات فنی ارسال کنید؛ بدون تعصب به محصول خاص، مزایا و معایب را بازگو کنید و بهتر است از ارسال نظرات چندکلمه‌‌ای خودداری کنید.
-                        <br /><br />
-                        بهتر است در نظرات خود از تمرکز روی عناصر متغیر مثل قیمت، پرهیز کنید.
-                        <br /><br />
-                        به کاربران و سایر اشخاص احترام بگذارید. پیام‌هایی که شامل محتوای توهین‌آمیز و کلمات نامناسب باشند، حذف می‌شوند.
-                    </div>
-                </div>
+                {
+                    activeSection == "comments"
+                        ?
+                        <div>
 
-                <div className={`flex-1 mb-auto`}>
-                    <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “لپ تاپ لنوو IdeaPad GAMING3 i7-11370H/32GB/1TB/GTX 1650-4G”</p>
-                    <div className="mt-6">
-                        <label htmlFor="textArea">دیدگاه شما <span className="text-white-red">*</span></label>
-                        <textarea className="max-h-60 w-full rounded-md my-2 bg-primary-black border border-description-text/10" id="textArea" cols={30} rows={10}></textarea>
-                        <Button text="ثبت نظر" filled={true} fn={() => { }} />
-                    </div>
-                </div>
+                            <div className="flex items-center gap-5">
+                                <div className={`flex-1 space-y-3`}>
+                                    <div className="flex items-center gap-2">
+                                        <MdOutlineInsertComment className="size-8" />
+                                        <h3>نظرات کاربران</h3>
+                                    </div>
+                                    <div className="border text-description-text rounded-md border-dotted border-gold/30 p-4">
+                                        <span className="text-white">                        لطفا پیش از ارسال نظر، خلاصه قوانین زیر را مطالعه کنید:</span>
+                                        <br /><br />
+                                        فارسی بنویسید و از کیبورد فارسی استفاده کنید. بهتر است از فضای خالی (Space) بیش‌از‌حدِ معمول، شکلک یا ایموجی استفاده نکنید و از کشیدن حروف یا کلمات با صفحه‌کلید بپرهیزید.
+                                        <br /><br />
+                                        نظرات خود را براساس تجربه و استفاده‌ی عملی و با دقت به نکات فنی ارسال کنید؛ بدون تعصب به محصول خاص، مزایا و معایب را بازگو کنید و بهتر است از ارسال نظرات چندکلمه‌‌ای خودداری کنید.
+                                        <br /><br />
+                                        بهتر است در نظرات خود از تمرکز روی عناصر متغیر مثل قیمت، پرهیز کنید.
+                                        <br /><br />
+                                        به کاربران و سایر اشخاص احترام بگذارید. پیام‌هایی که شامل محتوای توهین‌آمیز و کلمات نامناسب باشند، حذف می‌شوند.
+                                    </div>
+                                </div>
+
+                                <div className={`flex-1 mb-auto`}>
+                                    <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “لپ تاپ لنوو IdeaPad GAMING3 i7-11370H/32GB/1TB/GTX 1650-4G”</p>
+                                    {
+                                        "" ?
+                                            <div className="text-center mt-12">برای ثبت نظر ابتدا <Link to="/login" className="text-blue-dark">وارد حساب </Link>خود شوید.</div>
+                                            :
+                                            <div className="mt-6">
+                                                <label htmlFor="textArea">دیدگاه شما <span className="text-white-red">*</span></label>
+                                                <textarea className="max-h-60 h-[167px] w-full p-2 rounded-md my-2 bg-primary-black border border-description-text/10" id="textArea" cols={30} rows={10}></textarea>
+                                                <Button text="ثبت نظر" filled={true} fn={() => { }} />
+                                            </div>
+                                    }
+                                </div>
+                            </div>
+
+                            <div className="mt-24">
+                                <div className="flex items-center justify-between border-b border-title-text pb-2">
+                                    <p className="font-peyda text-gold text-[15px]">نقد و بررسی ها</p>
+                                    <div className="flex items-center text-[11px] gap-4 text-description-text">
+                                        <BsFilterLeft className="size-5" />
+                                        <p className="text-white-red">جدیدترین</p>
+                                        <p>دیدکاه خریداران</p>
+                                    </div>
+                                </div>
+                                {
+                                    " "
+                                        ?
+                                        <div className="flex flex-col mt-3 gap-2">
+                                            <Comment />
+                                            <Comment />
+                                            <Comment />
+                                        </div>
+                                        :
+                                        <div className="w-full mt-3 bg-white-red p-3 rounded-md">نظری برای این محصول ثبت نشده !</div>
+                                }
+                            </div>
+                        </div>
+                        :
+                        <div>HO</div>
+                }
 
             </div>
 
