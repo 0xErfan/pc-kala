@@ -9,7 +9,7 @@ function Footer() {
 
     return (
 
-        <section className="bg-secondary-black p-8 relative">
+        <section className="bg-secondary-black p-8 relative z-10">
 
             <div className="text-[12px]  text-description-text container space-y-2 ch:flex ch:items-center ch:gap-2">
 

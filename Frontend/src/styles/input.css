@@ -191,11 +191,10 @@
     height: 2rem;
     background-color: red;
     top: -2rem;
-    right: 45%;
     transform: translateX(-50%);
     border-radius: 50%;
     position: absolute;
-    @apply bg-primary-black
+    @apply bg-primary-black right-[36.6%] sm:block hidden md:right-[41.6%] sm:right-[38%] lg:right-[44.2%] xl:right-[45.1%]
 }
 
 .active-section::before {
@@ -209,5 +208,5 @@
     transform: translateX(-68%);
     border-radius: 50%;
     position: absolute;
-    @apply bg-secondary-black
+    @apply bg-secondary-black right-[41.9%] sm:block hidden md:right-[44.9%] lg:right-[46.6%] xl:right-[47%]
 }

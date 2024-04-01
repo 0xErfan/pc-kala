@@ -45,6 +45,9 @@ export default {
                 "sans": "sans",
                 "sans-thin": "sans-thin",
                 "peyda": "peyda",
+            },
+            boxShadow: {
+                "regular": `0px 0px 23px 0px rgba(0,0,0,0.46)`
             }
         },
     },

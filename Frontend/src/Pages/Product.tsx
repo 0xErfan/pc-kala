@@ -24,16 +24,16 @@ const Product = () => {
 
     return (
 
-        <section className="primary-bg">
+        <section className="primary-bg px-4">
 
-            <div className="bg-secondary-black rounded-md gap-2 container p-3 flex items-center mb-4 mt-[150px] text-[12px] ch:ch:size-4 text-description-text">
+            <div className="bg-secondary-black text-nowrap rounded-md gap-2 overflow-auto container p-3 flex items-center mb-4 mt-[150px] text-[12px] ch:ch:size-4 text-description-text">
                 <div className="flex items-center gap-2">خانه‌<FaAngleLeft /></div>
                 <div className="flex items-center gap-2">لپتاپ <FaAngleLeft /></div>
                 <div className="flex items-center gap-2">lonovo v15<FaAngleLeft /></div>
                 <div className="flex items-center gap-2"> لپ تاپ ایسوس ROG Strix SCAR G834JY-AC i9-13980HX/32GB/2TB/RTX4090-16G</div>
             </div>
 
-            <div className=" flex items-center gap-4 bg-secondary-black container rounded-md p-4 text-white">
+            <div className=" flex flex-col lg:flex-row items-center md:gap-4 gap-8 bg-secondary-black container rounded-md p-4 text-white">
 
                 <div className=" flex-1">
 
@@ -88,7 +88,7 @@ const Product = () => {
                     <div className="bg-green rounded-md p-4 text-sm text-center">قدرت ما در بهترین قیمت بازار است بهترین عرضه کننده لپ تاپ در ایران</div>
                 </div>
 
-                <div className=" flex-[1.4] mb-auto">
+                <div className="md:flex-[1.2] xl:flex-[1.4] mb-auto">
                     <p>لپ تاپ ایسوس ROG Strix SCAR G834JY-AC i9-13980HX/32GB/2TB/RTX4090-16G</p>
                     <span className="bg-blue-dark inline-block text-[11px] p-1 rounded-sm my-3">شناسه محصول : 72478</span>
                     <div className="flex items-center gap-12 text-[12px]">
@@ -142,7 +142,7 @@ const Product = () => {
                     </div>
                 </div>
 
-                <div className=" flex-1 text-[12px] text-white mb-auto">
+                <div className=" flex-1 text-[12px] hidden lg:block text-white mb-auto">
                     <div className="ch:rounded-sm space-y-1">
                         <h4 className="bg-[#343539] mb-2 py-1 px-2">مشخصات اصلی محصول</h4>
                         <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"> <GoCpu /> intel i9-13980HX</h4>
@@ -189,7 +189,7 @@ const Product = () => {
                         ?
                         <div>
 
-                            <div className="flex items-center gap-5">
+                            <div className="flex  flex-col md:flex-row items-center gap-5">
                                 <div className={`flex-1 space-y-3`}>
                                     <div className="flex items-center gap-2">
                                         <MdOutlineInsertComment className="size-8" />
@@ -256,22 +256,22 @@ const Product = () => {
 
                                 <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
                                     <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
-                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                    <div className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel</div>
                                 </div>
 
                                 <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
                                     <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
-                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                    <div className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel</div>
                                 </div>
 
                                 <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
                                     <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
-                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                    <div className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel</div>
                                 </div>
 
                                 <div className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
                                     <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده پردازنده</div>
-                                    <div className="flex-[8] text-[13px] flex items-center">Intel</div>
+                                    <div className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel</div>
                                 </div>
                             </div>
                         </div>
