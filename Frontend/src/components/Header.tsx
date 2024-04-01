@@ -14,8 +14,8 @@ export default function Header() {
             {/* for large screens */}
             <div className="hidden md:block bg-secondary-black py-4">
 
-                <div className="container flex items-center m-auto justify-between w-full" >
-                    <Link to="/" className="max-w-[200px]" ><img className=" object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></Link>
+                <div className="container flex items-center m-auto justify-between w-full">
+                    <Link to="/" className="max-w-[200px]" ><img className="object-cover w-full h-full " src="images/home/title.webp" alt="pc-kala-shop" /></Link>
 
                     <div className="flex-center text-white gap-2 ch:ml-auto bg-primary-black p-2 rounded-md  w-2/5 ">
                         <IoSearch />
