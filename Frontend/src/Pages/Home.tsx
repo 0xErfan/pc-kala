@@ -12,12 +12,15 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import Slider from "../components/Slider";
 import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 
 export default function Home() {
 
     return (
         <section className="primary-bg overflow-x-hidden">
+
+            <Header />
 
             <div className="overlay"></div>
 

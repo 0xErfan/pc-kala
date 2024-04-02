@@ -17,6 +17,7 @@ import Button from "../components/Button";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Comment from "../components/Comment";
+import Header from "../components/Header";
 
 const Product = () => {
 
@@ -25,6 +26,8 @@ const Product = () => {
     return (
 
         <section className="primary-bg">
+
+            <Header/>
 
             <div className="md:px-5 px-3">
 
