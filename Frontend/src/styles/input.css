@@ -25,12 +25,13 @@
 
 /* For Chrome and Safari */
 ::-webkit-scrollbar {
-    background-color: gray;
+    width: 1rem;
+    background-color: rgb(77, 74, 74);
     /* Change this to the desired background color */
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgb(77, 74, 74);
+    background-color: gray;
     border-radius: 2px;
 }
 
