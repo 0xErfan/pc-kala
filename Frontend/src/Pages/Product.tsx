@@ -27,7 +27,7 @@ const Product = () => {
 
         <section className="primary-bg">
 
-            <Header/>
+            <Header />
 
             <div className="md:px-5 px-3">
 

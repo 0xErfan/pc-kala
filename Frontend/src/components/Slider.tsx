@@ -1,11 +1,9 @@
-import { ReactNode } from 'react';
 import 'swiper/css';
+import { ReactNode } from 'react';
 import { Autoplay } from 'swiper/modules'
 import { Swiper } from 'swiper/react';
 
-interface SliderProps {
-    children: ReactNode,
-}
+interface SliderProps { children: ReactNode }
 
 const Slider = ({ children }: SliderProps) => {
 

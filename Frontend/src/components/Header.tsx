@@ -5,8 +5,11 @@ import { MdPhoneInTalk } from "react-icons/md";
 import Category from "./Category";
 import { Link } from "react-router-dom";
 import SideMenu from "./SideMenu";
+import { useEffect, useState } from "react";
 
 export default function Header() {
+
+    const [sideMenuDataToShow, setSideMenuDataToShow] = useState<"basket" | "sideMenu">("sideMenu")
 
     return (
         <section className="z-40 fixed left-0 w-full">
@@ -17,10 +20,18 @@ export default function Header() {
                 <div className="container flex items-center m-auto justify-between w-full">
                     <Link to="/" className="max-w-[200px]" ><img className="object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></Link>
 
+                    <SideMenu
+                        changeTypeFn={() => {
+                            setSideMenuDataToShow("sideMenu")
+                            return true
+                        }}
+                        dataToShow={sideMenuDataToShow} />
+                        
                     <div className="flex-center text-white gap-2 ch:ml-auto bg-primary-black p-2 rounded-md  w-2/5 ">
                         <IoSearch />
                         <input className=" bg-transparent w-full text-sm " type="text" placeholder="محصول خود را بیابید..." />
                     </div>
+
 
                     <div className="flex-center gap-12 text-description-text ">
                         <div className="lg:flex items-center justify-center gap-1 hidden">
@@ -33,12 +44,12 @@ export default function Header() {
 
                         <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
                             <Link to="/account"><FaRegUser /></Link>
-                            <Link to="/basket">
+                            <div className="cursor-pointer" onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[11px] bg-primary-black">12</span>
                                     <CiShoppingBasket className="size-[35px] text-white" />
                                 </div>
-                            </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -59,7 +70,12 @@ export default function Header() {
 
                 <div className="container flex items-center justify-between w-full" >
 
-                    <SideMenu />
+                    <SideMenu
+                        changeTypeFn={() => {
+                            setSideMenuDataToShow("sideMenu")
+                            return true
+                        }}
+                        dataToShow={sideMenuDataToShow} />
 
                     <Link to="/" className="max-w-[200px]" ><img className=" object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></Link>
 
@@ -67,12 +83,12 @@ export default function Header() {
 
                         <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
                             <Link to="/account"><FaRegUser /></Link>
-                            <Link to="/basket">
+                            <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[11px] bg-primary-black">12</span>
                                     <CiShoppingBasket className="size-[35px] text-white" />
                                 </div>
-                            </Link>
+                            </div>
                         </div>
 
                     </div>

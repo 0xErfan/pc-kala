@@ -23,6 +23,17 @@
     outline: none;
 }
 
+/* For Chrome and Safari */
+::-webkit-scrollbar {
+    background-color: gray;
+    /* Change this to the desired background color */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgb(77, 74, 74);
+    border-radius: 2px;
+}
+
 /* some helper classes */
 .flex-center {
     display: flex;

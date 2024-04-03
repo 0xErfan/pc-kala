@@ -660,6 +660,10 @@ video {
   left: 0.75rem;
 }
 
+.left-8 {
+  left: 2rem;
+}
+
 .left-\[19px\] {
   left: 19px;
 }
@@ -684,24 +688,16 @@ video {
   top: 12rem;
 }
 
+.top-8 {
+  top: 2rem;
+}
+
 .top-\[50\%\] {
   top: 50%;
 }
 
-.left-12 {
-  left: 3rem;
-}
-
-.top-12 {
-  top: 3rem;
-}
-
-.left-8 {
-  left: 2rem;
-}
-
-.top-8 {
-  top: 2rem;
+.-left-\[280px\] {
+  left: -280px;
 }
 
 .-z-\[5\] {
@@ -1002,6 +998,10 @@ video {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-44 {
+  height: 11rem;
 }
 
 .max-h-60 {
@@ -1452,6 +1452,11 @@ video {
   background-color: rgb(253 0 25 / var(--tw-bg-opacity));
 }
 
+.bg-red-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(248 113 113 / var(--tw-bg-opacity));
+}
+
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -1836,6 +1841,18 @@ video {
 
 * {
   outline: none;
+}
+
+/* For Chrome and Safari */
+
+::-webkit-scrollbar {
+  background-color: gray;
+  /* Change this to the desired background color */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(77, 74, 74);
+  border-radius: 2px;
 }
 
 /* some helper classes */
