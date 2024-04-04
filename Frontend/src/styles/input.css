@@ -25,7 +25,6 @@
 
 /* For Chrome and Safari */
 ::-webkit-scrollbar {
-    width: 1rem;
     background-color: rgb(77, 74, 74);
     /* Change this to the desired background color */
 }

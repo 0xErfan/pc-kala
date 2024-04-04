@@ -26,7 +26,7 @@ export default function Header() {
                             return true
                         }}
                         dataToShow={sideMenuDataToShow} />
-                        
+
                     <div className="flex-center text-white gap-2 ch:ml-auto bg-primary-black p-2 rounded-md  w-2/5 ">
                         <IoSearch />
                         <input className=" bg-transparent w-full text-sm " type="text" placeholder="محصول خود را بیابید..." />
@@ -68,20 +68,15 @@ export default function Header() {
             {/* for smaller screens */}
             <div className="md:hidden block bg-secondary-black sticky top-0 py-4">
 
-                <div className="container flex items-center justify-between w-full" >
+                <div className="container flex items-center justify-between gap-4 w-full" >
 
-                    <SideMenu
-                        changeTypeFn={() => {
-                            setSideMenuDataToShow("sideMenu")
-                            return true
-                        }}
-                        dataToShow={sideMenuDataToShow} />
+                    <SideMenu changeTypeFn={() => { setSideMenuDataToShow("sideMenu"); return true }} dataToShow={sideMenuDataToShow} />
 
                     <Link to="/" className="max-w-[200px]" ><img className=" object-cover w-full h-full " src="/images/home/title.webp" alt="pc-kala-shop" /></Link>
 
                     <div className="flex-center gap-12 text-description-text ">
 
-                        <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
+                        <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] sm:ch:ch:size-9 ch:ch:size-8 ch:ch:p-2">
                             <Link to="/account"><FaRegUser /></Link>
                             <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">

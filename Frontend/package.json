@@ -1,7 +1,7 @@
 {
   "name": "pc-kala",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.2",
+    "@types/aos": "^3.0.7",
+    "aos": "^2.3.4",
     "izitoast": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

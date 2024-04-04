@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { IoClose, IoReorderThree, IoSearch } from 'react-icons/io5'
 import Category from './Category'
-import { BiBasket } from "react-icons/bi";
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlinePhoneAndroid } from 'react-icons/md'
 import { Link } from 'react-router-dom';
@@ -18,17 +17,17 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
 
     return (
         <>
-            <div className=' md:hidden block' ref={ref} onClick={() => setIsMenuShown(true)}><IoReorderThree className="size-12 p-[6px] bg-primary-black rounded-full text-title-text" /></div>
+            <div className=' md:hidden block' ref={ref} onClick={() => setIsMenuShown(true)}><IoReorderThree className="size-10 sm:size-[46px] p-[6px] bg-primary-black rounded-full text-title-text" /></div>
 
-            <div className={`fixed h-screen bg-primary-black max-h-screen overflow-y-auto top-0 bottom-0 transition-all duration-300 ${isMenuShown ? ` shadow-regular ${dataToShow == "sideMenu" ? "right-0" : "left-0"}` : ` ${dataToShow == "sideMenu" ? "-right-[280px]" : "-left-[280px]"}`} z-40`}>
+            <div className={`fixed h-screen bg-primary-black overflow-y-auto top-0 bottom-0 transition-all duration-300 ${isMenuShown ? ` shadow-regular ${dataToShow == "sideMenu" ? "right-0" : "left-0"}` : ` ${dataToShow == "sideMenu" ? "-right-[280px]" : "-left-[280px]"}`} z-40`}>
                 {
                     dataToShow !== "sideMenu"
                         ?
                         <div className='px-2 text-[13px]'>
-                            <div className='text-description-text w-[280px]'>
+                            <div className='text-description-text w-[265px]'>
 
-                                <div className='flex items-center justify-between text-2xl border-b border-secondary-black text-[15px] pb-4 px-4 mt-4 mb-6 gap-3'>
-                                    <div className='flex-[6] justify-end pt-2'><div>سبد خرید <span className='px-2 bg-black rounded-md'>۱۲</span></div></div>
+                                <div className='flex items-center justify-between text-2xl border-b border-secondary-black text-[14px] pb-4 px-4 mt-4 mb-6 gap-3'>
+                                    <div className='flex-[7] justify-end pt-2'><div>سبد خرید <span className='px-2 bg-black rounded-md'>۱۲</span></div></div>
                                     <IoClose onClick={menuCloseHandler} className='cursor-pointer p-[3px] text-dark-red h-full bg-secondary-black rounded-full flex-1' />
                                 </div>
 
@@ -37,11 +36,11 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                     <p>هیچ محصولی در سبد خرید نیست</p>
                                 </div> */}
 
-                                <div className='space-y-1 flex flex-col gap-3 h-[650px] overflow-auto'>
+                                <div className='space-y-1 flex flex-col gap-3 max-h-[600px] h-full overflow-auto'>
 
                                     {
 
-                                        [12, 32, 43, 34, 21].map(prd => (
+                                        [12, 32, 43, 34, 2, 1].map(prd => (
                                             <div key={prd} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
                                                 <span className=' absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
                                                 <div className='flex-1'><img className='object-cover size-full' src="/images/victus-15.webp" /></div>
@@ -55,7 +54,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                     }
                                 </div>
 
-                                <div className='h-full flex flex-col mt-[70px] gap-3'>
+                                <div className='h-full flex flex-col my-8 gap-3'>
                                     <div className='flex items-center justify-between border-y border-dark-gold py-3'>
                                         <p>جمع جزء:</p>
                                         <p><span className='text-white-red text-[16px] font-bold'>{1231234}</span> تومان</p>
@@ -71,8 +70,8 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                         :
                         <div className='py-2'>
 
-                            <div className='flex items-center justify-between text-2xl px-4 mt-4 mb-6 gap-3 w-[280px]'>
-                                <div className='flex-[6] pt-2'><img className='object-cover px-1' src="images/home/title.webp" /></div>
+                            <div className='flex items-center justify-between text-2xl px-4 mt-4 mb-6 gap-3 w-[265px]'>
+                                <div className='flex-[7] pt-2'><img className='object-cover px-1' src="images/home/title.webp" /></div>
                                 <IoClose onClick={menuCloseHandler} className='cursor-pointer p-[2px] text-dark-red h-full bg-secondary-black rounded-full flex-1' />
                             </div>
 

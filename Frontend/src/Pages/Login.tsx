@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom"
 
 const Login = () => {
+
     return (
-        <section className="flex-center h-screen">
+        
+        <section className="flex-center h-screen px-5">
 
             <Link className="py-3 px-5 font-peyda absolute top-8 bg-black text-white rounded-md left-8" to="/">بازگشت</Link>
 
