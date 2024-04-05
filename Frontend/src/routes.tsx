@@ -1,3 +1,4 @@
+import Cart from "./Pages/Cart"
 import Home from "./Pages/Home"
 import Login from "./Pages/Login"
 import Product from "./Pages/Product"
@@ -8,5 +9,6 @@ export const routes = [
     { path: "/products/:id", element: <Product /> },
     { path: "/login", element: <Login /> },
     { path: "/register", element: <Register /> },
+    { path: "/cart", element: <Cart /> },
     { path: "/*", element: <div>صفحه یافت نشد</div> },
 ]
