@@ -4,6 +4,7 @@ import Header from "../components/Header"
 import { CgFileDocument } from "react-icons/cg";
 import { IoClose } from "react-icons/io5";
 import ProductCart from "../components/ProductCart";
+import Button from "../components/Button";
 const Card = () => {
     return (
         <>
@@ -64,6 +65,14 @@ const Card = () => {
 
                                 </tbody>
                             </table>
+
+                            <div className="mt-20 border relative border-title-text rounded-md p-3">
+                                <span className="absolute w-20 h-4 p-3 bg-primary-black top-0 right-[30px] rounded-sm flex-center -translate-y-[50%]">کد تخفیف:</span>
+                                <div className="mt-5 flex items-center justify-between rounded-sm bg-primary-black border border-white/10">
+                                    <input placeholder="کد تخفیف:" className="w-full text-[16px] placeholder:text-[12px] flex-[5] outline-none bg-transparent p-2" type="text" />
+                                    <div className="p-2"><Button filled text="اعمال کد تخفیف" fn={() => { }} /></div>
+                                </div>
+                            </div>
 
                         </div>
                         <div className="flex-1 mb-auto border border-gold/30">w</div>
