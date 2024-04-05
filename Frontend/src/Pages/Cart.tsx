@@ -14,7 +14,7 @@ const Card = () => {
 
                 <span className='pt-[160px] block'></span>
 
-                <div className="container">
+                <div className="container mb-8">
 
                     <div className="flex items-center justify-evenly ch:cursor-pointer gap-24">
 
@@ -34,6 +34,7 @@ const Card = () => {
                     </div>
 
                     <div className="flex items-center gap-5 text-white ch:rounded-md ch:p-3 mt-12 ch:bg-secondary-black">
+
                         <div className="flex-[3.2]">
 
                             <table className="w-full text-center">
@@ -75,12 +76,36 @@ const Card = () => {
                             </div>
 
                         </div>
-                        <div className="flex-1 mb-auto border border-gold/30">w</div>
+
+                        <div className="flex-1 mb-auto border border-gold/30">
+                            <div className="flex items-center gap-2 text-[14px] font-peyda text-gold">
+                                <div className="size-3 p-1 rounded-full bg-gold"></div>
+                                <div>جمع کل سبد خرید</div>
+                            </div>
+
+                            <div className="flex gap-3 text-[12px] flex-col my-6">
+                                <div className="flex items-center justify-between text-title-text">
+                                    <p>جمع جزء</p>
+                                    <p><span className="text-white-red">23432555</span> تومان</p>
+                                </div>
+
+                                <div className="flex items-center justify-between text-title-text">
+                                    <p>مجموع</p>
+                                    <p><span className="text-white-red">354665655</span> تومان</p>
+                                </div>
+
+                                <div className="flex items-center justify-between text-title-text">
+                                    <p>تخفیف شما از این خرید</p>
+                                    <p className="bg-blue-white p-1 rounded-xl text-[12px] text-white rounded-tl-none"><span>354665655</span> تومان</p>
+                                </div>
+                            </div>
+
+                            <Button filled text="ادامه جهت تسویه حساب" fn={() => { }} />
+
+                        </div>
                     </div>
 
                 </div>
-
-                <div className="h-[500px]"></div>
 
                 <Footer />
             </section>
