@@ -2,21 +2,22 @@ import { Link } from "react-router-dom";
 import Footer from "../components/Footer"
 import Header from "../components/Header"
 import { CgFileDocument } from "react-icons/cg";
-import { IoClose } from "react-icons/io5";
 import ProductCart from "../components/ProductCart";
 import Button from "../components/Button";
+
 const Card = () => {
+    
     return (
         <>
             <Header />
 
             <section className=" bg-primary-black text-[11px]">
 
-                <span className='pt-[160px] block'></span>
+                <span className='md:pt-[160px] pt-[130px] block'></span>
 
                 <div className="container mb-8">
 
-                    <div className="flex items-center justify-evenly ch:cursor-pointer gap-24">
+                    <div className="flex items-center justify-evenly ch:cursor-pointer gap-12 sm:gap-24">
 
                         <Link to="/" className="flex items-center flex-col gap-2">
                             <CgFileDocument className="size-11 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
@@ -33,13 +34,29 @@ const Card = () => {
 
                     </div>
 
-                    <div className="flex items-center gap-5 text-white ch:rounded-md ch:p-3 mt-12 ch:bg-secondary-black">
+                    <div className="flex items-center gap-5 flex-col lg:flex-row text-white ch:rounded-md ch:p-3 mt-12 ch:bg-secondary-black">
 
-                        <div className="flex-[3.2]">
+                        <div className="lg:flex-[3.2] flex-1">
 
-                            <table className="w-full text-center">
+                            <div className="sm:hidden block  flex-col items-center">
+                                {
+                                    [2, 43, 2].map(prd => {
+                                        return <ProductCart
+                                            key={prd}
+                                            title="لپ تاپ ایسوس TUF Gaming F15 FX507VV4-AB i9-13900H/16GB/512GB/RTX4060-8G - گارانتی 18 ماهه شرکتی"
+                                            count={12}
+                                            price={12343523}
+                                            finalPrice={34523455}
+                                            id={12}
+                                            src="/images/victus-15.webp"
+                                        />
+                                    })
+                                }
+                            </div>
 
-                                <thead className="">
+                            <table className="w-full sm:block hidden text-center">
+
+                                <thead>
                                     <tr className="bg-primary-black ch:p-5">
                                         <td>محصول</td>
                                         <td>قیمت</td>
@@ -77,7 +94,7 @@ const Card = () => {
 
                         </div>
 
-                        <div className="flex-1 mb-auto border border-gold/30">
+                        <div className="flex-1 w-full mb-auto border border-gold/30">
                             <div className="flex items-center gap-2 text-[14px] font-peyda text-gold">
                                 <div className="size-3 p-1 rounded-full bg-gold"></div>
                                 <div>جمع کل سبد خرید</div>
