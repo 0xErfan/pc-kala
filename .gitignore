@@ -1,0 +1,14 @@
+.DS_Store
+*.sqlite3
+*.json
+migrations/
+__pycache__/
+backend/ecommerce/__pycache__/
+backend/orders_app/__pycache__/
+backend/products_app/__pycache__/
+backend/users_app/__pycache__/
+backend/products_app/migrations/
+backend/users_app/migrations/
+backend/orders_app/migrations/
+backend/media/
+
