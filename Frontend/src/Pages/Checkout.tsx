@@ -22,16 +22,18 @@ const Checkout = () => {
 
                 <div className="container">
 
+                    <h3 className="text-white py-8">جزعیات صورت حساب</h3>
+
                     <div className="flex items-center gap-4">
                         <div className="flex-1 grid grid-cols-2 gap-3 ch:mb-4">
 
                             <Input fn={(name, value) => inputUpdater(name, value)} name="name" title="نام" />
                             <Input fn={(name, value) => inputUpdater(name, value)} name="lName" title="نام خانوادگی" />
-                            <Input fn={(name, value) => inputUpdater(name, value)} name="ostan" title="استان" />
-                            <Input fn={(name, value) => inputUpdater(name, value)} name="city" title="شهر" />
-                            <Input fn={(name, value) => inputUpdater(name, value)} name="codePost" title="کد پستی"  type="number"/>
-                            <Input fn={(name, value) => inputUpdater(name, value)} name="phoneNum" title="شماره موبایل" type="number" />
-                            <Input fn={(name, value) => inputUpdater(name, value)} name="email" title="پست الکترونیک (اختیاری)" required={false} type="email" />
+                            {/* <Input fn={(name, value) => inputUpdater(name, value)} name="ostan" title="استان" /> */}
+                            {/* <Input fn={(name, value) => inputUpdater(name, value)} name="city" title="شهر" /> */}
+                            <Input fn={(name, value) => inputUpdater(name, value)} name="codePost" title="کد پستی (ده رقمی)" />
+                            <Input fn={(name, value) => inputUpdater(name, value)} name="phoneNum" title="شماره موبایل" type="number" placeHolder="09123456789" />
+                            <Input fn={(name, value) => inputUpdater(name, value)} name="email" title="پست الکترونیک (اختیاری)" required={false} type="email" placeHolder={"gmail.com@"} />
                         </div>
                         <div className="flex-1"></div>
                     </div>

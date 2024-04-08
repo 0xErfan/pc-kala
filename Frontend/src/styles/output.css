@@ -1466,6 +1466,11 @@ video {
   border-color: rgb(255 255 255 / 0.2);
 }
 
+.border-red-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(248 113 113 / var(--tw-border-opacity));
+}
+
 .border-b-neutral-200\/60 {
   border-bottom-color: rgb(229 229 229 / 0.6);
 }
@@ -1647,6 +1652,16 @@ video {
 .py-\[6px\] {
   padding-top: 6px;
   padding-bottom: 6px;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 
 .pb-10 {
