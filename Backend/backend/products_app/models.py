@@ -29,9 +29,6 @@ class Product(models.Model):
         return self.name
 
 
-
-
-
 class MotherBoard(models.Model):
     product = models.OneToOneField(
         Product, on_delete=models.CASCADE, primary_key=True)
@@ -145,16 +142,81 @@ class GraphicCard(models.Model):
         return self.product.name
 
 
+class Power(models.Model):
+    product = models.OneToOneField(
+        Product, on_delete=models.CASCADE, primary_key=True)
+    brand = models.CharField(max_length=100)
+    output_power = models.PositiveIntegerField()
+    cable_output_type = models.CharField(max_length=255)
+    num_44_motherboard_pins = models.PositiveIntegerField()
+    num_62_graphic_pins = models.PositiveIntegerField()
+    cpu_output_pin = models.CharField(max_length=255)
+    gpu_output_pin = models.CharField(max_length=255)
+    sata_num_output = models.PositiveIntegerField()
+    cooling_fan_size = models.PositiveIntegerField()
+    useful_life = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.product.name
+
+
+class Cooler(models.Model):
+    product = models.OneToOneField(
+        Product, on_delete=models.CASCADE, primary_key=True)
+    brand = models.CharField(max_length=100)
+    model = models.CharField(max_length=255)
+    cooler_type = models.CharField(max_length=255)
+    dimensions = models.CharField(max_length=255)
+    speed = models.PositiveIntegerField()
+    lighting = models.CharField(max_length=255)
+    num_fan = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.product.name
+
+
+class Case(models.Model):
+    product = models.OneToOneField(
+        Product, on_delete=models.CASCADE, primary_key=True)
+    brand = models.CharField(max_length=100)
+    body_material = models.CharField(max_length=255)
+    side_material = models.CharField(max_length=255)
+    color = models.CharField(max_length=255)
+    max_cooler_heoght = models.PositiveIntegerField()
+    skeleton_type = models.CharField(max_length=255)
+    num_installed_fans = models.PositiveIntegerField()
+    dimensions = models.CharField(max_length=255)
+    max_installation_space_graphics_card = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.product.name
+
+
 class PC(models.Model):
     product = models.OneToOneField(
         Product, on_delete=models.CASCADE, primary_key=True)
-    mother_board = models.ForeignKey(MotherBoard, on_delete=models.CASCADE)
+    PC_TYPE = (
+        ('Gaming', 'Gaming'),
+        ('Rendering', 'Rendering'),
+        ('Trading', 'Trading'),
+        ('Accounting', 'Accounting'),
+        ('Student', 'Student'),
+        ('Official', 'Official'),
+        ('Economic', 'Economic'),
+        ('Stock', 'Stock'),
+    )
+    pc_type = models.CharField(max_length=255, choices=PC_TYPE, default="Gaming")
     processor = models.ForeignKey(CPU, on_delete=models.CASCADE)
+    mother_board = models.ForeignKey(MotherBoard, on_delete=models.CASCADE)
+    graphics_card = models.ForeignKey(GraphicCard, on_delete=models.CASCADE)
     ram = models.ForeignKey(Ram, on_delete=models.CASCADE)
     hdd = models.ForeignKey(HardDisk, on_delete=models.CASCADE)
     ssd = models.ForeignKey(SSD, on_delete=models.CASCADE)
-    graphics_card = models.ForeignKey(GraphicCard, on_delete=models.CASCADE)
-    operating_system = models.CharField(max_length=100)
+    power = models.ForeignKey(Power, on_delete=models.CASCADE)
+    cooler = models.ForeignKey(Cooler, on_delete=models.CASCADE)
+    case = models.ForeignKey(Case, on_delete=models.CASCADE)
+    operating_system = models.CharField(max_length=100, default='Windows')
+    
 
     def __str__(self):
         return self.product.name
