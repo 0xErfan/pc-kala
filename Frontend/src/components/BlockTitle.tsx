@@ -1,4 +1,4 @@
-import { FC, ReactElement, ReactNode } from 'react'
+import { FC, ReactNode } from 'react'
 import { FaAngleLeft } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 

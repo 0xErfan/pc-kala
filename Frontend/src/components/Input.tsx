@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 
 interface inputProps {
     required?: boolean
@@ -22,12 +22,12 @@ export const Input = ({ required = true, title, placeHolder, type = "text", name
         const valueToCheck = e.target.value.trim()
         if (valueToCheck.length == 0) showError(false)
 
-        const emailRegex = /^[\w\.-]+@[a-zA-Z\d\.-]+\.[a-zA-Z]{2,}$/;
+        const emailRegex = /^[\w-]+@[a-zA-Z\d-]+\.[a-zA-Z]{2,}$/;
         const phoneNumberRegex = /^09\d{9}$/
 
         switch (name) {
             case "name": { showError(value.length <= 2 || false); break }
-            case "province": { showError(!Boolean(value.length)); break }
+            case "province": { showError(!value.length); break }
             case "lName": { showError(value.length <= 2 || false); break }
             case "email": { showError(!emailRegex.test(value)); break }
             case "codePost": { showError(!(!isNaN(+value) && String(value).length == 10)); break }
@@ -74,7 +74,6 @@ export const Input = ({ required = true, title, placeHolder, type = "text", name
                         {formError.isErrorShown && <span className={`text-white-red duration-200 text-[10px] ${formError.isErrorShown ? "opacity-100" : "opacity-0"} transition-all`}>{formError.errorMessage}</span>}
                     </>
             }
-
         </div>
     )
 }

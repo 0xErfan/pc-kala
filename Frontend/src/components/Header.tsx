@@ -5,7 +5,7 @@ import { MdPhoneInTalk } from "react-icons/md";
 import Category from "./Category";
 import { Link } from "react-router-dom";
 import SideMenu from "./SideMenu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Header() {
 
