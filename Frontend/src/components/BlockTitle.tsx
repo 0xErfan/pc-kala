@@ -1,8 +1,10 @@
-import { FC, ReactNode } from 'react'
-import { FaAngleLeft } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import {ReactNode} from 'react'
+import {FaAngleLeft} from 'react-icons/fa'
+import {Link} from 'react-router-dom'
 
-const BlockTitle: FC<{ title: string, url: string, Icon: ReactNode }> = ({ title, url, Icon }) => {
+type BlockTitleProps = { title: string, Icon: ReactNode, url?: string }
+
+const BlockTitle = ({title, url, Icon}: BlockTitleProps) => {
 
     return (
         <div className="container relative flex items-center ch:z-20 justify-between">
@@ -13,10 +15,14 @@ const BlockTitle: FC<{ title: string, url: string, Icon: ReactNode }> = ({ title
                 <p className="text-dark-red text-[12px]">{title}</p>
             </div>
 
-            <div className="bg-description-text text-[10px] p-[6px] relative px-3 flex items-center gap-1 rounded-full cursor-pointer">
-                <Link to={url} className="">مشاهده همه</Link>
-                <FaAngleLeft className="size-4 text-blue-dark z-20" />
-            </div>
+            {
+                url &&
+                <div
+                    className="bg-description-text text-[10px] p-[6px] relative px-3 flex items-center gap-1 rounded-full cursor-pointer">
+                    <Link to={url} className="">مشاهده همه</Link>
+                    <FaAngleLeft className="size-4 text-blue-dark z-20"/>
+                </div>
+            }
 
         </div>
     )

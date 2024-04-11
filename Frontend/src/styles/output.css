@@ -1060,6 +1060,14 @@ video {
   height: 100vh;
 }
 
+.h-12 {
+  height: 3rem;
+}
+
+.h-60 {
+  height: 15rem;
+}
+
 .max-h-60 {
   max-height: 15rem;
 }
