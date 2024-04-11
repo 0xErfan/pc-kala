@@ -100,7 +100,15 @@ const Checkout = () => {
                                         </td>
                                     </tr>)}
 
-                                    <TableData children={<div></div>} title={"جمع جزء"}/>
+                                    <TableData
+                                        children={<div><span className={"text-blue-white"}>2343425</span> تومان</div>}
+                                        title={"جمع جزء"}/>
+                                    <TableData
+                                        children={<p className={"max-w-70 text-wrap"}>ارسال توسط تیپاکس، اتوبوس، باربری
+                                            به تشخیص فروشگاه (پس کرایه)</p>} title={"حمل و نقل"}/>
+                                    <TableData children={<p className={"max-w-70 text-wrap"}><span
+                                        className={"text-blue-white"}>29,792,683</span> تومان</p>}
+                                               title={"مجموع"}/>
 
                                     </tbody>
 
@@ -136,8 +144,8 @@ const Checkout = () => {
 
 const TableData = ({title, children}: TableDataProps) => {
     return (
-        <tr className={"border border-gray-600"}>
-            <td className={`p-4 text-[12px] text-[#8b8b8b]`}>{title}</td>
+        <tr className={"border border-gray-600 bg-primary-black"}>
+            <td className={`p-4 text-[12px] text-white`}>{title}</td>
             <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>{children}</td>
         </tr>
     )
