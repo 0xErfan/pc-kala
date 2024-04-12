@@ -5,11 +5,12 @@ import Footer from "../components/Footer.tsx";
 import {GrFormSearch} from "react-icons/gr";
 import Product from "../components/Product.tsx";
 import Button from "../components/Button.tsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const Search = () => {
 
     const navigate = useNavigate()
+    const params = useParams()
 
     return (
 
@@ -30,7 +31,7 @@ const Search = () => {
                     </div>
                 </div>
 
-                <BlockTitle title={`جستوجو برای ${"we"}`} Icon={<GrFormSearch/>}/>
+                <BlockTitle title={`جستوجو برای ${params.text}`} Icon={<GrFormSearch/>}/>
 
                 {
                     "" ?
@@ -45,7 +46,7 @@ const Search = () => {
                             className={"flex items-center justify-between p-3 bg-secondary-black text-center rounded-md mt-6 text-[16px] text-white-red"}>
                             <div
                             >نتیجه
-                                ای برای {'" blabla "'} یافت نشد
+                                ای برای {`" ${params.text} "`} یافت نشد
                             </div>
                             <Button text={"بازگشت"} fn={() => navigate("/")}/>
                         </div>
