@@ -10,17 +10,25 @@ import {BiMessageSquareDetail} from "react-icons/bi";
 import {BsFilterLeft} from "react-icons/bs";
 import {GrGroup} from "react-icons/gr";
 import Button from "../components/Button";
-import {useEffect, useState} from "react";
+import {memo, useEffect, useRef, useState} from "react";
 import {Link} from "react-router-dom";
 import Comment from "../components/Comment";
 import Header from "../components/Header";
 import {getTimer, productOffTimerProps} from "../utils.ts";
 
-const Product = () => {
+interface coordinates {
+    x: number | null
+    y: number | null
+}
+
+export default memo(function Product() {
 
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
-
+    const [productCount, setProductCount] = useState(1)
     const [productOffTimer, setProductOffTimer] = useState<productOffTimerProps | null>(null)
+    const [circleCoordinates, setCircleCoordinaets] = useState({ x: null, y: null } satisfies coordinates)
+    const productImgRef = useRef<HTMLImageElement | null>(null);
+    const [zoomShown, setIsZoomShown] = useState<boolean>(false)
 
     useEffect(() => {
         const timeout = setInterval(() => {
@@ -28,6 +36,10 @@ const Product = () => {
         }, 1000)
         return () => clearInterval(timeout)
     }, [])
+
+    // const getMouseCoordinates = (): coordinates => ({x: productImgRef.current?.offsetWidth, y: productImgRef.current?.offsetHeight})
+    //
+    // getMouseCoordinates()
 
     return (
 
@@ -63,22 +75,21 @@ const Product = () => {
 
                                 <div className="flex items-center flex-col justify-center gap-1">
                                     <div
-                                        className="flex-center p-[3px] bg-green text-sm white size-7 rounded-[4px] h-full">{productOffTimer?.seconds || "00"}</div>
+                                        className="flex-center p-1 bg-green text-sm white size-7 rounded-full h-full">{productOffTimer?.seconds || "00"}</div>
                                     <p className="text-[10px] text-description-text">ثانیه</p>
                                 </div>
                                 <div className="flex flex-col justify-center gap-1">
-                                    <div
-                                        className="flex-center p-[3px] bg-white text-sm text-black/95 size-7 rounded-[4px] h-full">{productOffTimer?.minutes || "00"}</div>
+                                    <div className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.minutes || "00"}</div>
                                     <p className="text-[10px] text-description-text">دقیقه</p>
                                 </div>
                                 <div className="flex flex-col justify-center gap-1">
                                     <div
-                                        className="flex-center p-[3px] bg-white text-sm text-black/95 size-7 rounded-[4px] h-full">{productOffTimer?.hours || "00"}</div>
+                                        className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.hours || "00"}</div>
                                     <p className="text-[10px] text-description-text">ساعت</p>
                                 </div>
                                 <div className="flex flex-col justify-center gap-1">
                                     <div
-                                        className="flex-center p-[3px] bg-white text-sm text-black/95 size-7 rounded-[4px] h-full">{productOffTimer?.days || "00"}</div>
+                                        className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.days || "00"}</div>
                                     <p className="text-[10px] text-description-text mr-2">روز</p>
                                 </div>
 
@@ -90,22 +101,31 @@ const Product = () => {
 
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 flex-col ch:cursor-pointer">
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-red"
-                                         src="/images/victus-15.webp" alt={"img"}/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold"
-                                         src="/images/victus-15.webp" alt={"img"}/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold"
-                                         src="/images/victus-15.webp" alt={"img"}/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold"
-                                         src="/images/victus-15.webp" alt={"img"}/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold"
-                                         src="/images/victus-15.webp" alt={"img"}/>
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-red" src="/images/victus-15.webp" alt="product-img"/>
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
                                 </div>
                             </div>
 
                             <div
-                                className="flex-[5] text-[13px] border relative border-dark-gold rounded-md text-description-text">
-                                <img className="flex-center w-full object-cover py-4" src="/images/victus-15.webp" alt={"img"}/>
+                                className="flex-[5] text-[13px] border relative overflow-hidden border-dark-gold rounded-md text-description-text">
+                                <div className={"relative"}>
+                                    <img
+                                        ref={productImgRef}
+                                        className="flex-center w-full object-cover py-4"
+                                        src="/images/victus-15.webp"
+                                        alt="product-img"
+                                        onMouseEnter={() => {setIsZoomShown(true)
+                                        }}
+                                        onMouseLeave={() => setIsZoomShown(false)}
+                                        onPointerMove={e => setCircleCoordinaets({ x: e.clientX, y: e.clientY })}
+                                    />
+                                    <span
+                                        style={{left: circleCoordinates.x - (productImgRef.current?.offsetWidth / 2) + "px", top: circleCoordinates.y - (productImgRef.current?.offsetHeight / 2) + "px"}}
+                                        className={` bg-red-800 z-20 ${ zoomShown ? "fixed" : "invisible" } fixed rounded-full border-2 border-white size-36`}></span>
+                                </div>
                                 <span
                                     className="absolute cursor-pointer flex-center size-10 border border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch/></span>
                                 <span
@@ -169,10 +189,12 @@ const Product = () => {
                             </div>
                             <div className="flex items-center mt-3 gap-3">
                                 <div className="flex h-[44px] items-center border border-dark-gold rounded-md">
-                                    <div className="w-10 flex-center border-l h-full border-dark-gold">1</div>
+                                    <div
+                                        className="w-10 flex-center border-l h-full border-dark-gold">{productCount}</div>
                                     <div className="flex-center flex-col w-6 ch:cursor-pointer gap-1">
-                                        <LuPlus/>
-                                        <FiMinus/>
+                                        <LuPlus onClick={() => setProductCount(preve => preve + 1)}/>
+                                        <FiMinus
+                                            onClick={() => productCount != 1 && setProductCount(preve => preve - 1)}/>
                                     </div>
                                 </div>
                                 <Button filled={true} text="افزودن به سبد خرید" fn={() => console.log("hi2")}
@@ -270,7 +292,7 @@ const Product = () => {
                                         <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد
                                             “لپ تاپ لنوو IdeaPad GAMING3 i7-11370H/32GB/1TB/GTX 1650-4G”</p>
                                         {
-                                            "" ?
+                                            ("") ?
                                                 <div className="text-center mt-12">برای ثبت نظر ابتدا <Link to="/login"
                                                                                                             className="text-blue-dark">وارد
                                                     حساب </Link>خود شوید.</div>
@@ -371,6 +393,7 @@ const Product = () => {
 
         </section>
     )
-}
 
-export default Product
+
+})
+

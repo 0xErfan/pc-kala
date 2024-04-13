@@ -5,7 +5,7 @@ export interface productOffTimerProps {
     seconds: number | string
 }
 
-const getTimer = (date?: string | null) => {
+const getTimer = (date?: string) => {
 
     const currentDate = new Date();
     const endOfTimer = date || new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1, 0, 0, 0);

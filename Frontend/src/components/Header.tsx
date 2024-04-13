@@ -5,17 +5,17 @@ import {MdPhoneInTalk} from "react-icons/md";
 import Category from "./Category";
 import {Link, useNavigate} from "react-router-dom";
 import SideMenu from "./SideMenu";
-import React, {useRef, useState} from "react";
+import {useRef, useState} from "react";
 
 export default function Header() {
 
     const [sideMenuDataToShow, setSideMenuDataToShow] = useState<"basket" | "sideMenu">("sideMenu")
     const navigate = useNavigate()
-    const textInputElem = useRef<React.useRef<HTMLInputElement> | null>(null)
+    const textInputElem = useRef<HTMLInputElement | null>(null)
 
     const globalSearch = () => {
-        const searchValue: string = textInputElem.current.value.trim()
-        searchValue.length && navigate(`search/${searchValue}`)
+        const searchValue = textInputElem.current?.value.trim()
+        searchValue?.length && navigate(`search/${searchValue}`)
     }
 
     return (
