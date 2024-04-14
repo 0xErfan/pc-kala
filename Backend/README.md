@@ -16,7 +16,9 @@
 <p> 4- Go a head to the manage.py file directory </br> 
 </p>
 
-> python manage.py makemigrations
+> python manage.py migrate
+
+> python manage.py makemigrations products_app
 
 > python manage.py migrate
 

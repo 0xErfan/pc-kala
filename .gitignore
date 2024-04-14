@@ -1,6 +1,5 @@
 .DS_Store
 *.sqlite3
-*.json
 migrations/
 __pycache__/
 backend/ecommerce/__pycache__/
