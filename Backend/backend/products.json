@@ -1,0 +1,594 @@
+[
+  { "model": "products_app.category", "pk": 1, "fields": { "name": "PC" } },
+  {
+    "model": "products_app.category",
+    "pk": 2,
+    "fields": { "name": "مادربرد" }
+  },
+  {
+    "model": "products_app.category",
+    "pk": 3,
+    "fields": { "name": "پردازنده مرکزی" }
+  },
+  { "model": "products_app.category", "pk": 4, "fields": { "name": "گرافیک" } },
+  {
+    "model": "products_app.category",
+    "pk": 5,
+    "fields": { "name": "حافظه رم" }
+  },
+  {
+    "model": "products_app.category",
+    "pk": 6,
+    "fields": { "name": "هارد دیسک" }
+  },
+  {
+    "model": "products_app.category",
+    "pk": 7,
+    "fields": { "name": "حافظه SSD" }
+  },
+  {
+    "model": "products_app.category",
+    "pk": 8,
+    "fields": { "name": "منبع تغذیه" }
+  },
+  {
+    "model": "products_app.category",
+    "pk": 9,
+    "fields": { "name": "خنک کننده" }
+  },
+  {
+    "model": "products_app.category",
+    "pk": 10,
+    "fields": { "name": "کیس کامپیوتر" }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 2,
+    "fields": {
+      "name": "مادربرد ایسوس مدل ROG MAXIMUS Z790 HERO EVA-02 EDITION",
+      "description": "",
+      "price": 38986515,
+      "quantity_available": 10,
+      "category": 2,
+      "created_at": "2024-04-11T10:47:06.556Z",
+      "updated_at": "2024-04-11T10:47:06.556Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 3,
+    "fields": {
+      "name": "مادربرد ایسوس ASUS ROG STRIX Z790-E GAMING WIFI D5",
+      "description": "",
+      "price": 27796031,
+      "quantity_available": 10,
+      "category": 2,
+      "created_at": "2024-04-11T10:51:12.612Z",
+      "updated_at": "2024-04-11T10:51:12.612Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 4,
+    "fields": {
+      "name": "پردازنده اینتل Core i9-14900K Tray",
+      "description": "",
+      "price": 37546937,
+      "quantity_available": 10,
+      "category": 3,
+      "created_at": "2024-04-11T11:04:12.750Z",
+      "updated_at": "2024-04-11T11:04:12.750Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 5,
+    "fields": {
+      "name": "پردازنده اینتل CORE I5 13600K",
+      "description": "",
+      "price": 17903125,
+      "quantity_available": 10,
+      "category": 3,
+      "created_at": "2024-04-11T11:07:18.860Z",
+      "updated_at": "2024-04-11T11:07:18.860Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 6,
+    "fields": {
+      "name": "کارت گرافیک گیگابایت GeForce RTX 4090 GAMING OC 24G",
+      "description": "",
+      "price": 127298302,
+      "quantity_available": 10,
+      "category": 4,
+      "created_at": "2024-04-11T11:15:27.870Z",
+      "updated_at": "2024-04-11T11:15:27.871Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 7,
+    "fields": {
+      "name": "کارت گرافیک زوتاک ZOTAC GAMING GeForce RTX 3070 Twin Edge OC White Edition LHR 8GB GDDR6",
+      "description": "",
+      "price": 38000857,
+      "quantity_available": 10,
+      "category": 4,
+      "created_at": "2024-04-11T11:19:14.717Z",
+      "updated_at": "2024-04-11T11:19:14.718Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 8,
+    "fields": {
+      "name": "رم Corsair Dominator Platinum RGB DDR5 64GB Dual 5600MHz CL40 – Black",
+      "description": "",
+      "price": 14500505,
+      "quantity_available": 10,
+      "category": 5,
+      "created_at": "2024-04-11T12:51:03.090Z",
+      "updated_at": "2024-04-11T12:51:03.090Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 9,
+    "fields": {
+      "name": "حافظه رم جی اسکیل Trident Z5 RGB 32GB Dual 6000MHz CL36 Black",
+      "description": "",
+      "price": 7904227,
+      "quantity_available": 10,
+      "category": 5,
+      "created_at": "2024-04-11T12:52:42.297Z",
+      "updated_at": "2024-04-11T12:52:42.297Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 10,
+    "fields": {
+      "name": "هارد اینترنال وسترن دیجیتال WD Purple 6TB WD60PURZ",
+      "description": "",
+      "price": 8689327,
+      "quantity_available": 10,
+      "category": 6,
+      "created_at": "2024-04-11T12:56:20.705Z",
+      "updated_at": "2024-04-11T12:56:20.705Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 11,
+    "fields": {
+      "name": "حافظه سامسونگ Samsung 990 Pro SSD M.2 2TB",
+      "description": "",
+      "price": 11899344,
+      "quantity_available": 10,
+      "category": 7,
+      "created_at": "2024-04-11T12:59:27.651Z",
+      "updated_at": "2024-04-11T12:59:27.651Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 12,
+    "fields": {
+      "name": "پاور گرین GP1350B-OCDG",
+      "description": "",
+      "price": 12438554,
+      "quantity_available": 10,
+      "category": 8,
+      "created_at": "2024-04-11T13:06:42.127Z",
+      "updated_at": "2024-04-11T13:06:42.127Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 13,
+    "fields": {
+      "name": "خنک کننده پردازنده ترمالتیک Water 3.0 360 ARGB Sync",
+      "description": "",
+      "price": 12201192,
+      "quantity_available": 10,
+      "category": 9,
+      "created_at": "2024-04-11T13:12:02.966Z",
+      "updated_at": "2024-04-11T13:12:02.966Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 14,
+    "fields": {
+      "name": "کیس دیپ کول DeepCool QUADSTELLAR INFINITY",
+      "description": "",
+      "price": 39760075,
+      "quantity_available": 10,
+      "category": 10,
+      "created_at": "2024-04-11T13:15:19.837Z",
+      "updated_at": "2024-04-11T13:15:19.837Z"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 15,
+    "fields": {
+      "name": "کامپیوتر گیمینگ PC Ultra",
+      "description": "",
+      "price": 165216548,
+      "quantity_available": 2,
+      "category": 1,
+      "created_at": "2024-04-11T13:21:19.295Z",
+      "updated_at": "2024-04-11T13:21:19.295Z"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 2,
+    "fields": {
+      "product": 3,
+      "image": "images/products/rog-strix-z790-e-gaming-wifi-model-1.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/04/rog-strix-z790-e-gaming-wifi-model-1.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 3,
+    "fields": {
+      "product": 3,
+      "image": "images/products/rog-strix-z790-e-gaming-wifi-model.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/04/rog-strix-z790-e-gaming-wifi-model.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 4,
+    "fields": {
+      "product": 2,
+      "image": "images/products/rog-maximus-z790-hero-eva-02-edition-1.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2024/01/rog-maximus-z790-hero-eva-02-edition-1.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 5,
+    "fields": {
+      "product": 2,
+      "image": "images/products/rog-maximus-z790-hero-eva-02-edition-2.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2024/01/rog-maximus-z790-hero-eva-02-edition-2.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 6,
+    "fields": {
+      "product": 4,
+      "image": "images/products/core-i9-14900k.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/11/core-i9-14900k.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 7,
+    "fields": {
+      "product": 5,
+      "image": "images/products/core-i5-13600k-box.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/09/core-i5-13600k-box.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 8,
+    "fields": {
+      "product": 7,
+      "image": "images/products/ZOTAC-GAMING-GeForce-RTX-3070-Twin-Edge-OC-White-Edition-LHR-8GB-GDDR6.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/04/ZOTAC-GAMING-GeForce-RTX-3070-Twin-Edge-OC-White-Edition-LHR-8GB-GDDR6.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 9,
+    "fields": {
+      "product": 7,
+      "image": "images/products/ZOTAC-GAMING-GeForce-RTX-3070-Twin-Edge-OC-White-Edition-LHR-8GB-GDDR6-02.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/04/ZOTAC-GAMING-GeForce-RTX-3070-Twin-Edge-OC-White-Edition-LHR-8GB-GDDR6-02.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 10,
+    "fields": {
+      "product": 6,
+      "image": "images/products/GeForce-RTX-4090-GAMING-OC-24G-01.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/04/GeForce-RTX-4090-GAMING-OC-24G-01.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 11,
+    "fields": {
+      "product": 6,
+      "image": "images/products/GeForce-RTX-4090-GAMING-OC-24G-02.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/04/GeForce-RTX-4090-GAMING-OC-24G-02.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 12,
+    "fields": {
+      "product": 9,
+      "image": "images/products/Trident-Z5-RGB-64GB-Dual-5600MHz-CL36-E28093-Black.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/09/Trident-Z5-RGB-64GB-Dual-5600MHz-CL36-%E2%80%93-Black.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 13,
+    "fields": {
+      "product": 9,
+      "image": "images/products/Trident-Z5-RGB-64GB-Dual-5600MHz-CL36-E28093-Black-02.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/09/Trident-Z5-RGB-64GB-Dual-5600MHz-CL36-%E2%80%93-Black-02.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 14,
+    "fields": {
+      "product": 8,
+      "image": "images/products/Corsair-Dominator-Platinum-RGB-DDR5-64GB-Dual-5600MHz-CL40-Black-1.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/05/Corsair-Dominator-Platinum-RGB-DDR5-64GB-Dual-5600MHz-CL40-Black-1.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 15,
+    "fields": {
+      "product": 10,
+      "image": "images/products/WD-Purple-6TB-WD60PURZ.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/09/WD-Purple-6TB-WD60PURZ.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 16,
+    "fields": {
+      "product": 11,
+      "image": "images/products/990-pro-2tb.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/09/990-pro-2tb.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 17,
+    "fields": {
+      "product": 12,
+      "image": "images/products/GP1350B-OCDG-3.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/05/GP1350B-OCDG-3.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 18,
+    "fields": {
+      "product": 13,
+      "image": "images/products/thermaltake-water-3.0-360-argb-sync.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/09/thermaltake-water-3.0-360-argb-sync.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 19,
+    "fields": {
+      "product": 14,
+      "image": "images/products/DeepCool-QUADSTELLAR-INFINITY.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/05/DeepCool-QUADSTELLAR-INFINITY.webp"
+    }
+  },
+  {
+    "model": "products_app.productimage",
+    "pk": 20,
+    "fields": {
+      "product": 15,
+      "image": "images/products/pcultra.webp",
+      "image_url": "https://pckala.org/wp-content/uploads/2023/11/pcultra.webp"
+    }
+  },
+  {
+    "model": "products_app.motherboard",
+    "pk": 2,
+    "fields": {
+      "appearance": "ATX",
+      "brand": "ASUS",
+      "model": "ROG MAXIMUS Z790 HERO EVA-02 EDITION",
+      "platform": "Intel",
+      "cpu_socket": "LGA1700",
+      "chipset": "Intel Z790",
+      "max_supported_memory": 192,
+      "memory_slots_num": 4,
+      "compatibility": "Intel 12Th Generation, Intel 13th Generation,  Intel 14Th Generation",
+      "num_ports": 12
+    }
+  },
+  {
+    "model": "products_app.motherboard",
+    "pk": 3,
+    "fields": {
+      "appearance": "ATX",
+      "brand": "ASUS",
+      "model": "ROG STRIX Z790-E GAMING WIFI",
+      "platform": "اینتل",
+      "cpu_socket": "Intel LGA 1700",
+      "chipset": "Z790",
+      "max_supported_memory": 128,
+      "memory_slots_num": 4,
+      "compatibility": "Intel® Socket LGA1700 for 13th Gen Intel® Core™ Processors & 12th Gen Intel® Core™, Pentium® Gold an",
+      "num_ports": 12
+    }
+  },
+  {
+    "model": "products_app.cpu",
+    "pk": 4,
+    "fields": {
+      "brand": "Intel",
+      "model": "Core i9-14900K",
+      "cores": 24,
+      "threads": 32,
+      "chache_storage": 36,
+      "cpu_socket": "intel LGA 1700",
+      "consumptionـpower": 125,
+      "packing": "Tray"
+    }
+  },
+  {
+    "model": "products_app.cpu",
+    "pk": 5,
+    "fields": {
+      "brand": "Intel",
+      "model": "Core i5-13600K",
+      "cores": 14,
+      "threads": 20,
+      "chache_storage": 24,
+      "cpu_socket": "intel LGA 1700",
+      "consumptionـpower": 125,
+      "packing": "Box"
+    }
+  },
+  {
+    "model": "products_app.ram",
+    "pk": 8,
+    "fields": {
+      "brand": "Corsair",
+      "model": "DOMINATOR PLATINUM RGB",
+      "ram_type": "DDR5",
+      "ram_frequency": 5600
+    }
+  },
+  {
+    "model": "products_app.ram",
+    "pk": 9,
+    "fields": {
+      "brand": "G-SKILL",
+      "model": "TRIDENT Z5 RGB",
+      "ram_type": "DDR5",
+      "ram_frequency": 6000
+    }
+  },
+  {
+    "model": "products_app.harddisk",
+    "pk": 10,
+    "fields": {
+      "brand": "Western Digital",
+      "model": "WD60PURZ",
+      "appearance": 3.5,
+      "reading_speed": 180,
+      "writing_speed": 180,
+      "connection_type": "SATA 6Gb/s",
+      "num_revolutions_minute": 5400,
+      "storage": 6
+    }
+  },
+  {
+    "model": "products_app.ssd",
+    "pk": 11,
+    "fields": {
+      "brand": "Samsung",
+      "appearance": "NVMe 2280",
+      "reading_speed": 7450,
+      "writing_speed": 6900,
+      "connection_type": "PCIe x4",
+      "storage": 2
+    }
+  },
+  {
+    "model": "products_app.graphiccard",
+    "pk": 6,
+    "fields": {
+      "brand": "Gigabyte",
+      "creator": "Nvidia",
+      "amount_memory": 24,
+      "chip": "RTX 4090",
+      "connection_interface": "PCI Express 4.0",
+      "cooler": "سه فن خنک کننده بسیار قدرتمند",
+      "image_output_port_type": "Display Port HDMI",
+      "storage_type": "GDDR6X",
+      "num_image_output_ports": 4
+    }
+  },
+  {
+    "model": "products_app.graphiccard",
+    "pk": 7,
+    "fields": {
+      "brand": "ZOTAC",
+      "creator": "Nvidia",
+      "amount_memory": 8,
+      "chip": "RTX 3070",
+      "connection_interface": "PCI Express 4.0",
+      "cooler": "دارای دو فن خنک کننده بسیار قدرتمند",
+      "image_output_port_type": "Display Port HDMI",
+      "storage_type": "GDDR6",
+      "num_image_output_ports": 4
+    }
+  },
+  {
+    "model": "products_app.power",
+    "pk": 12,
+    "fields": {
+      "brand": "GREEN",
+      "output_power": 1350,
+      "cable_output_type": "فول ماژولار",
+      "num_44_motherboard_pins": 2,
+      "num_62_graphic_pins": 12,
+      "cpu_output_pin": "4+4",
+      "gpu_output_pin": "6+2",
+      "sata_num_output": 12,
+      "cooling_fan_size": 135,
+      "useful_life": "120هزار ساعت"
+    }
+  },
+  {
+    "model": "products_app.cooler",
+    "pk": 13,
+    "fields": {
+      "brand": "Thermaltake",
+      "model": "Water 3.0 360 ARGB Sync",
+      "cooler_type": "مایع(WaterCooling)",
+      "dimensions": "394x120x27mm",
+      "speed": 500,
+      "lighting": "ARGB",
+      "num_fan": 3
+    }
+  },
+  {
+    "model": "products_app.case",
+    "pk": 14,
+    "fields": {
+      "brand": "Deep Cool",
+      "body_material": "ABS, SPCC, آلومینیوم",
+      "side_material": "شیشه حرارت دیده",
+      "color": "مشکی",
+      "max_cooler_heoght": 135,
+      "skeleton_type": "Full Tower",
+      "num_installed_fans": 0,
+      "dimensions": "540x487x494mm",
+      "max_installation_space_graphics_card": 380
+    }
+  },
+  {
+    "model": "products_app.pc",
+    "pk": 15,
+    "fields": {
+      "pc_type": "Gaming",
+      "processor": 4,
+      "mother_board": 2,
+      "graphics_card": 7,
+      "ram": 9,
+      "hdd": 10,
+      "ssd": 11,
+      "power": 12,
+      "cooler": 13,
+      "case": 14,
+      "operating_system": "Windows"
+    }
+  }
+]
