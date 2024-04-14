@@ -26,9 +26,9 @@ export default memo(function Product() {
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
     const [productOffTimer, setProductOffTimer] = useState<productOffTimerProps | null>(null)
-    const [circleCoordinates, setCircleCoordinaets] = useState({ x: null, y: null } satisfies coordinates)
+    const [circleCoordinates, setCircleCoordinaets] = useState({x: null, y: null} satisfies coordinates)
     const productImgRef = useRef<HTMLImageElement | null>(null);
-    const [zoomShown, setIsZoomShown] = useState<boolean>(false)
+    const [zoomShown, setIsZoomShown] = useState<boolean>(true)
 
     useEffect(() => {
         const timeout = setInterval(() => {
@@ -49,8 +49,7 @@ export default memo(function Product() {
 
             <div className="md:px-5 px-3">
 
-                <div
-                    className="bg-secondary-black text-nowrap rounded-md gap-2 overflow-auto container p-3 flex items-center mb-4 md:mt-[150px] mt-[120px] text-[12px] ch:ch:size-4 text-description-text">
+                <div className="bg-secondary-black text-nowrap rounded-md gap-2 overflow-auto container p-3 flex items-center mb-4 md:mt-[150px] mt-[120px] text-[12px] ch:ch:size-4 text-description-text">
                     <div className="flex items-center gap-2">خانه‌<FaAngleLeft/></div>
                     <div className="flex items-center gap-2">لپتاپ <FaAngleLeft/></div>
                     <div className="flex items-center gap-2">lonovo v15<FaAngleLeft/></div>
@@ -111,20 +110,21 @@ export default memo(function Product() {
 
                             <div
                                 className="flex-[5] text-[13px] border relative overflow-hidden border-dark-gold rounded-md text-description-text">
-                                <div className={"relative"}>
+                                <div className={"relative overflow-hidden z-10"}>
                                     <img
                                         ref={productImgRef}
                                         className="flex-center w-full object-cover py-4"
                                         src="/images/victus-15.webp"
                                         alt="product-img"
-                                        onMouseEnter={() => {setIsZoomShown(true)
+                                        onPointerEnter={() => {
+                                            setIsZoomShown(true)
                                         }}
-                                        onMouseLeave={() => setIsZoomShown(false)}
-                                        onPointerMove={e => setCircleCoordinaets({ x: e.clientX, y: e.clientY })}
+                                        onPointerLeave={() => setIsZoomShown(false)}
+                                        onPointerMove={e => setCircleCoordinaets({x: e.pageX, y: e.pageY})}
                                     />
                                     <span
-                                        style={{left: circleCoordinates.x - (productImgRef.current?.offsetWidth / 2) + "px", top: circleCoordinates.y - (productImgRef.current?.offsetHeight / 2) + "px"}}
-                                        className={` bg-red-800 z-20 ${ zoomShown ? "fixed" : "invisible" } fixed rounded-full border-2 border-white size-36`}></span>
+                                        style={{left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current?.clientHeight / 2) + "px"}}
+                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: "url('/images/victus-15.webp')", backgroundPosition: (circleCoordinates.x - productImgRef.current?.x - 100) + "% " + (circleCoordinates.y - productImgRef.current?.y - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"}/></span>
                                 </div>
                                 <span
                                     className="absolute cursor-pointer flex-center size-10 border border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch/></span>

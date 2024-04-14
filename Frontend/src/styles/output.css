@@ -728,10 +728,6 @@ video {
   z-index: 39;
 }
 
-.z-50 {
-  z-index: 50;
-}
-
 .m-auto {
   margin: auto;
 }
@@ -1188,33 +1184,9 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
-.scale-\[900px\] {
-  --tw-scale-x: 900px;
-  --tw-scale-y: 900px;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-150 {
-  --tw-scale-x: 1.5;
-  --tw-scale-y: 1.5;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-\[3\] {
-  --tw-scale-x: 3;
-  --tw-scale-y: 3;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-\[2\] {
-  --tw-scale-x: 2;
-  --tw-scale-y: 2;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-\[4\] {
-  --tw-scale-x: 4;
-  --tw-scale-y: 4;
+.scale-\[2\.5\] {
+  --tw-scale-x: 2.5;
+  --tw-scale-y: 2.5;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1621,11 +1593,6 @@ video {
   background-color: rgb(253 0 25 / var(--tw-bg-opacity));
 }
 
-.bg-red-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(153 27 27 / var(--tw-bg-opacity));
-}
-
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
@@ -2027,19 +1994,19 @@ video {
 @font-face {
   font-family: "sans";
 
-  src: url("/fonts/Iransans/IRANSans.ttf"), format("truetype");
+  src: url("/fonts/Iransans/IRANSans.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "sans-thin";
 
-  src: url("/fonts/Iransans/IRANSansX\ Thin.ttf"), format("truetype");
+  src: url("/fonts/Iransans/IRANSansX\ Thin.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "peyda";
 
-  src: url("/fonts/Peyda/PeydaWeb.ttf"), format("truetype");
+  src: url("/fonts/Peyda/PeydaWeb.ttf") format("truetype");
 }
 
 * {
@@ -2070,7 +2037,7 @@ video {
   position: absolute;
   z-index: -1;
   width: 100%;
-  background: url("/images/backGround.webp") repeat rgb(41, 42, 45);
+  background: url('/images/backGround.webp') repeat rgb(41, 42, 45);
 }
 
 .overlay {
@@ -2100,7 +2067,7 @@ video {
   background-color: transparent;
   position: absolute;
   margin-top: 10px;
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 .submenu:hover::after {
@@ -2154,7 +2121,7 @@ video {
   position: absolute;
   transition: all 0.5s ease;
   inset: 0;
-  width: 0px;
+  width: 0;
   z-index: 1;
   --tw-bg-opacity: 1;
   background-color: rgb(253 0 25 / var(--tw-bg-opacity))
@@ -2338,7 +2305,7 @@ video {
 }
 
 .input-shadow {
-  box-shadow: 0px 0px 2px;
+  box-shadow: 0 0 2px;
 }
 
 @media (max-width: 639px) {
@@ -2569,6 +2536,10 @@ input[type="number"] {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+.hover\:ch\:fixed > *:hover {
+  position: fixed;
 }
 
 @media (min-width: 640px) {
