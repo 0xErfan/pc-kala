@@ -1,24 +1,24 @@
 import Footer from "../components/Footer"
-import {IoSearch, IoShareSocialOutline} from "react-icons/io5";
-import {FaAngleLeft} from "react-icons/fa";
-import {FiMinus} from "react-icons/fi";
-import {LuPlus} from "react-icons/lu";
-import {GoCommentDiscussion, GoCpu} from "react-icons/go";
-import {MdAddShoppingCart, MdOutlineInsertComment, MdOutlinePhoneEnabled} from "react-icons/md";
-import {TbListDetails} from "react-icons/tb";
-import {BiMessageSquareDetail} from "react-icons/bi";
-import {BsFilterLeft} from "react-icons/bs";
-import {GrGroup} from "react-icons/gr";
+import { IoSearch, IoShareSocialOutline } from "react-icons/io5";
+import { FaAngleLeft } from "react-icons/fa";
+import { FiMinus } from "react-icons/fi";
+import { LuPlus } from "react-icons/lu";
+import { GoCommentDiscussion, GoCpu } from "react-icons/go";
+import { MdAddShoppingCart, MdOutlineInsertComment, MdOutlinePhoneEnabled } from "react-icons/md";
+import { TbListDetails } from "react-icons/tb";
+import { BiMessageSquareDetail } from "react-icons/bi";
+import { BsFilterLeft } from "react-icons/bs";
+import { GrGroup } from "react-icons/gr";
 import Button from "../components/Button";
-import {memo, useEffect, useRef, useState} from "react";
-import {Link} from "react-router-dom";
+import { memo, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import Comment from "../components/Comment";
 import Header from "../components/Header";
-import {getTimer, productOffTimerProps} from "../utils.ts";
+import { getTimer, productOffTimerProps } from "../utils.ts";
 
 interface coordinates {
-    x: number | null
-    y: number | null
+    x: number
+    y: number
 }
 
 export default memo(function Product() {
@@ -26,7 +26,7 @@ export default memo(function Product() {
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
     const [productOffTimer, setProductOffTimer] = useState<productOffTimerProps | null>(null)
-    const [circleCoordinates, setCircleCoordinaets] = useState({x: null, y: null} satisfies coordinates)
+    const [circleCoordinates, setCircleCoordinates] = useState<coordinates>({ x: 0, y: 0 })
     const productImgRef = useRef<HTMLImageElement | null>(null);
     const [zoomShown, setIsZoomShown] = useState<boolean>(true)
 
@@ -37,22 +37,19 @@ export default memo(function Product() {
         return () => clearInterval(timeout)
     }, [])
 
-    // const getMouseCoordinates = (): coordinates => ({x: productImgRef.current?.offsetWidth, y: productImgRef.current?.offsetHeight})
-    //
-    // getMouseCoordinates()
-
+    
     return (
 
         <section className="primary-bg">
 
-            <Header/>
+            <Header />
 
             <div className="md:px-5 px-3">
 
                 <div className="bg-secondary-black text-nowrap rounded-md gap-2 overflow-auto container p-3 flex items-center mb-4 md:mt-[150px] mt-[120px] text-[12px] ch:ch:size-4 text-description-text">
-                    <div className="flex items-center gap-2">خانه‌<FaAngleLeft/></div>
-                    <div className="flex items-center gap-2">لپتاپ <FaAngleLeft/></div>
-                    <div className="flex items-center gap-2">lonovo v15<FaAngleLeft/></div>
+                    <div className="flex items-center gap-2">خانه‌<FaAngleLeft /></div>
+                    <div className="flex items-center gap-2">لپتاپ <FaAngleLeft /></div>
+                    <div className="flex items-center gap-2">lonovo v15<FaAngleLeft /></div>
                     <div className="flex items-center gap-2"> لپ تاپ ایسوس ROG Strix SCAR G834JY-AC
                         i9-13980HX/32GB/2TB/RTX4090-16G
                     </div>
@@ -68,7 +65,7 @@ export default memo(function Product() {
 
                             <p className="text-sm"><span
                                 className="font-peyda text-gold text-[15px]">پیشنهاد ویژه</span><span
-                                className="block"></span><span className="text-[10px]">فرصت باقی مانده</span></p>
+                                    className="block"></span><span className="text-[10px]">فرصت باقی مانده</span></p>
 
                             <div className="flex-center gap-2">
 
@@ -100,11 +97,11 @@ export default memo(function Product() {
 
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 flex-col ch:cursor-pointer">
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-red" src="/images/victus-15.webp" alt="product-img"/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img"/>
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-red" src="/images/victus-15.webp" alt="product-img" />
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img" />
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img" />
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img" />
+                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/victus-15.webp" alt="product-img" />
                                 </div>
                             </div>
 
@@ -120,16 +117,16 @@ export default memo(function Product() {
                                             setIsZoomShown(true)
                                         }}
                                         onPointerLeave={() => setIsZoomShown(false)}
-                                        onPointerMove={e => setCircleCoordinaets({x: e.pageX, y: e.pageY})}
+                                        onPointerMove={e => setCircleCoordinates({ x: e.pageX, y: e.pageY })}
                                     />
                                     <span
-                                        style={{left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current?.clientHeight / 2) + "px"}}
-                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: "url('/images/victus-15.webp')", backgroundPosition: (circleCoordinates.x - productImgRef.current?.x - 100) + "% " + (circleCoordinates.y - productImgRef.current?.y - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"}/></span>
+                                        style={{ left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current ? productImgRef.current.clientHeight / 2 : 0) + "px" }}
+                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: "url('/images/victus-15.webp')", backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} /></span>
                                 </div>
                                 <span
-                                    className="absolute cursor-pointer flex-center size-10 border border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch/></span>
+                                    className="absolute cursor-pointer flex-center size-10 border border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch /></span>
                                 <span
-                                    className="absolute size-10 border border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline/></span>
+                                    className="absolute size-10 border border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline /></span>
                             </div>
 
                         </div>
@@ -146,7 +143,7 @@ export default memo(function Product() {
                         <div className="flex items-center gap-12 text-[12px]">
                             <p>گارانتی دستگاه</p>
                             <select defaultValue={0}
-                                    className="bg-primary-black rounded-md p-2 border border-dark-gold">
+                                className="bg-primary-black rounded-md p-2 border border-dark-gold">
                                 <option disabled={true} value={0}>گارانتی دستگاه را انتخاب کنید</option>
                                 <option value={1}>گارانتی 18 ماهه شرکتی</option>
                             </select>
@@ -157,25 +154,25 @@ export default memo(function Product() {
                         <div className="text-[12px] ch:my-3 ch:text-description-text">
 
                             <div className="flex items-center gap-1">
-                                <input name="inshurance" type="checkbox"/>
+                                <input name="inshurance" type="checkbox" />
                                 <label htmlFor="inshurance">گارانتی طلایی پی سی کالا (پس انداز اندک برای حسرت های
                                     ناگهانی) <span className="text-blue-white mx-1">10,602,042 تومان</span></label>
                             </div>
 
                             <div className="flex items-center gap-1">
-                                <input name="windows" type="checkbox"/>
+                                <input name="windows" type="checkbox" />
                                 <label htmlFor="windows">نصب ویندوز حرفه ای کار هرکسی نیست ، تیکو بزن . <span
                                     className="text-blue-white mx-1">500,000 تومان</span> </label>
                             </div>
 
                             <div className="flex items-center gap-1">
-                                <input name="windows-org" type="checkbox"/>
+                                <input name="windows-org" type="checkbox" />
                                 <label htmlFor="windows-org">ویندوز اورجینال (لایسنس 1 ساله)<span
                                     className="text-blue-white mx-1">2,500,000 تومان</span> </label>
                             </div>
 
                             <div className="flex items-center gap-1">
-                                <input name="anti-virus" type="checkbox"/>
+                                <input name="anti-virus" type="checkbox" />
                                 <label htmlFor="anti-virus"> نصب آنتی ویروس<span className="text-blue-white mx-1">150,000 تومان</span>
                                 </label>
                             </div>
@@ -192,13 +189,13 @@ export default memo(function Product() {
                                     <div
                                         className="w-10 flex-center border-l h-full border-dark-gold">{productCount}</div>
                                     <div className="flex-center flex-col w-6 ch:cursor-pointer gap-1">
-                                        <LuPlus onClick={() => setProductCount(preve => preve + 1)}/>
+                                        <LuPlus onClick={() => setProductCount(preve => preve + 1)} />
                                         <FiMinus
-                                            onClick={() => productCount != 1 && setProductCount(preve => preve - 1)}/>
+                                            onClick={() => productCount != 1 && setProductCount(preve => preve - 1)} />
                                     </div>
                                 </div>
                                 <Button filled={true} text="افزودن به سبد خرید" fn={() => console.log("hi2")}
-                                        Icon={<MdAddShoppingCart/>}/>
+                                    Icon={<MdAddShoppingCart />} />
                             </div>
                         </div>
                     </div>
@@ -206,12 +203,12 @@ export default memo(function Product() {
                     <div className=" flex-1 text-[12px] hidden lg:block text-white mb-auto">
                         <div className="ch:rounded-sm space-y-1">
                             <h4 className="bg-[#343539] mb-2 py-1 px-2">مشخصات اصلی محصول</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu/> intel i9-13980HX
+                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> intel i9-13980HX
                             </h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu/> +18inch QHD</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu/> RTX4090-16G</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu/> 32GB DDR5</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu/> 2TB-SSD</h4>
+                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> +18inch QHD</h4>
+                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> RTX4090-16G</h4>
+                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> 32GB DDR5</h4>
+                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> 2TB-SSD</h4>
                         </div>
 
                         <div className="mt-5">
@@ -221,11 +218,11 @@ export default memo(function Product() {
                             <div className="flex items-center gap-2 mt-2 ch:rounded-sm ch:cursor-pointer">
                                 <div
                                     className="flex items-center flex-1 flex-center font-bold gap-2 p-2 bg-secondary-black text-title-text border-dashed hover:bg-blue-dark transition-all border border-blue-dark">
-                                    <MdOutlinePhoneEnabled className="size-5"/>نیاز به مشاوره
+                                    <MdOutlinePhoneEnabled className="size-5" />نیاز به مشاوره
                                 </div>
                                 <div
                                     className="flex items-center flex-1 flex-center font-bold gap-2 p-2 text-secondary-black bg-title-text">
-                                    <GrGroup className="size-5 text-tex"/>امور مشتریان
+                                    <GrGroup className="size-5 text-tex" />امور مشتریان
                                 </div>
                             </div>
                         </div>
@@ -240,7 +237,7 @@ export default memo(function Product() {
 
                     <div onClick={() => setActiveSection("details")} className={`flex-1 relative`}>
                         <div className={`flex-center flex-col ${activeSection == "details" && "active-section"} gap-1`}>
-                            <TbListDetails className="text-description-text size-6"/>
+                            <TbListDetails className="text-description-text size-6" />
                             <p>مشخصات فیزیکی</p>
                         </div>
                     </div>
@@ -248,7 +245,7 @@ export default memo(function Product() {
                     <div onClick={() => setActiveSection("comments")} className={`flex-1 relative`}>
                         <div
                             className={`flex-center flex-col ${activeSection == "comments" && "active-section"} gap-1`}>
-                            <GoCommentDiscussion className="text-description-text size-6"/>
+                            <GoCommentDiscussion className="text-description-text size-6" />
                             <p>نظرات کاربران</p>
                         </div>
                     </div>
@@ -266,23 +263,23 @@ export default memo(function Product() {
                                 <div className="flex  flex-col md:flex-row items-center gap-5">
                                     <div className={`flex-1 space-y-3`}>
                                         <div className="flex items-center gap-2">
-                                            <MdOutlineInsertComment className="size-8"/>
+                                            <MdOutlineInsertComment className="size-8" />
                                             <h3>نظرات کاربران</h3>
                                         </div>
                                         <div
                                             className="border text-description-text rounded-md border-dotted border-gold/30 p-4">
                                             <span className="text-white">                        لطفا پیش از ارسال نظر، خلاصه قوانین زیر را مطالعه کنید:</span>
-                                            <br/><br/>
+                                            <br /><br />
                                             فارسی بنویسید و از کیبورد فارسی استفاده کنید. بهتر است از فضای خالی (Space)
                                             بیش‌از‌حدِ معمول، شکلک یا ایموجی استفاده نکنید و از کشیدن حروف یا کلمات با
                                             صفحه‌کلید بپرهیزید.
-                                            <br/><br/>
+                                            <br /><br />
                                             نظرات خود را براساس تجربه و استفاده‌ی عملی و با دقت به نکات فنی ارسال کنید؛
                                             بدون تعصب به محصول خاص، مزایا و معایب را بازگو کنید و بهتر است از ارسال
                                             نظرات چندکلمه‌‌ای خودداری کنید.
-                                            <br/><br/>
+                                            <br /><br />
                                             بهتر است در نظرات خود از تمرکز روی عناصر متغیر مثل قیمت، پرهیز کنید.
-                                            <br/><br/>
+                                            <br /><br />
                                             به کاربران و سایر اشخاص احترام بگذارید. پیام‌هایی که شامل محتوای توهین‌آمیز
                                             و کلمات نامناسب باشند، حذف می‌شوند.
                                         </div>
@@ -294,7 +291,7 @@ export default memo(function Product() {
                                         {
                                             ("") ?
                                                 <div className="text-center mt-12">برای ثبت نظر ابتدا <Link to="/login"
-                                                                                                            className="text-blue-dark">وارد
+                                                    className="text-blue-dark">وارد
                                                     حساب </Link>خود شوید.</div>
                                                 :
                                                 <div className="mt-6">
@@ -304,7 +301,7 @@ export default memo(function Product() {
                                                         className="max-h-60 h-[167px] w-full p-2 rounded-md my-2 bg-primary-black border border-description-text/10"
                                                         id="textArea" cols={30} rows={10}></textarea>
                                                     <Button text="ثبت نظر" filled={true} fn={() => {
-                                                    }}/>
+                                                    }} />
                                                 </div>
                                         }
                                     </div>
@@ -314,7 +311,7 @@ export default memo(function Product() {
                                     <div className="flex items-center justify-between border-b border-title-text pb-2">
                                         <p className="font-peyda text-gold text-[15px]">نقد و بررسی ها</p>
                                         <div className="flex items-center text-[11px] gap-4 text-description-text">
-                                            <BsFilterLeft className="size-5"/>
+                                            <BsFilterLeft className="size-5" />
                                             <p className="text-white-red">جدیدترین</p>
                                             <p>دیدکاه خریداران</p>
                                         </div>
@@ -323,9 +320,9 @@ export default memo(function Product() {
                                         " "
                                             ?
                                             <div className="flex flex-col mt-3 gap-2">
-                                                <Comment/>
-                                                <Comment/>
-                                                <Comment/>
+                                                <Comment />
+                                                <Comment />
+                                                <Comment />
                                             </div>
                                             :
                                             <div className="w-full mt-3 bg-white-red p-3 rounded-md">نظری برای این محصول
@@ -336,7 +333,7 @@ export default memo(function Product() {
                             :
                             <div>
                                 <div className="flex items-center text-md gap-2">
-                                    <BiMessageSquareDetail className="size-6"/>
+                                    <BiMessageSquareDetail className="size-6" />
                                     <p>مشخصات کلی</p>
                                 </div>
 
@@ -389,7 +386,7 @@ export default memo(function Product() {
 
             </div>
 
-            <Footer/>
+            <Footer />
 
         </section>
     )
