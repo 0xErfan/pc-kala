@@ -28,7 +28,7 @@ export default memo(function Product() {
     const [productOffTimer, setProductOffTimer] = useState<productOffTimerProps | null>(null)
     const [circleCoordinates, setCircleCoordinates] = useState<coordinates>({ x: 0, y: 0 })
     const productImgRef = useRef<HTMLImageElement | null>(null);
-    const [zoomShown, setIsZoomShown] = useState<boolean>(true)
+    const [zoomShown, setIsZoomShown] = useState<boolean>(false)
 
     useEffect(() => {
         const timeout = setInterval(() => {

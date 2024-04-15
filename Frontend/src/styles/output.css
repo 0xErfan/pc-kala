@@ -2538,10 +2538,6 @@ input[type="number"] {
   transition-duration: 150ms;
 }
 
-.hover\:ch\:fixed > *:hover {
-  position: fixed;
-}
-
 @media (min-width: 640px) {
   .sm\:absolute {
     position: absolute;

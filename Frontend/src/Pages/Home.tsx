@@ -12,9 +12,21 @@ import { SwiperSlide } from 'swiper/react';
 import Slider from "../components/Slider";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
+import { useEffect } from 'react';
 
 
 export default function Home() {
+
+    // useEffect(() => {
+    //     (
+    //         async function() {
+    //             let res = await fetch("http://127.0.0.1:8000/api/products/all")
+    //             let data = await res.json()
+    //             console.log(data);
+                
+    //         }
+    //         )()
+    // }, [])
 
     return (
 
