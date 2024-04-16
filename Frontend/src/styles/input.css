@@ -237,3 +237,11 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
     -moz-appearance: textfield;
 }
+
+.activeMenu::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    @apply bg-white-red h-[80%] flex mt-auto rounded-l-xl top-[50%] -translate-y-[50%];
+    width: 6px;    
+}
