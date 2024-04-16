@@ -1,5 +1,4 @@
 import Header from "../components/Header.tsx";
-import { FaAngleLeft } from "react-icons/fa";
 import BlockTitle from "../components/BlockTitle.tsx";
 import Footer from "../components/Footer.tsx";
 import { GrFormSearch } from "react-icons/gr";

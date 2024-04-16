@@ -10,7 +10,7 @@ const Product = () => {
 
             {"w" ? <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">۳٪</div> : null}
 
-            <Link to="products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src="/images/victus-15.webp" alt="product-name" /></Link>
+            <Link to="/products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src="/images/victus-15.webp" alt="product-name" /></Link>
 
             {"w" &&
                 <div className="flex items-center gap-3 justify-center text-title-text text-sm">

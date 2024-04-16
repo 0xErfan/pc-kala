@@ -1,6 +1,5 @@
 import Footer from "../components/Footer"
 import { IoSearch, IoShareSocialOutline } from "react-icons/io5";
-import { FaAngleLeft } from "react-icons/fa";
 import { FiMinus } from "react-icons/fi";
 import { LuPlus } from "react-icons/lu";
 import { GoCommentDiscussion, GoCpu } from "react-icons/go";

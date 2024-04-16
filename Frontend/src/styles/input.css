@@ -21,10 +21,8 @@
     outline: none;
 }
 
-/* For Chrome and Safari */
 ::-webkit-scrollbar {
     background-color: rgb(77, 74, 74);
-    /* Change this to the desired background color */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -130,7 +128,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 85%;
+    width: 90%;
     transform: translate(-50%, -50%);
     z-index: -1;
     opacity: 0.3;

@@ -83,14 +83,13 @@ export default function Header() {
 
                 <div className="container flex items-center justify-between gap-4 w-full">
 
-                    <SideMenu changeTypeFn={() => {
-                        setSideMenuDataToShow("sideMenu");
-                        return true
-                    }} dataToShow={sideMenuDataToShow} />
+                    <SideMenu changeTypeFn={() => { setSideMenuDataToShow("sideMenu"); return true }} dataToShow={sideMenuDataToShow} />
 
-                    <Link to="/" className="max-w-[200px]"><img className=" object-cover w-full h-full "
+                    <Link to="/" className="max-w-[200px]"><img
+                        className="object-cover w-full h-full"
                         src="/images/home/title.webp"
-                        alt="pc-kala-shop" /></Link>
+                        alt="pc-kala-shop" />
+                    </Link>
 
                     <div className="flex-center gap-12 text-description-text ">
 
