@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import Comment from "../components/Comment";
 import Header from "../components/Header";
 import { getTimer, productOffTimerProps } from "../utils.ts";
+import BreadCrumb from "../components/BreadCrumb.tsx";
 
 interface coordinates {
     x: number
@@ -30,14 +31,18 @@ export default memo(function Product() {
     const productImgRef = useRef<HTMLImageElement | null>(null);
     const [zoomShown, setIsZoomShown] = useState<boolean>(false)
 
+    const breadCrumbData = [
+        { text: "لپتاپ", link: "/category/laptops" },
+        { text: "ROG Strix SCAR G834JY-AC i9-13980HX/32GB/2TB/RTX4090-16G", link: "/products/234t42r5" },
+    ]
+    
+
     useEffect(() => {
-        const timeout = setInterval(() => {
-            setProductOffTimer(getTimer())
-        }, 1000)
+        const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
         return () => clearInterval(timeout)
     }, [])
 
-    
+
     return (
 
         <section className="primary-bg">
@@ -46,14 +51,7 @@ export default memo(function Product() {
 
             <div className="md:px-5 px-3">
 
-                <div className="bg-secondary-black text-nowrap rounded-md gap-2 overflow-auto container p-3 flex items-center mb-4 md:mt-[150px] mt-[120px] text-[12px] ch:ch:size-4 text-description-text">
-                    <div className="flex items-center gap-2">خانه‌<FaAngleLeft /></div>
-                    <div className="flex items-center gap-2">لپتاپ <FaAngleLeft /></div>
-                    <div className="flex items-center gap-2">lonovo v15<FaAngleLeft /></div>
-                    <div className="flex items-center gap-2"> لپ تاپ ایسوس ROG Strix SCAR G834JY-AC
-                        i9-13980HX/32GB/2TB/RTX4090-16G
-                    </div>
-                </div>
+                <BreadCrumb path={breadCrumbData} />
 
                 <div
                     className=" flex flex-col lg:flex-row items-center md:gap-4 gap-8 bg-secondary-black container rounded-md p-4 text-white">
