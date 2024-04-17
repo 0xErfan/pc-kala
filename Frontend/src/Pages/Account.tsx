@@ -7,9 +7,13 @@ import { BiMessageRounded } from "react-icons/bi";
 import { FaRegBell } from "react-icons/fa6";
 import { IoExitOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-
+interface orderStatusProps {
+    count: number
+    text: string
+    status: "processing" | "delivered" | "returned"
+}
 
 
 const Account = () => {
@@ -25,9 +29,9 @@ const Account = () => {
             <span className='md:pt-[160px] pt-[130px] block'></span>
 
 
-            <div className="flex container gap-5 ch:rounded-md ch:border ch:border-dark-gold ch:bg-secondary-black text-white text-[12px] mb-5">
+            <div className="flex container gap-5 text-white text-[12px] mb-5">
 
-                <div className="flex-1 ch:px-3 ch:relative ch:py-5 overflow-hidden ch:transition-all ch:duration-300">
+                <div className="flex-1 ch:px-3 ch:relative ch:py-5 overflow-hidden ch:transition-all bg-secondary-black border border-dark-gold ch:duration-300 rounded-md">
 
                     <div className={`flex items-center justify-between border-b border-gray-600/15 pb-2 hover:bg-black/15`}>
                         <div className="flex items-center flex-col gap-1">
@@ -37,12 +41,12 @@ const Account = () => {
                         <CiEdit className="size-7 text-blue-white cursor-pointer" />
                     </div>
 
-                    <div onClick={ () => setActiveMenu("orders") } className={`flex ${activeMenu == "orders" && "activeMenu ch:mr-2"} items-center relative gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
+                    <div onClick={() => setActiveMenu("orders")} className={`flex ${activeMenu == "orders" && "activeMenu ch:mr-2"} items-center relative gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
                         <IoBagHandleOutline className="size-5" />
                         <p>سفارش ها</p>
                     </div>
 
-                    <div onClick={ () => setActiveMenu("likes") } className={`flex ${activeMenu == "likes" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
+                    <div onClick={() => setActiveMenu("likes")} className={`flex ${activeMenu == "likes" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
                         <FaRegHeart className="size-[17px]" />
                         <p>لیست های من</p>
                     </div>
@@ -72,8 +76,19 @@ const Account = () => {
 
                 </div>
 
-                <div className="flex-[3] p-4">
+                <div className="flex-[3]">
 
+                    <div className="border border-dark-gold bg-secondary-black rounded-md p-4">
+                        <div className="inline-block space-y-2 font-peyda text-[15px] flex-col gap-2">
+                            <p>سفارش های من</p>
+                            <div className="w-5/6 ml-auto bg-white-red h-px rounded-sm"></div>
+                        </div>
+                        <div className="flex items-center justify-evenly">
+                            <OrderStatus count={2} status="processing" text="جاری" />
+                            <OrderStatus count={0} status="delivered" text="تحویل شده" />
+                            <OrderStatus count={1} status="returned" text="مرجوع شده" />
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -82,6 +97,32 @@ const Account = () => {
 
         </section>
 
+    )
+}
+
+
+const OrderStatus = ({ count, status, text }: orderStatusProps) => {
+
+    const [src, setSrc] = useState<orderStatusProps["status"] | null>(null)
+
+    useEffect(() => {
+
+        switch (status) {
+            case "returned": { setSrc("returned"); break }
+            case "delivered": { setSrc("delivered"); break }
+            case "processing": { setSrc("processing"); break }
+        }
+
+    }, [status])
+
+    return (
+        <div className="flex items-center gap-3 mt-6">
+            <div><img src={`/images/${src}.svg`} /></div>
+            <div className="flex items-center gap-3 flex-col">
+                <p className="text-white font-bold text-[14px]">{count} سفارش</p>
+                <p className="text-description-text">{text}</p>
+            </div>
+        </div>
     )
 }
 
