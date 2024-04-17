@@ -47,7 +47,7 @@ const Checkout = () => {
 
                     <div className="flex items-center gap-4">
 
-                        <div className="flex-1">
+                        <div data-aos-duration="600" data-aos="fade-left" className="flex-1 mb-auto">
                             <h3 className="text-white py-8">جزئیات صورتحساب</h3>
                             <div className="grid grid-cols-2 gap-3 ch:mb-4">
                                 <Input fn={inputUpdater} name="name" title="نام"/>
@@ -75,7 +75,7 @@ const Checkout = () => {
                             </div>
                         </div>
 
-                        <div className="flex-1 mb-auto space-y-4">
+                        <div data-aos-duration="600" data-aos="fade-right" className="flex-1 mb-auto space-y-4">
                             <h3 className="text-white py-4">سفارش شما</h3>
 
                             <div className="border border-gold/25 rounded-md">
@@ -134,7 +134,7 @@ const Checkout = () => {
                     </div>
                 </div>
 
-                <div className="h-[400px]"></div>
+                <div className="h-12"></div>
             </section>
 
             <Footer/>

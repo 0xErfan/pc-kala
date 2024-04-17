@@ -257,7 +257,7 @@ export default memo(function Product() {
                             ?
                             <div>
 
-                                <div className="flex  flex-col md:flex-row items-center gap-5">
+                                <div className="flex flex-col md:flex-row items-center gap-5">
                                     <div className={`flex-1 space-y-3`}>
                                         <div className="flex items-center gap-2">
                                             <MdOutlineInsertComment className="size-8" />

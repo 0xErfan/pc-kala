@@ -164,12 +164,10 @@ export default function Home() {
 
             </section>
 
-            <section className=" mt-24 container lg:text-start text-center relative h-[700px]">
+            <section data-aos-duration="600" data-aos="zoom-in" className=" mt-24 container lg:text-start text-center relative h-[700px]">
                 <h3 className="bold-title sm:text-[40px] text-[32px] text-center">برترین متخصصین کشور</h3>
-                <img src="/images/home/wave-red.webp"
-                    className="sm:absolute md:flex hidden left-[19px] lg:left-60 top-48 w-[400px] h-[450px]"></img>
-                <img src="/images/home/wave-red.webp"
-                    className="absolute inset-0 -z-[5] md:hidden block top-[50%] right-[50%] translate-x-[50%] size-2/3 brightness-[0.2] -translate-y-[50%]"></img>
+                <img src="/images/home/wave-red.webp" className="sm:absolute md:flex hidden left-[19px] lg:left-60 top-48 w-[400px] h-[450px]"></img>
+                <img src="/images/home/wave-red.webp" className="absolute inset-0 -z-[5] md:hidden block top-[50%] right-[50%] translate-x-[50%] size-2/3 brightness-[0.2] -translate-y-[50%]"></img>
                 <div className="lg:px-[200px] px-4 sm:px-[100px]">
                     <p className="text-description-text py-1 text-center text-sm leading-[31px]">برترین متخصصین را گرد
                         هم اورده ایم تا بهترین را برای شما به ارمغان آوریم. وب سایت پیسی کالا که یکی از زیرحجموعه های
@@ -184,7 +182,7 @@ export default function Home() {
             </section>
 
             <Footer />
-            
+
         </section>
     )
 }
