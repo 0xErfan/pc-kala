@@ -3,11 +3,15 @@ import Header from "../components/Header"
 import { CiEdit } from "react-icons/ci";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
-import { BiMessageRounded } from "react-icons/bi";
 import { FaRegBell } from "react-icons/fa6";
 import { IoExitOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { IoTrashOutline } from "react-icons/io5";
+import Button from "../components/Button";
+import LikedProduct from "../components/LikedProduct";
+import UserPanelTemplate from "../components/UserPanelTemplate";
+import UserDataUpdater from "../components/UserDataUpdater"
 
 interface orderStatusProps {
     count: number
@@ -15,10 +19,122 @@ interface orderStatusProps {
     status: "processing" | "delivered" | "returned"
 }
 
-
 const Account = () => {
 
     const [activeMenu, setActiveMenu] = useState("account-details")
+    const [userdataToRender, setUserdataToRender] = useState<ReactNode | null>(null)
+    const [activeEditShown, setActiveEditShown] = useState<Record<string, unknown> | null>(null)
+    const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
+    const dataEditorCloser = () => setActiveEditShown(null)
+
+    useEffect(() => {
+        switch (activeMenu) {
+            case "orders":
+                setUserdataToRender(
+                    <UserPanelTemplate title="سفارش های من">
+                        <div className="flex items-center justify-evenly gap-4 border-gray-700 p-3">
+                            <OrderStatus count={2} status="processing" text="جاری" />
+                            <OrderStatus count={0} status="delivered" text="تحویل شده" />
+                            <OrderStatus count={1} status="returned" text="مرجوع شده" />
+                        </div>
+                    </UserPanelTemplate>
+                );
+                break;
+            case "likes":
+                setUserdataToRender(
+                    <UserPanelTemplate title="علاقه مندی ها">
+                        <div className="grid grid-cols-3 ml-auto p-3 gap-3">
+                            {[3, 4, 5].map(prd => <LikedProduct key={prd} />)}
+                        </div>
+                    </UserPanelTemplate>
+                );
+                break;
+            case "messages":
+                setUserdataToRender(
+                    <UserPanelTemplate title="پیغام‌ها">
+                        <div className="flex flex-col gap-2 p-3">
+                            <div data-aos-duration="600" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
+                                <p>پیغام‌ خوشامد گویی</p>
+                                <Button Icon={<IoTrashOutline />} fn={() => { }} />
+                            </div>
+                            <div data-aos-duration="600" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
+                                <p>پیغام‌ خوشامد گویی</p>
+                                <Button Icon={<IoTrashOutline />} fn={() => { }} />
+                            </div>
+                        </div>
+                    </UserPanelTemplate>
+                );
+                break;
+            default:
+                setUserdataToRender(
+                    <UserPanelTemplate title="اطلاعات شخصی">
+                        <div className="grid grid-cols-2 ch:border ch:border-gray-600/15">
+
+                            <UserDataUpdater
+                                dataEditorCloser={dataEditorCloser}
+                                fn={() => { }}
+                                name="name-lname"
+                                title="نام و نام خانوادگی"
+                                inputValue="مهدی رضایی"
+                                readOnly={!activeEditShown?.fullName}
+                                editToggle={() => activeEditChanger("fullName")}
+                            />
+
+                            <UserDataUpdater
+                                dataEditorCloser={dataEditorCloser}
+                                fn={() => { }}
+                                name="meli-code"
+                                title="کد ملی"
+                                inputValue="344363456"
+                                readOnly={!activeEditShown?.meliCode}
+                                editToggle={() => activeEditChanger("meliCode")}
+                            />
+
+                            <UserDataUpdater
+                                dataEditorCloser={dataEditorCloser}
+                                fn={() => { }}
+                                name="phonoNumber"
+                                title="شماره موبایل"
+                                inputValue="۰۹۰۳۴۳۴۵۳۴۵"
+                                readOnly={!activeEditShown?.phonoNumber}
+                                editToggle={() => activeEditChanger("phonoNumber")}
+                            />
+
+                            <UserDataUpdater
+                                dataEditorCloser={dataEditorCloser}
+                                fn={() => { }}
+                                name="email"
+                                title="ایمیل"
+                                inputValue="eftekharierfan5555555555@gmial.com"
+                                readOnly={!activeEditShown?.email}
+                                editToggle={() => activeEditChanger("email")}
+                            />
+
+                            <UserDataUpdater
+                                dataEditorCloser={dataEditorCloser}
+                                fn={() => { }}
+                                name="changePass"
+                                title="تغییر رمز عبور"
+                                inputValue="54897540987"
+                                readOnly={!activeEditShown?.changePass}
+                                editToggle={() => activeEditChanger("changePass")}
+                            />
+
+                            <UserDataUpdater
+                                dataEditorCloser={dataEditorCloser}
+                                fn={() => { }}
+                                name="cashBack"
+                                title="باز گرداندن پول به این شماره کارت"
+                                inputValue="6037998194989710"
+                                readOnly={!activeEditShown?.cashBack}
+                                editToggle={() => activeEditChanger("cashBack")}
+                            />
+
+                        </div>
+                    </UserPanelTemplate>
+                );
+        }
+    }, [activeMenu, activeEditShown])
 
     return (
 
@@ -31,14 +147,14 @@ const Account = () => {
 
             <div className="flex container gap-5 text-white text-[12px] mb-5">
 
-                <div data-aos-duration="600" data-aos="zoom-in" className="flex-1 ch:px-3 ch:relative ch:py-5 overflow-hidden ch:transition-all bg-secondary-black border border-dark-gold ch:duration-300 rounded-md">
+                <div data-aos-duration="600" data-aos="fade-left" className="flex-1 ch:px-3 ch:relative ch:py-5 overflow-hidden ch:transition-all bg-secondary-black border border-dark-gold ch:duration-300 h-min rounded-md">
 
                     <div className={`flex items-center justify-between border-b border-gray-600/15 pb-2 hover:bg-black/15`}>
                         <div className="flex items-center flex-col gap-1">
                             <p className="text-[15px]">مهدی راضایی</p>
                             <p className="text-[13px] text-description-text">09032754452</p>
                         </div>
-                        <CiEdit className="size-7 text-blue-white cursor-pointer" />
+                        <CiEdit onClick={() => setActiveMenu("account-details")} className="size-7 text-blue-white cursor-pointer" />
                     </div>
 
                     <div onClick={() => setActiveMenu("account-details")} className={`flex items-center gap-2 border-b ${activeMenu == "account-details" && "activeMenu ch:mr-2"} border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
@@ -56,11 +172,6 @@ const Account = () => {
                         <p>لیست های من</p>
                     </div>
 
-                    <div onClick={() => setActiveMenu("comments")} className={`flex items-center ${activeMenu == "comments" && "activeMenu ch:mr-2"} gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
-                        <BiMessageRounded className="size-5" />
-                        <p>دیدگاه ها</p>
-                    </div>
-
                     <div onClick={() => setActiveMenu("messages")} className={`flex items-center ${activeMenu == "messages" && "activeMenu ch:mr-2"} justify-between border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
                         <div className="flex items-center gap-2">
                             <FaRegBell className="size-5" />
@@ -76,20 +187,7 @@ const Account = () => {
 
                 </div>
 
-                <div data-aos-duration="600" data-aos="zoom-in" className="flex-[3]">
-
-                    <div className="border border-dark-gold bg-secondary-black rounded-md p-4">
-                        <div className="inline-block space-y-2 font-peyda text-[15px] flex-col gap-2">
-                            <p>سفارش های من</p>
-                            <div className="w-5/6 ml-auto bg-white-red h-px rounded-sm"></div>
-                        </div>
-                        <div className="flex items-center justify-evenly gap-4">
-                            <OrderStatus count={2} status="processing" text="جاری" />
-                            <OrderStatus count={0} status="delivered" text="تحویل شده" />
-                            <OrderStatus count={1} status="returned" text="مرجوع شده" />
-                        </div>
-                    </div>
-                </div>
+                {userdataToRender}
 
             </div>
 

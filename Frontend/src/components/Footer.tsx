@@ -13,12 +13,12 @@ function Footer() {
 
             <div className="text-[12px]  text-description-text container space-y-2 ch:flex ch:items-center ch:gap-2">
 
-                <div data-aos-duration="600" data-aos="fade-left">
+                <div>
                     <CiLocationOn className="size-5 shrink-0 text-title-text" />
                     <p>تهران، خیابان ولیعصر (عج)، تقاطع ولیعصر و طالقانی مجتمع تجاری اداری نور تهران طبقه همکف دوم پلاک 7010، فروشگاه کامپیوتر و لپ تاپ پی سی کالا </p>
                 </div>
 
-                <div data-aos-duration="600" data-aos="fade-left" className="pb-6">
+                <div className="pb-6">
                     <MdOutlinePhoneAndroid className="size-5 text-title-text shrink-0" />
                     <p>تماس : <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۳۸۹</span> - <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۴۴۰</span> - <span className="text-blue-white px-1">۰۲۱۸۸۹۴۱۴۶۵</span>
                         <span className="pipe-sep relative mx-2"></span> ساعات پاسخگویی: ساعت ۱۰ الی ۱۹
@@ -27,7 +27,7 @@ function Footer() {
 
                 <span className="w-full h-[1px] bg-gold/10"></span>
 
-                <div data-aos-duration="600" data-aos="fade-right" className=" flex flex-col lg:flex-row pt-6 pb-10 sm:pb-6">
+                <div className=" flex flex-col lg:flex-row pt-6 pb-10 sm:pb-6">
 
                     <div className="flex-[2]  p-0 lg:pl-12">
 
