@@ -40,9 +40,9 @@ const ProductCategory = () => {
                 <BlockTitle title={`قیمت لپ تاپ`} Icon={<HiOutlineClipboardList className="p-[6px]" />} />
 
                 <div className="flex flex-col">
-                    <div className="text-[11px] flex justify-between gap-6 items-center rounded-md p-3 bg-secondary-black">
+                    <div className="text-[11px] flex justify-between overflow-auto gap-6 items-center rounded-md p-3 bg-secondary-black">
                         <div className="flex items-center gap-5">
-                            <div className="flex items-center gap-2 text-white">
+                            <div className="flex items-center flex-nowrap gap-2 text-white">
                                 <BsSortDown className="size-6"/>
                                 <p>مرتب سازی : </p>
                             </div>
@@ -50,9 +50,9 @@ const ProductCategory = () => {
                                 {productsToShow}
                             </ul>
                         </div>
-                        <div className="text-white text-[13px]">{23} کالا</div>
+                        <div className="text-white hidden sm:block text-[13px]">{23} کالا</div>
                     </div>
-                    <div className={"grid grid-cols-4 gap-4 mt-6"}>{[2, 23, 41, 3, 34, 64, 14, 4, 5, 44, 1].map(prd => <Product key={prd} />)}</div>
+                    <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6"}>{[2, 23, 41, 3, 34, 64, 14, 4, 5, 44, 1].map(prd => <Product key={prd} />)}</div>
                 </div>
 
                 <div className={"h-60"}></div>

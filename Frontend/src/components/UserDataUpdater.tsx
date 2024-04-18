@@ -31,17 +31,18 @@ export const UserDataUpdater = ({ name, fn, readOnly, title, inputValue, editTog
                         <CiEdit onClick={editToggle} className="size-7 cursor-pointer" />
                     </div>
                     :
-                    <div className="flex flex-col gap-2 text-[12px] text-description-text px-3">
+                    <div className="flex flex-col gap-2 text-[12px] text-description-text px-3 overflow-hidden">
                         <label className="text-[13px]">{title}</label>
                         <div className="flex items-center justify-between gap-3">
                             <input
+                                data-aos-duration="550" data-aos="fade-left"
                                 className={`appearance bg-primary-black flex-[3] outline-none rounded-md p-3 text-white`}
                                 type="input"
                                 value={value}
                                 name={name}
                                 onChange={e => setValue(e.target.value)}
                             />
-                            <div className="flex-1 flex items-center gap-1">
+                            <div data-aos-duration="550" data-aos="fade-right" className="flex-1 flex items-center gap-1">
                                 <Button fn={dataEditorCloser} text="لغو" size="sm" />
                                 <Button fn={() => { }} text="تایید" filled size="sm" />
                             </div>

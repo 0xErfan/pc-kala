@@ -19,7 +19,7 @@ interface orderStatusProps {
     status: "processing" | "delivered" | "returned"
 }
 
-const Account = () => {
+const Profile = () => {
 
     const [activeMenu, setActiveMenu] = useState("account-details")
     const [userdataToRender, setUserdataToRender] = useState<ReactNode | null>(null)
@@ -32,7 +32,7 @@ const Account = () => {
             case "orders":
                 setUserdataToRender(
                     <UserPanelTemplate title="سفارش های من">
-                        <div className="flex items-center justify-evenly gap-4 border-gray-700 p-3">
+                        <div className="flex flex-wrap md:flex-nowrap items-center justify-evenly gap-4 border-gray-700 p-3">
                             <OrderStatus count={2} status="processing" text="جاری" />
                             <OrderStatus count={0} status="delivered" text="تحویل شده" />
                             <OrderStatus count={1} status="returned" text="مرجوع شده" />
@@ -43,7 +43,7 @@ const Account = () => {
             case "likes":
                 setUserdataToRender(
                     <UserPanelTemplate title="علاقه مندی ها">
-                        <div className="grid grid-cols-3 ml-auto p-3 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ml-auto p-3 gap-3">
                             {[3, 4, 5].map(prd => <LikedProduct key={prd} />)}
                         </div>
                     </UserPanelTemplate>
@@ -53,11 +53,11 @@ const Account = () => {
                 setUserdataToRender(
                     <UserPanelTemplate title="پیغام‌ها">
                         <div className="flex flex-col gap-2 p-3">
-                            <div data-aos-duration="600" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
+                            <div data-aos-duration="550" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
                                 <p>پیغام‌ خوشامد گویی</p>
                                 <Button Icon={<IoTrashOutline />} fn={() => { }} />
                             </div>
-                            <div data-aos-duration="600" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
+                            <div data-aos-duration="550" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
                                 <p>پیغام‌ خوشامد گویی</p>
                                 <Button Icon={<IoTrashOutline />} fn={() => { }} />
                             </div>
@@ -68,7 +68,7 @@ const Account = () => {
             default:
                 setUserdataToRender(
                     <UserPanelTemplate title="اطلاعات شخصی">
-                        <div className="grid grid-cols-2 ch:border ch:border-gray-600/15">
+                        <div className="grid grid-cols-1 md:grid-cols-2 ch:border ch:border-gray-600/15 ch:pt-2">
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
@@ -145,9 +145,9 @@ const Account = () => {
             <span className='md:pt-[160px] pt-[130px] block'></span>
 
 
-            <div className="flex container gap-5 text-white text-[12px] mb-5">
+            <div className="flex container flex-col lg:flex-row gap-5 text-white text-[12px] mb-5 overflow-hidden">
 
-                <div data-aos-duration="600" data-aos="fade-left" className="flex-1 ch:px-3 ch:relative ch:py-5 overflow-hidden ch:transition-all bg-secondary-black border border-dark-gold ch:duration-300 h-min rounded-md">
+                <div data-aos-duration="550" data-aos="fade-left" className="flex-1 ch:px-3 ch:relative ch:py-5 overflow-hidden ch:transition-all bg-secondary-black border border-dark-gold ch:duration-300 h-min rounded-md">
 
                     <div className={`flex items-center justify-between border-b border-gray-600/15 pb-2 hover:bg-black/15`}>
                         <div className="flex items-center flex-col gap-1">
@@ -224,4 +224,4 @@ const OrderStatus = ({ count, status, text }: orderStatusProps) => {
     )
 }
 
-export default Account;
+export default Profile;

@@ -4,7 +4,7 @@ import { SlUser } from 'react-icons/sl'
 const Comment = () => {
 
     return (
-        <div data-aos-duration="600" data-aos="zoom-in" className="w-full p-4 md:p-5 bg-primary-black rounded-md">
+        <div data-aos-duration="550" data-aos="zoom-in" className="w-full p-4 md:p-5 bg-primary-black rounded-md">
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-b-neutral-200/60">
 
                 <div className="flex items-center gap-x-3.5">

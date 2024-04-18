@@ -8,6 +8,7 @@ const BlockTitle = ({title, url, Icon}: BlockTitleProps) => {
 
     return (
         <div className="container relative flex items-center ch:z-20 justify-between">
+            
             <span className="dotted-border"></span>
 
             <div className="flex items-center gap-3 relative ml-auto px-3 bg-primary-black z-20">

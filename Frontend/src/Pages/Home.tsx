@@ -39,8 +39,8 @@ export default function Home() {
             <span className='pt-[80px] block'></span>
             <div className="overlay"></div>
 
-            <div className="container flex-col lg:flex-row flex ch:flex-1 gap-8 my-12">
-                <div data-aos-duration="600" data-aos="zoom-in">
+            <div className="container flex-col-reverse lg:flex-row flex ch:flex-1 gap-8 my-12">
+                <div data-aos-duration="550" data-aos="zoom-in">
 
                     <h3 className="thin-title mt-4">بهترین قیمت</h3>
                     <h5 className="bold-title text-[40px] md:text-[52px]">خرید انواع لپ تاپ</h5>
@@ -54,7 +54,7 @@ export default function Home() {
                         text="خرید قسطی لپ تاپ و کامپیوتر" />
                     </div>
                 </div>
-                <div data-aos-duration="600" data-aos="zoom-in"><img className="w-full h-full object-cover"
+                <div data-aos-duration="550" data-aos="zoom-in"><img className="w-full h-full object-cover"
                     src="/images/home/laptop.webp" alt="pc-kala" />
                 </div>
             </div>
@@ -69,9 +69,9 @@ export default function Home() {
             </div>
 
             <div className="container flex-col lg:flex-row flex ch:flex-1 gap-8 mt-36 mb-24">
-                <div data-aos-duration="600" data-aos="zoom-in"><img className="max-h-[480px] m-auto h-full  w-[200px] "
+                <div data-aos-duration="550" data-aos="zoom-in"><img className="max-h-[480px] m-auto h-full  w-[200px] "
                     src="/images/home/case.webp" alt="pc-kala" /></div>
-                <div data-aos-duration="600" data-aos="zoom-in">
+                <div data-aos-duration="550" data-aos="zoom-in">
                     <h3 className="thin-title mt-4">تنوع فوق العاده</h3>
                     <h5 className="bold-title text-[45px] md:text-[60px]">خرید کامپیوتـر</h5>
                     <p className="thin-title">اگر به دنبال خرید پی سی یا کامپیوتر با کانفیگ مورد نظر خودت هستی و یا
@@ -99,8 +99,8 @@ export default function Home() {
                 </Slider>
             </div>
 
-            <div className="container flex-col lg:flex-row flex ch:flex-1 gap-8 lg:gap-3 mt-36 mb-24">
-                <div data-aos-duration="600" data-aos="zoom-in" className="px-[29px]">
+            <div className="container flex-col-reverse lg:flex-row flex ch:flex-1 gap-8 lg:gap-3 mt-36 mb-24">
+                <div data-aos-duration="550" data-aos="zoom-in" className="px-[29px]">
                     <h3 className="thin-title mt-4">انتخاب هوشمندانه</h3>
                     <h5 className="bold-title sm:text-[42px] text-[24px] lg:text-[32px]">خرید اقساطی کامپیوتر و لپ
                         تاپ</h5>
@@ -115,15 +115,15 @@ export default function Home() {
                         text="خرید قسطی لپ تاپ و کامپیوتر" />
                     </div>
                 </div>
-                <div data-aos-duration="600" data-aos="zoom-in" className=" ch:mr-auto h-[481px]"><img
+                <div data-aos-duration="550" data-aos="zoom-in" className=" ch:mr-auto h-[481px]"><img
                     className="sm:max-w-[450px] size-auto m-auto object-cover" src="/images/home/ghesti.webp"
                     alt="pc-kala" /></div>
             </div>
 
             <div className="container flex-col lg:flex-row flex ch:flex-1 gap-8 mt-36 mb-24">
-                <div data-aos-duration="600" data-aos="zoom-in"><img className="m-auto lg:h-[600px] h-auto w-[500px]"
+                <div data-aos-duration="550" data-aos="zoom-in"><img className="m-auto lg:h-[600px] h-auto w-[500px]"
                     src="/images/home/parts.webp" alt="pc-kala" /></div>
-                <div data-aos-duration="600" data-aos="zoom-in" className="flex flex-col justify-center">
+                <div data-aos-duration="550" data-aos="zoom-in" className="flex flex-col justify-center">
                     <h3 className="thin-title mt-4">قدرت در دستان توست!</h3>
                     <h5 className="bold-title lg:text-[39px] text-[26px]">خرید انواع قطعات و لوازم جانبی</h5>
                     <p className="thin-title">خرید انواع قطعات کامپیوتر و لوازم جانبی آن مانند کارت گرافیک، پردازنده
@@ -164,7 +164,7 @@ export default function Home() {
 
             </section>
 
-            <section data-aos-duration="600" data-aos="zoom-in" className=" mt-24 container lg:text-start text-center relative h-[700px]">
+            <section data-aos-duration="550" data-aos="zoom-in" className=" mt-24 container lg:text-start text-center relative h-[700px]">
                 <h3 className="bold-title sm:text-[40px] text-[32px] text-center">برترین متخصصین کشور</h3>
                 <img src="/images/home/wave-red.webp" className="sm:absolute md:flex hidden left-[19px] lg:left-60 top-48 w-[400px] h-[450px]"></img>
                 <img src="/images/home/wave-red.webp" className="absolute inset-0 -z-[5] md:hidden block top-[50%] right-[50%] translate-x-[50%] size-2/3 brightness-[0.2] -translate-y-[50%]"></img>

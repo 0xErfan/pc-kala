@@ -55,7 +55,7 @@ export default function Header() {
                         </div>
 
                         <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
-                            <Link to="/account"><FaRegUser /></Link>
+                            <Link to="/profile"><FaRegUser /></Link>
                             <div className="cursor-pointer" onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span
@@ -95,7 +95,7 @@ export default function Header() {
 
                         <div
                             className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] sm:ch:ch:size-9 ch:ch:size-8 ch:ch:p-2">
-                            <Link to="/account"><FaRegUser /></Link>
+                            <Link to="/profile"><FaRegUser /></Link>
                             <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span

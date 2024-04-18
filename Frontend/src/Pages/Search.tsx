@@ -49,8 +49,9 @@ const Search = () => {
                 }
 
                 <div className={"h-60"}></div>
-                <Footer />
             </div>
+            
+            <Footer />
         </section>
     );
 };

@@ -10,12 +10,13 @@ interface ButtonProops {
 }
 
 const Button: React.FC<ButtonProops> = ({ filled, active, fn, text, Icon, size = "md" }) => {
+
     return (
         <button
             disabled={active}
             onClick={fn}
-            className={` text-white ${filled ? "bg-white-red" : "bordered-btn"} rounded-md ${ size == "md" ? "p-3" : "p-2" } text-[12px] transition-all shrink`}>
-            <div className="z-10 flex items-center gap-2 shrink relative px-1"> {Icon && <div className="ch:size-5">{Icon}</div> } {text}</div>
+            className={` text-white ${filled ? "bg-white-red" : "bordered-btn"} rounded-md ${size == "md" ? "p-3" : "p-2"}  ${filled ? 'text-[12px]' : 'text-[11px]' } transition-all shrink`}>
+            <div className="z-10 flex items-center gap-2 justify-center shrink relative px-1"> {Icon && <div className="ch:size-5">{Icon}</div> } {text}</div>
         </button>
     )
 }
