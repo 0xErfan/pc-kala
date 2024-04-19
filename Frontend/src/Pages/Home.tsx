@@ -13,22 +13,20 @@ import Slider from "../components/Slider";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 export default function Home() {
 
     const navigate = useNavigate()
 
-    // useEffect(() => {
-    //     (
-    //         async function() {
-    //             let res = await fetch("http://127.0.0.1:8000/api/products/all")
-    //             let data = await res.json()
-    //             console.log(data);
-
-    //         }
-    //         )()
-    // }, [])
+    useEffect(() => {
+        (
+            async function() {
+                fetch("http://127.0.0.1:8000/api/products/all/").then(data => data.json()).then(newD => console.log(newD))
+            }
+            )()
+    }, [])
 
     return (
 
