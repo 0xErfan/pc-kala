@@ -16,7 +16,6 @@ const ProductCategory = () => {
         { text: `لبتاب`, link: `/search` }
     ]
 
-
     const productsToShow = [...productSortOptions].map(opt => (
         <li
             className={`cursor-pointer transition-all ${productSort === opt.sort && "text-white-red"}`}
@@ -52,7 +51,7 @@ const ProductCategory = () => {
                         </div>
                         <div className="text-white hidden sm:block text-[13px]">{23} کالا</div>
                     </div>
-                    <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6"}>{[2, 23, 41, 3, 34, 64, 14, 4, 5, 44, 1].map(prd => <Product key={prd} />)}</div>
+                    <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6"}>{[2, 23, 41, 3, 34, 64, 14, 4, 5, 44, 1].map(prd => <Product key={prd} />)}</div>
                 </div>
 
                 <div className={"h-60"}></div>
