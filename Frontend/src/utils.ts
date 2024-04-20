@@ -4,6 +4,15 @@ export interface productOffTimerProps {
     minutes: number | string
     seconds: number | string
 }
+interface FetchOptions {
+    method?: 'POST' | 'DELETE' | 'PUT'
+    body?: Blob | BufferSource | FormData | URLSearchParams | ReadableStream<Uint8Array> | string
+}
+
+type FetchResponse<T> = {
+    data: T | null;
+    error: object | null
+};
 
 const getTimer = (date?: string) => {
 
@@ -25,6 +34,22 @@ const getTimer = (date?: string) => {
     } satisfies productOffTimerProps;
 }
 
+
+const fetchData = async<T>(url: string, options?: FetchOptions): Promise<FetchResponse<T>> => {
+
+    let response: FetchResponse<T> = { data: null, error: null, }
+
+    try {
+        const res = await fetch(url, options);
+        if (res.ok) {
+            response.data = await res.json();
+        } else throw new Error(`HTTP error with ${res.status} code!`);
+    } catch (error) { response.error = error! }
+
+    return response;
+};
+
 export {
-    getTimer
+    getTimer,
+    fetchData
 }
