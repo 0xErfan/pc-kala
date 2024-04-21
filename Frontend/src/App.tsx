@@ -11,7 +11,7 @@ function App() {
     const route = useRoutes(routes)
     const dispatch = useAppDispatch()
 
-    useEffect(() => { Aos.init(), dispatch(getAllProducts()) }, []);
+    useEffect(() => { Aos.init() }, []);
 
     return (route)
 }

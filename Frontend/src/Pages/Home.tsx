@@ -13,20 +13,28 @@ import Slider from "../components/Slider";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../Hooks/useRedux';
 import { useEffect } from 'react';
 import { fetchData } from '../utils';
 
 export default function Home() {
 
     const navigate = useNavigate()
-    const products = useAppSelector(state => state.productsSlice.allProducts)
+
+    // const products = useAppSelector(state => state.productsSlice.allProducts)
 
     useEffect(() => {
+
         (async () => {
-            const posts = await fetchData('https://jsonplaceholder.typicode.com/posts')
-            console.log(posts.error)
+            const posts = await fetchData('https://jsonplaceholder.typicode.com/posts', {
+                method: 'POST', body: {
+                    title: 'foo',
+                    body: 'bar',
+                    userId: 1,
+                }
+            })
+            console.log(posts)
         })()
+
     }, [])
 
 

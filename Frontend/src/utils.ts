@@ -4,9 +4,14 @@ export interface productOffTimerProps {
     minutes: number | string
     seconds: number | string
 }
+
+interface unknownObject {
+    [key: string]: unknown
+}
+
 interface FetchOptions {
     method?: 'POST' | 'DELETE' | 'PUT'
-    body?: Blob | BufferSource | FormData | URLSearchParams | ReadableStream<Uint8Array> | string
+    body?: unknownObject
 }
 
 type FetchResponse<T> = {
@@ -40,11 +45,18 @@ const fetchData = async<T>(url: string, options?: FetchOptions): Promise<FetchRe
     let response: FetchResponse<T> = { data: null, error: null, }
 
     try {
-        const res = await fetch(url, options);
+
+        // different options for different request 
+        let res = options?.method ?
+            await fetch(url, { method: options.method, body: JSON.stringify(options.body), headers: { 'Content-Type': 'application/json' } })
+            :
+            await fetch(url);
+
         if (res.ok) {
             response.data = await res.json();
         } else throw new Error(`HTTP error with ${res.status} code!`);
-    } catch (error) { response.error = error! }
+
+    } catch (error) { response.error = error!, console.log(error) }
 
     return response;
 };
