@@ -1,3 +1,5 @@
+import iziToast from "izitoast"
+import { TiTick } from "react-icons/ti";
 export interface productOffTimerProps {
     hours: number | string
     days: number | string
@@ -61,7 +63,21 @@ const fetchData = async<T>(url: string, options?: FetchOptions): Promise<FetchRe
     return response;
 };
 
+const showToast = (status: boolean, message: string) => {
+
+    iziToast.show({
+        message,
+        position: 'topLeft',
+        color: !status ? '#22c55e' : '#ef4444',
+        messageColor: '#fff',
+        messageSize: '17',
+        transitionIn: 'bounceInRight',
+        icon: 'TiTick'
+    });
+}
+
 export {
     getTimer,
-    fetchData
+    fetchData,
+    showToast
 }

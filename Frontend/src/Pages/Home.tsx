@@ -1,5 +1,7 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'izitoast/dist/css/iziToast.min.css'
+
 import Button from "../components/Button";
 import BlockTitle from "../components/BlockTitle";
 import Product from "../components/Product";
@@ -14,7 +16,8 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchData } from '../utils';
+import { fetchData, showToast } from '../utils';
+import iziToast from 'izitoast';
 
 export default function Home() {
 
@@ -33,6 +36,7 @@ export default function Home() {
                 }
             })
             console.log(posts)
+            showToast(true, 'سلام ممو')
         })()
 
     }, [])
