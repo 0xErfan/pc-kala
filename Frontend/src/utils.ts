@@ -68,11 +68,10 @@ const showToast = (status: boolean, message: string) => {
     iziToast.show({
         message,
         position: 'topLeft',
-        color: !status ? '#22c55e' : '#ef4444',
+        color: status ? '#22c55e' : '#ef4444',
         messageColor: '#fff',
         messageSize: '17',
         transitionIn: 'bounceInRight',
-        icon: 'TiTick'
     });
 }
 
