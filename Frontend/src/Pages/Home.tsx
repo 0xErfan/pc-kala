@@ -15,31 +15,13 @@ import Slider from "../components/Slider";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { fetchData, showToast } from '../utils';
-import iziToast from 'izitoast';
+import { useAppSelector } from '../Hooks/useRedux';
 
 export default function Home() {
 
     const navigate = useNavigate()
 
-    // const products = useAppSelector(state => state.productsSlice.allProducts)
-
-    useEffect(() => {
-
-        (async () => {
-            const posts = await fetchData('https://jsonplaceholder.typicode.com/posts', {
-                method: 'POST', body: {
-                    title: 'foo',
-                    body: 'bar',
-                    userId: 1,
-                }
-            })
-            console.log(posts)
-            showToast(true, 'سلام ممو')
-        })()
-
-    }, [])
+    const products = useAppSelector(state => state.productsSlice.allProducts)
 
 
     return (

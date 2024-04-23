@@ -15,10 +15,16 @@ import Comment from "../components/Comment";
 import Header from "../components/Header";
 import { getTimer, productOffTimerProps } from "../utils.ts";
 import BreadCrumb from "../components/BreadCrumb.tsx";
-
+import { MdClose } from "react-icons/md";
 interface coordinates {
     x: number
     y: number
+}
+
+interface FullScreenImageProps {
+    url: string
+    isShown: boolean
+    closeFullScreenFn: () => void
 }
 
 export default memo(function Product() {
@@ -29,12 +35,13 @@ export default memo(function Product() {
     const [circleCoordinates, setCircleCoordinates] = useState<coordinates>({ x: 0, y: 0 })
     const productImgRef = useRef<HTMLImageElement | null>(null);
     const [zoomShown, setIsZoomShown] = useState<boolean>(false)
+    const [fullScreenShown, setFullScreenShown] = useState(false)
 
     const breadCrumbData = [
         { text: "لپتاپ", link: "/category/laptops" },
         { text: "ROG Strix SCAR G834JY-AC i9-13980HX/32GB/2TB/RTX4090-16G", link: "/products/234t42r5" },
     ]
-    
+
 
     useEffect(() => {
         const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
@@ -114,17 +121,20 @@ export default memo(function Product() {
                                             setIsZoomShown(true)
                                         }}
                                         onPointerLeave={() => setIsZoomShown(false)}
-                                        onPointerMove={e => setCircleCoordinates({ x: e.pageX, y: e.pageY })}
+                                        onPointerMove={e => setCircleCoordinates({ x: e.clientX, y: e.clientY })}
                                     />
                                     <span
                                         style={{ left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current ? productImgRef.current.clientHeight / 2 : 0) + "px" }}
                                         className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: "url('/images/victus-15.webp')", backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} /></span>
                                 </div>
                                 <span
-                                    className="absolute cursor-pointer flex-center size-10 border border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch /></span>
+                                    onClick={() => setFullScreenShown(true)}
+                                    className="absolute cursor-pointer flex-center size-10 border z-40 border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch /></span>
                                 <span
                                     className="absolute size-10 border border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline /></span>
                             </div>
+
+                            <FullScreenImage url='/images/victus-15.webp' isShown={fullScreenShown} closeFullScreenFn={() => setFullScreenShown(false)} />
 
                         </div>
 
@@ -391,3 +401,12 @@ export default memo(function Product() {
 
 })
 
+const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImageProps) => (
+    <div
+        onClick={e => e.target.tagName == 'DIV' && closeFullScreenFn()}
+        className={`fixed inset-0 w-full ${isShown ? 'fixed' : 'invisible'} bg-transparent px-3 sm:p-0 transition-all duration-200 ease-linear backdrop-blur-sm z-50 flex-center`}
+    >
+        <img className="object-cover bg-primary-black rounded-md cursor-zoom-in size-[350px] sm:size-[400px] md:size-[500px] lg:size-[600px]" src={url} alt="full-screen-image" />
+        <div onClick={closeFullScreenFn} className="size-12 absolute bg-white-red ch:size-8 ch:cursor-pointer right-8 top-8 rounded-md flex-center"><MdClose /></div>
+    </div>
+);

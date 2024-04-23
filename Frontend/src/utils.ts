@@ -1,5 +1,5 @@
 import iziToast from "izitoast"
-import { TiTick } from "react-icons/ti";
+
 export interface productOffTimerProps {
     hours: number | string
     days: number | string
@@ -41,14 +41,13 @@ const getTimer = (date?: string) => {
     } satisfies productOffTimerProps;
 }
 
-
 const fetchData = async<T>(url: string, options?: FetchOptions): Promise<FetchResponse<T>> => {
 
     let response: FetchResponse<T> = { data: null, error: null, }
 
     try {
 
-        // different options for different request 
+        // different options for different request  
         let res = options?.method ?
             await fetch(url, { method: options.method, body: JSON.stringify(options.body), headers: { 'Content-Type': 'application/json' } })
             :
