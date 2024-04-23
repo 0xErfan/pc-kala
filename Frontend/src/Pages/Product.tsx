@@ -42,6 +42,22 @@ export default memo(function Product() {
         { text: "ROG Strix SCAR G834JY-AC i9-13980HX/32GB/2TB/RTX4090-16G", link: "/products/234t42r5" },
     ]
 
+    const sharePage = (url: string) => {
+        const imageUrl = 'https://example.com/image.jpg';
+
+        if (navigator.share) {
+            navigator.share({
+                title: 'Share Image URL',
+                text: 'Check out this product!',
+                url
+            })
+                .then(() => console.log('Shared successfully'))
+                .catch((error) => console.error('Error sharing:', error));
+        } else {
+            console.error('Web Share API not supported');
+        }
+    }
+
 
     useEffect(() => {
         const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
@@ -121,7 +137,11 @@ export default memo(function Product() {
                                             setIsZoomShown(true)
                                         }}
                                         onPointerLeave={() => setIsZoomShown(false)}
-                                        onPointerMove={e => setCircleCoordinates({ x: e.clientX, y: e.clientY })}
+                                        onPointerMove={e => {
+
+                                            setCircleCoordinates({ x: e.clientX, y: e.clientY })
+                                        }
+                                        }
                                     />
                                     <span
                                         style={{ left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current ? productImgRef.current.clientHeight / 2 : 0) + "px" }}
@@ -131,7 +151,8 @@ export default memo(function Product() {
                                     onClick={() => setFullScreenShown(true)}
                                     className="absolute cursor-pointer flex-center size-10 border z-40 border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch /></span>
                                 <span
-                                    className="absolute size-10 border border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline /></span>
+                                    onClick={() => sharePage('/images/flan/flan')}
+                                    className="absolute size-10 border z-40 border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline /></span>
                             </div>
 
                             <FullScreenImage url='/images/victus-15.webp' isShown={fullScreenShown} closeFullScreenFn={() => setFullScreenShown(false)} />
