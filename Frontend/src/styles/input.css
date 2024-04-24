@@ -21,6 +21,11 @@
     outline: none;
 }
 
+#container {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
 ::-webkit-scrollbar {
     background-color: rgb(77, 74, 74);
 }

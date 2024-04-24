@@ -624,6 +624,10 @@ video {
   inset: 0px;
 }
 
+.-left-32 {
+  left: -8rem;
+}
+
 .-left-\[10px\] {
   left: -10px;
 }
@@ -652,8 +656,16 @@ video {
   bottom: 0.75rem;
 }
 
+.bottom-32 {
+  bottom: 8rem;
+}
+
 .left-0 {
   left: 0px;
+}
+
+.left-10 {
+  left: 2.5rem;
 }
 
 .left-16 {
@@ -710,6 +722,10 @@ video {
 
 .top-\[50\%\] {
   top: 50%;
+}
+
+.-left-12 {
+  left: -3rem;
 }
 
 .-z-\[5\] {
@@ -1589,6 +1605,10 @@ video {
   border-color: rgb(255 255 255 / 0.2);
 }
 
+.border-white\/30 {
+  border-color: rgb(255 255 255 / 0.3);
+}
+
 .border-b-neutral-200\/60 {
   border-bottom-color: rgb(229 229 229 / 0.6);
 }
@@ -2102,6 +2122,11 @@ video {
 
 * {
   outline: none;
+}
+
+#container {
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 ::-webkit-scrollbar {
