@@ -1,6 +1,7 @@
 from django.contrib import admin
 
 from .models import (
+    MainCategory,
     Category,
     ProductImage,
     Product,
@@ -13,9 +14,10 @@ from .models import (
     Power,
     Cooler,
     Case,
-    PC
+    PC,
+    Laptop,
 )
-
+admin.site.register(MainCategory)
 admin.site.register(Product)
 admin.site.register(ProductImage)
 admin.site.register(PC)
@@ -29,3 +31,4 @@ admin.site.register(Power)
 admin.site.register(Cooler)
 admin.site.register(Case)
 admin.site.register(Category)
+admin.site.register(Laptop)
