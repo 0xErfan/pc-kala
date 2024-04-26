@@ -6,11 +6,11 @@ import { Link } from "react-router-dom";
 const Product = () => {
 
     return (
-        <div className="max-w-[316px] relative w-full m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
+        <div className="sm:max-w-[316px] w-full relative m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
 
             {"w" ? <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">۳٪</div> : null}
 
-            <Link to="products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src="images/victus-15.webp" alt="product-name" /></Link>
+            <Link to="/products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src="/images/victus-15.webp" alt="product-name" /></Link>
 
             {"w" &&
                 <div className="flex items-center gap-3 justify-center text-title-text text-sm">

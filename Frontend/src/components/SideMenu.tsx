@@ -71,7 +71,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                         <div className='py-2'>
 
                             <div className='flex items-center justify-between text-2xl px-4 mt-4 mb-6 gap-3 w-[265px]'>
-                                <div className='flex-[7] pt-2'><img className='object-cover px-1' src="images/home/title.webp" /></div>
+                                <div className='flex-[7] pt-2'><img className='object-cover px-1' src="/images/home/title.webp" /></div>
                                 <IoClose onClick={menuCloseHandler} className='cursor-pointer p-[2px] text-dark-red h-full bg-secondary-black rounded-full flex-1' />
                             </div>
 
@@ -107,7 +107,6 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
 
                         </div>
                 }
-
             </div>
 
             {/* backdrop overlay */}
@@ -116,4 +115,4 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
     )
 }
 
-export default SideMenu
+export default SideMenu;

@@ -2,31 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @font-face {
     font-family: "sans";
-    src: url("/fonts/Iransans/IRANSans.ttf"), format("truetype");
+    src: url("/fonts/Iransans/IRANSans.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "sans-thin";
-    src: url("/fonts/Iransans/IRANSansX\ Thin.ttf"), format("truetype");
+    src: url("/fonts/Iransans/IRANSansX\ Thin.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "peyda";
-    src: url("/fonts/Peyda/PeydaWeb.ttf"), format("truetype");
+    src: url("/fonts/Peyda/PeydaWeb.ttf") format("truetype");
 }
 
 * {
     outline: none;
 }
 
-/* For Chrome and Safari */
+#container {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
 ::-webkit-scrollbar {
     background-color: rgb(77, 74, 74);
-    /* Change this to the desired background color */
 }
 
 ::-webkit-scrollbar-thumb {
@@ -43,7 +44,7 @@
 
 .primary-bg {
     @apply absolute w-full -z-[1];
-    background: url("/images/backGround.webp") repeat rgb(41, 42, 45);
+    background: url('/images/backGround.webp') repeat rgb(41, 42, 45);
 }
 
 .overlay {
@@ -64,7 +65,7 @@
 
 .submenu::after {
     transition: all 0.4s ease;
-    padding-left: 0px;
+    padding-left: 0;
     content: "";
     inset: 0;
     opacity: 0;
@@ -74,7 +75,7 @@
     background-color: transparent;
     position: absolute;
     margin-top: 10px;
-    padding-left: 0px;
+    padding-left: 0;
 }
 
 .submenu:hover::after {
@@ -118,7 +119,7 @@
     position: absolute;
     transition: all 0.5s ease;
     inset: 0;
-    width: 0px;
+    width: 0;
     z-index: 1;
     @apply bg-white-red
 }
@@ -130,9 +131,9 @@
 .dotted-border::after {
     content: "";
     position: absolute;
-    top: 50%;
+    top: 48%;
     left: 50%;
-    width: 85%;
+    width: 90%;
     transform: translate(-50%, -50%);
     z-index: -1;
     opacity: 0.3;
@@ -223,7 +224,7 @@
 }
 
 .input-shadow {
-    box-shadow: 0px 0px 2px;
+    box-shadow: 0 0 2px;
 }
 
 @media (max-width: 639px) {
@@ -240,4 +241,16 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.activeMenu::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    @apply bg-white-red h-[80%] flex mt-auto rounded-l-xl top-[50%] -translate-y-[50%];
+    width: 6px;    
+}
+
+.iziToast-wrapper {
+    @apply font-serif
 }
