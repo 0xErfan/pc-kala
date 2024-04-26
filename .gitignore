@@ -10,3 +10,5 @@ backend/products_app/migrations/
 backend/users_app/migrations/
 backend/orders_app/migrations/
 media/
+adding_apis/
+management/

@@ -10,7 +10,7 @@ def product_image_post_save(sender, instance, **kwargs):
     if instance.image_url and not instance.image:
         # Download the image from the URL
         result = urllib.request.urlretrieve(instance.image_url)
-        print(result)
+        # print(result)
         # Open the downloaded file
         with open(result[0], 'rb') as f:
             # Set the downloaded image as the image field
