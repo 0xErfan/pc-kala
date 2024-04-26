@@ -11,7 +11,7 @@ const NotFound = () => {
                 <div className="flex h-screen">
                     <div className="m-auto text-center">
                         <div>
-                            <svg width="631" height="379" viewBox="0 0 631 379" fill="none"
+                            <svg className="shrink max-w-[630px] max-h-[380px] w-full" viewBox="0 0 631 379" fill="none"
                                  xmlns="http://www.w3.org/2000/svg">
                                 <g clip-path="url(#clip0)">
                                     <path

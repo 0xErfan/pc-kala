@@ -923,6 +923,10 @@ video {
   display: inline-block;
 }
 
+.inline {
+  display: inline;
+}
+
 .flex {
   display: flex;
 }
@@ -1042,6 +1046,11 @@ video {
 .size-full {
   width: 100%;
   height: 100%;
+}
+
+.size-0 {
+  width: 0px;
+  height: 0px;
 }
 
 .h-0 {
@@ -2955,6 +2964,19 @@ input[type="number"] {
 }
 
 @media (min-width: 1280px) {
+  .xl\:fixed {
+    position: fixed;
+  }
+
+  .xl\:flex {
+    display: flex;
+  }
+
+  .xl\:size-12 {
+    width: 3rem;
+    height: 3rem;
+  }
+
   .xl\:flex-\[1\.4\] {
     flex: 1.4;
   }
