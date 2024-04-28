@@ -28,7 +28,7 @@ function App() {
     // }, [])
 
     useEffect(() => {
-        window.addEventListener('scroll', () => { setScroolUpShown(window.pageYOffset > 0 ? true : false), console.log(window.pageYOffset) })
+        window.addEventListener('scroll', () => setScroolUpShown(window.pageYOffset > 0 ? true : false))
         return () => window.removeEventListener('scroll', () => { setScroolUpShown(window.pageYOffset > 0 ? true : false) })
     }, [])
 

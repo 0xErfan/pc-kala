@@ -74,8 +74,14 @@ const showToast = (status: boolean, message: string) => {
     });
 }
 
+const priceDiscountCalculator = (price: number, discount: number) => {
+    const priceAfterDiscount = price - (price * (discount / 100))
+    return priceAfterDiscount.toLocaleString('fa-Ir')
+}
+
 export {
     getTimer,
     fetchData,
-    showToast
+    showToast,
+    priceDiscountCalculator
 }

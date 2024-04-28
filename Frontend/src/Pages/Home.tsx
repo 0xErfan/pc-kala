@@ -11,18 +11,28 @@ import { CiDiscount1 } from "react-icons/ci";
 import { AiOutlinePartition } from "react-icons/ai";
 import { BsCpu } from "react-icons/bs";
 import { SwiperSlide } from 'swiper/react';
-import Slider from "../components/Slider";
+import Slider from "../components/Slider";          
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../Hooks/useRedux';
+import { fetchData } from '../utils';
+import { SetStateAction, useEffect, useState } from 'react';
 
 export default function Home() {
 
     const navigate = useNavigate()
+    const [laptops, setLaptops] = useState<unknown>([])
 
-    const products = useAppSelector(state => state.productsSlice.allProducts)
+    useEffect(() => {
+        (
+            async () => {
+                const { data } = await fetchData('http://127.0.0.1:8000/api/products/laptop/all/')
+                setLaptops(data)
+                console.log('laptops updated =>', data);
+            }
 
+        )()
+    }, [])
 
     return (
 
@@ -57,7 +67,7 @@ export default function Home() {
                 <BlockTitle Icon={<BsLaptop />} title="پرفروش ترین ها" url="/" />
                 <Slider>
                     {
-                        [1, 3, 4, 54, 6].map(prd => <SwiperSlide key={prd}><Product /></SwiperSlide>)
+                        [...laptops as []].map((data) => <SwiperSlide key={data.id}><Product key={data?.id} {...data} /></SwiperSlide>)
                     }
                 </Slider>
             </div>
