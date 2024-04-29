@@ -33,7 +33,7 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name} | {self.id}'
 
 
 class ProductImage(models.Model):
@@ -145,7 +145,6 @@ class SSD(models.Model):
         Product, on_delete=models.CASCADE, primary_key=True)
     brand = models.CharField(max_length=100, null=True, blank=True)
     model = models.CharField(max_length=100, null=True, blank=True)
-
     appearance = models.CharField(max_length=255, null=True, blank=True)
     reading_speed = models.CharField(max_length=100, null=True, blank=True)
     writing_speed = models.CharField(max_length=100, null=True, blank=True)

@@ -12,3 +12,4 @@ backend/orders_app/migrations/
 media/
 adding_apis/
 management/
+venv/
