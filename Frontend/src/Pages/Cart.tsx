@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
 import Footer from "../components/Footer"
 import Header from "../components/Header"
-import { CgFileDocument } from "react-icons/cg";
 import ProductCart from "../components/ProductCart";
 import Button from "../components/Button";
+import Progress from "../components/Progress";
+import { Link } from "react-router-dom";
 
 const Card = () => {
-    
+
     return (
         <>
             <Header />
@@ -17,22 +17,7 @@ const Card = () => {
 
                 <div className="container mb-8">
 
-                    <div className="flex items-center justify-evenly ch:cursor-pointer gap-12 sm:gap-24">
-
-                        <Link to="/" className="flex items-center flex-col gap-2">
-                            <CgFileDocument className="size-11 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
-                            <p className="text-description-text transition-all hover:text-white">سبد خرید</p>
-                        </Link>
-                        <Link to="/" className="flex items-center flex-col gap-2">
-                            <CgFileDocument className="size-11 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
-                            <p className="text-description-text transition-all hover:text-white">جزئیات پرداخت</p>
-                        </Link>
-                        <Link to="/" className="flex items-center flex-col gap-2">
-                            <CgFileDocument className="size-11 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
-                            <p className="text-description-text transition-all hover:text-white">تکمیل سفارش</p>
-                        </Link>
-
-                    </div>
+                    <Progress />
 
                     <div className="flex items-center gap-5 flex-col lg:flex-row text-white ch:rounded-md ch:p-3 mt-12 ch:bg-secondary-black">
 
@@ -117,7 +102,8 @@ const Card = () => {
                                 </div>
                             </div>
 
-                            <Button filled text="ادامه جهت تسویه حساب" fn={() => { }} />
+
+                            <Link to={'/checkout'}><Button filled text="ادامه جهت تسویه حساب" fn={() => { }} /></Link>
 
                         </div>
                     </div>

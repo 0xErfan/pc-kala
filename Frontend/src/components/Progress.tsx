@@ -7,7 +7,7 @@ const Progress = () => {
 
     useEffect(() => { setRouteParam(location.pathname) }, [location.pathname])
 
-    const progressPercentage: number = routeParam == 'checkout' ? 2 : routeParam == 'successBuy' ? 3 : 1
+    const progressPercentage: number = routeParam == '/checkout' ? 2 : routeParam == '/success-purchase' ? 3 : 1
 
     return (
         <div className="flex items-center justify-evenly gap-12 relative mb-12 container text-[12px]">

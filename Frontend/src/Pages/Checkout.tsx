@@ -114,8 +114,7 @@ const Checkout = () => {
                                         و مقررات</Link> سایت را خوانده ام و آن را می پذیرم. </p>
                                 </div>
                             </div>
-                            <button className=" w-full rounded-md p-3 text-center text-white bg-white-red">ثبت سفارش
-                            </button>
+                            <Link to='/success-purchase'><button className=" w-full rounded-md p-3 text-center text-white bg-white-red">ثبت سفارش</button></Link>
                         </div>
                     </div>
                 </div>
