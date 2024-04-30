@@ -22,7 +22,7 @@ const Product = (productProps: unknown) => {
                 <div className="text-blue-white">{priceAfterOff} <span className="text-[10px] text-title-text">تومان</span></div>
             </div>
 
-            <Link to="products/324987fui32" className="text-center px-3 transition-all line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">{productProps?.product?.name}</Link>
+            <Link to="products/324987fui32" className="text-center px-3 transition-all line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">hi</Link>
 
             <div className="grid grid-cols-4 gap-2 ch:bg-primary-black ch:rounded-md ch-gap-1">
 

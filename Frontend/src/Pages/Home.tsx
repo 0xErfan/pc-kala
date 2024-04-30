@@ -16,7 +16,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useNavigate } from 'react-router-dom';
 import { fetchData } from '../utils';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
 
@@ -67,7 +67,7 @@ export default function Home() {
                 <BlockTitle Icon={<BsLaptop />} title="پرفروش ترین ها" url="/" />
                 <Slider>
                     {
-                        [...laptops as []].map((data) => <SwiperSlide key={data.id}><Product key={data?.id} {...data} /></SwiperSlide>)
+                        [23, 443, 354, 4, 1].map((data) => <SwiperSlide key={data}><Product key={data} /></SwiperSlide>)
                     }
                 </Slider>
             </div>
