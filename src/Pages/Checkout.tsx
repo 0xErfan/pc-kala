@@ -3,7 +3,6 @@ import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { Input } from "../components/Input"
 import { Link } from "react-router-dom"
-import { CgFileDocument } from "react-icons/cg"
 import Progress from "../components/Progress"
 
 interface TableDataProps {
