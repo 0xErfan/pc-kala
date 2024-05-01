@@ -1,9 +1,9 @@
-import Footer from "../components/Footer"
-import Header from "../components/Header"
-import ProductCart from "../components/ProductCart";
-import Button from "../components/Button";
-import Progress from "../components/Progress";
-import { Link } from "react-router-dom";
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
+import ProductCart from "@/components/ProductCart";
+import Button from "@/components/Button";
+import Progress from "@/components/Progress";
+import Link from "next/link";
 
 const Card = () => {
 
@@ -103,7 +103,7 @@ const Card = () => {
                             </div>
 
 
-                            <Link to={'/checkout'}><Button filled text="ادامه جهت تسویه حساب" fn={() => { }} /></Link>
+                            <Link href={'/checkout'}><Button filled text="ادامه جهت تسویه حساب" fn={() => { }} /></Link>
 
                         </div>
                     </div>

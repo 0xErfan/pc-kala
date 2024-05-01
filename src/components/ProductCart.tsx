@@ -1,5 +1,5 @@
 import { IoClose } from "react-icons/io5"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 
 export interface ProductCartProps {
     price: number
@@ -29,7 +29,7 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
 
                     </div>
 
-                    <Link to={`/product/${id}`} className="sm:flex-[8] hover:text-blue-white transition-all duration-200 cursor-pointer h-full m-auto text-title-text px-2 last:border-none">{title}</Link>
+                    <Link href={`/product/${id}`} className="sm:flex-[8] hover:text-blue-white transition-all duration-200 cursor-pointer h-full m-auto text-title-text px-2 last:border-none">{title}</Link>
                 </div>
 
             </div>
@@ -39,7 +39,7 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
                 <td className="flex ch:border-l ch:border-dark-gold">
                     <div className="flex-1 cursor-pointer flex-center border-r border-dark-gold"><IoClose className="size-6 rounded-sm bg-primary-black p-1" /></div>
                     <div className="flex-[2] size-20"><img alt={title} className="object-cover size-full p-1" src={src} /></div>
-                    <Link to={`/product/${id}`} className="flex-[8] hover:text-blue-white transition-all duration-200 cursor-pointer h-full m-auto text-title-text px-2 last:border-none">{title}</Link>
+                    <Link href={`/product/${id}`} className="flex-[8] hover:text-blue-white transition-all duration-200 cursor-pointer h-full m-auto text-title-text px-2 last:border-none">{title}</Link>
                 </td>
 
                 <td><span className="text-white-red">{price}</span> تومان</td>

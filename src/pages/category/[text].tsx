@@ -1,10 +1,10 @@
-import BlockTitle from "../components/BlockTitle";
-import BreadCrumb from "../components/BreadCrumb";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
+import BlockTitle from "@/components/BlockTitle";
+import BreadCrumb from "@/components/BreadCrumb";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import { BsSortDown } from "react-icons/bs";
 import { HiOutlineClipboardList } from "react-icons/hi";
-import Product from "../components/Product";
+import Product from "@/components/Product";
 import { useState } from "react";
 
 const ProductCategory = () => {
@@ -42,7 +42,7 @@ const ProductCategory = () => {
                     <div className="text-[11px] flex justify-between overflow-auto gap-6 items-center rounded-md p-3 bg-secondary-black">
                         <div className="flex items-center gap-5">
                             <div className="flex items-center flex-nowrap gap-2 text-white">
-                                <BsSortDown className="size-6"/>
+                                <BsSortDown className="size-6" />
                                 <p>مرتب سازی : </p>
                             </div>
                             <ul className="flex items-center text-description-text gap-6 select-none">

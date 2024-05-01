@@ -1,4 +1,4 @@
-import Footer from "../components/Footer"
+import Footer from "@/components/Footer"
 import { IoSearch, IoShareSocialOutline } from "react-icons/io5";
 import { FiMinus } from "react-icons/fi";
 import { LuPlus } from "react-icons/lu";
@@ -8,14 +8,15 @@ import { TbListDetails } from "react-icons/tb";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { BsFilterLeft } from "react-icons/bs";
 import { GrGroup } from "react-icons/gr";
-import Button from "../components/Button";
+import Button from "@/components/Button";
 import { memo, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import Comment from "../components/Comment";
-import Header from "../components/Header";
-import { getTimer, productOffTimerProps } from "../utils.ts";
-import BreadCrumb from "../components/BreadCrumb.tsx";
+import Link from "next/link";
+import Comment from "@/components/Comment";
+import Header from "@/components/Header";
+import { getTimer, productOffTimerProps } from '@/utils'
+import BreadCrumb from "@/components/BreadCrumb";
 import { MdClose } from "react-icons/md";
+
 interface coordinates {
     x: number
     y: number
@@ -318,7 +319,7 @@ export default memo(function Product() {
                                             “لپ تاپ لنوو IdeaPad GAMING3 i7-11370H/32GB/1TB/GTX 1650-4G”</p>
                                         {
                                             ("") ?
-                                                <div className="text-center mt-12">برای ثبت نظر ابتدا <Link to="/login"
+                                                <div className="text-center mt-12">برای ثبت نظر ابتدا <Link href="/login"
                                                     className="text-blue-dark">وارد
                                                     حساب </Link>خود شوید.</div>
                                                 :
@@ -424,7 +425,7 @@ export default memo(function Product() {
 
 const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImageProps) => (
     <div
-        onClick={e => e.target.tagName == 'DIV' && closeFullScreenFn()}
+        // onClick={e => e.target.tagName == 'DIV' && closeFullScreenFn()}
         className={`fixed inset-0 w-full ${isShown ? 'fixed' : 'invisible'} bg-transparent px-3 sm:p-0 transition-all duration-200 ease-linear backdrop-blur-sm z-50 flex-center`}
     >
         <img className="object-cover bg-primary-black rounded-md cursor-zoom-in size-[350px] sm:size-[400px] md:size-[500px] lg:size-[600px]" src={url} alt="full-screen-image" />

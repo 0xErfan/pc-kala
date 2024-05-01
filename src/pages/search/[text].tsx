@@ -1,16 +1,18 @@
-import Header from "../components/Header.tsx";
-import BlockTitle from "../components/BlockTitle.tsx";
-import Footer from "../components/Footer.tsx";
+import Header from "@/components/Header";
+import BlockTitle from "@/components/BlockTitle";
+import Footer from "@/components/Footer";
 import { GrFormSearch } from "react-icons/gr";
-import Product from "../components/Product.tsx";
-import Button from "../components/Button.tsx";
-import { useNavigate, useParams } from "react-router-dom";
-import BreadCrumb from "../components/BreadCrumb.tsx";
+import Product from "@/components/Product";
+import Button from "@/components/Button";
+import BreadCrumb from "@/components/BreadCrumb";
+import { useRouter } from "next/router";
 
 const Search = () => {
 
-    const navigate = useNavigate()
-    const params = useParams()
+    const navigate = useRouter()
+    const params = navigate.query
+
+    console.log(params)
 
     const breadCrumbData = [
         { text: "جستجو", link: `/search/${params?.text}` },
@@ -44,13 +46,13 @@ const Search = () => {
                             >نتیجه
                                 ای برای {`" ${params.text} "`} یافت نشد
                             </div>
-                            <Button text={"بازگشت"} fn={() => navigate("/")} />
+                            <Button text={"بازگشت"} fn={() => navigate.replace("/")} />
                         </div>
                 }
 
                 <div className={"h-60"}></div>
             </div>
-            
+
             <Footer />
         </section>
     );

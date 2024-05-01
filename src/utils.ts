@@ -1,4 +1,4 @@
-import iziToast from "izitoast"
+// import iziToast from "izitoast"
 
 export interface productOffTimerProps {
     hours: number | string
@@ -64,14 +64,14 @@ const fetchData = async<T>(url: string, options?: FetchOptions): Promise<FetchRe
 
 const showToast = (status: boolean, message: string) => {
 
-    iziToast.show({
-        message,
-        position: 'topLeft',
-        color: status ? '#22c55e' : '#ef4444',
-        messageColor: '#fff',
-        messageSize: '17',
-        transitionIn: 'bounceInRight',
-    });
+    // iziToast.show({
+    //     message,
+    //     position: 'topLeft',
+    //     color: status ? '#22c55e' : '#ef4444',
+    //     messageColor: '#fff',
+    //     messageSize: '17',
+    //     transitionIn: 'bounceInRight',
+    // });
 }
 
 const priceDiscountCalculator = (price: number, discount: number) => {

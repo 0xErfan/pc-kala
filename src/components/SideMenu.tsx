@@ -3,8 +3,8 @@ import { IoClose, IoReorderThree, IoSearch } from 'react-icons/io5'
 import Category from './Category'
 import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlinePhoneAndroid } from 'react-icons/md'
-import { Link } from 'react-router-dom';
 import Button from './Button';
+import Link from 'next/link';
 
 const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideMenu"), changeTypeFn: () => true }) => {
 
@@ -46,7 +46,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                                 <div className='flex-1'><img className='object-cover size-full' src="/images/victus-15.webp" /></div>
 
                                                 <div className='flex-[2]'>
-                                                    <Link to="/" className='line-clamp-3 transition-all duration-300 hover:text-white-red'>AN515-46-1 لپ تاپ ایسر ACER Nitro 5 AN515-46 R7-6800H/16G/1TB SSD/3070Ti-8G</Link>
+                                                    <Link href="/" className='line-clamp-3 transition-all duration-300 hover:text-white-red'>AN515-46-1 لپ تاپ ایسر ACER Nitro 5 AN515-46 R7-6800H/16G/1TB SSD/3070Ti-8G</Link>
                                                     <p className='text-[15px] p-1 text-title-text'>{1} × <span className='text-white-red'>{71_580_634}</span> تومان</p>
                                                 </div>
                                             </div>

@@ -1,11 +1,11 @@
-import { Link } from "react-router-dom"
+import Link from "next/link"
 
 const Register = () => {
 
     return (
         <section className="flex-center h-screen px-5">
 
-            <Link className="py-3 px-5 font-peyda absolute top-8 bg-black text-white rounded-md left-8" to="/">بازگشت</Link>
+            <Link className="py-3 px-5 font-peyda absolute top-8 bg-black text-white rounded-md left-8" href="/">بازگشت</Link>
 
             <div className="max-w-[400px] m-auto shadow-regular w-full overflow-hidden rounded-[47px] p-2">
 
@@ -33,7 +33,7 @@ const Register = () => {
                     <div className="px-2"><input className="text-white bg-black rounded-xl text-center text-xl font-peyda p-3 w-full cursor-pointer mt-12" type="submit" value="ثبت نام" /></div>
                 </form>
 
-                <div className="text-[13px] m-auto pb-2 text-gray-600 text-center">حساب کاربری دارید؟ <Link className="text-black underline font-bold" to="/login">وارد شوید</Link></div>
+                <div className="text-[13px] m-auto pb-2 text-gray-600 text-center">حساب کاربری دارید؟ <Link className="text-black underline font-bold" href="/login">وارد شوید</Link></div>
             </div>
 
         </section>

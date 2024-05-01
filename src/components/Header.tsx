@@ -3,19 +3,20 @@ import { CiShoppingBasket } from "react-icons/ci";
 import { FaRegUser } from "react-icons/fa";
 import { MdPhoneInTalk } from "react-icons/md";
 import Category from "./Category";
-import { Link, useNavigate } from "react-router-dom";
 import SideMenu from "./SideMenu";
 import { useRef, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Header() {
 
     const [sideMenuDataToShow, setSideMenuDataToShow] = useState<"basket" | "sideMenu">("sideMenu")
-    const navigate = useNavigate()
+    const navigate = useRouter()
     const textInputElem = useRef<HTMLInputElement | null>(null)
 
     const globalSearch = () => {
         const searchValue = textInputElem.current?.value.trim()
-        searchValue?.length && navigate(`/search/${searchValue}`)
+        searchValue?.length && navigate.push(`/search/${searchValue}`)
     }
 
     return (
@@ -25,7 +26,7 @@ export default function Header() {
             <div className="hidden md:block bg-secondary-black py-4">
 
                 <div className="container flex items-center m-auto justify-between w-full">
-                    <Link to="/" className="max-w-[200px]"><img className="object-cover w-full h-full "
+                    <Link href="/" className="max-w-[200px]"><img className="object-cover w-full h-full "
                         src="/images/home/title.webp"
                         alt="pc-kala-shop" /></Link>
 
@@ -55,7 +56,7 @@ export default function Header() {
                         </div>
 
                         <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
-                            <Link to="/profile"><FaRegUser /></Link>
+                            <Link href="/profile"><FaRegUser /></Link>
                             <div className="cursor-pointer" onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span
@@ -85,7 +86,7 @@ export default function Header() {
 
                     <SideMenu changeTypeFn={() => { setSideMenuDataToShow("sideMenu"); return true }} dataToShow={sideMenuDataToShow} />
 
-                    <Link to="/" className="max-w-[200px]"><img
+                    <Link href="/" className="max-w-[200px]"><img
                         className="object-cover w-full h-full"
                         src="/images/home/title.webp"
                         alt="pc-kala-shop" />
@@ -95,7 +96,7 @@ export default function Header() {
 
                         <div
                             className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] sm:ch:ch:size-9 ch:ch:size-8 ch:ch:p-2">
-                            <Link to="/profile"><FaRegUser /></Link>
+                            <Link href="/profile"><FaRegUser /></Link>
                             <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span

@@ -1,9 +1,9 @@
 import { ReactNode, useState } from "react"
-import Header from "../components/Header"
-import Footer from "../components/Footer"
-import { Input } from "../components/Input"
-import { Link } from "react-router-dom"
-import Progress from "../components/Progress"
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
+import { Input } from "@/components/Input"
+import Link from "next/link"
+import Progress from "@/components/Progress"
 
 interface TableDataProps {
     children: ReactNode,
@@ -63,43 +63,36 @@ const Checkout = () => {
                         <div data-aos-duration="550" data-aos="fade-right" className="flex-1 mb-auto space-y-4">
                             <h3 className="text-white py-4">سفارش شما</h3>
 
-                            <div className="border border-gold/25 rounded-md">
+                            <table className="w-full border border-gold/25 rounded-md text-description-text">
 
-                                <table className="w-full text-description-text">
+                                <thead className="bg-primary-black text-[12px]">
+                                    <tr>
+                                        <td className={`p-4`}>محصول</td>
+                                        <td>جمع جزء</td>
+                                    </tr>
+                                </thead>
 
-                                    <thead className="bg-primary-black text-[12px]">
-                                        <tr>
-                                            <td className={`p-4`}>محصول</td>
-                                            <td>جمع جزء</td>
-                                        </tr>
-                                    </thead>
+                                <tbody>
 
-                                    <tbody>
+                                    {[2, 4, 43, 5].map(data => <tr key={data} className={"border border-gray-600"}>
+                                        <td className={`p-4 text-[12px] text-[#8b8b8b]`}>لپ تاپ ایسوس ROG Flow
+                                            X16-GV601VV-AE i9-13900H/64GB/2TB/RTX4070-8G - گارانتی 18 ماهه شرکتی × 1
+                                        </td>
+                                        <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}><span
+                                            className={"text-blue-white"}>162,283,869</span> تومان
+                                        </td>
+                                    </tr>)}
 
-                                        {[2, 4, 43, 5].map(data => <tr key={data} className={"border border-gray-600"}>
-                                            <td className={`p-4 text-[12px] text-[#8b8b8b]`}>لپ تاپ ایسوس ROG Flow
-                                                X16-GV601VV-AE i9-13900H/64GB/2TB/RTX4070-8G - گارانتی 18 ماهه شرکتی × 1
-                                            </td>
-                                            <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}><span
-                                                className={"text-blue-white"}>162,283,869</span> تومان
-                                            </td>
-                                        </tr>)}
+                                    <TableData title={"جمع جزء"}><div><span className={"text-blue-white"}>2343425</span> تومان</div></TableData>
 
-                                        <TableData
-                                            children={<div><span className={"text-blue-white"}>2343425</span> تومان</div>}
-                                            title={"جمع جزء"} />
-                                        <TableData
-                                            children={<p className={"max-w-70 text-wrap"}>ارسال توسط تیپاکس، اتوبوس، باربری
-                                                به تشخیص فروشگاه (پس کرایه)</p>} title={"حمل و نقل"} />
-                                        <TableData children={<p className={"max-w-70 text-wrap"}><span
-                                            className={"text-blue-white"}>29,792,683</span> تومان</p>}
-                                            title={"مجموع"} />
+                                    <TableData title={"حمل و نقل"}><p className={"max-w-70 text-wrap"}>ارسال توسط تیپاکس، اتوبوس، باربری به تشخیص فروشگاه (پس کرایه)</p></TableData>
 
-                                    </tbody>
+                                    <TableData title={"مجموع"}><p className={"max-w-70 text-wrap"}><span className={"text-blue-white"}>29,792,683</span> تومان</p></TableData>
 
-                                </table>
-                            </div>
+                                </tbody>
 
+                            </table>
+                            
                             <p className="border leading-[32px] text-description-text rounded-md border-gold/25 p-3">مشتری
                                 عزیز، محصولاتی که بالای 100 میلیون تومان هستند با درگاه پرداخت نمی توان آن ها را پرداخت
                                 کرد، لطفا برای گرفتن شماره حساب و یا راهنمایی بیشتر با شماره های 90909090909 ،
@@ -108,12 +101,12 @@ const Checkout = () => {
                             <div className="text-description-text rounded-md p-3">
                                 <div className="flex items-center gap-2">
                                     <input type="checkbox" />
-                                    <p className="text-gray-500 text-[12px]">من <Link to="/"
+                                    <p className="text-gray-500 text-[12px]">من <Link href="/"
                                         className="text-white hover:text-blue-dark transition-all">شرایط
                                         و مقررات</Link> سایت را خوانده ام و آن را می پذیرم. </p>
                                 </div>
                             </div>
-                            <Link to='/success-purchase'><button className=" w-full rounded-md p-3 text-center text-white bg-white-red">ثبت سفارش</button></Link>
+                            <Link href='/success-purchase'><button className=" w-full rounded-md p-3 text-center text-white bg-white-red">ثبت سفارش</button></Link>
                         </div>
                     </div>
                 </div>

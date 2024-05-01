@@ -5,7 +5,7 @@ const Progress = () => {
 
     const [routeParam, setRouteParam] = useState("")
 
-    useEffect(() => { setRouteParam(location.pathname) }, [location.pathname])
+    useEffect(() => { setRouteParam(location.pathname) }, [])
 
     const progressPercentage: number = routeParam == '/checkout' ? 2 : routeParam == '/success-purchase' ? 3 : 1
 

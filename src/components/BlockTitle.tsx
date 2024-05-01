@@ -1,7 +1,6 @@
 import {ReactNode} from 'react'
 import {FaAngleLeft} from 'react-icons/fa'
-import {Link} from 'react-router-dom'
-
+import Link from 'next/link'
 type BlockTitleProps = { title: string, Icon: ReactNode, url?: string }
 
 const BlockTitle = ({title, url, Icon}: BlockTitleProps) => {
@@ -20,7 +19,7 @@ const BlockTitle = ({title, url, Icon}: BlockTitleProps) => {
                 url &&
                 <div
                     className="bg-description-text text-[10px] p-[6px] relative px-3 flex items-center gap-1 rounded-full cursor-pointer">
-                    <Link to={url} className="">مشاهده همه</Link>
+                    <Link href={url} className="">مشاهده همه</Link>
                     <FaAngleLeft className="size-4 text-blue-dark z-20"/>
                 </div>
             }

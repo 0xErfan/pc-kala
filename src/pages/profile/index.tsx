@@ -1,5 +1,5 @@
-import Footer from "../components/Footer"
-import Header from "../components/Header"
+import Footer from "@/components/Footer"
+import Header from "@/components/Header"
 import { CiEdit } from "react-icons/ci";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
@@ -8,10 +8,10 @@ import { IoExitOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
 import { ReactNode, useEffect, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
-import Button from "../components/Button";
-import LikedProduct from "../components/LikedProduct";
-import UserPanelTemplate from "../components/UserPanelTemplate";
-import UserDataUpdater from "../components/UserDataUpdater"
+import Button from "@/components/Button";
+import LikedProduct from "@/components/LikedProduct";
+import UserPanelTemplate from "@/components/UserPanelTemplate";
+import UserDataUpdater from "@/components/UserDataUpdater"
 
 interface orderStatusProps {
     count: number
