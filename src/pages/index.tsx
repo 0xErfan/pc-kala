@@ -1,6 +1,6 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
-// import 'izitoast/dist/css/iziToast.min.css'
+import 'izitoast/dist/css/iziToast.min.css'
 
 import Button from "../components/Button";
 import BlockTitle from "../components/BlockTitle";

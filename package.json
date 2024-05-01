@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -11,7 +11,9 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
     "@types/aos": "^3.0.7",
+    "@types/bcrypt": "^5.0.2",
     "aos": "^2.3.4",
+    "bcrypt": "^5.1.1",
     "install": "^0.13.0",
     "izitoast": "^1.4.0",
     "mongoose": "^8.3.3",

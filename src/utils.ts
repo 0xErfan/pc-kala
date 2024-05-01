@@ -1,5 +1,6 @@
 // import iziToast from "izitoast"
 
+
 export interface productOffTimerProps {
     hours: number | string
     days: number | string
@@ -83,5 +84,5 @@ export {
     getTimer,
     fetchData,
     showToast,
-    priceDiscountCalculator
+    priceDiscountCalculator,
 }
