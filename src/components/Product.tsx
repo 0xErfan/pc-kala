@@ -3,11 +3,12 @@ import { FaRegHeart } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
 import { priceDiscountCalculator } from "../utils";
+import { useState } from "react";
 
 const Product = (productProps: unknown) => {
 
-    const discount = Math.ceil(Math.random() * 55)
-    const originalPrice = 3425546436
+    const [discount] = useState(Math.ceil(Math.random() * 55))
+    const originalPrice = 53_432_235
     const priceAfterOff = priceDiscountCalculator(originalPrice, discount)
 
     return (
@@ -15,7 +16,7 @@ const Product = (productProps: unknown) => {
 
             <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">{discount.toLocaleString('fa-Ir')}٪</div>
 
-            <Link href="/products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src={'images/victus-15.webp'} alt="product-name" /></Link>
+            <Link href="/products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src={'/images/victus-15.webp'} alt="product-name" /></Link>
 
             <div className="flex items-center gap-3 justify-center text-title-text text-sm">
                 <div className="red-line-through text-white ">{Number(originalPrice).toLocaleString('fa-Ir')}</div>
@@ -40,4 +41,4 @@ const Product = (productProps: unknown) => {
     )
 }
 
-export default Product
+export default Product;

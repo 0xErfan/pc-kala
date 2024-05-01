@@ -16,6 +16,9 @@ import Header from "@/components/Header";
 import { getTimer, productOffTimerProps } from '@/utils'
 import BreadCrumb from "@/components/BreadCrumb";
 import { MdClose } from "react-icons/md";
+import { AppContext } from "next/app";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
+import { Props } from "next/script";
 
 interface coordinates {
     x: number
@@ -28,7 +31,7 @@ interface FullScreenImageProps {
     closeFullScreenFn: () => void
 }
 
-export default memo(function Product() {
+export default function Product({ data }: { data: {} }) {
 
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
@@ -421,14 +424,36 @@ export default memo(function Product() {
     )
 
 
-})
+}
 
 const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImageProps) => (
     <div
-        // onClick={e => e.target.tagName == 'DIV' && closeFullScreenFn()}
+        onClick={e => e.target instanceof HTMLDivElement && e.target.tagName == 'DIV' && closeFullScreenFn()}
         className={`fixed inset-0 w-full ${isShown ? 'fixed' : 'invisible'} bg-transparent px-3 sm:p-0 transition-all duration-200 ease-linear backdrop-blur-sm z-50 flex-center`}
     >
         <img className="object-cover bg-primary-black rounded-md cursor-zoom-in size-[350px] sm:size-[400px] md:size-[500px] lg:size-[600px]" src={url} alt="full-screen-image" />
         <div onClick={closeFullScreenFn} className="size-12 absolute bg-white-red ch:size-8 ch:cursor-pointer right-8 top-8 rounded-md flex-center"><MdClose /></div>
     </div>
 );
+
+export async function getStaticProps({ params }: { params: Params }) {
+
+    console.log(params)
+
+    return {
+        props: {
+            data: {
+                name: 'erfan',
+                lname: 'eftekhari',
+                query: params
+            }
+        }
+    }
+}
+
+export async function getStaticPaths() {
+
+    const paths = [1, 2, 3, 4, 5, 6, "324987fui32"].map(data => ({ params: { id: String(data) } }))
+
+    return { paths, fallback: true }
+}

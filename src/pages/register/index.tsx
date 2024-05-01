@@ -2,6 +2,8 @@ import Link from "next/link"
 
 const Register = () => {
 
+    
+
     return (
         <section className="flex-center h-screen px-5">
 
