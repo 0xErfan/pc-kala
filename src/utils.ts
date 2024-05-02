@@ -75,11 +75,12 @@ const showToast = (status: boolean, message: string, duration: number = 2500) =>
                 fontFamily: 'peyda',
                 backgroundColor: '#292A2D',
                 color: '#e3e3e3',
-                fontSize: '18px',
+                fontSize: '17px',
                 padding: '9px',
                 border: `2px solid #${status ? '16723A' : 'FD0019'}`,
                 borderRadius: '6px',
                 zIndex: '999999',
+                wordSpacing: '4px'
             }
         }
     )

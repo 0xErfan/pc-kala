@@ -7,26 +7,27 @@ import { tokenGenerator } from "@/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'POST') return res.status(421).json({ message: 'This route can be accessed with post request!' })
+    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request!" })
 
     try {
         connectToDB()
 
-        const { username, email, password } = req.body
-        const userData = await UserModel.findOne({ $or: [{ username }, { email }] })
+        const { payload, password } = req.body
+        const userData = await UserModel.findOne({ $or: [{ username: payload }, { email: payload }] })
 
-        if (!userData) return res.status(401).json({ message: 'This username or email does not exist' })
+        if (!userData) return res.status(401).json({ message: 'کاربری با این نام کاربری/ایمیل یافت نشد' })
 
-        if (! await compare(password, userData.password)) return res.status(401).json({ message: 'Incorrect username or password' })
+        if (! await compare(password, userData.password)) return res.status(401).json({ message: 'نام کاربری یا ایمیل با رمز وارد شده مطابقت ندارد' })
 
         const token = tokenGenerator(userData.email, 7)
 
         return res
             .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 6 }))
-            .status(201).json({ message: 'You logged in successfully :))', userData, token })
+            .status(201).json(userData)
 
     } catch (err) {
-        return res.status(421).json({ message: 'Serverside error occurred => ', err })
+        console.log(err)
+        return res.status(421).json({ message: 'خطای ناشناخته / بعدا تلاش کنید' })
     }
 }
 

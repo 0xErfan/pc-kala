@@ -1,7 +1,7 @@
 import { showToast } from "@/utils"
 import Link from "next/link"
 import { useRouter } from "next/router"
-import { FormEvent , useState } from "react"
+import { FormEvent, useState } from "react"
 import toast from "react-hot-toast"
 
 const Login = () => {
@@ -22,9 +22,10 @@ const Login = () => {
                 body: JSON.stringify(loginForm)
             })
 
-            if (!res.ok) { throw new Error('res?.message') }
-
             const data = await res.json()
+
+            if (!res.ok) { showToast(false, data.message, 3200); return }
+
             showToast(true, 'ورود با موفقیت انجام شد :))')
 
         } catch (error) { showToast(false, String(error)) }
@@ -32,7 +33,7 @@ const Login = () => {
 
     return (
 
-        <section className="flex-center h-screen px-5">
+        <section className="flex-center h-screen px-5 bg-title-text">
 
             <Link className="py-3 px-5 font-peyda absolute top-8 bg-black text-white rounded-md left-8" href="/">بازگشت</Link>
 
@@ -40,13 +41,13 @@ const Login = () => {
 
                 <div className="h-[200px] bg-black rounded-t-[40px] text-center flex-center"><div className="text-[30px] pb-16 text-white font-peyda">ورود</div></div>
 
-                <form onSubmit={formSubmit} className="bg-white relative pt-12 rounded-tl-[40px] px-2 bottom-12">
+                <form onSubmit={formSubmit} className="bg-title-text relative pt-12 rounded-tl-[40px] px-2 bottom-12">
 
                     <div className="flex flex-col p-2 text-[13px] gap-2">
-                        <label className="text-black mr-6 font-bold" htmlFor="name">نام کاربری</label>
+                        <label className="text-black mr-6 font-bold" htmlFor="name">نام کاربری یا ایمیل</label>
                         <input
-                            value={loginForm?.username}
-                            onChange={e => formUpdater("username", e.target.value)}
+                            value={loginForm?.payload ?? ''}
+                            onChange={e => formUpdater("payload", e.target.value)}
                             className="p-3 input-shadow rounded-lg placeholder:text-[12px] text-[15px] text-gray-500 outline-none"
                             type="text"
                             placeholder="نام کاربری / ایمیل" />
@@ -55,7 +56,7 @@ const Login = () => {
                     <div className="flex flex-col p-2 text-[13px] gap-2">
                         <label className="text-black mr-6 font-bold" htmlFor="name">رمز عبور</label>
                         <input
-                            value={loginForm?.password}
+                            value={loginForm?.password ?? ''}
                             onChange={e => formUpdater("password", e.target.value)}
                             className="p-3 input-shadow rounded-lg placeholder:text-[12px] text-[15px] text-gray-500 outline-none"
                             type="text"

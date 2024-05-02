@@ -5,7 +5,7 @@ const Register = () => {
     
 
     return (
-        <section className="flex-center h-screen px-5">
+        <section className="flex-center h-screen px-5 bg-title-text">
 
             <Link className="py-3 px-5 font-peyda absolute top-8 bg-black text-white rounded-md left-8" href="/">بازگشت</Link>
 
@@ -13,7 +13,7 @@ const Register = () => {
 
                 <div className="h-[200px] bg-black rounded-t-[40px] text-center flex-center"><div className="text-[30px] pb-16 text-white font-peyda">ثبت نام</div></div>
 
-                <form className="bg-white relative pt-12 rounded-tl-[40px] px-2 bottom-12">
+                <form className="bg-title-text relative pt-12 rounded-tl-[40px] px-2 bottom-12">
 
                     <div className="flex flex-col p-2 text-[13px] gap-2">
                         <label className="text-black mr-6 font-bold" htmlFor="name">نام کاربری</label>

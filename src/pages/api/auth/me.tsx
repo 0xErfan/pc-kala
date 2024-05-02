@@ -20,11 +20,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userData = await UserModel.findOne({ email: verifiedToken._doc.email })
 
-        if (!userData) return res.status(401).json({ message: 'No user exist with this username or password!', verifiedToken })
+        if (!userData) return res.status(401).json({ message: 'No user exist with this username or password!' })
 
-        return res.status(200).json({ userData })
+        return res.status(200).json(userData)
 
-    } catch (err) { return res.status(421).json({ message: 'Serverside error occurred => ', err }) }
+    } catch (err) {
+        console.log(err)
+        return res.status(421).json({ message: 'خطای ناشناخته / بعدا تلاش کنید' })
+    }
 }
 
 export default handler;

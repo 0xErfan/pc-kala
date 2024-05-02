@@ -1,21 +1,19 @@
 import connectToDB from "@/config/db";
 import UserModel from "@/model/User";
 import { hash } from "bcrypt";
-import { Secret, sign } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
 import { tokenGenerator } from "@/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'POST') return res.status(421).json({ message: 'This route can be acceessed with post request!' })
+    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be acceessed without POST request!" })
 
     try {
         connectToDB()
 
-        const password = await hash(req.body.password, 12)
-
         const { name, username, email, lastname } = req.body
+        const password = await hash(req.body.password, 12)
 
         const userData = await UserModel.create({ name, username, email, password, lastname })
 
@@ -23,9 +21,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         return res
             .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 6 }))
-            .status(201).json({ message: 'You signedUp successfully :))', userData, token })
+            .status(201).json(userData)
 
-    } catch (err) { return res.status(421).json({ message: 'Serverside error occurred => ', err }) }
+    } catch (err) {
+        console.log(err)
+        return res.status(421).json({ message: 'خطای ناشناخته / بعدا تلاش کنید' })
+    }
 }
 
 export default handler;
