@@ -1,4 +1,4 @@
-import connetToDB from "@/config/db";
+import connectToDB from "@/config/db";
 import UserModel from "@/model/User";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
 
-        connetToDB()
+        connectToDB()
 
         const { email, username } = req.body
         const userData = await UserModel.findOne({ $or: [{ email }, { username }] })

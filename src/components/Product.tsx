@@ -4,6 +4,7 @@ import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
 import { priceDiscountCalculator } from "../utils";
 import { useState } from "react";
+import Image, { ImageLoader } from "next/image";
 
 const Product = (productProps: unknown) => {
 
@@ -16,7 +17,9 @@ const Product = (productProps: unknown) => {
 
             <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">{discount.toLocaleString('fa-Ir')}٪</div>
 
-            <Link href="/products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src={'/images/victus-15.webp'} alt="product-name" /></Link>
+            <Link href="/products/324987fui32">
+                <Image width={500} height={500} alt="product-name" blurDataURL="true" src='/images/victus-15.webp' className="m-auto object-cover my-3 cursor-pointer" />
+            </Link>
 
             <div className="flex items-center gap-3 justify-center text-title-text text-sm">
                 <div className="red-line-through text-white ">{Number(originalPrice).toLocaleString('fa-Ir')}</div>

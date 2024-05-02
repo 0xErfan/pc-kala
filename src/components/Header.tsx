@@ -7,6 +7,7 @@ import SideMenu from "./SideMenu";
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 export default function Header() {
 
@@ -26,9 +27,16 @@ export default function Header() {
             <div className="hidden md:block bg-secondary-black py-4">
 
                 <div className="container flex items-center m-auto justify-between w-full">
-                    <Link href="/" className="max-w-[200px]"><img className="object-cover w-full h-full "
-                        src="/images/home/title.webp"
-                        alt="pc-kala-shop" /></Link>
+                    <Link href="/" className="max-w-[200px] relative">
+                        <Image
+                            alt="pc-kala-shop"
+                            src='/images/home/title.webp'
+                            width={300}
+                            height={100}
+                            className="object-cover"
+                            quality={85}
+                        />
+                    </Link>
 
                     <SideMenu
                         changeTypeFn={() => {
@@ -86,10 +94,16 @@ export default function Header() {
 
                     <SideMenu changeTypeFn={() => { setSideMenuDataToShow("sideMenu"); return true }} dataToShow={sideMenuDataToShow} />
 
-                    <Link href="/" className="max-w-[200px]"><img
-                        className="object-cover w-full h-full"
-                        src="/images/home/title.webp"
-                        alt="pc-kala-shop" />
+                    <Link href="/" className="max-w-[200px]">
+                        <Image
+                            alt="pc-kala-shop"
+                            src='/images/home/title.webp'
+                            width={150}
+                            height={50}
+                            className="object-cover"
+                            quality={85}
+                            blurDataURL="true"
+                        />
                     </Link>
 
                     <div className="flex-center gap-12 text-description-text ">

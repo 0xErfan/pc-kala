@@ -1,4 +1,4 @@
-import connetToDB from "@/config/db";
+import connectToDB from "@/config/db";
 import UserModel from "@/model/User";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'POST') return res.status(421).json({ message: 'This route can be acceessed with post request!' })
 
     try {
-        connetToDB()
+        connectToDB()
 
         const password = await hash(req.body.password, 12)
 
