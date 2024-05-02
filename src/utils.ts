@@ -1,5 +1,5 @@
-// import iziToast from "izitoast"
-
+import { Secret, sign, verify } from "jsonwebtoken"
+import toast from "react-hot-toast"
 
 export interface productOffTimerProps {
     hours: number | string
@@ -63,16 +63,26 @@ const fetchData = async<T>(url: string, options?: FetchOptions): Promise<FetchRe
     return response;
 };
 
-const showToast = (status: boolean, message: string) => {
-
-    // iziToast.show({
-    //     message,
-    //     position: 'topLeft',
-    //     color: status ? '#22c55e' : '#ef4444',
-    //     messageColor: '#fff',
-    //     messageSize: '17',
-    //     transitionIn: 'bounceInRight',
-    // });
+const showToast = (status: boolean, message: string, duration: number = 2500) => {
+    toast[status ? 'success' : 'error'](message,
+        {
+            position: "top-right",
+            duration,
+            style: {
+                display: 'flex',
+                flexDirection: 'row-reverse',
+                alignItems: 'cneter',
+                fontFamily: 'peyda',
+                backgroundColor: '#292A2D',
+                color: '#e3e3e3',
+                fontSize: '18px',
+                padding: '9px',
+                border: `2px solid #${status ? '16723A' : 'FD0019'}`,
+                borderRadius: '6px',
+                zIndex: '999999',
+            }
+        }
+    )
 }
 
 const priceDiscountCalculator = (price: number, discount: number) => {
@@ -80,9 +90,15 @@ const priceDiscountCalculator = (price: number, discount: number) => {
     return priceAfterDiscount.toLocaleString('fa-Ir')
 }
 
+const tokenDecoder = (token: string) => verify(token, process.env.secretKey as Secret)
+
+const tokenGenerator = (data: object, days: number = 7) => sign({ email: data }, process.env.secretKey as Secret, { expiresIn: 60 * 60 * 24 * days })
+
 export {
     getTimer,
     fetchData,
     showToast,
     priceDiscountCalculator,
+    tokenDecoder,
+    tokenGenerator
 }

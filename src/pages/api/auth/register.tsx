@@ -1,7 +1,10 @@
 import connectToDB from "@/config/db";
 import UserModel from "@/model/User";
 import { hash } from "bcrypt";
+import { Secret, sign } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
+import { serialize } from "cookie";
+import { tokenGenerator } from "@/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -14,9 +17,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { name, username, email, lastname } = req.body
 
-        const data = await UserModel.create({ name, username, email, password, lastname })
+        const userData = await UserModel.create({ name, username, email, password, lastname })
 
-        return res.status(201).json({ message: 'User created successfully :)', data })
+        const token = tokenGenerator({ email: userData.email }, 7)
+
+        return res
+            .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 6 }))
+            .status(201).json({ message: 'You signedUp successfully :))', userData, token })
+
     } catch (err) { return res.status(421).json({ message: 'Serverside error occurred => ', err }) }
 }
 

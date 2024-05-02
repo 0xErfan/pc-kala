@@ -1,32 +1,33 @@
-import { fetchData } from "@/utils"
+import { showToast } from "@/utils"
 import Link from "next/link"
-import { FormEvent, FormEventHandler, useState } from "react"
+import { useRouter } from "next/router"
+import { FormEvent , useState } from "react"
+import toast from "react-hot-toast"
 
 const Login = () => {
 
     const [loginForm, setLoginFrom] = useState<{ [key: string]: string }>({})
+    const navigate = useRouter()
 
     const formUpdater = (prop: string, value: string) => setLoginFrom({ ...loginForm, [prop]: value })
 
     const formSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        console.log(loginForm)
-
         try {
 
             const res = await fetch('http://localhost:3000/api/auth/login', {
-                headers: { 'Content-Type': 'application/json' },
                 method: "POST",
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(loginForm)
             })
 
-            if (!res.ok) throw new Error(res.status)
+            if (!res.ok) { throw new Error('res?.message') }
 
             const data = await res.json()
-            console.log(data)
+            showToast(true, 'ورود با موفقیت انجام شد :))')
 
-        } catch (error) { console.log('Error acured during fetching data => ', error) }
+        } catch (error) { showToast(false, String(error)) }
     }
 
     return (

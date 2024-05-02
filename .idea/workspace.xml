@@ -5,15 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db879b03-ce06-4925-9a55-6adf72ab0413" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Product.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/db.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/db.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/logout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/logout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/auth/me.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/me.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/auth/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +61,7 @@
       <updated>1714644653904</updated>
       <workItem from="1714644655924" duration="2671000" />
       <workItem from="1714647371266" duration="9000" />
+      <workItem from="1714663197843" duration="8000" />
     </task>
     <servers />
   </component>

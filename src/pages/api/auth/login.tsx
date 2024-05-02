@@ -3,7 +3,7 @@ import UserModel from "@/model/User";
 import { NextApiRequest, NextApiResponse } from "next";
 import { compare } from "bcrypt";
 import { serialize } from "cookie";
-import { Secret, sign } from 'jsonwebtoken'
+import { tokenGenerator } from "@/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -13,13 +13,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         connectToDB()
 
         const { username, email, password } = req.body
-        const userData = await UserModel.findOne({ $or: [ {username}, { email } ] })
+        const userData = await UserModel.findOne({ $or: [{ username }, { email }] })
 
         if (!userData) return res.status(401).json({ message: 'This username or email does not exist' })
 
         if (! await compare(password, userData.password)) return res.status(401).json({ message: 'Incorrect username or password' })
 
-        const token = sign({ ...userData }, process.env.secretKey as Secret, { expiresIn: '6D' })
+        const token = tokenGenerator(userData.email, 7)
 
         return res
             .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 6 }))
