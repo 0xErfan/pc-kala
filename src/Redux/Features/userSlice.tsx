@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const getMe = createAsyncThunk('getMe', async () => {
     const res = await fetch('/api/auth/me')

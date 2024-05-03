@@ -2,7 +2,6 @@ import connectToDB from "@/config/db";
 import UserModel from "@/model/User";
 import { tokenDecoder } from "@/utils";
 import { NextApiRequest, NextApiResponse } from "next";
-import { redirect } from "next/dist/server/api-utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -17,6 +16,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!token) return res.status(401).json({ message: 'You are not loggged in' })
 
         const verifiedToken = tokenDecoder(token)
+
+        console.log('verifyied token: => ', verifiedToken.email)
 
         const userData = await UserModel.findOne({ email: verifiedToken.email })
 

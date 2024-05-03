@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userData = await UserModel.create({ name, username, email, password, lastname })
 
-        const token = tokenGenerator({ email: userData.email }, 7)
+        const token = tokenGenerator(userData.email, 7)
 
         return res
             .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 6 }))
