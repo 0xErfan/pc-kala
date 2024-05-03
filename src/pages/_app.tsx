@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }, [])
 
 
-    if (!isHydrated) return <div className='text-[30px] text-red-600 fixed inset-0 w-full h-screen text-center flex items-center bg-secondary-black justify-center'>Loading...</div>;
+    if (!isHydrated) return <div className='text-[30px] text-red-600 fixed inset-0 w-full h-screen text-center flex items-center bg-secondary-black justify-center'>بروزرسانی...</div>;
 
     return (
         <>

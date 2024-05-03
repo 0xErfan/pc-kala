@@ -101,8 +101,6 @@ const isEmptyInput = (payload: {}, props: string[]) => {
     const actualProps = Object.keys(payload);
     const values = Object.values(payload)
 
-    console.log(actualProps, expectedProps)
-
     if (!values.some(value => String(value).trim().length)) return true
 
     if (expectedProps.some(prop => !actualProps.includes(prop))) true

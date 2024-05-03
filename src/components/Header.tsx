@@ -8,12 +8,14 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useAppSelector } from "@/Hooks/useRedux";
 
 export default function Header() {
 
     const [sideMenuDataToShow, setSideMenuDataToShow] = useState<"basket" | "sideMenu">("sideMenu")
     const navigate = useRouter()
     const textInputElem = useRef<HTMLInputElement | null>(null)
+    const isLogin = useAppSelector(state => state.userSlice.isLogin)
 
     const globalSearch = () => {
         const searchValue = textInputElem.current?.value.trim()
@@ -64,7 +66,7 @@ export default function Header() {
                         </div>
 
                         <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
-                            <Link href="/profile"><FaRegUser /></Link>
+                            <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
                             <div className="cursor-pointer" onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span
@@ -110,7 +112,7 @@ export default function Header() {
 
                         <div
                             className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] sm:ch:ch:size-9 ch:ch:size-8 ch:ch:p-2">
-                            <Link href="/profile"><FaRegUser /></Link>
+                            <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
                             <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span

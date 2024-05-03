@@ -1,24 +1,24 @@
-import { showToast } from "@/utils";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice } from "@reduxjs/toolkit";
 
 const getMe = createAsyncThunk('getMe', async () => {
     const res = await fetch('/api/auth/me')
     const data = await res.json()
 
-    if (!res.ok) showToast(false, 'something bad happened :))', res?.message)
+    if (!res.ok) throw new Error('Not loggedIN')
 
-    console.log(data)
     return data;
 })
 
 const userSlice = createSlice({
     name: "userSlice",
-    initialState: null,
+    initialState: { data: null, isLogin: false },
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getMe.fulfilled, (_state, action) => action.payload)
+        builder.addCase(getMe.fulfilled, (state, action) => { state.data = action.payload, state.isLogin = true })
+        builder.addCase(getMe.rejected, (state) => { state.data = null, state.isLogin = false })
     }
 })
+
 
 export default userSlice.reducer;
 export { getMe }
