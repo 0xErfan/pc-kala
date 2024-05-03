@@ -95,11 +95,27 @@ const tokenDecoder = (token: string) => verify(token, process.env.secretKey as S
 
 const tokenGenerator = (data: object, days: number = 7) => sign({ email: data }, process.env.secretKey as Secret, { expiresIn: 60 * 60 * 24 * days })
 
+const isEmptyInput = (payload: {}, props: string[]) => {
+
+    const expectedProps = props;
+    const actualProps = Object.keys(payload);
+    const values = Object.values(payload)
+
+    console.log(actualProps, expectedProps)
+
+    if (!values.some(value => String(value).trim().length)) return true
+
+    if (expectedProps.some(prop => !actualProps.includes(prop))) true
+
+    return false
+};
+
 export {
     getTimer,
     fetchData,
     showToast,
     priceDiscountCalculator,
     tokenDecoder,
-    tokenGenerator
+    tokenGenerator,
+    isEmptyInput
 }
