@@ -6,7 +6,7 @@ import { redirect } from "next/dist/server/api-utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be acceessed without POST request_" })
+    if (req.method !== 'GET') return res.status(421).json({ message: "This route can't be acceessed without GET request_" })
 
     try {
 
@@ -14,11 +14,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const token: string | undefined = req.cookies?.token
 
-        if (!token) return redirect(res, 401, '/login')
+        if (!token) return res.status(401).json({ message: 'You are not loggged in' })
 
         const verifiedToken = tokenDecoder(token)
 
-        const userData = await UserModel.findOne({ email: verifiedToken._doc.email })
+        const userData = await UserModel.findOne({ email: verifiedToken.email })
 
         if (!userData) return res.status(401).json({ message: 'No user exist with this username or password!' })
 

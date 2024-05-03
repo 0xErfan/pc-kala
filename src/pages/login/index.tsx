@@ -10,6 +10,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false)
     const navigate = useRouter()
 
+
     const formUpdater = (prop: string, value: string) => setLoginFrom({ ...loginForm, [prop]: value })
 
     const formSubmit = async (e: FormEvent) => {

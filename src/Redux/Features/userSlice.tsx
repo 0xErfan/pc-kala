@@ -1,42 +1,24 @@
+import { showToast } from "@/utils";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-interface userDataProps {
-    name: string
-    lName: string
-    email: string
-    phoneNumber: number
-    melliCode: number,
-    orders: unknown[]
-    notifications: unknown[]
-    isLogin: boolean
-}
+const getMe = createAsyncThunk('getMe', async () => {
+    const res = await fetch('/api/auth/me')
+    const data = await res.json()
 
-type userDataPropsAndNull = {
-    [K in keyof userDataProps]: userDataProps[K] | null
-}
+    if (!res.ok) showToast(false, 'something bad happened :))', res?.message)
 
-const initialState: userDataPropsAndNull = {
-    name: null,
-    lName: null,
-    email: null,
-    melliCode: null,
-    phoneNumber: null,
-    orders: [],
-    notifications: [],
-    isLogin: false
-}
-
-const userDataUpdater = createAsyncThunk("userUpdater", () => { })
+    console.log(data)
+    return data;
+})
 
 const userSlice = createSlice({
     name: "userSlice",
-    initialState,
+    initialState: null,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(userDataUpdater.pending, (state, action) => {
-            console.log(state, action);
-        })
+        builder.addCase(getMe.fulfilled, (_state, action) => action.payload)
     }
 })
 
 export default userSlice.reducer;
+export { getMe }
