@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 7 }))
             .status(201).json(userData)
 
-    } catch (err) {
+    } catch (err: any) {
 
         const duplicatedInputs = Object.keys(err.errorResponse?.keyPattern).join('')
 
