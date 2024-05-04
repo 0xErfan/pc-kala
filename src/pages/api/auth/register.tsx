@@ -20,11 +20,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const token = tokenGenerator(userData.email, 7)
 
         return res
-            .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 6 }))
+            .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 7 }))
             .status(201).json(userData)
 
     } catch (err) {
-        console.log(err)
+
+        const duplicatedInputs = Object.keys(err.errorResponse?.keyPattern).join('')
+
+        if (duplicatedInputs) {
+            const duplicatedProp = duplicatedInputs == 'email' ? 'ایمیل' : 'نام کاربری'
+            return res.status(421).json({ message: ` حسابی با این ${duplicatedProp} وجود دارد ` })
+        }
+
         return res.status(421).json({ message: 'خطای ناشناخته / بعدا تلاش کنید' })
     }
 }

@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db879b03-ce06-4925-9a55-6adf72ab0413" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/me.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/me.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/FormInput.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/api/auth/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/register.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/profile/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/profile/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/register/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/register/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,6 +64,7 @@
       <workItem from="1714647371266" duration="9000" />
       <workItem from="1714663197843" duration="8000" />
       <workItem from="1714743705023" duration="2000" />
+      <workItem from="1714823070173" duration="3000" />
     </task>
     <servers />
   </component>

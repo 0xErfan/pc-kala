@@ -12,6 +12,8 @@ import Button from "@/components/Button";
 import LikedProduct from "@/components/LikedProduct";
 import UserPanelTemplate from "@/components/UserPanelTemplate";
 import UserDataUpdater from "@/components/UserDataUpdater"
+import { showToast } from "@/utils";
+import { useRouter } from "next/router";
 
 interface orderStatusProps {
     count: number
@@ -26,6 +28,7 @@ const Profile = () => {
     const [activeEditShown, setActiveEditShown] = useState<Record<string, unknown> | null>(null)
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
+    const navigate = useRouter()
 
     useEffect(() => {
         switch (activeMenu) {
@@ -136,6 +139,15 @@ const Profile = () => {
         }
     }, [activeMenu, activeEditShown])
 
+    const logout = async () => {
+        const res = await fetch('/api/auth/logout')
+        const data = await res.json()
+
+        if (!res.ok) showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید')
+        showToast(true, 'خروج از حساب موفقیت امیز بود')
+        navigate.replace('/')
+    }
+
     return (
 
         <section className="bg-primary-black">
@@ -180,7 +192,7 @@ const Profile = () => {
                         <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm text-center">5</div>
                     </div>
 
-                    <div className="flex text-white-red items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15">
+                    <div onClick={logout} className="flex text-white-red items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15">
                         <IoExitOutline className="size-5" />
                         <p>خروج</p>
                     </div>

@@ -22,6 +22,12 @@ type FetchResponse<T> = {
     error: object | null
 };
 
+export interface inputValidationProps {
+    title: string
+    isValid: boolean
+    errorMessage: string
+}
+
 const getTimer = (date?: string) => {
 
     const currentDate = new Date();
@@ -101,12 +107,26 @@ const isEmptyInput = (payload: {}, props: string[]) => {
     const actualProps = Object.keys(payload);
     const values = Object.values(payload)
 
-    if (!values.some(value => String(value).trim().length)) return true
+    if (values.some(value => { if (!String(value).trim().length) return true })) return true // check for all value of properties not to be empty
 
     if (expectedProps.some(prop => !actualProps.includes(prop))) true
 
     return false
 };
+
+const inputValidations = (title: string, value: string, confirmPassword?: string): inputValidationProps | undefined => {
+
+    const inputRules = [
+        { title: 'username', isValid: value.length > 3, errorMessage: 'طول نام کاربری باید بیشتر از ۳ و کمتر از ۲۰ کاراکتر باشد' },
+        { title: 'email', isValid: /^[\w-]+@[a-zA-Z\d-]+\.[a-zA-Z]{2,}$/.test(value), errorMessage: 'ایمیل نامعتبر است' },
+        { title: 'password', isValid: value.length < 20 && value.length > 7, errorMessage: 'طول رمز عبور باید بیشتر از ۷ و کمتر از ۲۰ کاراکتر باشد' },
+        { title: 'confirmPassword', isValid: Boolean(value === confirmPassword), errorMessage: 'رمز تایید با رمز وارد شده تناقض دارد' }
+    ]
+
+    const inputTargetToCheck = inputRules.find(inputTitle => inputTitle.title == title)
+
+    return inputTargetToCheck;
+}
 
 export {
     getTimer,
@@ -115,5 +135,6 @@ export {
     priceDiscountCalculator,
     tokenDecoder,
     tokenGenerator,
-    isEmptyInput
+    isEmptyInput,
+    inputValidations
 }
