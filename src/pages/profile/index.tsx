@@ -14,6 +14,7 @@ import UserPanelTemplate from "@/components/UserPanelTemplate";
 import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
+import { useAppSelector } from "@/Hooks/useRedux";
 
 interface orderStatusProps {
     count: number
@@ -29,6 +30,8 @@ const Profile = () => {
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
     const navigate = useRouter()
+
+    const { nameLname, username, email, phonoNumber, wishes, orders, notifications, comments } = useAppSelector(state => state.userSlice.data) || {}
 
     useEffect(() => {
         switch (activeMenu) {
@@ -86,6 +89,16 @@ const Profile = () => {
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
                                 fn={() => { }}
+                                name="cashBack"
+                                title="نام کاربری"
+                                inputValue={username}
+                                readOnly={!activeEditShown?.username}
+                                editToggle={() => activeEditChanger("username")}
+                            />
+
+                            <UserDataUpdater
+                                dataEditorCloser={dataEditorCloser}
+                                fn={() => { }}
                                 name="meli-code"
                                 title="کد ملی"
                                 inputValue="344363456"
@@ -123,16 +136,6 @@ const Profile = () => {
                                 editToggle={() => activeEditChanger("changePass")}
                             />
 
-                            <UserDataUpdater
-                                dataEditorCloser={dataEditorCloser}
-                                fn={() => { }}
-                                name="cashBack"
-                                title="باز گرداندن پول به این شماره کارت"
-                                inputValue="6037998194989710"
-                                readOnly={!activeEditShown?.cashBack}
-                                editToggle={() => activeEditChanger("cashBack")}
-                            />
-
                         </div>
                     </UserPanelTemplate>
                 );
@@ -141,7 +144,6 @@ const Profile = () => {
 
     const logout = async () => {
         const res = await fetch('/api/auth/logout')
-        const data = await res.json()
 
         if (!res.ok) showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید')
         showToast(true, 'خروج از حساب موفقیت امیز بود')

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// Define the config object outside the middleware function
 export const config = {
     matcher: ['/login', '/register'],
 };

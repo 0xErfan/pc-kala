@@ -14,16 +14,11 @@ import Slider from "../components/Slider";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useRouter } from 'next/router';
-import { getMe } from '@/Redux/Features/userSlice';
-import { useEffect } from 'react';
-import { useAppDispatch } from '@/Hooks/useRedux';
+
 
 export default function Home() {
 
   const navigate = useRouter()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => { dispatch(getMe()) }, [])
 
   return (
 
