@@ -1,6 +1,7 @@
 import connectToDB from "@/config/db";
 import UserModel from "@/model/User";
 import { tokenDecoder } from "@/utils";
+import { JwtPayload } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -15,9 +16,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!token) return res.status(401).json({ message: 'You are not loggged in' })
 
-        const verifiedToken = tokenDecoder(token)
+        const verifiedToken: string | JwtPayload = tokenDecoder(token)
 
-        console.log('verifyied token: => ', verifiedToken.email)
+        console.log('verified token: => ', verifiedToken.email)
 
         const userData = await UserModel.findOne({ email: verifiedToken.email })
 
