@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { ReactNode, memo, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
-export default function Category({ screen }: { screen?: string }) {
+export default memo(function Category({ screen , title, Icon }: { screen?: string, title: string, Icon: ReactNode }) {
 
     const [isCategoryShown, setIsCategoryShown] = useState(false)
 
@@ -16,8 +16,8 @@ export default function Category({ screen }: { screen?: string }) {
                             onMouseLeave={() => setIsCategoryShown(false)}
                             onMouseOver={() => setIsCategoryShown(true)}
                             className={`flex-center ${isCategoryShown && "text-dark-red"} transition-all delay-[40] duration-200 gap-1`}>
-                            کامپیوتر
-                            <FaAngleDown className={` ${!isCategoryShown && "rotate-180"} size-4 duration-200 transition-all delay-[40]`} />
+                            <div className="flex items-center gap-2" >{Icon}{title}</div>
+                            <FaAngleDown className={` ${isCategoryShown && "rotate-180"} size-4 duration-200 transition-all delay-[40]`} />
                         </div>
 
                         <div
@@ -40,8 +40,8 @@ export default function Category({ screen }: { screen?: string }) {
                         <div
                             onClick={() => setIsCategoryShown(preve => !preve)}
                             className={`flex items-center justify-between ${isCategoryShown && "text-dark-red"} text-[15px] fontb transition-all delay-[40] duration-200 gap-1`}>
-                            کامپیوتر
-                            <FaAngleDown className={` ${!isCategoryShown && "rotate-180 "} size-4 duration-200 transition-all delay-[40]`} />
+                            <div className="flex items-center gap-2" >{Icon}{title}</div>
+                            <FaAngleDown className={` ${isCategoryShown && "rotate-180 "} size-4 duration-200 transition-all delay-[40]`} />
                         </div>
 
                         <div
@@ -60,4 +60,4 @@ export default function Category({ screen }: { screen?: string }) {
             }
         </>
     )
-}
+})

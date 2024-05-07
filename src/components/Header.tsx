@@ -10,6 +10,13 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import { useAppSelector } from "@/Hooks/useRedux";
 
+
+import { FaComputer } from "react-icons/fa6";
+import { IoIosLaptop } from "react-icons/io";
+import { HiOutlineCpuChip } from "react-icons/hi2";
+import { PiHeadphones } from "react-icons/pi";
+import { GiConsoleController } from "react-icons/gi";
+
 export default function Header() {
 
     const [sideMenuDataToShow, setSideMenuDataToShow] = useState<"basket" | "sideMenu">("sideMenu")
@@ -79,12 +86,12 @@ export default function Header() {
                 </div>
 
                 <div className="container text-white">
-                    <ul className="flex items-center lg:gap-[60px] gap-12 mt-5 text-[14px] ">
-                        <Category screen="large" />
-                        <Category screen="large" />
-                        <Category screen="large" />
-                        <Category screen="large" />
-                        <Category screen="large" />
+                    <ul className="flex items-center lg:gap-[36px] gap-8 mt-5 text-[14px] ">
+                        <Category key={'کامپیوتر'} title="کامپیوتر" screen="large" Icon={<FaComputer className="size-5" />} />
+                        <Category key={'لپتاپ'} title="لپتاپ" screen="large" Icon={<IoIosLaptop className="size-6" />} />
+                        <Category key={'قطعات'} title="قطعات کامپیوتر" screen="large" Icon={<HiOutlineCpuChip className="size-6" />} />
+                        <Category key={'لوازم'} title="لوازم جانبی" screen="large" Icon={<PiHeadphones className="size-6" />} />
+                        <Category key={'کنسول'} title="کنسول بازی" screen="large" Icon={<GiConsoleController className="size-6" />} />
                     </ul>
                 </div>
             </div>

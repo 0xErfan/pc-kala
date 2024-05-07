@@ -5,6 +5,11 @@ import { IoCloseOutline } from "react-icons/io5";
 import { MdOutlinePhoneAndroid } from 'react-icons/md'
 import Button from './Button';
 import Link from 'next/link';
+import { FaComputer } from 'react-icons/fa6';
+import { IoIosLaptop } from 'react-icons/io';
+import { HiOutlineCpuChip } from 'react-icons/hi2';
+import { PiHeadphones } from 'react-icons/pi';
+import { GiConsoleController } from 'react-icons/gi';
 
 const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideMenu"), changeTypeFn: () => true }) => {
 
@@ -84,11 +89,11 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
 
                             <div className="text-white">
                                 <ul className="flex items-start px-5 flex-col gap-4 mt-5 text-[14px]">
-                                    <Category />
-                                    <Category />
-                                    <Category />
-                                    <Category />
-                                    <Category />
+                                    <Category key={'کامپیوتر'} title="کامپیوتر" screen="small" Icon={<FaComputer className="size-5" />} />
+                                    <Category key={'لپتاپ'} title="لپتاپ" screen="small" Icon={<IoIosLaptop className="size-6" />} />
+                                    <Category key={'قطعات'} title="قطعات کامپیوتر" screen="small" Icon={<HiOutlineCpuChip className="size-6" />} />
+                                    <Category key={'لوازم'} title="لوازم جانبی" screen="small" Icon={<PiHeadphones className="size-6" />} />
+                                    <Category key={'کنسول'} title="کنسول بازی" screen="small" Icon={<GiConsoleController className="size-6" />} />
                                 </ul>
                             </div>
 
