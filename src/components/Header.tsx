@@ -87,11 +87,66 @@ export default function Header() {
 
                 <div className="container text-white">
                     <ul className="flex items-center lg:gap-[36px] gap-8 mt-5 text-[14px] ">
-                        <Category key={'کامپیوتر'} title="کامپیوتر" screen="large" Icon={<FaComputer className="size-5" />} />
-                        <Category key={'لپتاپ'} title="لپتاپ" screen="large" Icon={<IoIosLaptop className="size-6" />} />
-                        <Category key={'قطعات'} title="قطعات کامپیوتر" screen="large" Icon={<HiOutlineCpuChip className="size-6" />} />
-                        <Category key={'لوازم'} title="لوازم جانبی" screen="large" Icon={<PiHeadphones className="size-6" />} />
-                        <Category key={'کنسول'} title="کنسول بازی" screen="large" Icon={<GiConsoleController className="size-6" />} />
+                        <Category
+                            key={'کامپیوتر'}
+                            title="کامپیوتر" screen="large"
+                            Icon={<FaComputer className="size-5" />}
+                            submenus={[
+                                { title: 'کامپیوتر گیمینگ', path: '/products/pc/gaming' },
+                                { title: 'کامپیوتر اقتصادی', path: '/products/pc/affordable' },
+                                { title: 'کامپیوتر دانشجویی', path: '/products/pc/student' },
+                                { title: 'کامپیوتر رندرینک', path: '/products/pc/rendering' },
+                                { title: 'سیستم اداری', path: '/products/pc/office' },
+                            ]}
+                        />
+                        <Category
+                            key={'لپتاپ'}
+                            title="لپتاپ" screen="large"
+                            Icon={<IoIosLaptop className="size-6" />}
+                            submenus={[
+                                { title: 'لپتاپ Lonovo ', path: '/products/laptop/lenovo' },
+                                { title: 'لپتاپ Asus ', path: '/products/laptop/asus' },
+                                { title: 'لپتاپ Msi ', path: '/products/laptop/msi' },
+                                { title: 'لپتاپ Hp ', path: '/products/laptop/hp' },
+                                { title: 'لپتاپ Acer ', path: '/products/laptop/acer' },
+                            ]}
+                        />
+                        <Category
+                            key={'قطعات'}
+                            title="قطعات کامپیوتر" screen="large"
+                            Icon={<HiOutlineCpuChip className="size-6" />}
+                            submenus={[
+                                { title: 'مادربرد', path: '/products/parts/motherboard' },
+                                { title: 'سیپیو', path: '/products/parts/cpu' },
+                                { title: 'کارت گرافیک', path: '/products/parts/gpu' },
+                                { title: 'رم', path: '/products/parts/ram' },
+                                { title: 'هارد', path: '/products/parts/hard' },
+                                { title: 'خنک کننده', path: '/products/parts/cooler' },
+                                { title: 'حافظه SSD', path: '/products/parts/ssd' },
+                                { title: 'مانیتور', path: '/products/parts/monitor' },
+                                { title: 'کیس', path: '/products/parts/case' },
+                            ]}
+                        />
+                        <Category
+                            key={'لوازم'}
+                            title="لوازم جانبی" screen="large"
+                            Icon={<PiHeadphones className="size-6" />}
+                            submenus={[
+                                { title: 'موس', path: '/products/aditional/mouse' },
+                                { title: 'کیبرد', path: '/products/aditional/keyboard' },
+                                { title: 'اسپیکر', path: '/products/aditional/speaker' },
+                                { title: 'وبکم', path: '/products/aditional/webcam' },
+                            ]}
+                        />
+                        <Category
+                            key={'کنسول'}
+                            title="کنسول بازی" screen="large"
+                            Icon={<GiConsoleController className="size-6" />}
+                            submenus={[
+                                { title: 'کنسول ps5', path: '/products/console/ps5' },
+                                { title: 'کنسول xbox', path: '/products/console/xbox' },
+                            ]}
+                        />
                     </ul>
                 </div>
             </div>

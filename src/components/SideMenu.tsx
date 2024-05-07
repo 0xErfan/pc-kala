@@ -65,8 +65,8 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                         <p><span className='text-white-red text-[16px] font-bold'>{1231234}</span> تومان</p>
                                     </div>
                                     <div className='flex items-center justify-between ch:grow gap-2'>
-                                        <Button fn={() => {}} filled text='تسویه حساب'/>
-                                        <Button fn={() => {}} filled text='مشاهده سبد خرید'/>
+                                        <Button fn={() => { }} filled text='تسویه حساب' />
+                                        <Button fn={() => { }} filled text='مشاهده سبد خرید' />
                                     </div>
                                 </div>
                             </div>
@@ -89,11 +89,66 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
 
                             <div className="text-white">
                                 <ul className="flex items-start px-5 flex-col gap-4 mt-5 text-[14px]">
-                                    <Category key={'کامپیوتر'} title="کامپیوتر" screen="small" Icon={<FaComputer className="size-5" />} />
-                                    <Category key={'لپتاپ'} title="لپتاپ" screen="small" Icon={<IoIosLaptop className="size-6" />} />
-                                    <Category key={'قطعات'} title="قطعات کامپیوتر" screen="small" Icon={<HiOutlineCpuChip className="size-6" />} />
-                                    <Category key={'لوازم'} title="لوازم جانبی" screen="small" Icon={<PiHeadphones className="size-6" />} />
-                                    <Category key={'کنسول'} title="کنسول بازی" screen="small" Icon={<GiConsoleController className="size-6" />} />
+                                    <Category
+                                        key={'کامپیوتر'}
+                                        title="کامپیوتر" screen="small"
+                                        Icon={<FaComputer className="size-5" />}
+                                        submenus={[
+                                            { title: 'کامپیوتر گیمینگ', path: '/products/pc/gaming' },
+                                            { title: 'کامپیوتر اقتصادی', path: '/products/pc/affordable' },
+                                            { title: 'کامپیوتر دانشجویی', path: '/products/pc/student' },
+                                            { title: 'کامپیوتر رندرینک', path: '/products/pc/rendering' },
+                                            { title: 'سیستم اداری', path: '/products/pc/office' },
+                                        ]}
+                                    />
+                                    <Category
+                                        key={'لپتاپ'}
+                                        title="لپتاپ" screen="small"
+                                        Icon={<IoIosLaptop className="size-6" />}
+                                        submenus={[
+                                            { title: 'لپتاپ Lonovo ', path: '/products/laptop/lenovo' },
+                                            { title: 'لپتاپ Asus ', path: '/products/laptop/asus' },
+                                            { title: 'لپتاپ Msi ', path: '/products/laptop/msi' },
+                                            { title: 'لپتاپ Hp ', path: '/products/laptop/hp' },
+                                            { title: 'لپتاپ Acer ', path: '/products/laptop/acer' },
+                                        ]}
+                                    />
+                                    <Category
+                                        key={'قطعات'}
+                                        title="قطعات کامپیوتر" screen="small"
+                                        Icon={<HiOutlineCpuChip className="size-6" />}
+                                        submenus={[
+                                            { title: 'مادربرد', path: '/products/parts/motherboard' },
+                                            { title: 'سیپیو', path: '/products/parts/cpu' },
+                                            { title: 'کارت گرافیک', path: '/products/parts/gpu' },
+                                            { title: 'رم', path: '/products/parts/ram' },
+                                            { title: 'هارد', path: '/products/parts/hard' },
+                                            { title: 'خنک کننده', path: '/products/parts/cooler' },
+                                            { title: 'حافظه SSD', path: '/products/parts/ssd' },
+                                            { title: 'مانیتور', path: '/products/parts/monitor' },
+                                            { title: 'کیس', path: '/products/parts/case' },
+                                        ]}
+                                    />
+                                    <Category
+                                        key={'لوازم'}
+                                        title="لوازم جانبی" screen="small"
+                                        Icon={<PiHeadphones className="size-6" />}
+                                        submenus={[
+                                            { title: 'موس', path: '/products/aditional/mouse' },
+                                            { title: 'کیبرد', path: '/products/aditional/keyboard' },
+                                            { title: 'اسپیکر', path: '/products/aditional/speaker' },
+                                            { title: 'وبکم', path: '/products/aditional/webcam' },
+                                        ]}
+                                    />
+                                    <Category
+                                        key={'کنسول'}
+                                        title="کنسول بازی" screen="small"
+                                        Icon={<GiConsoleController className="size-6" />}
+                                        submenus={[
+                                            { title: 'کنسول ps5', path: '/products/console/ps5' },
+                                            { title: 'کنسول xbox', path: '/products/console/xbox' },
+                                        ]}
+                                    />
                                 </ul>
                             </div>
 
