@@ -1,5 +1,5 @@
 import connectToDB from "@/config/db";
-import UserModel from "@/model/User";
+import UserModel from "@/models/User";
 import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";

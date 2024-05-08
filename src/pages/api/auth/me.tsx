@@ -1,5 +1,5 @@
 import connectToDB from "@/config/db";
-import UserModel from "@/model/User";
+import UserModel from "@/models/User";
 import { tokenDecoder } from "@/utils";
 import { JwtPayload } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
