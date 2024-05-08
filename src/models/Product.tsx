@@ -87,10 +87,40 @@ const LaptopSchema = new mongoose.Schema({
     }
 })
 
-const PartsSchema = new mongoose.Schema({ ...baseProductModel.obj })
+const PartsSchema = new mongoose.Schema({ ...baseProductModel.obj, category: { type: String, default: 'parts', immutable: true } })
 
-const AccessoriesSchema = new mongoose.Schema({ ...baseProductModel.obj })
+const AccessoriesSchema = new mongoose.Schema({ ...baseProductModel.obj, category: { type: String, default: 'accessoriy', immutable: true } })
 
+const ConsoleSchema = new mongoose.Schema({
+
+    ...baseProductModel.obj,
+
+    category: { type: String, default: 'console', immutable: true },
+
+    specs: {
+        gpu: {
+            title: { type: String, default: "پردازنده گرافیکی کنسول", immutable: true },
+            value: { type: String }
+        },
+        ram: {
+            title: { type: String, default: "حافظه‌ی رم کنسول", immutable: true },
+            value: { type: String }
+        },
+        storage: {
+            title: { type: String, default: "حافظه‌ی ذخیره‌سازی کنسول", immutable: true },
+            value: { type: String }
+        },
+        cpupower: {
+            title: { type: String, default: "توان پردازشی کنسول", immutable: true },
+            value: { type: String }
+        },
+        color: {
+            title: { type: String, default: "رنگ کنسول", immutable: true },
+            value: { type: String }
+        },
+    }
+
+})
 
 
 //  Models
@@ -103,10 +133,12 @@ const PartsModel = mongoose.models.Part || mongoose.model('Part', PartsSchema)
 
 const AccessoriesModel = mongoose.models.Accessoriy || mongoose.model('Accessory', AccessoriesSchema)
 
+const ConsoleModels = mongoose.models.Console || mongoose.model('Console', ConsoleSchema)
+
 
 
 
 
 // Export 
 
-export { LaptopModel, PcModel, PartsModel, AccessoriesModel }
+export { LaptopModel, PcModel, PartsModel, AccessoriesModel, ConsoleModels }
