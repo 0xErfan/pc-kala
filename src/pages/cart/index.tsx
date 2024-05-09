@@ -33,7 +33,7 @@ const Card = () => {
                                             price={12343523}
                                             finalPrice={34523455}
                                             id={12}
-                                            src="/images/victus-15.webp"
+                                            src="/images/laptop-default.webp"
                                         />
                                     })
                                 }
@@ -61,7 +61,7 @@ const Card = () => {
                                                 price={12343523}
                                                 finalPrice={34523455}
                                                 id={12}
-                                                src="/images/victus-15.webp"
+                                                src="/images/laptop-default.webp"
                                             />
                                         })
                                     }

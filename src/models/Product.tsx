@@ -53,8 +53,7 @@ const LaptopSchema = new mongoose.Schema({
     ...baseProductModel.obj,
 
     category: { type: String, default: 'laptop', immutable: true },
-    brand: { type: String, required: true },
-
+    
     specs: {
         ram: {
             title: { type: String, default: "رم", immutable: true },
@@ -131,7 +130,7 @@ const PcModel = mongoose.models.PC || mongoose.model('PC', PcSchema)
 
 const PartsModel = mongoose.models.Part || mongoose.model('Part', PartsSchema)
 
-const AccessoriesModel = mongoose.models.Accessoriy || mongoose.model('Accessory', AccessoriesSchema)
+const AccessoriesModel = mongoose.models.Accessory || mongoose.model('Accessory', AccessoriesSchema)
 
 const ConsoleModels = mongoose.models.Console || mongoose.model('Console', ConsoleSchema)
 
@@ -139,6 +138,6 @@ const ConsoleModels = mongoose.models.Console || mongoose.model('Console', Conso
 
 
 
-// Export 
+// Export
 
 export { LaptopModel, PcModel, PartsModel, AccessoriesModel, ConsoleModels }

@@ -48,7 +48,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                         [12, 32, 43, 34, 2, 1].map(prd => (
                                             <div key={prd} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
                                                 <span className=' absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
-                                                <div className='flex-1'><img className='object-cover size-full' src="/images/victus-15.webp" /></div>
+                                                <div className='flex-1'><img className='object-cover size-full' src="/images/laptop-default.webp" /></div>
 
                                                 <div className='flex-[2]'>
                                                     <Link href="/" className='line-clamp-3 transition-all duration-300 hover:text-white-red'>AN515-46-1 لپ تاپ ایسر ACER Nitro 5 AN515-46 R7-6800H/16G/1TB SSD/3070Ti-8G</Link>

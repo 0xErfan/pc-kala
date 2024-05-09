@@ -8,7 +8,7 @@ const LikedProduct = () => {
     return (
         <div className="max-w-[316px] relative w-full m-auto bg-black/15 border border-gray-600/15 rounded-md p-3 overflow-hidden text-white text-sm">
 
-            <Link href="/products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src="/images/victus-15.webp" alt="product-name" /></Link>
+            <Link href="/products/324987fui32"><img className="m-auto object-cover my-3 cursor-pointer" src="/images/laptop-default.webp" alt="product-name" /></Link>
 
             {"w" &&
                 <div className="flex items-center gap-3 justify-center text-title-text text-sm">
