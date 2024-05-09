@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { Schema } from "mongoose"
 
 //    Schemas
 
@@ -53,7 +53,7 @@ const LaptopSchema = new mongoose.Schema({
     ...baseProductModel.obj,
 
     category: { type: String, default: 'laptop', immutable: true },
-    
+
     specs: {
         ram: {
             title: { type: String, default: "رم", immutable: true },
@@ -86,9 +86,23 @@ const LaptopSchema = new mongoose.Schema({
     }
 })
 
-const PartsSchema = new mongoose.Schema({ ...baseProductModel.obj, category: { type: String, default: 'parts', immutable: true } })
+const PartsSchema = new mongoose.Schema({
 
-const AccessoriesSchema = new mongoose.Schema({ ...baseProductModel.obj, category: { type: String, default: 'accessoriy', immutable: true } })
+    ...baseProductModel.obj,
+
+    category: { type: String, default: 'parts', immutable: true },
+
+    specs: Schema.Types.Mixed
+})
+
+const AccessoriesSchema = new mongoose.Schema({
+
+    ...baseProductModel.obj,
+
+    category: { type: String, default: 'accessory', immutable: true },
+
+    specs: Schema.Types.Mixed
+})
 
 const ConsoleSchema = new mongoose.Schema({
 

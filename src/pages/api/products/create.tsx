@@ -1,5 +1,5 @@
 import connectToDB from "@/config/db";
-import { LaptopModel, PcModel } from "@/models/Product";
+import { AccessoriesModel, ConsoleModels, LaptopModel, PartsModel, PcModel } from "@/models/Product";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -20,6 +20,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         switch (type) {
             case 'laptop': { productType = LaptopModel; break }
             case 'pc': { productType = PcModel; break }
+            case 'console': { productType = ConsoleModels; break }
+            case 'accessory': { productType = AccessoriesModel; break }
+            case 'parts': { productType = PartsModel; break }
             default: { throw new Error('Not a valid type') }
         }
 
