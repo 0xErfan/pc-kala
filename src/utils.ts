@@ -128,6 +128,16 @@ const inputValidations = (title: string, value: string, confirmPassword?: string
     return inputTargetToCheck;
 }
 
+const shuffleArray = (array: never[]) => {
+
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Using destructuring assignment for swapping
+    }
+
+    return array.slice(0, 8);
+}
+
 export {
     getTimer,
     fetchData,
@@ -136,5 +146,6 @@ export {
     tokenDecoder,
     tokenGenerator,
     isEmptyInput,
-    inputValidations
+    inputValidations,
+    shuffleArray,
 }

@@ -17,14 +17,23 @@ import { useRouter } from 'next/router';
 import { useAppDispatch } from '@/Hooks/useRedux';
 import { useEffect } from 'react';
 import { getMe } from '@/Redux/Features/userSlice';
+import connectToDB from '@/config/db';
+import { LaptopModel, PartsModel, PcModel } from '@/models/Product';
+import { shuffleArray } from '@/utils';
+
+interface productProps { [key: string]: [] }
 
 
-export default function Home() {
+export default function Home({ products }: productProps) {
 
   const navigate = useRouter()
   const dispatch = useAppDispatch()
 
-  useEffect(() => { dispatch(getMe()) }, [])
+  console.log(products)
+
+  const { laptops, pcs, parts } = products
+
+  useEffect(() => { dispatch(getMe()) }, [dispatch])
 
   return (
 
@@ -59,7 +68,7 @@ export default function Home() {
         <BlockTitle Icon={<BsLaptop />} title="پرفروش ترین ها" url="/" />
         <Slider>
           {
-            [23, 443, 354, 4, 1].map((data) => <SwiperSlide key={data}><Product key={data} /></SwiperSlide>)
+            [...laptops].map((data) => <SwiperSlide key={data._id}><Product key={data._id} {...data} /></SwiperSlide>)
           }
         </Slider>
       </div>
@@ -90,7 +99,7 @@ export default function Home() {
         <BlockTitle title="پرفروش ترین ها" url="/" Icon={<FaComputer />} />
         <Slider>
           {
-            [1, 3, 4, 54, 6].map(prd => <SwiperSlide key={prd}><Product /></SwiperSlide>)
+            [...pcs].map((data) => <SwiperSlide key={data._id}><Product key={data._id} {...data} /></SwiperSlide>)
           }
         </Slider>
       </div>
@@ -139,7 +148,7 @@ export default function Home() {
         <BlockTitle Icon={<BsCpu className="p-1" />} title="پرفروش ترین ها" url="/" />
         <Slider>
           {
-            [1, 3, 4, 54, 6].map(prd => <SwiperSlide key={prd}><Product /></SwiperSlide>)
+            [...parts].map(data => <SwiperSlide key={data._id}><Product key={data._id} {...data} /></SwiperSlide>)
           }
         </Slider>
       </div>
@@ -181,4 +190,17 @@ export default function Home() {
 
     </section>
   )
+}
+
+export async function getStaticProps() { // static rendering(SSG) for needed products to show in main page
+
+  await connectToDB()
+
+  let products: productProps = {}
+
+  products.laptops = await LaptopModel.find({}).limit(8) as []
+  products.pcs = await PcModel.find({}).limit(8) as []
+  products.parts = shuffleArray(await PartsModel.find({})) as []
+
+  return { props: { products: JSON.parse(JSON.stringify(products as {})) } }
 }
