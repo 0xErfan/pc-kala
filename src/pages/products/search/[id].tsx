@@ -18,6 +18,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { MdClose } from "react-icons/md";
 import { GetStaticPropsContext } from "next";
 import Image from "next/image";
+import Head from "next/head";
 
 interface coordinates {
     x: number
@@ -75,6 +76,8 @@ export default memo(function Product({ product }: { product: {} }) {
     return (
 
         <section className="primary-bg">
+
+            <Head><title>{name}</title></Head>
 
             <Header />
 
@@ -428,16 +431,11 @@ export async function getStaticProps(context: GetStaticPropsContext) {
             body: JSON.stringify(context.params?.id)
         });
 
-        if (!response.ok) {
-            console.log(response)
-            throw new Error('Failed to fetch product');
-        }
+        if (!response.ok) throw new Error('Failed to fetch product')
 
         const product = await response.json();
 
-        return {
-            props: { product: JSON.parse(JSON.stringify(product)) },
-        };
+        return { props: { product } };
 
     } catch (error) {
         console.error('Error fetching product:', error);

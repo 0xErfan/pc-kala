@@ -29,8 +29,6 @@ export default function Home({ products }: productProps) {
   const navigate = useRouter()
   const dispatch = useAppDispatch()
 
-  console.log(products)
-
   const { laptops, pcs, parts } = products
 
   useEffect(() => { dispatch(getMe()) }, [dispatch])

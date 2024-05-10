@@ -107,6 +107,10 @@ const isEmptyInput = (payload: {}, props: string[]) => {
     const actualProps = Object.keys(payload);
     const values = Object.values(payload)
 
+    const containAllElements = expectedProps.every(val => actualProps.includes(val))
+
+    if (!containAllElements) return true
+
     if (values.some(value => { if (!String(value).trim().length) return true })) return true // check for all value of properties not to be empty
 
     if (expectedProps.some(prop => !actualProps.includes(prop))) true

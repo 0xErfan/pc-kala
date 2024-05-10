@@ -4,7 +4,7 @@ import { FaRegUser } from "react-icons/fa";
 import { MdPhoneInTalk } from "react-icons/md";
 import Category from "./Category";
 import SideMenu from "./SideMenu";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
@@ -24,18 +24,20 @@ export default function Header() {
     const textInputElem = useRef<HTMLInputElement | null>(null)
     const isLogin = useAppSelector(state => state.userSlice.isLogin)
 
+    const menusShown = useAppSelector(state => state.globalVarsSlice.isScrolledDown)
+
     const globalSearch = () => {
         const searchValue = textInputElem.current?.value.trim()
         searchValue?.length && navigate.push(`/search/${searchValue}`)
     }
 
     return (
-        <section className="z-50 fixed left-0 w-full">
+        <section className="z-50 fixed left-0 w-full border-b border-black/30">
 
             {/* for large screens */}
             <div className="hidden md:block bg-secondary-black py-4">
 
-                <div className="container flex items-center m-auto justify-between w-full">
+                <div className="container flex items-center m-auto relative justify-between w-full">
                     <Link href="/" className="max-w-[200px] relative">
                         <Image
                             alt="pc-kala-shop"
@@ -85,70 +87,74 @@ export default function Header() {
                     </div>
                 </div>
 
-                <div className="container text-white">
-                    <ul className="flex items-center lg:gap-[36px] gap-8 mt-5 text-[14px] ">
-                        <Category
-                            key={'کامپیوتر'}
-                            title="کامپیوتر" screen="large"
-                            Icon={<FaComputer className="size-5" />}
-                            submenus={[
-                                { title: 'کامپیوتر گیمینگ', path: '/products/pc/gaming' },
-                                { title: 'کامپیوتر اقتصادی', path: '/products/pc/affordable' },
-                                { title: 'کامپیوتر دانشجویی', path: '/products/pc/student' },
-                                { title: 'کامپیوتر رندرینک', path: '/products/pc/rendering' },
-                                { title: 'سیستم اداری', path: '/products/pc/office' },
-                            ]}
-                        />
-                        <Category
-                            key={'لپتاپ'}
-                            title="لپتاپ" screen="large"
-                            Icon={<IoIosLaptop className="size-6" />}
-                            submenus={[
-                                { title: 'لپتاپ Lonovo ', path: '/products/laptop/lenovo' },
-                                { title: 'لپتاپ Asus ', path: '/products/laptop/asus' },
-                                { title: 'لپتاپ Msi ', path: '/products/laptop/msi' },
-                                { title: 'لپتاپ Hp ', path: '/products/laptop/hp' },
-                                { title: 'لپتاپ Acer ', path: '/products/laptop/acer' },
-                            ]}
-                        />
-                        <Category
-                            key={'قطعات'}
-                            title="قطعات کامپیوتر" screen="large"
-                            Icon={<HiOutlineCpuChip className="size-6" />}
-                            submenus={[
-                                { title: 'مادربرد', path: '/products/parts/motherboard' },
-                                { title: 'سیپیو', path: '/products/parts/cpu' },
-                                { title: 'کارت گرافیک', path: '/products/parts/gpu' },
-                                { title: 'رم', path: '/products/parts/ram' },
-                                { title: 'هارد', path: '/products/parts/hard' },
-                                { title: 'خنک کننده', path: '/products/parts/cooler' },
-                                { title: 'حافظه SSD', path: '/products/parts/ssd' },
-                                { title: 'مانیتور', path: '/products/parts/monitor' },
-                                { title: 'کیس', path: '/products/parts/case' },
-                            ]}
-                        />
-                        <Category
-                            key={'لوازم'}
-                            title="لوازم جانبی" screen="large"
-                            Icon={<PiHeadphones className="size-6" />}
-                            submenus={[
-                                { title: 'موس', path: '/products/aditional/mouse' },
-                                { title: 'کیبرد', path: '/products/aditional/keyboard' },
-                                { title: 'اسپیکر', path: '/products/aditional/speaker' },
-                                { title: 'وبکم', path: '/products/aditional/webcam' },
-                            ]}
-                        />
-                        <Category
-                            key={'کنسول'}
-                            title="کنسول بازی" screen="large"
-                            Icon={<GiConsoleController className="size-6" />}
-                            submenus={[
-                                { title: 'کنسول ps5', path: '/products/console/ps5' },
-                                { title: 'کنسول xbox', path: '/products/console/xbox' },
-                            ]}
-                        />
-                    </ul>
-                </div>
+                {
+
+                    menusShown && <div data-aos-duration="400" data-aos="zoom-in-left" className={`container text-white overflow-visible relative`}>
+                        <ul className="flex items-center lg:gap-[36px] gap-8 mt-5 text-[14px]">
+                            <Category
+                                key={'کامپیوتر'}
+                                title="کامپیوتر" screen="large"
+                                Icon={<FaComputer className="size-5" />}
+                                submenus={[
+                                    { title: 'کامپیوتر گیمینگ', path: '/products/pc/gaming' },
+                                    { title: 'کامپیوتر اقتصادی', path: '/products/pc/affordable' },
+                                    { title: 'کامپیوتر دانشجویی', path: '/products/pc/student' },
+                                    { title: 'کامپیوتر رندرینک', path: '/products/pc/rendering' },
+                                    { title: 'سیستم اداری', path: '/products/pc/office' },
+                                ]}
+                            />
+                            <Category
+                                key={'لپتاپ'}
+                                title="لپتاپ" screen="large"
+                                Icon={<IoIosLaptop className="size-6" />}
+                                submenus={[
+                                    { title: 'لپتاپ Lonovo ', path: '/products/laptop/lenovo' },
+                                    { title: 'لپتاپ Asus ', path: '/products/laptop/asus' },
+                                    { title: 'لپتاپ Msi ', path: '/products/laptop/msi' },
+                                    { title: 'لپتاپ Hp ', path: '/products/laptop/hp' },
+                                    { title: 'لپتاپ Acer ', path: '/products/laptop/acer' },
+                                ]}
+                            />
+                            <Category
+                                key={'قطعات'}
+                                title="قطعات کامپیوتر" screen="large"
+                                Icon={<HiOutlineCpuChip className="size-6" />}
+                                submenus={[
+                                    { title: 'مادربرد', path: '/products/parts/motherboard' },
+                                    { title: 'سیپیو', path: '/products/parts/cpu' },
+                                    { title: 'کارت گرافیک', path: '/products/parts/gpu' },
+                                    { title: 'رم', path: '/products/parts/ram' },
+                                    { title: 'هارد', path: '/products/parts/hard' },
+                                    { title: 'خنک کننده', path: '/products/parts/cooler' },
+                                    { title: 'حافظه SSD', path: '/products/parts/ssd' },
+                                    { title: 'مانیتور', path: '/products/parts/monitor' },
+                                    { title: 'کیس', path: '/products/parts/case' },
+                                ]}
+                            />
+                            <Category
+                                key={'لوازم'}
+                                title="لوازم جانبی" screen="large"
+                                Icon={<PiHeadphones className="size-6" />}
+                                submenus={[
+                                    { title: 'موس', path: '/products/aditional/mouse' },
+                                    { title: 'کیبرد', path: '/products/aditional/keyboard' },
+                                    { title: 'اسپیکر', path: '/products/aditional/speaker' },
+                                    { title: 'وبکم', path: '/products/aditional/webcam' },
+                                ]}
+                            />
+                            <Category
+                                key={'کنسول'}
+                                title="کنسول بازی" screen="large"
+                                Icon={<GiConsoleController className="size-6" />}
+                                submenus={[
+                                    { title: 'کنسول ps5', path: '/products/console/ps5' },
+                                    { title: 'کنسول xbox', path: '/products/console/xbox' },
+                                ]}
+                            />
+                        </ul>
+                    </div>
+                }
+
             </div>
 
             {/* for smaller screens */}

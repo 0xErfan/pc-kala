@@ -24,11 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
                 <title>پی سی کالا | رقابت قدرت </title>
             </Head>
 
-            <Toaster />
-
-            <ScroolToTop />
-
             <Provider store={store}>
+                <Toaster />
+                <ScroolToTop />
                 <Component {...pageProps} />
             </Provider>
         </>

@@ -16,7 +16,9 @@ const Login = () => {
     const formSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (isEmptyInput(loginForm, ['payload', 'password'])) return
+        // if (isEmptyInput(loginForm, ['payload', 'password'])) return
+        if (isEmptyInput(loginForm, ['payload', 'password'])) { showToast(false, 'لطفا تمام فیلد هارا پر کنید'); return }
+
 
         setLoading(true)
 

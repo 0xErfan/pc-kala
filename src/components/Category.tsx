@@ -18,7 +18,7 @@ export default memo(function Category({ screen, title, Icon, submenus }: Categor
             {
                 screen == "large"
                     ?
-                    <li className="flex-center relative flex-col gap-2">
+                    <li className="flex-center relative cursor-pointer flex-col gap-2">
 
                         <div
                             onMouseLeave={() => setIsCategoryShown(false)}
