@@ -10,12 +10,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { id } = req.query
 
+        console.log('id received from server, -> ', id)
+
         await connectToDB()
 
         const models = [LaptopModel, PcModel, PartsModel, AccessoriesModel, ConsoleModels];
 
         let product;
-        
+
         for (const Model of models) {
             product = await Model.findOne({ _id: id });
             if (product) break;

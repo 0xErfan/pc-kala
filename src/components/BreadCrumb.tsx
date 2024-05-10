@@ -10,7 +10,6 @@ interface BreadCrumbProps {
     path: BreadcrumbItem[];
 }
 
-
 const BreadCrumb = ({ path }: BreadCrumbProps) => {
 
     const paths = path

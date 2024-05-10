@@ -10,7 +10,7 @@ import { LuHardDrive } from "react-icons/lu";
 
 const Product = (productProps: unknown) => {
 
-    const { discount, price, name, category, specs } = productProps || {}
+    const { discount, price, name, category, specs, _id } = productProps || {}
 
     const priceAfterOff = priceDiscountCalculator(price, discount)
 
@@ -19,7 +19,7 @@ const Product = (productProps: unknown) => {
 
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">{discount?.toLocaleString('fa-Ir')}٪</div>}
 
-            <Link href="/products/324987fui32">
+            <Link href={`/products/search/${_id}`}>
                 <Image width={500} height={500} priority alt="product-name" blurDataURL="true" src='/images/laptop-default.webp' className="m-auto object-cover my-3 cursor-pointer" />
             </Link>
 
@@ -28,7 +28,7 @@ const Product = (productProps: unknown) => {
                 <div className="text-blue-white">{priceAfterOff} <span className="text-[10px] text-title-text">تومان</span></div>
             </div>
 
-            <Link href="products/324987fui32" className="text-center px-3 transition-all min-h-[50px] h-full line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">{name}</Link>
+            <Link href={`/products/search/${_id}`} className="text-center px-3 transition-all min-h-[50px] h-full line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">{name}</Link>
 
             {
                 (category == 'laptop' || category == 'pc')

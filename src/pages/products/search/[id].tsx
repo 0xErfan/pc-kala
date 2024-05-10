@@ -13,12 +13,11 @@ import { memo, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Header from "@/components/Header";
-import { getTimer, productOffTimerProps } from '@/utils'
+import { getTimer, priceDiscountCalculator, productOffTimerProps } from '@/utils'
 import BreadCrumb from "@/components/BreadCrumb";
 import { MdClose } from "react-icons/md";
-import { AppContext } from "next/app";
-import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
-import { Props } from "next/script";
+import { GetStaticPropsContext } from "next";
+import Image from "next/image";
 
 interface coordinates {
     x: number
@@ -31,7 +30,7 @@ interface FullScreenImageProps {
     closeFullScreenFn: () => void
 }
 
-export default function Product({ data }: { data: {} }) {
+export default memo(function Product({ product }: { product: {} }) {
 
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
@@ -41,9 +40,13 @@ export default function Product({ data }: { data: {} }) {
     const [zoomShown, setIsZoomShown] = useState<boolean>(false)
     const [fullScreenShown, setFullScreenShown] = useState(false)
 
+    const { name, price, discount, specs, _id, image } = product || {}
+
+    const productSpecs = Object.entries(specs)
+
     const breadCrumbData = [
         { text: "لپتاپ", link: "/category/laptops" },
-        { text: "ROG Strix SCAR G834JY-AC i9-13980HX/32GB/2TB/RTX4090-16G", link: "/products/234t42r5" },
+        { text: name, link: `/products/search/${_id}` },
     ]
 
     const sharePage = (url: string) => {
@@ -121,28 +124,29 @@ export default function Product({ data }: { data: {} }) {
 
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 flex-col ch:cursor-pointer">
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-red" src="/images/laptop-default.webp" alt="product-img" />
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" alt="product-img" />
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" alt="product-img" />
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" alt="product-img" />
-                                    <img className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-red" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
                                 </div>
                             </div>
 
                             <div
                                 className="flex-[5] text-[13px] border relative overflow-hidden border-dark-gold rounded-md text-description-text">
                                 <div className={"relative overflow-hidden z-10"}>
-                                    <img
+                                    <Image
                                         ref={productImgRef}
                                         className="flex-center w-full object-cover py-4"
                                         src="/images/laptop-default.webp"
+                                        width={600}
+                                        height={600}
                                         alt="product-img"
                                         onPointerEnter={() => {
                                             setIsZoomShown(true)
                                         }}
                                         onPointerLeave={() => setIsZoomShown(false)}
                                         onPointerMove={e => {
-
                                             setCircleCoordinates({ x: e.clientX, y: e.clientY })
                                         }
                                         }
@@ -169,7 +173,7 @@ export default function Product({ data }: { data: {} }) {
                     </div>
 
                     <div className="md:flex-[1.2] xl:flex-[1.4] mb-auto">
-                        <p>لپ تاپ ایسوس ROG Strix SCAR G834JY-AC i9-13980HX/32GB/2TB/RTX4090-16G</p>
+                        <p>{name}</p>
                         <span
                             className="bg-blue-dark inline-block text-[11px] p-1 rounded-sm my-3">شناسه محصول : 72478</span>
                         <div className="flex items-center gap-12 text-[12px]">
@@ -212,9 +216,9 @@ export default function Product({ data }: { data: {} }) {
 
                         <div>
                             <div className="flex items-center gap-3 text-title-text text-2xl mt-10">
-                                <div className="red-line-through text-white ">۲۳,۷۳۴,۱۷۴</div>
-                                <div className="text-blue-white">۲۳,۱۴۵,۶۲۵ <span
-                                    className="text-description-text text-xl">تومان</span></div>
+                                {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-Ir')}</div>}
+                                <div className="text-blue-white">{priceDiscountCalculator(price, discount)}<span
+                                    className="text-description-text text-xl"> تومان</span></div>
                             </div>
                             <div className="flex items-center mt-3 gap-3">
                                 <div className="flex h-[44px] items-center border border-dark-gold rounded-md">
@@ -235,12 +239,14 @@ export default function Product({ data }: { data: {} }) {
                     <div className=" flex-1 text-[12px] hidden lg:block text-white mb-auto">
                         <div className="ch:rounded-sm space-y-1">
                             <h4 className="bg-[#343539] mb-2 py-1 px-2">مشخصات اصلی محصول</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> intel i9-13980HX
-                            </h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> +18inch QHD</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> RTX4090-16G</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> 32GB DDR5</h4>
-                            <h4 className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu /> 2TB-SSD</h4>
+                            {
+                                [...productSpecs]
+                                    .slice(0, 6)
+                                    .map((prd, len) => <h4
+                                        key={len}
+                                        className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu />{prd[1].value}
+                                    </h4>)
+                            }
                         </div>
 
                         <div className="mt-5">
@@ -318,22 +324,24 @@ export default function Product({ data }: { data: {} }) {
                                     </div>
 
                                     <div className={`flex-1 mb-auto`}>
-                                        <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد
-                                            “لپ تاپ لنوو IdeaPad GAMING3 i7-11370H/32GB/1TB/GTX 1650-4G”</p>
+
+                                        <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “{name}”</p>
+
                                         {
                                             ("") ?
-                                                <div className="text-center mt-12">برای ثبت نظر ابتدا <Link href="/login"
-                                                    className="text-blue-dark">وارد
-                                                    حساب </Link>خود شوید.</div>
+                                                <div className="text-center mt-12">برای ثبت نظر ابتدا <Link href="/login" className="text-blue-dark">وارد حساب </Link>خود شوید.</div>
                                                 :
                                                 <div className="mt-6">
-                                                    <label htmlFor="textArea">دیدگاه شما <span
-                                                        className="text-white-red">*</span></label>
+
+                                                    <label htmlFor="textArea">دیدگاه شما <span className="text-white-red">*</span></label>
+
                                                     <textarea
                                                         className="max-h-60 h-[167px] w-full p-2 rounded-md my-2 bg-primary-black border border-description-text/10"
-                                                        id="textArea" cols={30} rows={10}></textarea>
-                                                    <Button text="ثبت نظر" filled={true} fn={() => {
-                                                    }} />
+                                                        id="textArea" cols={30} rows={10}>
+                                                    </textarea>
+
+                                                    <Button text="ثبت نظر" filled={true} fn={() => { }}
+                                                    />
                                                 </div>
                                         }
                                     </div>
@@ -348,6 +356,7 @@ export default function Product({ data }: { data: {} }) {
                                             <p>دیدکاه خریداران</p>
                                         </div>
                                     </div>
+
                                     {
                                         " "
                                             ?
@@ -357,8 +366,7 @@ export default function Product({ data }: { data: {} }) {
                                                 <Comment />
                                             </div>
                                             :
-                                            <div className="w-full mt-3 bg-white-red p-3 rounded-md">نظری برای این محصول
-                                                ثبت نشده !</div>
+                                            <div className="w-full mt-3 bg-white-red p-3 rounded-md">نظری برای این محصول ثبت نشده !</div>
                                     }
                                 </div>
                             </div>
@@ -371,45 +379,19 @@ export default function Product({ data }: { data: {} }) {
 
                                 <div className="space-y-1 mt-4 text-white text-[10px]">
 
-                                    <div
-                                        className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
-                                        <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده
-                                            پردازنده
-                                        </div>
-                                        <div
-                                            className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel
-                                        </div>
-                                    </div>
+                                    {
+                                        productSpecs.map((data, ind) => {
+                                            return (
+                                                <div
+                                                    key={ind}
+                                                    className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
+                                                    <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">{data[1].title}</div>
+                                                    <div className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">{data[1].value}</div>
+                                                </div>
+                                            )
+                                        })
+                                    }
 
-                                    <div
-                                        className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
-                                        <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده
-                                            پردازنده
-                                        </div>
-                                        <div
-                                            className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
-                                        <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده
-                                            پردازنده
-                                        </div>
-                                        <div
-                                            className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel
-                                        </div>
-                                    </div>
-
-                                    <div
-                                        className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
-                                        <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">سازنده
-                                            پردازنده
-                                        </div>
-                                        <div
-                                            className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">Intel
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                     }
@@ -424,36 +406,48 @@ export default function Product({ data }: { data: {} }) {
     )
 
 
-}
+})
 
 const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImageProps) => (
     <div
         onClick={e => e.target instanceof HTMLDivElement && e.target.tagName == 'DIV' && closeFullScreenFn()}
         className={`fixed inset-0 w-full ${isShown ? 'fixed' : 'invisible'} bg-transparent px-3 sm:p-0 transition-all duration-200 ease-linear backdrop-blur-sm z-50 flex-center`}
     >
-        <img className="object-cover bg-primary-black rounded-md cursor-zoom-in size-[350px] sm:size-[400px] md:size-[500px] lg:size-[600px]" src={url} alt="full-screen-image" />
+        <Image width={500} height={500} className="object-cover bg-primary-black rounded-md cursor-zoom-in size-[350px] sm:size-[400px] md:size-[500px] lg:size-[600px]" src={url} alt="full-screen-image" />
         <div onClick={closeFullScreenFn} className="size-12 absolute bg-white-red ch:size-8 ch:cursor-pointer right-8 top-8 rounded-md flex-center"><MdClose /></div>
     </div>
 );
 
-export async function getStaticProps({ params }: { params: Params }) {
+export async function getStaticProps(context: GetStaticPropsContext) {
 
-    console.log(params)
+    try {
 
-    return {
-        props: {
-            data: {
-                name: 'erfan',
-                lname: 'eftekhari',
-                query: params
-            }
+        const response = await fetch(`http://localhost:3000/api/products/search/${context.params?.id}`, {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(context.params?.id)
+        });
+
+        if (!response.ok) {
+            console.log(response)
+            throw new Error('Failed to fetch product');
         }
+
+        const product = await response.json();
+
+        return {
+            props: { product: JSON.parse(JSON.stringify(product)) },
+        };
+
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        return { notFound: true }
     }
 }
 
 export async function getStaticPaths() {
-
-    const paths = [1, 2, 3, 4, 5, 6, "324987fui32"].map(data => ({ params: { id: String(data) } }))
-
-    return { paths, fallback: true }
+    return {
+        paths: [],
+        fallback: 'blocking',
+    };
 }
