@@ -44,6 +44,7 @@ export default function Header() {
                             src='/images/home/title.webp'
                             width={300}
                             height={100}
+                            priority
                             className="object-cover"
                             quality={85}
                         />
@@ -171,6 +172,7 @@ export default function Header() {
                             width={150}
                             height={50}
                             className="object-cover"
+                            priority
                             quality={85}
                             blurDataURL="true"
                         />

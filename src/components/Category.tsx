@@ -1,3 +1,5 @@
+import { categories } from "@/global.t";
+import { engCategoryToPersian } from "@/utils";
 import Link from "next/link";
 import { ReactNode, memo, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
@@ -20,21 +22,21 @@ export default memo(function Category({ screen, title, Icon, submenus }: Categor
                     ?
                     <li className="flex-center relative cursor-pointer flex-col gap-2">
 
-                        <div
-                            onMouseLeave={() => setIsCategoryShown(false)}
-                            onMouseOver={() => setIsCategoryShown(true)}
-                            className={`flex-center ${isCategoryShown && "text-dark-red"} transition-all delay-[40] duration-200 gap-1`}>
+                        <Link href={`/products/category/${engCategoryToPersian(title as categories)}`} onMouseLeave={() => setIsCategoryShown(false)} onMouseOver={() => setIsCategoryShown(true)} className={`flex-center ${isCategoryShown && "text-dark-red"} transition-all delay-[40] duration-200 gap-1`}>
                             <div className="flex font-peyda text-[14px] items-center gap-2">{Icon}{title}</div>
                             <FaAngleDown className={` ${isCategoryShown && "rotate-180"} size-4 duration-200 transition-all delay-[40]`} />
-                        </div>
+                        </Link>
 
                         <div
                             onMouseLeave={() => setIsCategoryShown(false)}
                             onMouseOver={() => setIsCategoryShown(true)}
-                            className={`absolute ${!isCategoryShown ? "invisible opacity-0" : "visible opacity-100"} right-0 duration-200 transition-all delay-[40] pt-12`}>
+                            className={`absolute ${!isCategoryShown ? "invisible opacity-0" : "visible opacity-100"} right-0 duration-200 transition-all delay-[40] pt-12`}
+                        >
+
                             <ul className="border-t-2 border-b-2 border-dark-red ch:py-2 bg-primary-black p-4 fixed w-full max-w-[180px] ch:cursor-pointer rounded-xl overflow-hidden ch:relative ">
                                 {submenus.map(menu => <li key={menu.title} className="submenu"><Link href={menu.path} > {menu.title} </Link></li>)}
                             </ul>
+
                         </div>
                     </li>
                     :

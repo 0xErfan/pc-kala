@@ -148,12 +148,21 @@ const engCategoryToPersian = (category: categories) => {
     let translatedCategory = null
 
     switch (category) {
-        case 'accessory': { translatedCategory = 'لوازم جانبی' }
-        case 'console': { translatedCategory = 'کنسول بازی' }
-        case 'laptop': { translatedCategory = 'لپتاپ' }
-        case 'parts': { translatedCategory = 'قطعات کامپیوتر' }
-        case 'pc': { translatedCategory = 'کامپیوتر' }
-        default: { }
+        case 'accessory': { translatedCategory = 'لوازم جانبی'; break }
+        case 'console': { translatedCategory = 'کنسول بازی'; break }
+        case 'laptop': { translatedCategory = 'لپتاپ'; break }
+        case 'parts': { translatedCategory = 'قطعات کامپیوتر'; break }
+        case 'pc': { translatedCategory = 'کامپیوتر'; break }
+    }
+
+    if (!translatedCategory) {
+        switch (category) {
+            case 'لوازم جانبی': { translatedCategory = 'accessory'; break }
+            case 'کنسول بازی': { translatedCategory = 'console'; break }
+            case 'لپتاپ': { translatedCategory = 'laptop'; break }
+            case 'قطعات کامپیوتر': { translatedCategory = 'parts'; break }
+            case 'کامپیوتر': { translatedCategory = 'pc'; break }
+        }
     }
 
     return translatedCategory;

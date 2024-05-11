@@ -251,7 +251,7 @@ export async function getStaticProps() { // static rendering(SSG) for needed pro
 
     products.laptops = await LaptopModel.find({}).limit(8) as []
     products.pcs = await PcModel.find({}).limit(8) as []
-    products.parts = shuffleArray(await PartsModel.find({})) as []
+    products.parts = shuffleArray(await PartsModel.find({}), 8) as []
 
     return { props: { products: JSON.parse(JSON.stringify(products as {})) } }
 }

@@ -13,7 +13,7 @@ import { productSortOptions } from "@/data";
 
 
 
-const Category = ({ product }: { product: [] }) => {
+const Category = ({ product }: any) => {
 
     const [products, setProducts] = useState(product)
     const [sortBy, setSortBy] = useState('')
@@ -38,15 +38,15 @@ const Category = ({ product }: { product: [] }) => {
         let sortedProducts = [...product]
 
         switch (sortBy) {
-            case 'view': { sortedProducts = shuffleArray(sortedProducts); break }
+            case 'view': { sortedProducts = shuffleArray(sortedProducts as never); break }
             case 'cheap': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => a.price - b.price); break }
-            case 'well-sell': { sortedProducts = shuffleArray(sortedProducts); break }
+            case 'well-sell': { sortedProducts = shuffleArray(sortedProducts as never); break }
             case 'exp': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => b.price - a.price); break }
             default: { break }
         }
 
         setProducts(sortedProducts as [])
-    }, [sortBy])
+    }, [sortBy, product])
 
     return (
 
@@ -81,7 +81,7 @@ const Category = ({ product }: { product: [] }) => {
 
                     <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6"}>
                         {
-                            [...products].map(data => <Product {...data} key={data._id} />)
+                            [...products].map((data: unknownObjProps<{}>) => <Product {...data} key={data._id as string} />)
                         }
                     </div>
 
@@ -101,14 +101,14 @@ export default Category;
 
 export async function getStaticProps(context: GetStaticPropsContext) {
 
-    const { category } = context.params
+    const query = context.params
 
     try {
 
-        const response = await fetch(`http://localhost:3000/api/products/category/${category}`, {
+        const response = await fetch(`http://localhost:3000/api/products/category/${query?.category}`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(category)
+            body: JSON.stringify(query?.category)
         });
 
         if (!response.ok) throw new Error('Failed to fetch product')
