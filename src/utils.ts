@@ -1,5 +1,6 @@
 import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
+import { categories } from "./global.t"
 
 export interface productOffTimerProps {
     hours: number | string
@@ -132,14 +133,30 @@ const inputValidations = (title: string, value: string, confirmPassword?: string
     return inputTargetToCheck;
 }
 
-const shuffleArray = (array: never[]) => {
+const shuffleArray = (array: never[], sliceCount?: number) => {
 
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]]; // Using destructuring assignment for swapping
     }
 
-    return array.slice(0, 8);
+    if (sliceCount) { return array.slice(0, sliceCount) } else return array
+}
+
+const engCategoryToPersian = (category: categories) => {
+
+    let translatedCategory = null
+
+    switch (category) {
+        case 'accessory': { translatedCategory = 'لوازم جانبی' }
+        case 'console': { translatedCategory = 'کنسول بازی' }
+        case 'laptop': { translatedCategory = 'لپتاپ' }
+        case 'parts': { translatedCategory = 'قطعات کامپیوتر' }
+        case 'pc': { translatedCategory = 'کامپیوتر' }
+        default: { }
+    }
+
+    return translatedCategory;
 }
 
 export {
@@ -152,4 +169,5 @@ export {
     isEmptyInput,
     inputValidations,
     shuffleArray,
+    engCategoryToPersian
 }

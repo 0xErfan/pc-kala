@@ -12,6 +12,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const text = req.body?.text.toLowerCase()
 
+        console.log(text)
+
         const matchedItems: [] = []
 
         for (const Model of [AccessoriesModel, ConsoleModels, LaptopModel, PartsModel, PcModel,]) {
@@ -20,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
             allCategoryProducts
                 .filter(prd => String(prd.name)
-                    .toLowerCase().includes(text) || String(prd.category).toLowerCase().includes(text))
+                    ?.toLowerCase().includes(text) || String(prd.category)?.toLowerCase().includes(text))
                 .forEach((prd) => matchedItems.push(prd as never))
         }
 

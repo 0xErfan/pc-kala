@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="db879b03-ce06-4925-9a55-6adf72ab0413" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/FormInput.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/api/auth/register.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/api/auth/register.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/profile/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/profile/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/register/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/register/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Product.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/api/products/globalSearch.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/products/search/[id].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/products/search/[id].tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/search/[text].tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/search/[text].tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +65,7 @@
       <workItem from="1714743705023" duration="2000" />
       <workItem from="1714823070173" duration="3000" />
       <workItem from="1715113949838" duration="1000" />
+      <workItem from="1715370923124" duration="10000" />
     </task>
     <servers />
   </component>

@@ -19,6 +19,7 @@ import { MdClose } from "react-icons/md";
 import { GetStaticPropsContext } from "next";
 import Image from "next/image";
 import Head from "next/head";
+import { useAppSelector } from "@/Hooks/useRedux";
 
 interface coordinates {
     x: number
@@ -40,9 +41,9 @@ export default memo(function Product({ product }: { product: {} }) {
     const productImgRef = useRef<HTMLImageElement | null>(null);
     const [zoomShown, setIsZoomShown] = useState<boolean>(false)
     const [fullScreenShown, setFullScreenShown] = useState(false)
+    const isLogin = useAppSelector(state => state.userSlice.isLogin)
 
     const { name, price, discount, specs, _id, image } = product || {}
-
     const productSpecs = Object.entries(specs)
 
     const breadCrumbData = [
@@ -273,8 +274,7 @@ export default memo(function Product({ product }: { product: {} }) {
 
                 </div>
 
-                <div
-                    className="flex items-center container ch:cursor-pointer h-[107px] text-description-text relative ch:transition-all bg-secondary-black text-[12px] mt-8 rounded-md p-4">
+                <div className="flex font-peyda items-center container ch:cursor-pointer h-[107px] text-description-text relative ch:transition-all bg-secondary-black text-[14px] mt-8 rounded-md p-4">
 
                     <div onClick={() => setActiveSection("details")} className={`flex-1 relative`}>
                         <div className={`flex-center flex-col ${activeSection == "details" && "active-section"} gap-1`}>
@@ -331,8 +331,8 @@ export default memo(function Product({ product }: { product: {} }) {
                                         <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “{name}”</p>
 
                                         {
-                                            ("") ?
-                                                <div className="text-center mt-12">برای ثبت نظر ابتدا <Link href="/login" className="text-blue-dark">وارد حساب </Link>خود شوید.</div>
+                                            !isLogin ?
+                                                <div className="text-center mt-12 p-3 border border-dark-gold rounded-md w-3/4 m-auto">برای ثبت نظر ابتدا <Link href="/login" className="text-blue-dark">وارد حساب </Link>خود شوید.</div>
                                                 :
                                                 <div className="mt-6">
 
