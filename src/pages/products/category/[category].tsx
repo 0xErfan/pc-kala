@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { BsSortDown } from "react-icons/bs";
 import { HiOutlineClipboardList } from "react-icons/hi";
 import { productSortOptions } from "@/data";
+import Pagination from "@/components/Pagination";
 
 
 
@@ -17,6 +18,7 @@ const Category = ({ product }: any) => {
 
     const [products, setProducts] = useState(product)
     const [sortBy, setSortBy] = useState('')
+
 
     const breadCrumbData = [
         { text: "دسته بندی ها", link: `/category` },
@@ -32,6 +34,8 @@ const Category = ({ product }: any) => {
             {opt.text}
         </li>
     ))
+
+    const getNewPaginatedItems = (items: []) => { setProducts(items), scrollTo({ top: 0, behavior: 'smooth' }) }
 
     useEffect(() => {
 
@@ -86,6 +90,8 @@ const Category = ({ product }: any) => {
                     </div>
 
                 </div>
+
+                <Pagination itemsArray={products} updatePaginatedItems={getNewPaginatedItems} />
 
             </div>
 
