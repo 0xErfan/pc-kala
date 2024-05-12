@@ -6,7 +6,7 @@ import Product from "@/components/Product";
 import { unknownObjProps } from "@/global.t";
 import { engCategoryToPersian, shuffleArray } from "@/utils";
 import { GetStaticPropsContext } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsSortDown } from "react-icons/bs";
 import { HiOutlineClipboardList } from "react-icons/hi";
 import { productSortOptions } from "@/data";
@@ -18,7 +18,6 @@ const Category = ({ product }: any) => {
 
     const [products, setProducts] = useState(product)
     const [sortBy, setSortBy] = useState('')
-
 
     const breadCrumbData = [
         { text: "دسته بندی ها", link: `/category` },
@@ -35,7 +34,7 @@ const Category = ({ product }: any) => {
         </li>
     ))
 
-    const getNewPaginatedItems = (items: []) => { setProducts(items), scrollTo({ top: 0, behavior: 'smooth' }) }
+    const getNewPaginatedItems = (items: never[]) => { setProducts(items) }
 
     useEffect(() => {
 
@@ -91,7 +90,7 @@ const Category = ({ product }: any) => {
 
                 </div>
 
-                <Pagination itemsArray={products} updatePaginatedItems={getNewPaginatedItems} />
+                <Pagination itemsArray={product} updatePaginatedItems={items => getNewPaginatedItems(items)} />
 
             </div>
 

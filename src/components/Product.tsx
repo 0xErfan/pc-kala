@@ -15,7 +15,7 @@ const Product = (productProps: unknown) => {
     const priceAfterOff = priceDiscountCalculator(price, discount)
 
     return (
-        <div className="sm:max-w-[316px] w-full relative m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
+        <div data-aos="zoom-in" className="sm:max-w-[316px] w-full relative m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
 
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">{discount?.toLocaleString('fa-Ir')}٪</div>}
 
