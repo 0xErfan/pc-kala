@@ -6,7 +6,7 @@ interface paginationProps {
     itemsPerPage?: number
     itemsArray: []
     updatePaginatedItems: (array: never[]) => void
-    paginationType: 'withPage' | 'seeMore'
+    paginationType?: 'withPage' | 'seeMore'
 }
 
 const Pagination = ({ itemsArray, itemsPerPage = 12, updatePaginatedItems, paginationType = 'seeMore' }: paginationProps) => {

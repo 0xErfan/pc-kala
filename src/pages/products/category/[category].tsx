@@ -16,7 +16,9 @@ import Pagination from "@/components/Pagination";
 
 const Category = ({ product }: any) => {
 
-    const [products, setProducts] = useState(product)
+
+    const [updater, setUpdater] = useState(false)
+    const [products, setProducts] = useState([...product])
     const [sortBy, setSortBy] = useState('')
 
     const breadCrumbData = [
@@ -34,22 +36,26 @@ const Category = ({ product }: any) => {
         </li>
     ))
 
-    const getNewPaginatedItems = (items: never[]) => { setProducts(items) }
+    const getNewPaginatedItems = (items: never[]) => { setProducts(items), setUpdater(preve => !preve) }
+
+    useEffect(() => { setProducts(product), setSortBy('') }, [product]) // update the category products after navigating to a new category
+
+    useEffect(() => getNewPaginatedItems(items => setProducts(items)), [])
 
     useEffect(() => {
 
-        let sortedProducts = [...product]
+        let sortedProducts = [...products]
 
         switch (sortBy) {
-            case 'view': { sortedProducts = shuffleArray(sortedProducts as never); break }
-            case 'cheap': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => a.price - b.price); break }
+            case 'view':
             case 'well-sell': { sortedProducts = shuffleArray(sortedProducts as never); break }
+            case 'cheap': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => a.price - b.price); break }
             case 'exp': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => b.price - a.price); break }
             default: { break }
         }
 
         setProducts(sortedProducts as [])
-    }, [sortBy, product])
+    }, [sortBy, updater])
 
     return (
 
@@ -84,13 +90,13 @@ const Category = ({ product }: any) => {
 
                     <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6"}>
                         {
-                            [...products].map((data: unknownObjProps<{}>) => <Product {...data} key={data._id as string} />)
+                            products?.map((data: unknownObjProps<{}>) => <Product {...data} key={data._id as string} />)
                         }
                     </div>
 
                 </div>
 
-                <Pagination itemsArray={product} updatePaginatedItems={items => getNewPaginatedItems(items)} />
+                <Pagination itemsArray={product} updatePaginatedItems={getNewPaginatedItems} />
 
             </div>
 
