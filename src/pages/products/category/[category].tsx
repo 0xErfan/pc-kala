@@ -2,23 +2,17 @@ import BlockTitle from "@/components/BlockTitle";
 import BreadCrumb from "@/components/BreadCrumb";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import Product from "@/components/Product";
-import { unknownObjProps } from "@/global.t";
-import { engCategoryToPersian, shuffleArray } from "@/utils";
+import { engCategoryToPersian } from "@/utils";
 import { GetStaticPropsContext } from "next";
-import { useEffect, useRef, useState } from "react";
 import { BsSortDown } from "react-icons/bs";
 import { HiOutlineClipboardList } from "react-icons/hi";
 import { productSortOptions } from "@/data";
 import Pagination from "@/components/Pagination";
-
+import { useEffect, useState } from "react";
 
 
 const Category = ({ product }: any) => {
 
-
-    const [updater, setUpdater] = useState(false)
-    const [products, setProducts] = useState([...product])
     const [sortBy, setSortBy] = useState('')
 
     const breadCrumbData = [
@@ -26,36 +20,17 @@ const Category = ({ product }: any) => {
         { text: `${engCategoryToPersian(product[0].category)}` }
     ]
 
-    const productsToShow = [...productSortOptions].map(opt => (
+    const sortOptions = [...productSortOptions].map(opt => (
         <li
             className={`cursor-pointer transition-all ${sortBy === opt.sort && "text-white-red"}`}
             key={opt.sort}
-            onClick={() => opt.sort == sortBy ? setSortBy('') : setSortBy(opt.sort)}
+            onClick={() => { opt.sort == sortBy ? setSortBy('') : setSortBy(opt.sort) }}
         >
             {opt.text}
         </li>
     ))
 
-    const getNewPaginatedItems = (items: never[]) => { setProducts(items), setUpdater(preve => !preve) }
-
-    useEffect(() => { setProducts(product), setSortBy('') }, [product]) // update the category products after navigating to a new category
-
-    useEffect(() => getNewPaginatedItems(items => setProducts(items)), [])
-
-    useEffect(() => {
-
-        let sortedProducts = [...products]
-
-        switch (sortBy) {
-            case 'view':
-            case 'well-sell': { sortedProducts = shuffleArray(sortedProducts as never); break }
-            case 'cheap': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => a.price - b.price); break }
-            case 'exp': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => b.price - a.price); break }
-            default: { break }
-        }
-
-        setProducts(sortedProducts as [])
-    }, [sortBy, updater])
+    useEffect(() => { setSortBy('') }, [product]) // reset the sorts after navigating between categories
 
     return (
 
@@ -80,7 +55,7 @@ const Category = ({ product }: any) => {
                                 <p>مرتب سازی : </p>
                             </div>
 
-                            <ul className="flex items-center text-description-text gap-6 select-none">{productsToShow}</ul>
+                            <ul className="flex items-center text-description-text gap-6 select-none">{sortOptions}</ul>
 
                         </div>
 
@@ -88,15 +63,10 @@ const Category = ({ product }: any) => {
 
                     </div>
 
-                    <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6"}>
-                        {
-                            products?.map((data: unknownObjProps<{}>) => <Product {...data} key={data._id as string} />)
-                        }
-                    </div>
+                    <Pagination sortType={sortBy} itemsArray={product} />
 
                 </div>
 
-                <Pagination itemsArray={product} updatePaginatedItems={getNewPaginatedItems} />
 
             </div>
 

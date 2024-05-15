@@ -1,6 +1,6 @@
 import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
-import { categories } from "./global.t"
+import { categories, unknownObjProps } from "./global.t"
 
 export interface productOffTimerProps {
     hours: number | string
@@ -168,6 +168,21 @@ const engCategoryToPersian = (category: categories) => {
     return translatedCategory;
 }
 
+const itemsSorter = (type: string, items: never[]) => {
+
+    let sortedProducts = [...items]
+
+    switch (type) {
+        case 'view':
+        case 'well-sell': { sortedProducts = shuffleArray(sortedProducts as never); break }
+        case 'cheap': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => a.price - b.price); break }
+        case 'exp': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => b.price - a.price); break }
+        default: { break }
+    }
+
+    return sortedProducts;
+}
+
 export {
     getTimer,
     fetchData,
@@ -178,5 +193,6 @@ export {
     isEmptyInput,
     inputValidations,
     shuffleArray,
-    engCategoryToPersian
+    engCategoryToPersian,
+    itemsSorter
 }
