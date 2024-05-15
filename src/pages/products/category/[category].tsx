@@ -4,33 +4,51 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { engCategoryToPersian } from "@/utils";
 import { GetStaticPropsContext } from "next";
-import { BsSortDown } from "react-icons/bs";
 import { HiOutlineClipboardList } from "react-icons/hi";
-import { productSortOptions } from "@/data";
 import Pagination from "@/components/Pagination";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 
 const Category = ({ product }: any) => {
 
-    const [sortBy, setSortBy] = useState('')
+    const [products, setProducts] = useState([...product])
+
+    const router = useRouter()
 
     const breadCrumbData = [
         { text: "دسته بندی ها", link: `/category` },
         { text: `${engCategoryToPersian(product[0].category)}` }
     ]
 
-    const sortOptions = [...productSortOptions].map(opt => (
-        <li
-            className={`cursor-pointer transition-all ${sortBy === opt.sort && "text-white-red"}`}
-            key={opt.sort}
-            onClick={() => { opt.sort == sortBy ? setSortBy('') : setSortBy(opt.sort) }}
-        >
-            {opt.text}
-        </li>
-    ))
+    const { filter, category } = router.query || {}
 
-    useEffect(() => { setSortBy('') }, [product]) // reset the sorts after navigating between categories
+    const pathnameWithoutFilter = router.pathname.split('/').filter(value => !value.startsWith('[')).join('/').concat('/' + category)
+    
+    useEffect(() => {
+
+        if (!filter || !filter.toString().trim().length) return
+
+        const filteredItems = [...product].filter(item => {
+            switch (filter) {
+                case 'affordable': { return item.price < 15_000_000 }
+                case 'gaming': { return item.price > 32_000_000 }
+                case 'student': { return item.price > 25_000_000 }
+                case 'rendering': { return item.price > 42_000_000 }
+                case 'office': { return item.price > 15_000_000 }
+                default: { return item.name.toLowerCase().includes(filter) }
+            }
+        })
+
+        if (!filteredItems.length) {
+            const newUrl = window.location.pathname;
+            history.replaceState({}, '', newUrl);
+            // router.replace(pathnameWithoutFilter);
+        }
+
+        setProducts(filteredItems)
+
+    }, [filter, product])
 
     return (
 
@@ -44,7 +62,7 @@ const Category = ({ product }: any) => {
 
                 <BlockTitle title={`قیمت لپ تاپ`} Icon={<HiOutlineClipboardList className="p-[6px]" />} />
 
-                <Pagination itemsArray={product} />
+                <Pagination itemsArray={products as []} />
 
             </div>
 

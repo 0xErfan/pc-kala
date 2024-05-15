@@ -15,6 +15,7 @@ interface paginationProps {
 
 const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' }: paginationProps) => {
 
+    // static codes
     const [currentPage, setCurrentPage] = useState(1)
     const [paginatedItems, setPaginatedItems] = useState([...itemsArray])
     const [sortBy, setSortBy] = useState('')
@@ -25,6 +26,8 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
 
     const nextPageHandler = () => { currentPage < availablePages && setCurrentPage(preve => preve + 1) }
     const previousPageHandler = () => { currentPage > 1 && setCurrentPage(preve => preve - 1) }
+    // static codes
+
 
     const sortOptions = [...productSortOptions].map(opt => (
         <li
@@ -36,14 +39,15 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
         </li>
     ))
 
+    useEffect(() => { setSortBy('') }, [itemsArray])
 
-    useEffect(() => { // this effect first of all sort the pure items and then slice them to prevent losing sorted items between currentpage changing
+    useEffect(() => {
         setPaginatedItems(itemsSorter(sortBy, [...itemsArray].slice(startIndex, endIndex)))
-    }, [currentPage, itemsArray, sortBy])
+    }, [currentPage, itemsArray, sortBy]) // this effect first of all sort the pure items and then slice them to prevent losing sorted items between currentpage changing
 
     return (
         <>
-
+            {/* dynamic elements */}
             <div className="flex flex-col">
 
                 <div className="text-[11px] flex justify-between overflow-auto gap-6 items-center rounded-md p-3 bg-secondary-black">
@@ -68,7 +72,11 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
                 </div >
 
             </div>
+            {/* dynamic elements */}
 
+
+
+            {/* static html */}
             <>
                 {(availablePages > 1 && currentPage < availablePages) &&
                     <div className={`flex ${paginationType == 'withPage' && 'border'} max-w-[250px] m-auto w-full ch:flex ch:items-center ch:justify-center border-black/20 -space-x-px ch:overflow-hidden font-peyda cursor-pointer text-title-text text-[13px] ch:border-l overflow-hidden ch:border-white/10 bg-secondary-black ch:transition-all h-10 ch:w-full ch:h-full rounded-md mt-7`}>
@@ -93,6 +101,8 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
                     </div>
                 }
             </>
+            {/* static html */}
+
         </>
     )
 }
