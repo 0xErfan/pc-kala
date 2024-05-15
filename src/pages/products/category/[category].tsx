@@ -21,10 +21,12 @@ const Category = ({ product }: any) => {
         { text: `${engCategoryToPersian(product[0].category)}` }
     ]
 
+    useEffect(() => { setProducts(product) }, [product])
+
     const { filter, category } = router.query || {}
 
     const pathnameWithoutFilter = router.pathname.split('/').filter(value => !value.startsWith('[')).join('/').concat('/' + category)
-    
+
     useEffect(() => {
 
         if (!filter || !filter.toString().trim().length) return
@@ -40,11 +42,7 @@ const Category = ({ product }: any) => {
             }
         })
 
-        if (!filteredItems.length) {
-            const newUrl = window.location.pathname;
-            history.replaceState({}, '', newUrl);
-            // router.replace(pathnameWithoutFilter);
-        }
+        if (!filteredItems.length) { location.href = pathnameWithoutFilter }
 
         setProducts(filteredItems)
 
@@ -62,11 +60,11 @@ const Category = ({ product }: any) => {
 
                 <BlockTitle title={`قیمت لپ تاپ`} Icon={<HiOutlineClipboardList className="p-[6px]" />} />
 
-                <Pagination itemsArray={products as []} />
+                <Pagination itemsArray={filter ? products as [] : product} />
 
             </div>
 
-            <div className="h-12"></div>
+            <div className={`${products.length ? 'h-12' : 'h-48'}`}></div>
 
             <Footer />
 
