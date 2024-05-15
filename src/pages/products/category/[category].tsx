@@ -44,29 +44,7 @@ const Category = ({ product }: any) => {
 
                 <BlockTitle title={`قیمت لپ تاپ`} Icon={<HiOutlineClipboardList className="p-[6px]" />} />
 
-                <div className="flex flex-col">
-
-                    <div className="text-[11px] flex justify-between overflow-auto gap-6 items-center rounded-md p-3 bg-secondary-black">
-
-                        <div className="flex items-center gap-5">
-
-                            <div className="flex items-center flex-nowrap gap-2 text-white">
-                                <BsSortDown className="size-6" />
-                                <p>مرتب سازی : </p>
-                            </div>
-
-                            <ul className="flex items-center text-description-text gap-6 select-none">{sortOptions}</ul>
-
-                        </div>
-
-                        <div className="text-white hidden sm:block text-[13px]">{product.length} کالا</div>
-
-                    </div>
-
-                    <Pagination sortType={sortBy} itemsArray={product} />
-
-                </div>
-
+                <Pagination itemsArray={product} />
 
             </div>
 

@@ -3,19 +3,21 @@ import Button from "./Button"
 import { unknownObjProps } from "@/global.t"
 import Product from "./Product"
 import { itemsSorter } from "@/utils"
+import { productSortOptions } from "@/data"
+import { BsSortDown } from "react-icons/bs"
 
 interface paginationProps {
     currentPage?: number
     itemsPerPage?: number
     itemsArray: []
     paginationType?: 'withPage' | 'seeMore'
-    sortType: string
 }
 
-const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore', sortType }: paginationProps) => {
+const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' }: paginationProps) => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [paginatedItems, setPaginatedItems] = useState([...itemsArray])
+    const [sortBy, setSortBy] = useState('')
 
     const startIndex = paginationType == 'seeMore' ? 0 : currentPage * itemsPerPage - itemsPerPage
     const endIndex = currentPage * itemsPerPage
@@ -24,16 +26,48 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore',
     const nextPageHandler = () => { currentPage < availablePages && setCurrentPage(preve => preve + 1) }
     const previousPageHandler = () => { currentPage > 1 && setCurrentPage(preve => preve - 1) }
 
+    const sortOptions = [...productSortOptions].map(opt => (
+        <li
+            className={`cursor-pointer transition-all ${sortBy === opt.sort && "text-white-red"}`}
+            key={opt.sort}
+            onClick={() => { opt.sort == sortBy ? setSortBy('') : setSortBy(opt.sort) }}
+        >
+            {opt.text}
+        </li>
+    ))
+
+
     useEffect(() => { // this effect first of all sort the pure items and then slice them to prevent losing sorted items between currentpage changing
-        setPaginatedItems(itemsSorter(sortType, [...itemsArray].slice(startIndex, endIndex)))
-    }, [currentPage, itemsArray, sortType])
+        setPaginatedItems(itemsSorter(sortBy, [...itemsArray].slice(startIndex, endIndex)))
+    }, [currentPage, itemsArray, sortBy])
 
     return (
         <>
 
-            <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6"}>
-                {paginatedItems?.map((data: unknownObjProps<{}>) => <Product {...data} key={data._id as string} />)}
-            </div >
+            <div className="flex flex-col">
+
+                <div className="text-[11px] flex justify-between overflow-auto gap-6 items-center rounded-md p-3 bg-secondary-black">
+
+                    <div className="flex items-center gap-5">
+
+                        <div className="flex items-center flex-nowrap gap-2 text-white">
+                            <BsSortDown className="size-6" />
+                            <p>مرتب سازی : </p>
+                        </div>
+
+                        <ul className="flex items-center text-description-text gap-6 select-none">{sortOptions}</ul>
+
+                    </div>
+
+                    <div className="text-white hidden sm:block text-[13px]">{itemsArray.length} کالا</div>
+
+                </div>
+
+                <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6"}>
+                    {paginatedItems?.map((data: unknownObjProps<{}>) => <Product {...data} key={data._id as string} />)}
+                </div >
+
+            </div>
 
             <>
                 {(availablePages > 1 && currentPage < availablePages) &&

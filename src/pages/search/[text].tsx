@@ -2,19 +2,16 @@ import Header from "@/components/Header";
 import BlockTitle from "@/components/BlockTitle";
 import Footer from "@/components/Footer";
 import { GrFormSearch } from "react-icons/gr";
-import Product from "@/components/Product";
 import Button from "@/components/Button";
 import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/router";
 import { GetStaticPropsContext } from "next";
-import { ParsedUrlQuery } from "querystring";
+import Pagination from "@/components/Pagination";
 
-const Search = ({ products }) => {
+const Search = ({ products }: { products: [] }) => {
 
     const navigate = useRouter()
     const params = navigate.query
-
-    console.log(products)
 
     const breadCrumbData = [
         { text: "جستجو", link: `/search/${params?.text}` },
@@ -35,24 +32,16 @@ const Search = ({ products }) => {
 
                 {
                     products.length ?
-                        <div className={"grid grid-cols-4 gap-4 mt-6"}>
-
-                            {
-                                [...products].map(prd => <Product key={prd._id} {...prd} />)
-                            }
-                        </div>
+                        <Pagination itemsArray={products} />
                         :
                         <div
                             className={"flex items-center justify-between p-3 bg-secondary-black text-center rounded-md mt-6 text-[16px] text-white-red"}>
-                            <div
-                            >نتیجه
-                                ای برای {`" ${params.text} "`} یافت نشد
-                            </div>
+                            <div>نتیجه ای برای  {`" ${params.text} "`} یافت نشد </div>
                             <Button text={"بازگشت"} fn={() => navigate.replace("/")} />
                         </div>
                 }
 
-                <div className={"h-60"}></div>
+                <div className={"h-44"}></div>
             </div>
 
             <Footer />

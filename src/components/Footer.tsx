@@ -4,6 +4,7 @@ import { BsInfoLg } from "react-icons/bs";
 import { FaGithub, FaInstagram, FaTelegramPlane } from "react-icons/fa";
 import { VscSymbolRuler } from "react-icons/vsc";
 import Button from "./Button";
+import Image from "next/image";
 
 function Footer() {
 
@@ -52,7 +53,7 @@ function Footer() {
 
                     </div>
 
-                    <div className="flex-1 h-full mr-auto mt-8 relative"><span className="fake-namad">Fake</span><img className="h-[100%] mt-auto" src="/images/namads.png" alt="" /></div>
+                    <div className="flex-1 h-full mr-auto mt-8 relative"><span className="fake-namad">Fake</span><Image width={1000} loading="lazy" height={1000} quality={100} className="h-[100%] mt-auto" src="/images/namads.png" alt="" /></div>
 
                 </div>
 
