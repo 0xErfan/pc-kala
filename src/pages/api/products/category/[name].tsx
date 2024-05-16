@@ -1,6 +1,6 @@
 import connectToDB from "@/config/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { LaptopModel, PcModel, PartsModel, AccessoriesModel, ConsoleModels } from "@/models/Product";
+import ProductModel from "@/models/Product";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -8,23 +8,19 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
 
-        const { name } = req.query
+        const { name } = req.query;
+
+        const isCategoryValid = ['accessory', 'pc', 'parts', 'laptop', 'console'].find(cat => cat == name)
+
+        if (!isCategoryValid?.length) return res.status(421).json({ message: 'invalid category name buddy' })
 
         await connectToDB()
 
-        let product;
+        let products = await ProductModel.find({ category: name })
 
-        switch (name) { // im not a backend guy so here we are (:
-            case 'laptop': { product = await LaptopModel.find({}).exec(); break }
-            case 'pc': { product = await PcModel.find({}).exec(); break }
-            case 'accessory': { product = await AccessoriesModel.find({}).exec(); break }
-            case 'console': { product = await ConsoleModels.find({}).exec(); break }
-            case 'parts': { product = await PartsModel.find({}).exec(); break }
-        }
+        if (!products) throw new Error("Invalid category name")
 
-        if (!product) throw new Error("Invalid category name")
-
-        return res.status(201).json(product)
+        return res.status(201).json(products)
 
     } catch (err) {
         console.log(err)

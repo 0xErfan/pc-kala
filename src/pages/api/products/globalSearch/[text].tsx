@@ -1,6 +1,5 @@
 import connectToDB from "@/config/db";
 import ProductModel from "@/models/Product";
-import { match } from "assert";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -20,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 product.name?.toLowerCase().includes(text) ||
                 product.category?.toLowerCase().includes(text)
             )
-            .concat([...allProducts] // just search in the product spec values
+            .concat([...allProducts] // just search in the product spec values for filtering
                 .map(product => Object.values(product.specs)
                     .some(spec => spec?.value.toString().toLowerCase().includes(text)) ? product : null)
                 .filter(Boolean));

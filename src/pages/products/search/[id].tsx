@@ -248,7 +248,7 @@ export default memo(function Product({ product }: { product: {} }) {
                                     .slice(0, 6)
                                     .map((prd, len) => <h4
                                         key={len}
-                                        className="bg-primary-black flex items-center gap-2 py-1 px-2"><GoCpu />{prd[1].value}
+                                        className="bg-primary-black flex items-center gap-2 py-1 ch:flex-shrink-0 px-2"><GoCpu />{prd[1].value}
                                     </h4>)
                             }
                         </div>
