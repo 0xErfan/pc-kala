@@ -1,5 +1,5 @@
 import connectToDB from "@/config/db";
-import { AccessoriesModel, ConsoleModels, LaptopModel, PartsModel, PcModel } from "@/models/Product";
+import ProductModel from "@/models/Product";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -11,22 +11,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const { type, ...data } = req.body
+        const { ...data } = req.body
+        
+        if (!data) return res.status(421).json({ message: 'requirement data to make product not found idiot!' })
 
-        if (!type || !data) return res.status(421).json({ message: 'requirement data to make product not found idiot!' })
-
-        let productType
-
-        switch (type) {
-            case 'laptop': { productType = LaptopModel; break }
-            case 'pc': { productType = PcModel; break }
-            case 'console': { productType = ConsoleModels; break }
-            case 'accessory': { productType = AccessoriesModel; break }
-            case 'parts': { productType = PartsModel; break }
-            default: { throw new Error('Not a valid type') }
-        }
-
-        const newProduct = await productType.create(data)
+        const newProduct = await ProductModel.create(data)
 
         console.log('created successfully :))', newProduct)
 

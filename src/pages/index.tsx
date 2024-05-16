@@ -18,9 +18,9 @@ import { useAppDispatch } from '@/Hooks/useRedux';
 import { useEffect } from 'react';
 import { getMe } from '@/Redux/Features/userSlice';
 import connectToDB from '@/config/db';
-import { LaptopModel, PartsModel, PcModel } from '@/models/Product';
-import { shuffleArray } from '@/utils';
 import Image from 'next/image';
+import ProductModel from '@/models/Product';
+import { shuffleArray } from '@/utils';
 
 interface productProps { [key: string]: [] }
 
@@ -30,7 +30,7 @@ export default function Home({ products }: productProps) {
     const navigate = useRouter()
     const dispatch = useAppDispatch()
 
-    const { laptops, pcs, parts } = products
+    const { laptops, pcs, parts } = products || {}
 
     useEffect(() => { dispatch(getMe()) }, [dispatch])
 
@@ -242,16 +242,15 @@ export default function Home({ products }: productProps) {
         </section>
     )
 }
-
 export async function getStaticProps() { // static rendering(SSG) for needed products to show in main page
 
     await connectToDB()
 
     let products: productProps = {}
 
-    products.laptops = await LaptopModel.find({}).limit(8) as []
-    products.pcs = await PcModel.find({}).limit(8) as []
-    products.parts = shuffleArray(await PartsModel.find({}), 8) as []
+    products.laptops = await ProductModel.find({ category: 'laptop' }).limit(8) as []
+    products.pcs = await ProductModel.find({ category: 'pc' }).limit(8) as []
+    products.parts = shuffleArray(await ProductModel.find({ category: 'parts' }), 8) as []
 
     return { props: { products: JSON.parse(JSON.stringify(products as {})) } }
 }

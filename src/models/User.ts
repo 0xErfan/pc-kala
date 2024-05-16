@@ -6,11 +6,11 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     meliCode: { type: Number, default: null, length: 10 },
-    wishes: { type: Array, default: [] },
-    comments: { type: Array, default: [] },
-    orders: { type: Array, default: [] },
-    basket: { type: Array, default: [] },
-    notifications: { type: Array, default: [] },
+    wishes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Wish' }],
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Order' }],
+    basket: [{ type: mongoose.Schema.Types.ObjectId, ref: 'BasketItem' }],
+    notifications: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Notification' }],
 }, { timestamps: true })
 
 const UserModel = mongoose.models.User || mongoose.model('User', UserSchema);

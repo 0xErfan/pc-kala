@@ -137,10 +137,10 @@ export default function Header() {
                                 title="لوازم جانبی" screen="large"
                                 Icon={<PiHeadphones className="size-6" />}
                                 submenus={[
-                                    { title: 'موس', path: '/products/category/aditional?filter=mouse' },
-                                    { title: 'کیبرد', path: '/products/category/aditional?filter=keyboard' },
-                                    { title: 'اسپیکر', path: '/products/category/aditional?filter=speaker' },
-                                    { title: 'وبکم', path: '/products/category/aditional?filter=webcam' },
+                                    { title: 'موس', path: '/products/category/accessory?filter=mouse' },
+                                    { title: 'کیبرد', path: '/products/category/accessory?filter=keyboard' },
+                                    { title: 'اسپیکر', path: '/products/category/accessory?filter=speaker' },
+                                    { title: 'وبکم', path: '/products/category/accessory?filter=webcam' },
                                 ]}
                             />
                             <Category
