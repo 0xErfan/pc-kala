@@ -1,5 +1,6 @@
 import connectToDB from "@/config/db";
-import { AccessoriesModel, ConsoleModels, LaptopModel, PartsModel, PcModel } from "@/models/Product";
+import ProductModel from "@/models/Product";
+import { match } from "assert";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -12,21 +13,20 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const text = req.body?.text.toLowerCase()
 
-        console.log(text)
+        const allProducts = await ProductModel.find({})
 
-        const matchedItems: [] = []
+        const matchedProducts = [...allProducts]
+            .filter(product =>
+                product.name?.toLowerCase().includes(text) ||
+                product.category?.toLowerCase().includes(text)
+            )
+            .concat([...allProducts] // just search in the product spec values
+                .map(product => Object.values(product.specs)
+                    .some(spec => spec?.value.toString().toLowerCase().includes(text)) ? product : null)
+                .filter(Boolean));
 
-        for (const Model of [AccessoriesModel, ConsoleModels, LaptopModel, PartsModel, PcModel,]) {
 
-            const allCategoryProducts = await Model.find({})
-
-            allCategoryProducts
-                .filter(prd => String(prd.name)
-                    ?.toLowerCase().includes(text) || String(prd.category)?.toLowerCase().includes(text))
-                .forEach((prd) => matchedItems.push(prd as never))
-        }
-
-        return res.status(201).json([...matchedItems])
+        return res.status(201).json([...matchedProducts])
 
     } catch (err) {
         console.log(err)

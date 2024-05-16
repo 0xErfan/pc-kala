@@ -1,6 +1,6 @@
 import connectToDB from "@/config/db";
 import { NextApiRequest, NextApiResponse } from "next";
-import { LaptopModel, PcModel, PartsModel, AccessoriesModel, ConsoleModels } from "@/models/Product";
+import ProductModel from "@/models/Product";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -10,20 +10,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { id } = req.query
 
-        console.log('id received from server, -> ', id)
-
         await connectToDB()
 
-        const models = [LaptopModel, PcModel, PartsModel, AccessoriesModel, ConsoleModels];
+        const product = await ProductModel.findOne({ _id: id })
 
-        let product;
-
-        for (const Model of models) {
-            product = await Model.findOne({ _id: id });
-            if (product) break;
-        }
-
-        if (!product) throw new Error("Product with this id didn't found")
+        if (!product) return res.status(421).json({ message: 'no prodct found with this id haha' })
 
         return res.status(200).json(product)
 
