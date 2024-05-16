@@ -125,11 +125,9 @@ export default function Header() {
                                     { title: 'سیپیو', path: '/products/category/parts?filter=cpu' },
                                     { title: 'کارت گرافیک', path: '/products/category/parts?filter=gpu' },
                                     { title: 'رم', path: '/products/category/parts?filter=ram' },
-                                    { title: 'هارد', path: '/products/category/parts?filter=hard' },
                                     { title: 'خنک کننده', path: '/products/category/parts?filter=cooler' },
                                     { title: 'حافظه SSD', path: '/products/category/parts?filter=ssd' },
                                     { title: 'مانیتور', path: '/products/category/parts?filter=monitor' },
-                                    { title: 'کیس', path: '/products/category/parts?filter=case' },
                                 ]}
                             />
                             <Category

@@ -38,7 +38,7 @@ const Category = ({ product }: any) => {
                 case 'student': { return item.price > 25_000_000 }
                 case 'rendering': { return item.price > 42_000_000 }
                 case 'office': { return item.price > 15_000_000 }
-                default: { return item.name.toLowerCase().includes(filter) }
+                default: { return item["sub-cat"]?.toLowerCase() == filter || item.name.toLowerCase().includes(filter) }
             }
         })
 
