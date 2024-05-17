@@ -4,7 +4,7 @@ const CommentSchema = new mongoose.Schema({
     body: { type: String, required: true },
     rate: { type: Number, default: 5, min: 0, max: 5 },
     productID: { type: mongoose.Types.ObjectId, required: true, ref: 'Product' },
-    creator: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
+    user: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
     createdAt: { type: Date, default: Date.now(), immutable: true }
 })
 
