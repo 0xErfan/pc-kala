@@ -183,8 +183,23 @@ const itemsSorter = (type: string, items: never[]) => {
     return sortedProducts;
 }
 
-const addWish = async (userID: number, productID: number) => {
-    const res = await fetch('/api/')
+const addWish = async (creator: number, productID: number) => {
+
+    try {
+        const res = await fetch('/api/wish/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ creator, productID })
+        })
+
+        const data = await res.json()
+
+        if (res.ok) { showToast(true, data?.message, 2000) }
+
+    } catch (err) {
+        console.log(err)
+        showToast(false, err as string)
+    }
 }
 
 export {
@@ -198,5 +213,6 @@ export {
     inputValidations,
     shuffleArray,
     engCategoryToPersian,
-    itemsSorter
+    itemsSorter,
+    addWish
 }

@@ -38,8 +38,6 @@ const Profile = ({ userData, userRelatedData }) => {
 
     const { Wish, Order, Notifications, Comment } = userRelatedData || []
 
-    console.log(Wish)
-
     useEffect(() => {
         switch (activeMenu) {
             case "orders":
@@ -57,7 +55,13 @@ const Profile = ({ userData, userRelatedData }) => {
                 setUserDataToRender(
                     <UserPanelTemplate title="علاقه مندی ها">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ml-auto p-3 gap-3">
-                            {[...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)}
+                            {
+                                [...Wish].length
+                                    ?
+                                    [...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)
+                                    :
+                                    <div className="flex-center text-[15px] font-peyda text-white-red">محصولی یافت نشد</div>
+                            }
                         </div>
                     </UserPanelTemplate>
                 );

@@ -1,15 +1,18 @@
 import { FaRegHeart } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
-import { priceDiscountCalculator } from "../utils";
+import { addWish, priceDiscountCalculator } from "../utils";
 import Image from "next/image";
 import { BsGpuCard } from "react-icons/bs";
 import { HiOutlineCpuChip } from "react-icons/hi2";
 import { RiRam2Line } from "react-icons/ri";
 import { LuHardDrive } from "react-icons/lu";
 import { unknownObjProps } from "@/global.t";
+import { useAppSelector } from "@/Hooks/useRedux";
 
 const Product = (productProps: unknownObjProps<string | number>) => {
+
+    const { _id: userID } = useAppSelector(state => state.userSlice.data) || {}
 
     const { discount, price, name, category, specs, _id } = productProps || {}
 
@@ -33,20 +36,20 @@ const Product = (productProps: unknownObjProps<string | number>) => {
 
             {
                 (category == 'laptop' || category == 'pc')
-                ?
-                <div className="grid grid-cols-4 gap-2 ch:bg-primary-black ch:rounded-md ch-gap-1 font-peyda text-[13px]">
-                    <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <BsGpuCard /> <p className="text-blue-white">{specs.gpu.value.split(' ')[0]}</p></div>
-                    <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <LuHardDrive /> <p className="text-blue-white">{specs.ssd.value.split(' ').find(value => value.includes('GB') || value.includes('MB') || value.includes('TB'))}</p></div>
-                    <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <HiOutlineCpuChip /> <p className="text-blue-white">{specs.cpu.value.split(' ').find(value => value.length > 3 && value.split('').some(char => !isNaN(char)))}</p></div>
-                    <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <RiRam2Line /> <p className="text-blue-white">{specs.ram.value.split(' ').find(value => value.includes('GB') || value.includes('MB'))}</p></div>
-                </div>
-                :
-                <div className="h-[56px]"></div>
+                    ?
+                    <div className="grid grid-cols-4 gap-2 ch:bg-primary-black ch:rounded-md ch-gap-1 font-peyda text-[13px]">
+                        <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <BsGpuCard /> <p className="text-blue-white">{specs.gpu.value.split(' ')[0]}</p></div>
+                        <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <LuHardDrive /> <p className="text-blue-white">{specs.ssd.value.split(' ').find(value => value.includes('GB') || value.includes('MB') || value.includes('TB'))}</p></div>
+                        <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <HiOutlineCpuChip /> <p className="text-blue-white">{specs.cpu.value.split(' ').find(value => value.length > 3 && value.split('').some(char => !isNaN(char)))}</p></div>
+                        <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <RiRam2Line /> <p className="text-blue-white">{specs.ram.value.split(' ').find(value => value.includes('GB') || value.includes('MB'))}</p></div>
+                    </div>
+                    :
+                    <div className="h-[56px]"></div>
             }
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
                 <CiShoppingBasket className="bg-primary-black p-[3px] rounded-full " />
-                <FaRegHeart className="p-[6px]" />
+                <FaRegHeart onClick={() => addWish(userID, _id as number)} className={`p-[6px] fill-dark-red text-dark-red`} />
             </div>
         </div>
     )
