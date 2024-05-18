@@ -7,7 +7,8 @@ import Head from "next/head";
 import { Provider } from "react-redux";
 import { store } from "@/Redux/store";
 import { Toaster } from "react-hot-toast";
-import ScroolToTop from "@/components/ScroolToTop";
+import ScrollToTop from "@/components/ScrollToTop";
+import FetchOnLoad from "@/components/FetchOnLoad";
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -26,7 +27,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
             <Provider store={store}>
                 <Toaster />
-                <ScroolToTop />
+                <ScrollToTop />
+                <FetchOnLoad />
                 <Component {...pageProps} />
             </Provider>
         </>

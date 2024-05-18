@@ -9,10 +9,24 @@ import { RiRam2Line } from "react-icons/ri";
 import { LuHardDrive } from "react-icons/lu";
 import { unknownObjProps } from "@/global.t";
 import { useAppSelector } from "@/Hooks/useRedux";
+import { useEffect } from "react";
 
 const Product = (productProps: unknownObjProps<string | number>) => {
 
-    const { _id: userID } = useAppSelector(state => state.userSlice.data) || {}
+    let { _id: userID } = useAppSelector(state => state.userSlice.data) || {}
+
+    // useEffect(() => {
+    //     (
+    //         async () => {
+    //             if (!userID) {
+    //                 const res = await fetch('/api/auth/me')
+    //                 const data = await res.json()
+    //                 userID = data._id
+    //                 console.log(userID)
+    //             }
+    //         }
+    //     )()
+    // }, [userID])
 
     const { discount, price, name, category, specs, _id } = productProps || {}
 

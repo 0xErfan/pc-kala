@@ -14,9 +14,6 @@ import Slider from "../components/Slider";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useRouter } from 'next/router';
-import { useAppDispatch } from '@/Hooks/useRedux';
-import { useEffect } from 'react';
-import { getMe } from '@/Redux/Features/userSlice';
 import connectToDB from '@/config/db';
 import Image from 'next/image';
 import ProductModel from '@/models/Product';
@@ -24,15 +21,11 @@ import { shuffleArray } from '@/utils';
 
 interface productProps { [key: string]: [] }
 
-
 export default function Home({ products }: productProps) {
 
     const navigate = useRouter()
-    const dispatch = useAppDispatch()
 
     const { laptops, pcs, parts } = products || {}
-
-    useEffect(() => { dispatch(getMe()) }, [dispatch])
 
     return (
 

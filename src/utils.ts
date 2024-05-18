@@ -185,6 +185,8 @@ const itemsSorter = (type: string, items: never[]) => {
 
 const addWish = async (creator: number, productID: number) => {
 
+    console.log(creator, productID)
+
     try {
         const res = await fetch('/api/wish/create', {
             method: 'POST',

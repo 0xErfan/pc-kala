@@ -57,16 +57,16 @@ const Profile = ({ userData, userRelatedData }) => {
             case "likes":
                 setUserDataToRender(
                     <UserPanelTemplate title="علاقه مندی ها">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ml-auto p-3 gap-3">
-                            {
-                                [...Wish].length
-                                    ?
-                                    [...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)
-                                    :
-                                    <div className="flex-center text-[15px] font-peyda text-white-red">محصولی یافت نشد</div>
-                            }
-                        </div>
-                    </UserPanelTemplate>
+                        {
+                            [...Wish].length
+                                ?
+                                < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ml-auto p-3 gap-3">
+                                    {[...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)}
+                                </div>
+                                :
+                                <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">محصولی یافت نشد</div>
+                        }
+                    </UserPanelTemplate >
                 );
                 break;
             case "messages":
