@@ -14,10 +14,11 @@ import UserPanelTemplate from "@/components/UserPanelTemplate";
 import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
-import { useAppSelector } from "@/Hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { GetServerSidePropsContext } from "next";
 import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
 import { CommentModel } from "@/models/Comment";
+import { changeProfileActiveMenu } from "@/Redux/Features/globalVarsSlice";
 
 interface orderStatusProps {
     count: number
@@ -27,12 +28,14 @@ interface orderStatusProps {
 
 const Profile = ({ userData, userRelatedData }) => {
 
-    const [activeMenu, setActiveMenu] = useState("account-details")
     const [userDataToRender, setUserDataToRender] = useState<ReactNode | null>(null)
     const [activeEditShown, setActiveEditShown] = useState<Record<string, unknown> | null>(null)
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
     const navigate = useRouter()
+
+    const activeMenu = useAppSelector(state => state.globalVarsSlice.activeProfileMenu)
+    const dispatch = useAppDispatch()
 
     const { nameLastName, username, meliCode, email, phonoNumber } = userData || {}
 
@@ -179,25 +182,25 @@ const Profile = ({ userData, userRelatedData }) => {
                             <p className="text-[15px]">مهدی راضایی</p>
                             <p className="text-[13px] text-description-text">09032754452</p>
                         </div>
-                        <CiEdit onClick={() => setActiveMenu("account-details")} className="size-7 text-blue-white cursor-pointer" />
+                        <CiEdit onClick={() => dispatch(changeProfileActiveMenu("account-details"))} className="size-7 text-blue-white cursor-pointer" />
                     </div>
 
-                    <div onClick={() => setActiveMenu("account-details")} className={`flex items-center gap-2 border-b ${activeMenu == "account-details" && "activeMenu ch:mr-2"} border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
+                    <div onClick={() => dispatch(changeProfileActiveMenu("account-details"))} className={`flex items-center gap-2 border-b ${activeMenu == "account-details" && "activeMenu ch:mr-2"} border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
                         <FaRegUser className="size-5" />
                         <p>اطلاعات حساب کاربری</p>
                     </div>
 
-                    <div onClick={() => setActiveMenu("orders")} className={`flex ${activeMenu == "orders" && "activeMenu ch:mr-2"} items-center relative gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
+                    <div onClick={() => dispatch(changeProfileActiveMenu("orders"))} className={`flex ${activeMenu == "orders" && "activeMenu ch:mr-2"} items-center relative gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
                         <IoBagHandleOutline className="size-5" />
                         <p>سفارش ها</p>
                     </div>
 
-                    <div onClick={() => setActiveMenu("likes")} className={`flex ${activeMenu == "likes" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
+                    <div onClick={() => dispatch(changeProfileActiveMenu("likes"))} className={`flex ${activeMenu == "likes" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
                         <FaRegHeart className="size-[17px]" />
                         <p>لیست های من</p>
                     </div>
 
-                    <div onClick={() => setActiveMenu("messages")} className={`flex items-center ${activeMenu == "messages" && "activeMenu ch:mr-2"} justify-between border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
+                    <div onClick={() => dispatch(changeProfileActiveMenu("messages"))} className={`flex items-center ${activeMenu == "messages" && "activeMenu ch:mr-2"} justify-between border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
                         <div className="flex items-center gap-2">
                             <FaRegBell className="size-5" />
                             <p>پیغام‌ها</p>

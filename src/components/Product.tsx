@@ -1,4 +1,4 @@
-import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
 import { addWish, priceDiscountCalculator } from "../utils";
@@ -49,7 +49,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
                 <CiShoppingBasket className="bg-primary-black p-[3px] rounded-full " />
-                <FaRegHeart onClick={() => addWish(userID, _id as number)} className={`p-[6px] fill-dark-red text-dark-red`} />
+                <FaHeart onClick={() => addWish(userID, _id as number)} className={`p-[6px] ${'d' ? 'text-white' : 'text-white-red'} transition-all`} />
             </div>
         </div>
     )
