@@ -11,8 +11,11 @@ const getMe = createAsyncThunk('getMe', async () => {
 
 const userSlice = createSlice({
     name: "userSlice",
-    initialState: { data: null, isLogin: false },
-    reducers: { userUpdater: (state, action) => ({ ...state, data: action.payload, isLogin: true }) },
+    initialState: { data: null, wishes: [], isLogin: false },
+    reducers: {
+        userDataUpdater: (state, action) => ({ ...state, data: action.payload, isLogin: true }),
+        userWishesUpdater: (state, action) => ({ ...state, wishes: action.payload })
+    },
     extraReducers: builder => {
         builder.addCase(getMe.fulfilled, (state, action) => { state.data = action.payload, state.isLogin = true })
         builder.addCase(getMe.rejected, (state) => { state.data = null, state.isLogin = false })
@@ -22,4 +25,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 export { getMe }
-export const { userUpdater } = userSlice.actions
+export const { userDataUpdater, userWishesUpdater } = userSlice.actions

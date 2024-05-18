@@ -60,7 +60,7 @@ const Profile = ({ userData, userRelatedData }) => {
                         {
                             [...Wish].length
                                 ?
-                                < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ml-auto p-3 gap-3">
+                                < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-h-[600px] overflow-y-auto ml-auto p-3 gap-3">
                                     {[...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)}
                                 </div>
                                 :
@@ -179,8 +179,8 @@ const Profile = ({ userData, userRelatedData }) => {
 
                     <div className={`flex items-center justify-between border-b border-gray-600/15 pb-2 hover:bg-black/15`}>
                         <div className="flex items-center flex-col gap-1">
-                            <p className="text-[15px]">مهدی راضایی</p>
-                            <p className="text-[13px] text-description-text">09032754452</p>
+                            <p className="text-[15px]">{nameLastName || username}</p>
+                            <p className="text-[13px] text-description-text">{phonoNumber}</p>
                         </div>
                         <CiEdit onClick={() => dispatch(changeProfileActiveMenu("account-details"))} className="size-7 text-blue-white cursor-pointer" />
                     </div>

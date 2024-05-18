@@ -9,33 +9,29 @@ import { RiRam2Line } from "react-icons/ri";
 import { LuHardDrive } from "react-icons/lu";
 import { unknownObjProps } from "@/global.t";
 import { useAppSelector } from "@/Hooks/useRedux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Product = (productProps: unknownObjProps<string | number>) => {
 
-    let { _id: userID } = useAppSelector(state => state.userSlice.data) || {}
-
-    // useEffect(() => {
-    //     (
-    //         async () => {
-    //             if (!userID) {
-    //                 const res = await fetch('/api/auth/me')
-    //                 const data = await res.json()
-    //                 userID = data._id
-    //                 console.log(userID)
-    //             }
-    //         }
-    //     )()
-    // }, [userID])
-
+    const { data, wishes }: { data: unknownObjProps<number> } = useAppSelector(state => state.userSlice) || {}
+    const userID = data?._id
     const { discount, price, name, category, specs, _id } = productProps || {}
-
     const priceAfterOff = priceDiscountCalculator(price as number, discount as number)
+    const [isProductInUserWish, setIsProductInUserWish] = useState(false)
+
+    useEffect(() => {
+        [...wishes].some(data => {
+            if (data.productID._id == _id) {
+                setIsProductInUserWish(true)
+                return true
+            }
+        })
+    }, [wishes])
 
     return (
         <div className="sm:max-w-[316px] transition-all duration-300 w-full relative m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
 
-            {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm disscount-border">{discount?.toLocaleString('fa-Ir')}٪</div>}
+            {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-Ir')}٪</div>}
 
             <Link href={`/products/search/${_id}`}>
                 <Image width={500} height={500} priority alt="product-name" blurDataURL="true" src='/images/laptop-default.webp' className="m-auto object-cover my-3 cursor-pointer" />
@@ -63,7 +59,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
                 <CiShoppingBasket className="bg-primary-black p-[3px] rounded-full " />
-                <FaHeart onClick={() => addWish(userID, _id as number)} className={`p-[6px] ${'d' ? 'text-white' : 'text-white-red'} transition-all`} />
+                <FaHeart onClick={() => { addWish(userID, _id as number).then(() => setIsProductInUserWish(preve => !preve)) }} className={`p-[6px] ${!isProductInUserWish ? 'text-white' : 'text-white-red'} transition-all`} />
             </div>
         </div>
     )
