@@ -15,6 +15,9 @@ import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppSelector } from "@/Hooks/useRedux";
+import { GetServerSidePropsContext } from "next";
+import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
+import { CommentModel } from "@/models/Comment";
 
 interface orderStatusProps {
     count: number
@@ -22,21 +25,25 @@ interface orderStatusProps {
     status: "processing" | "delivered" | "returned"
 }
 
-const Profile = () => {
+const Profile = ({ userData, userRelatedData }) => {
 
     const [activeMenu, setActiveMenu] = useState("account-details")
-    const [userdataToRender, setUserdataToRender] = useState<ReactNode | null>(null)
+    const [userDataToRender, setUserDataToRender] = useState<ReactNode | null>(null)
     const [activeEditShown, setActiveEditShown] = useState<Record<string, unknown> | null>(null)
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
     const navigate = useRouter()
 
-    const { nameLname, username, email, phonoNumber, wishes, orders, notifications, comments } = useAppSelector(state => state.userSlice.data) || {}
+    const { nameLastName, username, meliCode, email, phonoNumber } = userData || {}
+
+    const { Wish, Order, Notifications, Comment } = userRelatedData || []
+
+    console.log(Wish)
 
     useEffect(() => {
         switch (activeMenu) {
             case "orders":
-                setUserdataToRender(
+                setUserDataToRender(
                     <UserPanelTemplate title="سفارش های من">
                         <div className="flex flex-wrap md:flex-nowrap items-center justify-evenly gap-4 border-gray-700 p-3">
                             <OrderStatus count={2} status="processing" text="جاری" />
@@ -47,16 +54,16 @@ const Profile = () => {
                 );
                 break;
             case "likes":
-                setUserdataToRender(
+                setUserDataToRender(
                     <UserPanelTemplate title="علاقه مندی ها">
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 ml-auto p-3 gap-3">
-                            {[3, 4, 5].map(prd => <LikedProduct key={prd} />)}
+                            {[...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)}
                         </div>
                     </UserPanelTemplate>
                 );
                 break;
             case "messages":
-                setUserdataToRender(
+                setUserDataToRender(
                     <UserPanelTemplate title="پیغام‌ها">
                         <div className="flex flex-col gap-2 p-3">
                             <div data-aos-duration="550" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
@@ -72,7 +79,7 @@ const Profile = () => {
                 );
                 break;
             default:
-                setUserdataToRender(
+                setUserDataToRender(
                     <UserPanelTemplate title="اطلاعات شخصی">
                         <div className="grid grid-cols-1 md:grid-cols-2 ch:border ch:border-gray-600/15 ch:pt-2">
 
@@ -81,7 +88,7 @@ const Profile = () => {
                                 fn={() => { }}
                                 name="name-lname"
                                 title="نام و نام خانوادگی"
-                                inputValue="مهدی رضایی"
+                                inputValue={nameLastName}
                                 readOnly={!activeEditShown?.fullName}
                                 editToggle={() => activeEditChanger("fullName")}
                             />
@@ -101,7 +108,7 @@ const Profile = () => {
                                 fn={() => { }}
                                 name="meli-code"
                                 title="کد ملی"
-                                inputValue="344363456"
+                                inputValue={meliCode}
                                 readOnly={!activeEditShown?.meliCode}
                                 editToggle={() => activeEditChanger("meliCode")}
                             />
@@ -111,7 +118,7 @@ const Profile = () => {
                                 fn={() => { }}
                                 name="phonoNumber"
                                 title="شماره موبایل"
-                                inputValue="۰۹۰۳۴۳۴۵۳۴۵"
+                                inputValue={phonoNumber}
                                 readOnly={!activeEditShown?.phonoNumber}
                                 editToggle={() => activeEditChanger("phonoNumber")}
                             />
@@ -120,8 +127,8 @@ const Profile = () => {
                                 dataEditorCloser={dataEditorCloser}
                                 fn={() => { }}
                                 name="email"
-                                title="ایمیل"
-                                inputValue="eftekharierfan5555555555@gmial.com"
+                                title={"ایمیل"}
+                                inputValue={email}
                                 readOnly={!activeEditShown?.email}
                                 editToggle={() => activeEditChanger("email")}
                             />
@@ -131,7 +138,7 @@ const Profile = () => {
                                 fn={() => { }}
                                 name="changePass"
                                 title="تغییر رمز عبور"
-                                inputValue="54897540987"
+                                inputValue={""}
                                 readOnly={!activeEditShown?.changePass}
                                 editToggle={() => activeEditChanger("changePass")}
                             />
@@ -201,7 +208,7 @@ const Profile = () => {
 
                 </div>
 
-                {userdataToRender}
+                {userDataToRender}
 
             </div>
 
@@ -239,3 +246,40 @@ const OrderStatus = ({ count, status, text }: orderStatusProps) => {
 }
 
 export default Profile;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+
+
+    try {
+
+        const token = context.req.cookies?.token
+
+        const response = await fetch('http://localhost:3000/api/auth/me', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(token)
+        })
+
+        const userData = await response.json()
+
+        const userRelatedModels = [NotificationModel, CommentModel, WishModel, OrderModel, BasketItemModel]
+
+        const userRelatedData: {} = {}
+
+        for (const Model of userRelatedModels) {
+
+            const foundedData = await Model
+                .find({ $or: [{ creator: userData._id }, { user: userData._id }] })
+                .populate(['productID'])
+                .exec()
+
+            userRelatedData[Model.modelName] = foundedData
+        }
+
+        return { props: { userData: JSON.parse(JSON.stringify(userData)), userRelatedData: JSON.parse(JSON.stringify(userRelatedData)) } }
+
+    } catch (err) {
+        console.log(err)
+        return { props: { error: 'از اتصال به اینترنت اطمینان فرمایید' } }
+    }
+}

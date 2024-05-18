@@ -6,23 +6,27 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'GET') return res.status(421).json({ message: "This route can't be acceessed without GET request_" })
+    // if (req.method !== 'GET' || req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without GET or POST request_" })
 
     try {
 
         connectToDB()
 
-        const token: string | undefined = req.cookies?.token
+        const token: string | undefined = req.cookies?.token || req.body
 
-        if (!token) return res.status(401).json({ message: 'You are not loggged in' })
+        if (!token) {
+            res.setHeader('Set-Cookie', 'token=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT');
+            return res.status(401).json({ message: 'You are not logged in' })
+        }
 
         const verifiedToken: string | JwtPayload = tokenDecoder(token)
 
-        console.log('verified token: => ', verifiedToken.email)
-
         const userData = await UserModel.findOne({ email: verifiedToken.email })
 
-        if (!userData) return res.status(401).json({ message: 'No user exist with this username or password!' })
+        if (!userData) {
+            res.setHeader('Set-Cookie', 'token=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT');
+            return res.status(401).json({ message: 'No user exist with this username or password!' })
+        }
 
         return res.status(200).json(userData)
 

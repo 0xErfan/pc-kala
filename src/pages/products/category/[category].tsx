@@ -8,7 +8,7 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-
+import connectToDB from "@/config/db";
 
 const Category = ({ product }: any) => {
 

@@ -8,7 +8,7 @@ const WishSchema = new mongoose.Schema({
 const OrderSchema = new mongoose.Schema({
     creator: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     productID: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
-    status: { type: String, enum: ['processing', 'canceled', 'delivered'] }
+    status: { type: String, enum: ['processing', 'canceled', 'delivered'], required: true }
 });
 
 const BasketItemSchema = new mongoose.Schema({
@@ -26,3 +26,5 @@ const WishModel = mongoose.models.Wish || mongoose.model('Wish', WishSchema);
 const OrderModel = mongoose.models.Order || mongoose.model('Order', OrderSchema);
 const BasketItemModel = mongoose.models.BasketItem || mongoose.model('BasketItem', BasketItemSchema);
 const NotificationModel = mongoose.models.Notification || mongoose.model('Notification', NotificationSchema);
+
+export { WishModel, OrderModel, BasketItemModel, NotificationModel }

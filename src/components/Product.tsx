@@ -7,12 +7,13 @@ import { BsGpuCard } from "react-icons/bs";
 import { HiOutlineCpuChip } from "react-icons/hi2";
 import { RiRam2Line } from "react-icons/ri";
 import { LuHardDrive } from "react-icons/lu";
+import { unknownObjProps } from "@/global.t";
 
-const Product = (productProps: unknown) => {
+const Product = (productProps: unknownObjProps<string | number>) => {
 
     const { discount, price, name, category, specs, _id } = productProps || {}
 
-    const priceAfterOff = priceDiscountCalculator(price, discount)
+    const priceAfterOff = priceDiscountCalculator(price as number, discount as number)
 
     return (
         <div className="sm:max-w-[316px] transition-all duration-300 w-full relative m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">

@@ -183,6 +183,10 @@ const itemsSorter = (type: string, items: never[]) => {
     return sortedProducts;
 }
 
+const addWish = async (userID: number, productID: number) => {
+    const res = await fetch('/api/')
+}
+
 export {
     getTimer,
     fetchData,
