@@ -19,6 +19,7 @@ import { GetServerSidePropsContext } from "next";
 import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
 import { CommentModel } from "@/models/Comment";
 import { changeProfileActiveMenu } from "@/Redux/Features/globalVarsSlice";
+import { unknownObjProps } from "@/global.t";
 
 interface orderStatusProps {
     count: number
@@ -26,22 +27,52 @@ interface orderStatusProps {
     status: "processing" | "delivered" | "returned"
 }
 
-const Profile = ({ userData, userRelatedData }) => {
+const Profile = () => {
 
     const [userDataToRender, setUserDataToRender] = useState<ReactNode | null>(null)
     const [activeEditShown, setActiveEditShown] = useState<Record<string, unknown> | null>(null)
-    const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
-    const dataEditorCloser = () => setActiveEditShown(null)
-    const navigate = useRouter()
+    const [fetchedData, setFetchedData] = useState()
+    const [isLoaded, setIsLoaded] = useState(false)
 
+    const navigate = useRouter()
     const activeMenu = useAppSelector(state => state.globalVarsSlice.activeProfileMenu)
     const dispatch = useAppDispatch()
 
-    const { nameLastName, username, meliCode, email, phonoNumber } = userData || {}
+    const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
+    const dataEditorCloser = () => setActiveEditShown(null)
 
-    const { Wish, Order, Notifications, Comment } = userRelatedData || []
+    const { nameLastName, username, meliCode, email, phonoNumber } = fetchedData?.userData || {}
+    const { Wish, Order, Notifications, Comment } = fetchedData?.userRelatedData || []
 
     useEffect(() => {
+        (
+            async () => {
+                try {
+                    setIsLoaded(false)
+
+                    const res = await fetch('/api/UserRelatedData/get')
+
+                    if (!res.ok) throw new Error()
+
+                    const data = await res.json()
+
+                    setFetchedData({ ...data })
+                    setIsLoaded(true)
+                    console.log('im running here haha')
+
+                } catch (error) { showToast(false, 'از اتصال به اینترنت مطمان شوید', 3000) }
+            }
+        )()
+    }, [])
+
+    useEffect(() => {
+
+        if (!isLoaded) {
+            setUserDataToRender(<div className="flex-center w-full text-center absolute inset-0 bg-secondary-black text-gold font-peyda text-[16px] h-full">بروزرسانی...</div>
+)
+            return
+        }
+
         switch (activeMenu) {
             case "orders":
                 setUserDataToRender(
@@ -154,7 +185,7 @@ const Profile = ({ userData, userRelatedData }) => {
                     </UserPanelTemplate>
                 );
         }
-    }, [activeMenu, activeEditShown])
+    }, [activeMenu, activeEditShown, isLoaded])
 
     const logout = async () => {
         const res = await fetch('/api/auth/logout')
@@ -196,8 +227,11 @@ const Profile = ({ userData, userRelatedData }) => {
                     </div>
 
                     <div onClick={() => dispatch(changeProfileActiveMenu("likes"))} className={`flex ${activeMenu == "likes" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
-                        <FaRegHeart className="size-[17px]" />
-                        <p>لیست های من</p>
+                        <div className="flex items-center gap-2">
+                            <FaRegHeart className="size-[17px]" />
+                            <p>لیست های من</p>
+                        </div>
+                        <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Wish?.length}</div>
                     </div>
 
                     <div onClick={() => dispatch(changeProfileActiveMenu("messages"))} className={`flex items-center ${activeMenu == "messages" && "activeMenu ch:mr-2"} justify-between border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
@@ -253,40 +287,3 @@ const OrderStatus = ({ count, status, text }: orderStatusProps) => {
 }
 
 export default Profile;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-
-
-    try {
-
-        const token = context.req.cookies?.token
-
-        const response = await fetch('http://localhost:3000/api/auth/me', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(token)
-        })
-
-        const userData = await response.json()
-
-        const userRelatedModels = [NotificationModel, CommentModel, WishModel, OrderModel, BasketItemModel]
-
-        const userRelatedData: {} = {}
-
-        for (const Model of userRelatedModels) {
-
-            const foundedData = await Model
-                .find({ $or: [{ creator: userData._id }, { user: userData._id }] })
-                .populate(['productID'])
-                .exec()
-
-            userRelatedData[Model.modelName] = foundedData
-        }
-
-        return { props: { userData: JSON.parse(JSON.stringify(userData)), userRelatedData: JSON.parse(JSON.stringify(userRelatedData)) } }
-
-    } catch (err) {
-        console.log(err)
-        return { props: { error: 'از اتصال به اینترنت اطمینان فرمایید' } }
-    }
-}
