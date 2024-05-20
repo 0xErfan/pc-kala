@@ -25,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 .filter(Boolean));
 
 
-        return res.status(201).json([...matchedProducts])
+        return res.status(201).json([...new Set(matchedProducts)]) // use new set to remove duplicated filtered products
 
     } catch (err) {
         console.log(err)
