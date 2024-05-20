@@ -4,15 +4,15 @@ const globalVarsSlice = createSlice({
     name: 'globalVars',
     initialState: {
         isScrolledDown: true,
-        wishUpdater: true,
+        userRelatedDataUpdater: true,
         activeProfileMenu: 'account-details'
     },
     reducers: {
         isScrolledDownUpdater: (state, action) => { return { ...state, isScrolledDown: action.payload } },
         changeProfileActiveMenu: (state, action: { payload: 'account-details' | 'orders' | 'likes' | 'messages' }) => { return { ...state, activeProfileMenu: action.payload } },
-        wishUpdater: state => { return { ...state, wishUpdater: !state.wishUpdater } },
+        userRelatedDataUpdater: state => { return { ...state, userRelatedDataUpdater: !state.userRelatedDataUpdater } },
     },
 })
 
 export default globalVarsSlice.reducer
-export const { isScrolledDownUpdater, changeProfileActiveMenu, wishUpdater } = globalVarsSlice.actions
+export const { isScrolledDownUpdater, changeProfileActiveMenu, userRelatedDataUpdater } = globalVarsSlice.actions

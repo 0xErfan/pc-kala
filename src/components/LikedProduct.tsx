@@ -4,7 +4,7 @@ import { IoTrashOutline } from "react-icons/io5"
 import { addWish, priceDiscountCalculator } from "@/utils"
 import Image from "next/image"
 import { unknownObjProps } from "@/global.t"
-import { wishUpdater } from "@/Redux/Features/globalVarsSlice"
+import { userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice"
 import { useAppDispatch } from "@/Hooks/useRedux"
 
 interface likeProductProps {
@@ -30,7 +30,7 @@ const LikedProduct = ({ productID, creator }: likeProductProps) => {
 
             <Link href={`/products/search/${_id}`} className="text-center min-h-[50px] h-full px-3 transition-all line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">{name}</Link>
 
-            <Button Icon={<IoTrashOutline />} fn={() => addWish(creator, _id as number).then(() => dispatch(wishUpdater()))} />
+            <Button Icon={<IoTrashOutline />} fn={() => addWish(creator, _id as number).then(() => dispatch(userRelatedDataUpdater()))} />
         </div>
     )
 }

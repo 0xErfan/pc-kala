@@ -15,7 +15,7 @@ import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
-import { changeProfileActiveMenu, wishUpdater } from "@/Redux/Features/globalVarsSlice";
+import { changeProfileActiveMenu, userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
 import Skeleton from "react-loading-skeleton";
 
 interface orderStatusProps {
@@ -32,7 +32,7 @@ const Profile = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const navigate = useRouter()
 
-    const updater = useAppSelector(state => state.globalVarsSlice.wishUpdater)
+    const updater = useAppSelector(state => state.globalVarsSlice.userRelatedDataUpdater)
     const activeMenu = useAppSelector(state => state.globalVarsSlice.activeProfileMenu)
     const dispatch = useAppDispatch()
 
@@ -51,9 +51,9 @@ const Profile = () => {
         })
 
         if (!res.ok) { showToast(false, 'خطا در اتصال به اینترنت'); return }
-        
+
         showToast(true, 'پیام با موفقیت حذف شد')
-        dispatch(wishUpdater())
+        dispatch(userRelatedDataUpdater())
     }
 
     useEffect(() => {
@@ -116,20 +116,24 @@ const Profile = () => {
                     <UserPanelTemplate title="پیغام‌ها">
                         <div className="flex flex-col gap-2 p-3">
                             {
-                                Notification.map((data: { body: string, _id: string }) => {
-                                    return (
+                                Notification?.length
+                                    ?
+                                    Notification.map((data: { body: string, _id: string }) => {
+                                        return (
 
-                                        <div
-                                            key={data._id}
-                                            data-aos-duration="550"
-                                            data-aos="fade-right"
-                                            className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
-                                        >
-                                            <p>{data.body}</p>
-                                            <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />
-                                        </div>
-                                    )
-                                })
+                                            <div
+                                                key={data._id}
+                                                data-aos-duration="550"
+                                                data-aos="fade-right"
+                                                className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
+                                            >
+                                                <p>{data.body}</p>
+                                                <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />
+                                            </div>
+                                        )
+                                    })
+                                    :
+                                    <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">پیامی وجود ندارد</div>
                             }
                         </div>
                     </UserPanelTemplate>
@@ -259,7 +263,7 @@ const Profile = () => {
                             <FaRegBell className="size-5" />
                             <p>پیغام‌ها</p>
                         </div>
-                        <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm text-center">5</div>
+                        {Notification?.length ? <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Notification?.length}</div> : <></>}
                     </div>
 
                     <div onClick={logout} className="flex text-white-red items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15">
