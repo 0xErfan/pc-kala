@@ -214,7 +214,8 @@ const Profile = () => {
     const logout = async () => {
         const res = await fetch('/api/auth/logout')
 
-        if (!res.ok) showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید')
+        if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
+        
         showToast(true, 'خروج از حساب موفقیت امیز بود')
         navigate.replace('/')
     }
