@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const { id } = req.body
+        const id = req.body
 
         if (!id) return res.status(421).json({ message: 'id filed is required to remove notification!' })
 

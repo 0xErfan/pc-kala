@@ -1,5 +1,6 @@
 import { CommentModel } from "@/models/Comment";
 import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -24,15 +25,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userRelatedData: {} = {}
 
+        mongoose.set('strictPopulate', false); // if the 'productID' didn't exist to populate, we won't get any error
+
         for (const Model of userRelatedModels) {
 
             const foundedData = await Model
-                .find({ $or: [{ creator: userData._id }, { user: userData._id }] })
+                .find({ $or: [{ creator: userData._id }, { user: userData._id }, { userID: userData._id }] })
                 .populate(['productID'])
                 .exec()
 
             userRelatedData[Model.modelName] = foundedData
         }
+        console.log(userRelatedData)
 
         return res.status(200).json({ userData, userRelatedData })
 

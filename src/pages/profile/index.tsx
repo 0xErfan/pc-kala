@@ -15,11 +15,7 @@ import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
-import { GetServerSidePropsContext } from "next";
-import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
-import { CommentModel } from "@/models/Comment";
-import { changeProfileActiveMenu } from "@/Redux/Features/globalVarsSlice";
-import { unknownObjProps } from "@/global.t";
+import { changeProfileActiveMenu, wishUpdater } from "@/Redux/Features/globalVarsSlice";
 import Skeleton from "react-loading-skeleton";
 
 interface orderStatusProps {
@@ -44,7 +40,21 @@ const Profile = () => {
     const dataEditorCloser = () => setActiveEditShown(null)
 
     const { nameLastName, username, meliCode, email, phonoNumber } = fetchedData?.userData || {}
-    const { Wish, Order, Notifications, Comment } = fetchedData?.userRelatedData || []
+    const { Wish, Order, Notification, Comment } = fetchedData?.userRelatedData || []
+
+    const deleteNotificationHandler = async (id: string) => {
+
+        const res = await fetch('/api/notifications/delete', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(id)
+        })
+
+        if (!res.ok) { showToast(false, 'خطا در اتصال به اینترنت'); return }
+        
+        showToast(true, 'پیام با موفقیت حذف شد')
+        dispatch(wishUpdater())
+    }
 
     useEffect(() => {
         (
@@ -105,14 +115,22 @@ const Profile = () => {
                 setUserDataToRender(
                     <UserPanelTemplate title="پیغام‌ها">
                         <div className="flex flex-col gap-2 p-3">
-                            <div data-aos-duration="550" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
-                                <p>پیغام‌ خوشامد گویی</p>
-                                <Button Icon={<IoTrashOutline />} fn={() => { }} />
-                            </div>
-                            <div data-aos-duration="550" data-aos="fade-right" className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15">
-                                <p>پیغام‌ خوشامد گویی</p>
-                                <Button Icon={<IoTrashOutline />} fn={() => { }} />
-                            </div>
+                            {
+                                Notification.map((data: { body: string, _id: string }) => {
+                                    return (
+
+                                        <div
+                                            key={data._id}
+                                            data-aos-duration="550"
+                                            data-aos="fade-right"
+                                            className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
+                                        >
+                                            <p>{data.body}</p>
+                                            <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </UserPanelTemplate>
                 );
