@@ -1,25 +1,22 @@
 import connectToDB from "@/config/db";
-import ProductModel from "@/models/Product";
+import { NotificationModel } from "@/models/UserRelatedSchemas";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request_" })
-    // if role !== admin -> unauth -> error
 
     try {
 
         await connectToDB()
 
-        const { ...data } = req.body
-        
-        if (!data) return res.status(421).json({ message: 'requirement data to make product not found idiot!' })
+        const { id } = req.body
 
-        const newProduct = await ProductModel.create(data)
+        if (!id) return res.status(421).json({ message: 'id filed is required to remove notification!' })
 
-        console.log('created successfully :))', newProduct)
+        await NotificationModel.findOneAndDelete({ _id: id })
 
-        return res.status(201).json({ message: 'Product created successfully :))' })
+        return res.status(201).json({ message: 'Notification deleted successfully :))' })
 
     } catch (err) {
         console.log(err)

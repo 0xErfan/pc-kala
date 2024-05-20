@@ -4,6 +4,8 @@ import { IoTrashOutline } from "react-icons/io5"
 import { addWish, priceDiscountCalculator } from "@/utils"
 import Image from "next/image"
 import { unknownObjProps } from "@/global.t"
+import { wishUpdater } from "@/Redux/Features/globalVarsSlice"
+import { useAppDispatch } from "@/Hooks/useRedux"
 
 interface likeProductProps {
     productID: unknownObjProps<string | number>
@@ -14,6 +16,7 @@ const LikedProduct = ({ productID, creator }: likeProductProps) => {
 
     const { price, discount, image, _id, name } = productID
     const priceAfterDiscount = priceDiscountCalculator(price as number, discount as number)
+    const dispatch = useAppDispatch()
 
     return (
         <div className="max-w-[316px] relative w-full m-auto bg-black/15 border border-gray-600/15 rounded-md p-3 overflow-hidden text-white text-sm">
@@ -27,7 +30,7 @@ const LikedProduct = ({ productID, creator }: likeProductProps) => {
 
             <Link href={`/products/search/${_id}`} className="text-center min-h-[50px] h-full px-3 transition-all line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">{name}</Link>
 
-            <Button Icon={<IoTrashOutline />} fn={() => addWish(creator, _id as number)} />
+            <Button Icon={<IoTrashOutline />} fn={() => addWish(creator, _id as number).then(() => dispatch(wishUpdater()))} />
         </div>
     )
 }

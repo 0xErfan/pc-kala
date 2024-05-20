@@ -20,6 +20,7 @@ import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/mod
 import { CommentModel } from "@/models/Comment";
 import { changeProfileActiveMenu } from "@/Redux/Features/globalVarsSlice";
 import { unknownObjProps } from "@/global.t";
+import Skeleton from "react-loading-skeleton";
 
 interface orderStatusProps {
     count: number
@@ -33,8 +34,9 @@ const Profile = () => {
     const [activeEditShown, setActiveEditShown] = useState<Record<string, unknown> | null>(null)
     const [fetchedData, setFetchedData] = useState()
     const [isLoaded, setIsLoaded] = useState(false)
-
     const navigate = useRouter()
+
+    const updater = useAppSelector(state => state.globalVarsSlice.wishUpdater)
     const activeMenu = useAppSelector(state => state.globalVarsSlice.activeProfileMenu)
     const dispatch = useAppDispatch()
 
@@ -63,13 +65,12 @@ const Profile = () => {
                 } catch (error) { showToast(false, 'از اتصال به اینترنت مطمان شوید', 3000) }
             }
         )()
-    }, [])
+    }, [updater])
 
     useEffect(() => {
 
         if (!isLoaded) {
-            setUserDataToRender(<div className="flex-center w-full text-center absolute inset-0 bg-secondary-black text-gold font-peyda text-[16px] h-full">بروزرسانی...</div>
-)
+            // setUserDataToRender(<div className="flex-center w-full text-center absolute inset-0 bg-secondary-black text-gold font-peyda text-[16px] h-full">بروزرسانی...</div>)
             return
         }
 
@@ -91,7 +92,7 @@ const Profile = () => {
                         {
                             [...Wish].length
                                 ?
-                                < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-h-[600px] overflow-y-auto ml-auto p-3 gap-3">
+                                < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-h-[700px] overflow-y-auto ml-auto p-3 gap-3">
                                     {[...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)}
                                 </div>
                                 :
@@ -126,7 +127,7 @@ const Profile = () => {
                                 fn={() => { }}
                                 name="name-lname"
                                 title="نام و نام خانوادگی"
-                                inputValue={nameLastName}
+                                inputValue={nameLastName || <Skeleton />}
                                 readOnly={!activeEditShown?.fullName}
                                 editToggle={() => activeEditChanger("fullName")}
                             />
@@ -182,6 +183,7 @@ const Profile = () => {
                             />
 
                         </div>
+
                     </UserPanelTemplate>
                 );
         }
@@ -226,12 +228,12 @@ const Profile = () => {
                         <p>سفارش ها</p>
                     </div>
 
-                    <div onClick={() => dispatch(changeProfileActiveMenu("likes"))} className={`flex ${activeMenu == "likes" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>
+                    <div onClick={() => dispatch(changeProfileActiveMenu("likes"))} className={`flex ${activeMenu == "likes" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer justify-between hover:bg-black/15`}>
                         <div className="flex items-center gap-2">
                             <FaRegHeart className="size-[17px]" />
                             <p>لیست های من</p>
                         </div>
-                        <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Wish?.length}</div>
+                        {Wish?.length ? <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Wish?.length}</div> : <></>}
                     </div>
 
                     <div onClick={() => dispatch(changeProfileActiveMenu("messages"))} className={`flex items-center ${activeMenu == "messages" && "activeMenu ch:mr-2"} justify-between border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>

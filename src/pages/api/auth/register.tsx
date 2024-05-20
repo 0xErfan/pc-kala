@@ -4,10 +4,11 @@ import { hash } from "bcrypt";
 import { NextApiRequest, NextApiResponse } from "next";
 import { serialize } from "cookie";
 import { tokenGenerator } from "@/utils";
+import { NotificationModel } from "@/models/UserRelatedSchemas";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be acceessed without POST request!" })
+    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request!" })
 
     try {
         connectToDB()
@@ -16,6 +17,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const password = await hash(req.body.password, 12)
 
         const userData = await UserModel.create({ name, username, email, password, lastname })
+
+        await NotificationModel.create({ userID: userData._id, body: 'به خانواده پیسی کالا خوش امدید :)❤️' }) // a sign up notification message for our users:)
 
         const token = tokenGenerator(userData.email, 7)
 

@@ -9,6 +9,7 @@ import { store } from "@/Redux/store";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "@/components/ScrollToTop";
 import FetchOnLoad from "@/components/FetchOnLoad";
+import 'react-loading-skeleton'
 
 export default function App({ Component, pageProps }: AppProps) {
 

@@ -19,7 +19,6 @@ const BasketItemSchema = new mongoose.Schema({
 const NotificationSchema = new mongoose.Schema({
     userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     body: { type: String, required: true },
-    seen: { type: Boolean, default: false }
 });
 
 const WishModel = mongoose.models.Wish || mongoose.model('Wish', WishSchema);
