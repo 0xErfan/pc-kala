@@ -5,6 +5,7 @@ import { convertNumbers2English, inputValidations, showToast } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import Loader from "./Loader";
 import { userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
+import { compare } from "bcrypt";
 
 interface inputProps {
     title: string
@@ -22,6 +23,8 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
     const [loading, setLoading] = useState(false)
     const { _id } = useAppSelector(state => state.userSlice.data) || ''
     const dispatch = useAppDispatch()
+    const [isPasswordValid, setIsPasswordValid] = useState(false)
+    const { password } = useAppSelector(state => state.userSlice.data) || ''
 
     const validateValueAndUpdate = async () => {
 
@@ -30,6 +33,39 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
         if (!data?.isValid) { showToast(false, data.errorMessage); return }
         if (value == inputValue) return
 
+        if (name == 'changePass') {
+
+            const res = await fetch('/api/auth/changePassword', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ [isPasswordValid ? 'password' : 'compare']: value, _id })
+            })
+            const data = await res.json()
+
+            if (!isPasswordValid) {
+
+                if (res.status == 200) {
+                    setIsPasswordValid(true)
+                    setValue('')
+                } else {
+                    showToast(res.ok, data.message)
+                    setIsPasswordValid(false)
+                }
+
+            } else {
+
+                showToast(res.ok, data.message)
+
+                if (res.status == 200) {
+                    setIsPasswordValid(false)
+                    dataEditorCloser()
+                    setValue('')
+                }
+                return
+            }
+        }
+
+        return
         setLoading(true)
 
         try {
@@ -42,8 +78,8 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
 
             const { message } = await res.json()
 
-            showToast(res.ok, message);
-            if (!res.ok) return
+            showToast(res.status == 200, message);
+            if (res.status !== 200) return
 
             setValue(value)
             dispatch(userRelatedDataUpdater())
@@ -74,6 +110,7 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
                                 className={`appearance bg-primary-black flex-[3] outline-none rounded-md p-3 text-white`}
                                 type="input"
                                 value={value}
+                                placeholder={name == 'changePass' ? isPasswordValid ? 'رمز جدید را وارد کنید' : 'رمز عبور فعلی را وارد کنید' : ''}
                                 name={name}
                                 onChange={e => setValue(convertNumbers2English(e.target.value))}
                                 onKeyDown={e => e.key == 'Enter' && validateValueAndUpdate()}

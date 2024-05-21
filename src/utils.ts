@@ -128,7 +128,8 @@ const inputValidations = (title: string, value: string, confirmPassword?: string
         { title: 'confirmPassword', isValid: Boolean(value === confirmPassword), errorMessage: 'رمز تایید با رمز وارد شده تناقض دارد' },
         { title: 'meliCode', isValid: value.length == 10 && !isNaN(+value), errorMessage: 'کد ملی یک عدد ده رقمی است' },
         { title: 'phoneNumber', isValid: /^09\d{9}$/.test(value), errorMessage: 'شماره موبایل نامعتبر است' },
-        { title: 'nameLastName', isValid: value.length > 6, errorMessage: 'نام و نام خانوادگی کوتاه است' }
+        { title: 'nameLastName', isValid: value.length > 6, errorMessage: 'نام و نام خانوادگی کوتاه است' },
+        { title: 'changePass', isValid: value.length < 20 && value.length > 7, errorMessage: 'طول رمز عبور باید بیشتر از ۷ و کمتر از ۲۰ کاراکتر باشد' },
     ]
 
     return inputRules.find(inputTitle => inputTitle.title == title)
