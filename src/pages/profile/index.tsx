@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { changeProfileActiveMenu, userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
 import Skeleton from "react-loading-skeleton";
+import { userWishesUpdater } from "@/Redux/Features/userSlice";
 
 interface orderStatusProps {
     count: number
@@ -69,8 +70,8 @@ const Profile = () => {
                     const data = await res.json()
 
                     setFetchedData({ ...data })
+                    dispatch(userWishesUpdater([...data?.userRelatedData.Wish]))
                     setIsLoaded(true)
-                    console.log('im running here haha')
 
                 } catch (error) { showToast(false, 'از اتصال به اینترنت مطمان شوید', 3000) }
             }
@@ -215,7 +216,7 @@ const Profile = () => {
         const res = await fetch('/api/auth/logout')
 
         if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
-        
+
         showToast(true, 'خروج از حساب موفقیت امیز بود')
         navigate.replace('/')
     }

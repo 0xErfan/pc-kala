@@ -8,8 +8,9 @@ import { HiOutlineCpuChip } from "react-icons/hi2";
 import { RiRam2Line } from "react-icons/ri";
 import { LuHardDrive } from "react-icons/lu";
 import { unknownObjProps } from "@/global.t";
-import { useAppSelector } from "@/Hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { useEffect, useState } from "react";
+import { userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
 
 const Product = (productProps: unknownObjProps<string | number>) => {
 
@@ -18,6 +19,8 @@ const Product = (productProps: unknownObjProps<string | number>) => {
     const { discount, price, name, category, specs, _id } = productProps || {}
     const priceAfterOff = priceDiscountCalculator(price as number, discount as number)
     const [isProductInUserWish, setIsProductInUserWish] = useState(false)
+    const dispatch = useAppDispatch()
+    const updater = useAppSelector(state => state.globalVarsSlice.userRelatedDataUpdater)
 
     useEffect(() => {
         [...wishes].some(data => {
@@ -59,7 +62,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
                 <CiShoppingBasket className="bg-primary-black p-[3px] rounded-full " />
-                <FaHeart onClick={() => { addWish(userID, _id as number).then(() => setIsProductInUserWish(preve => !preve)) }} className={`p-[6px] ${!isProductInUserWish ? 'text-white' : 'text-white-red'} transition-all`} />
+                <FaHeart onClick={() => { addWish(userID, _id as number).then(() => setIsProductInUserWish(preve => !preve)).then(() => dispatch(userRelatedDataUpdater())) }} className={`p-[6px] ${!isProductInUserWish ? 'text-white' : 'text-white-red'} transition-all`} />
             </div>
         </div>
     )

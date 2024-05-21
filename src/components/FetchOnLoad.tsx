@@ -6,19 +6,7 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
 
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-
-        dispatch(getMe()); // set user data
-
-        ( // set suer wishes
-            async () => {
-                const res = await fetch('/api/wish/get')
-                const { userWishes } = await res.json()
-                dispatch(userWishesUpdater([...userWishes]))
-            }
-        )()
-        
-    }, [dispatch])
+    useEffect(() => { dispatch(getMe()) }, [dispatch])
 
     return (<></>)
 }

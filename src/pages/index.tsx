@@ -18,6 +18,9 @@ import connectToDB from '@/config/db';
 import Image from 'next/image';
 import ProductModel from '@/models/Product';
 import { shuffleArray } from '@/utils';
+import { userWishesUpdater } from '@/Redux/Features/userSlice';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux';
 
 interface productProps { [key: string]: [] }
 
@@ -26,6 +29,20 @@ export default function Home({ products }: productProps) {
     const navigate = useRouter()
 
     const { laptops, pcs, parts } = products || {}
+    const dispatch = useAppDispatch()
+    const updater = useAppSelector(state => state.globalVarsSlice.userRelatedDataUpdater)
+    
+    useEffect(() => {
+
+        ( // set suer wishes
+            async () => {
+                const res = await fetch('/api/wish/get')
+                const { userWishes } = await res.json()
+                dispatch(userWishesUpdater([...userWishes]))
+            }
+        )()
+
+    }, [dispatch, updater])
 
     return (
 
