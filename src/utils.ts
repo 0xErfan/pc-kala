@@ -122,15 +122,16 @@ const isEmptyInput = (payload: {}, props: string[]) => {
 const inputValidations = (title: string, value: string, confirmPassword?: string): inputValidationProps | undefined => {
 
     const inputRules = [
-        { title: 'username', isValid: value.length > 3, errorMessage: 'طول نام کاربری باید بیشتر از ۳ و کمتر از ۲۰ کاراکتر باشد' },
+        { title: 'username', isValid: value.length > 3 && value.length < 20, errorMessage: 'طول نام کاربری باید بیشتر از ۳ و کمتر از ۲۰ کاراکتر باشد' },
         { title: 'email', isValid: /^[\w-]+@[a-zA-Z\d-]+\.[a-zA-Z]{2,}$/.test(value), errorMessage: 'ایمیل نامعتبر است' },
         { title: 'password', isValid: value.length < 20 && value.length > 7, errorMessage: 'طول رمز عبور باید بیشتر از ۷ و کمتر از ۲۰ کاراکتر باشد' },
-        { title: 'confirmPassword', isValid: Boolean(value === confirmPassword), errorMessage: 'رمز تایید با رمز وارد شده تناقض دارد' }
+        { title: 'confirmPassword', isValid: Boolean(value === confirmPassword), errorMessage: 'رمز تایید با رمز وارد شده تناقض دارد' },
+        { title: 'melliCode', isValid: value.length == 10 && !isNaN(+value), errorMessage: 'کد ملی یک عدد ده رقمی است' },
+        { title: 'phoneNumber', isValid: /^09\d{9}$/.test(value), errorMessage: 'شماره موبایل نامعتبر است' },
+        { title: 'nameAndLastName', isValid: value.length > 6, errorMessage: 'نام و نام خانوادگی کوتاه است' }
     ]
 
-    const inputTargetToCheck = inputRules.find(inputTitle => inputTitle.title == title)
-
-    return inputTargetToCheck;
+    return inputRules.find(inputTitle => inputTitle.title == title)
 }
 
 const shuffleArray = (array: never[], sliceCount?: number) => {

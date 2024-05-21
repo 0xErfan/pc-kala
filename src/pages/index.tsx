@@ -31,12 +31,15 @@ export default function Home({ products }: productProps) {
     const { laptops, pcs, parts } = products || {}
     const dispatch = useAppDispatch()
     const updater = useAppSelector(state => state.globalVarsSlice.userRelatedDataUpdater)
-    
+
     useEffect(() => {
 
         ( // set suer wishes
             async () => {
+                
                 const res = await fetch('/api/wish/get')
+                if (!res.ok) return
+
                 const { userWishes } = await res.json()
                 dispatch(userWishesUpdater([...userWishes]))
             }

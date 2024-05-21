@@ -16,9 +16,7 @@ const Login = () => {
     const formSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        // if (isEmptyInput(loginForm, ['payload', 'password'])) return
         if (isEmptyInput(loginForm, ['payload', 'password'])) { showToast(false, 'لطفا تمام فیلد هارا پر کنید'); return }
-
 
         setLoading(true)
 
@@ -37,11 +35,7 @@ const Login = () => {
             showToast(true, 'ورود با موفقیت انجام شد :))')
             setLoginFrom({})
 
-            setTimeout(() => {
-
-                navigate.replace('/')
-            }, 2000);
-
+            setTimeout(() => { navigate.replace('/') }, 2000);
         }
         catch (error) { showToast(false, String(error)) }
         finally { setLoading(false) }

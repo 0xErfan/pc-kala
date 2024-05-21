@@ -1,28 +1,25 @@
 import FormInput from "@/components/FormInput"
 import Loader from "@/components/Loader"
+import { unknownObjProps } from "@/global.t"
 import { isEmptyInput, showToast } from "@/utils"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { FormEvent, useState } from "react"
 
-interface errorDataType {
-    [key: string]: unknown
-}
 
 const Register = () => {
 
-    const [registerFrom, setRegisterFrom] = useState<{ [key: string]: string }>({})
+    const [registerFrom, setRegisterFrom] = useState<unknownObjProps<string>>({})
     const [inputValidationErrors, setInputValidationErrors] = useState<{ message: string }[]>([])
 
     const [loading, setLoading] = useState(false)
     const navigate = useRouter()
 
-    const formUpdater = (prop: string, value: string) => setRegisterFrom({ ...registerFrom, [prop]: value })
-
     const formSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
         if (isEmptyInput(registerFrom, ['username', 'password', 'confirmPassword', 'email'])) { showToast(false, 'لطفا تمام فیلد هارا پر کنید'); return }
+        if (formUpdater.password !== formUpdater.confirmPassword) return
         if (inputValidationErrors.length) { showToast(false, inputValidationErrors[0].message); return }
 
         setLoading(true)
@@ -48,7 +45,7 @@ const Register = () => {
         finally { setLoading(false) }
     }
 
-    const updateErrorArray = (data: errorDataType) => { // sorry for the mess (: 😂
+    const updateErrorArray = (data: unknownObjProps<unknown>) => { // sorry for the mess (: 😂
 
         const previousErrors = [...inputValidationErrors]
 
@@ -63,6 +60,8 @@ const Register = () => {
 
         setInputValidationErrors(updatedErrors.filter((error: errorDataType) => error.isShown))
     }
+
+    const formUpdater = (prop: string, value: string) => setRegisterFrom({ ...registerFrom, [prop]: value })
 
     return (
         <section className="flex-center h-screen px-5 bg-title-text">

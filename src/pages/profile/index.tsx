@@ -147,10 +147,10 @@ const Profile = () => {
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                fn={() => { }}
-                                name="name-lname"
+                                fn={(name, value) => console.log(name, value)}
+                                name="nameAndLastName"
                                 title="نام و نام خانوادگی"
-                                inputValue={nameLastName || <Skeleton />}
+                                inputValue={nameLastName || ''}
                                 readOnly={!activeEditShown?.fullName}
                                 editToggle={() => activeEditChanger("fullName")}
                             />
@@ -158,9 +158,9 @@ const Profile = () => {
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
                                 fn={() => { }}
-                                name="cashBack"
+                                name="username"
                                 title="نام کاربری"
-                                inputValue={username}
+                                inputValue={username || ''}
                                 readOnly={!activeEditShown?.username}
                                 editToggle={() => activeEditChanger("username")}
                             />
@@ -168,9 +168,9 @@ const Profile = () => {
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
                                 fn={() => { }}
-                                name="meli-code"
+                                name="melliCode"
                                 title="کد ملی"
-                                inputValue={meliCode}
+                                inputValue={meliCode || ''}
                                 readOnly={!activeEditShown?.meliCode}
                                 editToggle={() => activeEditChanger("meliCode")}
                             />
@@ -178,9 +178,9 @@ const Profile = () => {
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
                                 fn={() => { }}
-                                name="phonoNumber"
+                                name="phoneNumber"
                                 title="شماره موبایل"
-                                inputValue={phonoNumber}
+                                inputValue={phonoNumber || ''}
                                 readOnly={!activeEditShown?.phonoNumber}
                                 editToggle={() => activeEditChanger("phonoNumber")}
                             />
@@ -188,9 +188,10 @@ const Profile = () => {
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
                                 fn={() => { }}
+                                editAble={false}
                                 name="email"
                                 title={"ایمیل"}
-                                inputValue={email}
+                                inputValue={email || ''}
                                 readOnly={!activeEditShown?.email}
                                 editToggle={() => activeEditChanger("email")}
                             />
@@ -200,7 +201,7 @@ const Profile = () => {
                                 fn={() => { }}
                                 name="changePass"
                                 title="تغییر رمز عبور"
-                                inputValue={""}
+                                inputValue={"" || ''}
                                 readOnly={!activeEditShown?.changePass}
                                 editToggle={() => activeEditChanger("changePass")}
                             />
