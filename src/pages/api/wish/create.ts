@@ -14,12 +14,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!creator || !productID) return res.status(421).json({ message: 'requirement data to make product not found idiot!' })
 
-        const isWishExist = await WishModel.findOneAndDelete({ productID }) // if the product exist => remove it(like toggle)
-        if (isWishExist) return res.status(200).json({ message: 'محصول از لیست علاقه مندی ها حذف شد' })
+        const isWishExist = await WishModel.findOne({ productID, creator }) // if the product exist => remove it(like toggle) else: add wish
 
-        await WishModel.create({ creator, productID })
+        await WishModel[isWishExist ? 'findOneAndDelete' : 'create']({ productID, creator })
+        
+        if (isWishExist) {
+            return res.status(200).json({ message: 'محصول از لیست علاقه مندی ها حذف شد' })
+        } else {
+            return res.status(201).json({ message: 'محصول به لیست علاقه مندی ها اضافه شد' })
+        }
 
-        return res.status(201).json({ message: 'محصول به لیست علاقه مندی ها اضافه شد' })
 
     } catch (err) {
         console.log(err)

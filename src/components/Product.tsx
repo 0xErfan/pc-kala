@@ -30,13 +30,13 @@ const Product = (productProps: unknownObjProps<string | number>) => {
         })
     }, [wishes])
 
-    const addWishHandler = (userID: number, _id: number) => {
+    const addWishHandler = () => {
 
         if (!isLoggedIn) { showToast(false, 'ابتدا وارد حساب خود شوید'); return }
 
-        addWish(userID, _id as number)
-            .then(() => setIsProductInUserWish(preve => !preve))
+        addWish(data._id, _id as number)
             .then(() => dispatch(userRelatedDataUpdater()))
+            .then(() => setIsProductInUserWish(preve => !preve))
     }
 
     return (

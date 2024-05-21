@@ -13,23 +13,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { compare: passwordToCompare, password, _id } = req.body
         const userData = await UserModel.findOne({ _id })
 
-        console.log(passwordToCompare, password)
-
-        if (!userData) return res.status(401).json({ message: 'کاربری با این نام کاربری/ایمیل یافت نشد' })
-
-        if (passwordToCompare) {
+        if (passwordToCompare) { // if the compare have value, it means we only want this api to compare the password and not change it.
             if (! await compare(passwordToCompare, userData.password)) {
                 return res.status(401).json({ message: 'رمز عبور وارد شده صحیح نیست' })
             } else {
                 return res.status(200).json({ message: 'رمز عبور صحیح است' })
             }
+        } else {
+            const hashedPassword = await hash(password, 12)
+            await UserModel.findOneAndUpdate({ _id }, { password: hashedPassword })
+            return res.status(200).json({ message: 'رمز عبور با موفقیت تغییر یافت(:' })
         }
-
-        const hashedPassword = await hash(password, 12)
-
-        await UserModel.findOneAndUpdate({ _id }, { password: hashedPassword })
-
-        return res.status(200).json({ message: 'رمز عبور با موفقیت تغییر یافت(:' })
 
     } catch (err) {
         console.log(err)

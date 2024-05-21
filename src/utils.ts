@@ -196,7 +196,7 @@ const addWish = async (creator: number, productID: number) => {
 
         const data = await res.json()
 
-        if (res.ok) { showToast(true, data?.message, 2000) }
+        showToast(res.ok, data.message, 2000)
 
     } catch (err) {
         console.log(err)

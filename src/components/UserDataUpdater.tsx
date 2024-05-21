@@ -21,10 +21,11 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
 
     const [value, setValue] = useState(inputValue)
     const [loading, setLoading] = useState(false)
-    const { _id } = useAppSelector(state => state.userSlice.data) || ''
-    const dispatch = useAppDispatch()
     const [isPasswordValid, setIsPasswordValid] = useState(false)
-    const { password } = useAppSelector(state => state.userSlice.data) || ''
+
+    const dispatch = useAppDispatch()
+    const { _id, password } = useAppSelector(state => state.userSlice.data) || ''
+
 
     const validateValueAndUpdate = async () => {
 
@@ -33,18 +34,20 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
         if (!data?.isValid) { showToast(false, data.errorMessage); return }
         if (value == inputValue) return
 
-        if (name == 'changePass') {
+        if (name == 'changePass') { // this if statement is just for change password validations
+
+            setLoading(true)
 
             const res = await fetch('/api/auth/changePassword', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ [isPasswordValid ? 'password' : 'compare']: value, _id })
+                body: JSON.stringify({ [isPasswordValid ? 'password' : 'compare']: value, _id }) // 'password' for changing it and 'compare' to check the user input
             })
             const data = await res.json()
 
             if (!isPasswordValid) {
 
-                if (res.status == 200) {
+                if (res.status == 200) { // compare result is true(user inserted the right password)
                     setIsPasswordValid(true)
                     setValue('')
                 } else {
@@ -53,7 +56,7 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
                 }
 
             } else {
-
+                // here user changed his/her pass and will see the result
                 showToast(res.ok, data.message)
 
                 if (res.status == 200) {
@@ -63,9 +66,11 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
                 }
                 return
             }
+
+            setLoading(false)
+            return
         }
 
-        return
         setLoading(true)
 
         try {
