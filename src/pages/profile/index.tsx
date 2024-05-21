@@ -16,7 +16,6 @@ import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { changeProfileActiveMenu, userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
-import Skeleton from "react-loading-skeleton";
 import { userWishesUpdater } from "@/Redux/Features/userSlice";
 
 interface orderStatusProps {
@@ -40,7 +39,7 @@ const Profile = () => {
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
 
-    const { nameLastName, username, meliCode, email, phonoNumber } = fetchedData?.userData || {}
+    const { nameLastName, username, meliCode, email, phoneNumber } = fetchedData?.userData || {}
     const { Wish, Order, Notification, Comment } = fetchedData?.userRelatedData || []
 
     const deleteNotificationHandler = async (id: string) => {
@@ -81,7 +80,7 @@ const Profile = () => {
     useEffect(() => {
 
         if (!isLoaded) {
-            // setUserDataToRender(<div className="flex-center w-full text-center absolute inset-0 bg-secondary-black text-gold font-peyda text-[16px] h-full">بروزرسانی...</div>)
+            setUserDataToRender(<div className="flex-center w-full text-center absolute inset-0 bg-secondary-black pb-36 text-gold font-peyda text-[16px] h-full">بروزرسانی...</div>)
             return
         }
 
@@ -147,8 +146,7 @@ const Profile = () => {
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                fn={(name, value) => console.log(name, value)}
-                                name="nameAndLastName"
+                                name="nameLastName"
                                 title="نام و نام خانوادگی"
                                 inputValue={nameLastName || ''}
                                 readOnly={!activeEditShown?.fullName}
@@ -157,7 +155,6 @@ const Profile = () => {
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                fn={() => { }}
                                 name="username"
                                 title="نام کاربری"
                                 inputValue={username || ''}
@@ -167,8 +164,7 @@ const Profile = () => {
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                fn={() => { }}
-                                name="melliCode"
+                                name="meliCode"
                                 title="کد ملی"
                                 inputValue={meliCode || ''}
                                 readOnly={!activeEditShown?.meliCode}
@@ -177,17 +173,15 @@ const Profile = () => {
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                fn={() => { }}
                                 name="phoneNumber"
                                 title="شماره موبایل"
-                                inputValue={phonoNumber || ''}
-                                readOnly={!activeEditShown?.phonoNumber}
-                                editToggle={() => activeEditChanger("phonoNumber")}
+                                inputValue={phoneNumber ?? ''}
+                                readOnly={!activeEditShown?.phoneNumber}
+                                editToggle={() => activeEditChanger("phoneNumber")}
                             />
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                fn={() => { }}
                                 editAble={false}
                                 name="email"
                                 title={"ایمیل"}
@@ -198,10 +192,9 @@ const Profile = () => {
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                fn={() => { }}
                                 name="changePass"
                                 title="تغییر رمز عبور"
-                                inputValue={"" || ''}
+                                inputValue={''}
                                 readOnly={!activeEditShown?.changePass}
                                 editToggle={() => activeEditChanger("changePass")}
                             />
@@ -238,7 +231,7 @@ const Profile = () => {
                     <div className={`flex items-center justify-between border-b border-gray-600/15 pb-2 hover:bg-black/15`}>
                         <div className="flex items-center flex-col gap-1">
                             <p className="text-[15px]">{nameLastName || username}</p>
-                            <p className="text-[13px] text-description-text">{phonoNumber}</p>
+                            <p className="text-[13px] text-description-text">{phoneNumber}</p>
                         </div>
                         <CiEdit onClick={() => dispatch(changeProfileActiveMenu("account-details"))} className="size-7 text-blue-white cursor-pointer" />
                     </div>

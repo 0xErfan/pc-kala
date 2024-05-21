@@ -126,9 +126,9 @@ const inputValidations = (title: string, value: string, confirmPassword?: string
         { title: 'email', isValid: /^[\w-]+@[a-zA-Z\d-]+\.[a-zA-Z]{2,}$/.test(value), errorMessage: 'ایمیل نامعتبر است' },
         { title: 'password', isValid: value.length < 20 && value.length > 7, errorMessage: 'طول رمز عبور باید بیشتر از ۷ و کمتر از ۲۰ کاراکتر باشد' },
         { title: 'confirmPassword', isValid: Boolean(value === confirmPassword), errorMessage: 'رمز تایید با رمز وارد شده تناقض دارد' },
-        { title: 'melliCode', isValid: value.length == 10 && !isNaN(+value), errorMessage: 'کد ملی یک عدد ده رقمی است' },
+        { title: 'meliCode', isValid: value.length == 10 && !isNaN(+value), errorMessage: 'کد ملی یک عدد ده رقمی است' },
         { title: 'phoneNumber', isValid: /^09\d{9}$/.test(value), errorMessage: 'شماره موبایل نامعتبر است' },
-        { title: 'nameAndLastName', isValid: value.length > 6, errorMessage: 'نام و نام خانوادگی کوتاه است' }
+        { title: 'nameLastName', isValid: value.length > 6, errorMessage: 'نام و نام خانوادگی کوتاه است' }
     ]
 
     return inputRules.find(inputTitle => inputTitle.title == title)
@@ -203,6 +203,15 @@ const addWish = async (creator: number, productID: number) => {
     }
 }
 
+const convertNumbers2English = (string: any) => {
+
+    return string.replace(/[٠١٢٣٤٥٦٧٨٩]/g, (c: string) => {
+        return c.charCodeAt(0) - 1632
+    }).replace(/[۰۱۲۳۴۵۶۷۸۹]/g, (c: string) => {
+        return c.charCodeAt(0) - 1776
+    });
+}
+
 export {
     getTimer,
     fetchData,
@@ -215,5 +224,6 @@ export {
     shuffleArray,
     engCategoryToPersian,
     itemsSorter,
-    addWish
+    addWish,
+    convertNumbers2English
 }

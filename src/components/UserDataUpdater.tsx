@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
 import { CiEdit } from "react-icons/ci";
 import Button from "./Button";
-import { inputValidations } from "@/utils";
+import { convertNumbers2English, inputValidations, showToast } from "@/utils";
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
+import Loader from "./Loader";
+import { userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
 
 interface inputProps {
     title: string
@@ -10,19 +13,44 @@ interface inputProps {
     readOnly?: boolean
     editAble?: boolean
     dataEditorCloser: () => void
-    fn: (name: string, value: string) => unknown
     editToggle: () => void
 }
 
-export const UserDataUpdater = ({ name, fn, readOnly, title, inputValue, editAble = true, editToggle, dataEditorCloser }: inputProps) => {
+export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = true, editToggle, dataEditorCloser }: inputProps) => {
 
     const [value, setValue] = useState(inputValue)
+    const [loading, setLoading] = useState(false)
+    const { _id } = useAppSelector(state => state.userSlice.data) || ''
+    const dispatch = useAppDispatch()
 
-    useEffect(() => { fn(name, value) }, [value])
+    const validateValueAndUpdate = async () => {
 
-    const validateValue = () => {
-        const dada = inputValidations(name, value)
-        console.log(dada)
+        const data = inputValidations(name, value)
+
+        if (!data?.isValid) { showToast(false, data.errorMessage); return }
+        if (value == inputValue) return
+
+        setLoading(true)
+
+        try {
+
+            const res = await fetch('/api/users/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prop: name, value, _id })
+            })
+
+            const { message } = await res.json()
+
+            showToast(res.ok, message);
+            if (!res.ok) return
+
+            setValue(value)
+            dispatch(userRelatedDataUpdater())
+            dataEditorCloser()
+
+        } catch (err) { showToast(false, 'خطا - از اتصال به اینترنت اطمینان منید') }
+        finally { setLoading(false) }
     }
 
     return (
@@ -47,11 +75,12 @@ export const UserDataUpdater = ({ name, fn, readOnly, title, inputValue, editAbl
                                 type="input"
                                 value={value}
                                 name={name}
-                                onChange={e => setValue(e.target.value)}
+                                onChange={e => setValue(convertNumbers2English(e.target.value))}
+                                onKeyDown={e => e.key == 'Enter' && validateValueAndUpdate()}
                             />
                             <div data-aos-duration="550" data-aos="fade-right" className="flex-1 flex items-center gap-1 ch:flex-1 w-full">
                                 <Button fn={() => { dataEditorCloser(), setValue(inputValue) }} text="لغو" size="sm" />
-                                <Button fn={validateValue} text="تایید" filled size="sm" />
+                                <Button text={loading ? '' : 'تایید'} fn={validateValueAndUpdate} Icon={loading ? <Loader size="sm" /> : <></>} filled size="sm" />
                             </div>
                         </div>
                     </div>
