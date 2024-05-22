@@ -10,11 +10,11 @@ import { LuHardDrive } from "react-icons/lu";
 import { unknownObjProps } from "@/global.t";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { useEffect, useState } from "react";
-import { userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
+import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 
 const Product = (productProps: unknownObjProps<string | number>) => {
 
-    const { data, wishes }: { data: unknownObjProps<number> } = useAppSelector(state => state.userSlice) || {}
+    const { data, relatedData }: { data: unknownObjProps<number> } = useAppSelector(state => state.userSlice) || {}
     const { discount, price, name, category, specs, _id } = productProps || {}
     const priceAfterOff = priceDiscountCalculator(price as number, discount as number)
     const [isProductInUserWish, setIsProductInUserWish] = useState(false)
@@ -22,20 +22,20 @@ const Product = (productProps: unknownObjProps<string | number>) => {
     const isLoggedIn = useAppSelector(state => state.userSlice.isLogin)
 
     useEffect(() => {
-        [...wishes].some(data => {
+        relatedData?.Wish?.some(data => {
             if (data.productID._id == _id) {
                 setIsProductInUserWish(true)
                 return true
             }
         })
-    }, [wishes])
+    }, [relatedData?.Wish])
 
     const addWishHandler = () => {
 
         if (!isLoggedIn) { showToast(false, 'ابتدا وارد حساب خود شوید'); return }
 
         addWish(data._id, _id as number)
-            .then(() => dispatch(userRelatedDataUpdater()))
+            .then(() => dispatch(userUpdater()))
             .then(() => setIsProductInUserWish(preve => !preve))
     }
 

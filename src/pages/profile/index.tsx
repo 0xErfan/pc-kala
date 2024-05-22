@@ -15,8 +15,7 @@ import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
-import { changeProfileActiveMenu, userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
-import { userWishesUpdater } from "@/Redux/Features/userSlice";
+import { changeProfileActiveMenu, userUpdater } from "@/Redux/Features/globalVarsSlice";
 
 interface orderStatusProps {
     count: number
@@ -32,7 +31,7 @@ const Profile = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const navigate = useRouter()
 
-    const updater = useAppSelector(state => state.globalVarsSlice.userRelatedDataUpdater)
+    const updater = useAppSelector(state => state.globalVarsSlice.userUpdater)
     const activeMenu = useAppSelector(state => state.globalVarsSlice.activeProfileMenu)
     const dispatch = useAppDispatch()
 
@@ -53,7 +52,7 @@ const Profile = () => {
         if (!res.ok) { showToast(false, 'خطا در اتصال به اینترنت'); return }
 
         showToast(true, 'پیام با موفقیت حذف شد')
-        dispatch(userRelatedDataUpdater())
+        dispatch(userUpdater())
     }
 
     useEffect(() => {
@@ -69,7 +68,6 @@ const Profile = () => {
                     const data = await res.json()
 
                     setFetchedData({ ...data })
-                    dispatch(userWishesUpdater([...data?.userRelatedData.Wish]))
                     setIsLoaded(true)
 
                 } catch (error) { showToast(false, 'از اتصال به اینترنت مطمان شوید', 3000) }
@@ -80,7 +78,7 @@ const Profile = () => {
     useEffect(() => {
 
         if (!isLoaded) {
-            setUserDataToRender(<div className="flex-center w-full text-center absolute inset-0 bg-secondary-black pb-36 text-gold font-peyda text-[16px] h-full">بروزرسانی...</div>)
+            // setUserDataToRender(<div className="flex-center w-full text-center absolute inset-0 bg-secondary-black pb-36 text-gold font-peyda text-[16px] h-full">بروزرسانی...</div>)
             return
         }
 
@@ -212,6 +210,7 @@ const Profile = () => {
         if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
 
         showToast(true, 'خروج از حساب موفقیت امیز بود')
+        dispatch(userUpdater())
         navigate.replace('/')
     }
 

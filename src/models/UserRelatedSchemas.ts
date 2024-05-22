@@ -12,8 +12,9 @@ const OrderSchema = new mongoose.Schema({
 });
 
 const BasketItemSchema = new mongoose.Schema({
-    userBasketID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    ProductID: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true }
+    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    ProductID: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
+    count: { type: Number, default: 1 }
 });
 
 const NotificationSchema = new mongoose.Schema({

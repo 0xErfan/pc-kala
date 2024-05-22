@@ -36,7 +36,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
             userRelatedData[Model.modelName] = foundedData
         }
-        console.log(userRelatedData)
 
         return res.status(200).json({ userData, userRelatedData })
 

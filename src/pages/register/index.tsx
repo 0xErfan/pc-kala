@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/Hooks/useRedux"
+import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 import FormInput from "@/components/FormInput"
 import Loader from "@/components/Loader"
 import { unknownObjProps } from "@/global.t"
@@ -14,6 +16,7 @@ const Register = () => {
 
     const [loading, setLoading] = useState(false)
     const navigate = useRouter()
+    const dispatch = useAppDispatch()
 
     const formSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -39,7 +42,7 @@ const Register = () => {
             showToast(true, 'ثبت نام با موفقیت انجام شد :))')
             setRegisterFrom({})
 
-            setTimeout(() => { navigate.replace('/') }, 1700);
+            setTimeout(() => { navigate.replace('/'), dispatch(userUpdater()) }, 1700);
         }
         catch (error) { showToast(false, String(error)) }
         finally { setLoading(false) }

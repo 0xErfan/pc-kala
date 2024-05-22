@@ -1,3 +1,5 @@
+import { useAppDispatch } from "@/Hooks/useRedux"
+import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 import Loader from "@/components/Loader"
 import { isEmptyInput, showToast } from "@/utils"
 import Link from "next/link"
@@ -9,6 +11,7 @@ const Login = () => {
     const [loginForm, setLoginFrom] = useState<{ [key: string]: string }>({})
     const [loading, setLoading] = useState(false)
     const navigate = useRouter()
+    const dispatch = useAppDispatch()
 
 
     const formUpdater = (prop: string, value: string) => setLoginFrom({ ...loginForm, [prop]: value })
@@ -35,7 +38,7 @@ const Login = () => {
             showToast(true, 'ورود با موفقیت انجام شد :))')
             setLoginFrom({})
 
-            setTimeout(() => { navigate.replace('/') }, 2000);
+            setTimeout(() => { navigate.replace('/'), dispatch(userUpdater()) }, 2000);
         }
         catch (error) { showToast(false, String(error)) }
         finally { setLoading(false) }

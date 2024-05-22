@@ -14,9 +14,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!prop || !value) return res.status(421).json({ message: 'اطلاعات را به درستی وارد کنید' })
 
-        const updatedUser = await UserModel.findOneAndUpdate({ _id }, { [prop]: value })
+        if (prop == 'username') {
+            const isThisUsernameExist = await UserModel.findOne({ username: value })
+            if (isThisUsernameExist) return res.status(421).json({ message: 'این نام کاربری استفاده شده است' })
+        }
 
-        console.log('this is the update for user', updatedUser)
+        await UserModel.findOneAndUpdate({ _id }, { [prop]: value })
 
         return res.status(200).json({ message: 'اطلاعات شما بروزرسانی شد.' })
 

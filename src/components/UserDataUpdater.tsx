@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { CiEdit } from "react-icons/ci";
 import Button from "./Button";
 import { convertNumbers2English, inputValidations, showToast } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import Loader from "./Loader";
-import { userRelatedDataUpdater } from "@/Redux/Features/globalVarsSlice";
-import { compare } from "bcrypt";
+import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 
 interface inputProps {
     title: string
@@ -87,7 +86,7 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
             if (res.status !== 200) return
 
             setValue(value)
-            dispatch(userRelatedDataUpdater())
+            dispatch(userUpdater())
             dataEditorCloser()
 
         } catch (err) { showToast(false, 'خطا - از اتصال به اینترنت اطمینان منید') }
