@@ -39,6 +39,20 @@ const Product = (productProps: unknownObjProps<string | number>) => {
             .then(() => setIsProductInUserWish(preve => !preve))
     }
 
+    const addProductToBasket = async () => {
+        
+        const res = await fetch('/api/basket/add', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userID: data._id, productID: _id, count: 1 })
+        })
+
+        const finalData = await res.json()
+
+        showToast(res.ok, finalData.message)
+        if (res.ok) dispatch(userUpdater())
+    }
+
     return (
         <div className="sm:max-w-[316px] transition-all duration-300 w-full relative m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
 
@@ -69,7 +83,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
             }
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
-                <CiShoppingBasket className="bg-primary-black p-[3px] rounded-full " />
+                <CiShoppingBasket onClick={addProductToBasket} className="bg-primary-black p-[3px] rounded-full " />
                 <FaHeart onClick={addWishHandler} className={`p-[6px] ${!isProductInUserWish ? 'text-description-text' : 'text-white-red'} transition-all`} />
             </div>
         </div>
