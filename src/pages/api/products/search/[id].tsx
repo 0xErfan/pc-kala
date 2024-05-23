@@ -5,6 +5,7 @@ import ProductModel from "@/models/Product";
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be acceessed without POST request_" })
+    
 
     try {
 

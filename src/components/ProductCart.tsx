@@ -39,7 +39,7 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
             showToast(res.ok, finalData.message)
             if (res.ok) dispatch(userUpdater())
             setIsUpdating(false)
-        }, 1000); // just debounce so user don't spam 😂🤔
+        }, 800); // just debounce so user don't spam 😂🤔
     }
 
     return (

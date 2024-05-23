@@ -1,6 +1,7 @@
 import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
 import { categories, unknownObjProps } from "./global.t"
+import { userUpdater } from "./Redux/Features/globalVarsSlice"
 
 export interface productOffTimerProps {
     hours: number | string
@@ -170,6 +171,21 @@ const engCategoryToPersian = (category: categories) => {
     return translatedCategory;
 }
 
+const sharePage = (url: string) => {
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'Share Image URL',
+            text: 'Check out this product!',
+            url
+        })
+            .then(() => console.log('Shared successfully'))
+            .catch((error) => console.error('Error sharing:', error));
+    } else {
+        console.error('Web Share API not supported');
+    }
+}
+
 const itemsSorter = (type: string, items: never[]) => {
 
     let sortedProducts = [...items]
@@ -232,6 +248,20 @@ const removeProductFromBasket = async (productID: string, userID: string) => {
     }
 }
 
+const addProductToBasket = async (userID, productID, count, dispatch) => {
+
+    const res = await fetch('/api/basket/add', {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userID, productID, count })
+    })
+
+    const finalData = await res.json()
+
+    showToast(res.ok, finalData.message)
+    if (res.ok) dispatch(userUpdater())
+}
+
 export {
     getTimer,
     fetchData,
@@ -243,8 +273,10 @@ export {
     inputValidations,
     shuffleArray,
     engCategoryToPersian,
+    sharePage,
     itemsSorter,
     addWish,
     convertNumbers2English,
-    removeProductFromBasket
+    removeProductFromBasket,
+    addProductToBasket
 }

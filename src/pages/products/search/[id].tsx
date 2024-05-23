@@ -9,17 +9,19 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { BsFilterLeft } from "react-icons/bs";
 import { GrGroup } from "react-icons/gr";
 import Button from "@/components/Button";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Header from "@/components/Header";
-import { getTimer, priceDiscountCalculator, productOffTimerProps } from '@/utils'
+import { addProductToBasket, getTimer, priceDiscountCalculator, productOffTimerProps, sharePage, showToast } from '@/utils'
 import BreadCrumb from "@/components/BreadCrumb";
 import { MdClose } from "react-icons/md";
 import { GetStaticPropsContext } from "next";
 import Image from "next/image";
 import Head from "next/head";
-import { useAppSelector } from "@/Hooks/useRedux";
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
+import { userUpdater } from "@/Redux/Features/globalVarsSlice";
+import { useRouter } from "next/router";
 
 interface coordinates {
     x: number
@@ -43,36 +45,51 @@ export default memo(function Product({ product }: { product: {} }) {
     const [fullScreenShown, setFullScreenShown] = useState(false)
     const isLogin = useAppSelector(state => state.userSlice.isLogin)
 
+    const navigate = useRouter()
+
     const { name, price, discount, specs, _id, image } = product || {}
     const productSpecs = Object.entries(specs)
+    const [isUpdating, setIsUpdating] = useState(false)
+    const dispatch = useAppDispatch()
+    const { relatedData, data } = useAppSelector(state => state.userSlice) || []
 
-    const breadCrumbData = [
-        { text: "لپتاپ", link: "/category/laptops" },
-        { text: name, link: `/products/search/${_id}` },
-    ]
+    const updateProductCount = async (count: number) => {
 
-    const sharePage = (url: string) => {
-        const imageUrl = 'https://example.com/image.jpg';
+        if (isUpdating || count < 1) return
 
-        if (navigator.share) {
-            navigator.share({
-                title: 'Share Image URL',
-                text: 'Check out this product!',
-                url
-            })
-                .then(() => console.log('Shared successfully'))
-                .catch((error) => console.error('Error sharing:', error));
-        } else {
-            console.error('Web Share API not supported');
-        }
+        setIsUpdating(true)
+
+        const res = await fetch('/api/basket/add', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userID: data._id, productID: _id, count })
+        })
+
+        const finalData = await res.json()
+
+        setTimeout(() => {
+            showToast(res.ok, finalData.message)
+            if (res.ok) dispatch(userUpdater())
+            setIsUpdating(false)
+        }, 800); // just debounce so user don't spam 😂🤔
     }
 
+    const breadCrumbData = [
+        { text: "لپتاپ", link: "/products/category/laptop" },
+        { text: name },
+    ]
+
+    const isProductInBasket = useMemo(() => {
+        return relatedData?.BasketItem?.some(data => {
+            if (data.productID._id == _id) { setProductCount(data.count); return true }
+            setProductCount(1)
+        })
+    }, [relatedData?.BasketItem, _id])
 
     useEffect(() => {
         const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
         return () => clearInterval(timeout)
     }, [])
-
 
     return (
 
@@ -93,30 +110,31 @@ export default memo(function Product({ product }: { product: {} }) {
 
                         <div className="flex items-center justify-between text-[11px]">
 
-
-                            <p className="text-sm"><span
-                                className="font-peyda text-gold text-[15px]">پیشنهاد ویژه</span><span
-                                    className="block"></span><span className="text-[10px]">فرصت باقی مانده</span></p>
+                            <div className="text-sm">
+                                <span className="font-peyda text-gold text-[15px]">پیشنهاد ویژه</span>
+                                <span className="block"></span>
+                                <span className="text-[10px]">فرصت باقی مانده</span>
+                            </div>
 
                             <div className="flex-center gap-2">
 
                                 <div className="flex items-center flex-col justify-center gap-1">
-                                    <div
-                                        className="flex-center p-1 bg-green text-sm white size-7 rounded-full h-full">{productOffTimer?.seconds || "00"}</div>
+                                    <div className="flex-center p-1 bg-green text-sm white size-7 rounded-full h-full">{productOffTimer?.seconds || "00"}</div>
                                     <p className="text-[10px] text-description-text">ثانیه</p>
                                 </div>
+
                                 <div className="flex flex-col justify-center gap-1">
                                     <div className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.minutes || "00"}</div>
                                     <p className="text-[10px] text-description-text">دقیقه</p>
                                 </div>
+
                                 <div className="flex flex-col justify-center gap-1">
-                                    <div
-                                        className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.hours || "00"}</div>
+                                    <div className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.hours || "00"}</div>
                                     <p className="text-[10px] text-description-text">ساعت</p>
                                 </div>
+
                                 <div className="flex flex-col justify-center gap-1">
-                                    <div
-                                        className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.days || "00"}</div>
+                                    <div className="flex-center p-1 bg-white text-sm text-black/95 size-7 rounded-full h-full">{productOffTimer?.days || "00"}</div>
                                     <p className="text-[10px] text-description-text mr-2">روز</p>
                                 </div>
 
@@ -146,47 +164,54 @@ export default memo(function Product({ product }: { product: {} }) {
                                         width={600}
                                         height={600}
                                         alt="product-img"
-                                        onPointerEnter={() => {
-                                            setIsZoomShown(true)
-                                        }}
+                                        onPointerEnter={() => { setIsZoomShown(true) }}
                                         onPointerLeave={() => setIsZoomShown(false)}
-                                        onPointerMove={e => {
-                                            setCircleCoordinates({ x: e.clientX, y: e.clientY })
-                                        }
-                                        }
+                                        onPointerMove={e => { setCircleCoordinates({ x: e.clientX, y: e.clientY }) }}
                                     />
+
                                     <span
                                         style={{ left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current ? productImgRef.current.clientHeight / 2 : 0) + "px" }}
-                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: "url('/images/laptop-default.webp')", backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} /></span>
+                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: "url('/images/laptop-default.webp')", backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} />
+                                    </span>
+
                                 </div>
+
                                 <span
                                     onClick={() => setFullScreenShown(true)}
-                                    className="absolute cursor-pointer flex-center size-10 border z-40 border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch /></span>
+                                    className="absolute cursor-pointer flex-center size-10 border z-40 border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch />
+                                </span>
+
                                 <span
-                                    onClick={() => sharePage('/images/flan/flan')}
-                                    className="absolute size-10 border z-40 border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline /></span>
+                                    onClick={() => sharePage(location.href)}
+                                    className="absolute size-10 border z-40 border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline />
+                                </span>
+
                             </div>
 
                             <FullScreenImage url='/images/laptop-default.webp' isShown={fullScreenShown} closeFullScreenFn={() => setFullScreenShown(false)} />
 
                         </div>
 
-                        <div className="bg-green rounded-md p-4 text-sm text-center">قدرت ما در بهترین قیمت بازار است
-                            بهترین عرضه کننده لپ تاپ در ایران
-                        </div>
+                        <div className="bg-green rounded-md p-4 text-sm text-center">قدرت ما در بهترین قیمت بازار است بهترین عرضه کننده لپ تاپ در ایران</div>
+
                     </div>
 
                     <div className="md:flex-[1.2] xl:flex-[1.4] mb-auto">
+
                         <p>{name}</p>
-                        <span
-                            className="bg-blue-dark inline-block text-[11px] p-1 rounded-sm my-3">شناسه محصول : 72478</span>
+
+                        <span className="bg-blue-dark flex gap-1 max-w-[140px] text-[11px] p-1 rounded-sm my-3">شناسه محصول :<div className="text-[13px]">{String(_id).slice(-7, -1)}</div></span>
+
                         <div className="flex items-center gap-12 text-[12px]">
+
                             <p>گارانتی دستگاه</p>
+
                             <select defaultValue={0}
                                 className="bg-primary-black rounded-md p-2 border border-dark-gold">
                                 <option disabled={true} value={0}>گارانتی دستگاه را انتخاب کنید</option>
                                 <option value={1}>گارانتی 18 ماهه شرکتی</option>
                             </select>
+
                         </div>
 
                         <p className="text-dark-red mt-6 text-sm">خدمات ویژه پی سی کالا :</p>
@@ -219,24 +244,58 @@ export default memo(function Product({ product }: { product: {} }) {
                         </div>
 
                         <div>
+
                             <div className="flex items-center gap-3 text-title-text text-2xl mt-10">
                                 {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-Ir')}</div>}
-                                <div className="text-blue-white">{priceDiscountCalculator(price, discount)}<span
-                                    className="text-description-text text-xl"> تومان</span></div>
+                                <div className="text-blue-white">{priceDiscountCalculator(price, discount)}<span className="text-description-text text-xl"> تومان</span></div>
                             </div>
-                            <div className="flex items-center mt-3 gap-3">
-                                <div className="flex h-[44px] items-center border border-dark-gold rounded-md">
-                                    <div
-                                        className="w-10 flex-center border-l h-full border-dark-gold">{productCount}</div>
-                                    <div className="flex-center flex-col w-6 ch:cursor-pointer gap-1">
-                                        <LuPlus onClick={() => setProductCount(preve => preve + 1)} />
-                                        <FiMinus
-                                            onClick={() => productCount != 1 && setProductCount(preve => preve - 1)} />
+
+                            {
+                                isProductInBasket
+                                    ?
+                                    <div className="mt-3 flex items-center gap-2 flex-row-reverse justify-end">
+
+                                        <Button
+                                            filled
+                                            fn={() => navigate.push('/cart')}
+                                            text="موجود در سبد خرید"
+                                        />
+
+                                        <div className="flex h-[44px] items-center border border-dark-gold rounded-md">
+
+                                            <div className="w-10 flex-center border-l h-full border-dark-gold">{productCount}</div>
+
+                                            <div className={`flex-center flex-col w-6`}>
+                                                <LuPlus className={` ${isUpdating ? 'cursor-not-allowed' : 'cursor-pointer'} `} onClick={() => updateProductCount(productCount + 1)} />
+                                                <FiMinus className={` ${isUpdating ? 'cursor-not-allowed' : 'cursor-pointer'} `} onClick={() => updateProductCount(productCount - 1)} />
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </div>
-                                <Button filled={true} text="افزودن به سبد خرید" fn={() => console.log("hi2")}
-                                    Icon={<MdAddShoppingCart />} />
-                            </div>
+                                    :
+                                    <div className="flex items-center mt-3 gap-3">
+
+                                        <div className="flex h-[44px] items-center border border-dark-gold rounded-md">
+
+                                            <div className="w-10 flex-center border-l h-full border-dark-gold">{productCount}</div>
+
+                                            <div className="flex-center flex-col w-6 ch:cursor-pointer gap-1">
+                                                <LuPlus onClick={() => setProductCount(preve => preve + 1)} />
+                                                <FiMinus onClick={() => productCount != 1 && setProductCount(preve => preve - 1)} />
+                                            </div>
+
+                                        </div>
+
+                                        <Button
+                                            text="افزودن به سبد خرید"
+                                            fn={() => addProductToBasket(data._id, _id, productCount, dispatch)}
+                                            Icon={<MdAddShoppingCart />}
+                                            filled
+                                        />
+
+                                    </div>
+                            }
+
                         </div>
                     </div>
 
@@ -407,8 +466,6 @@ export default memo(function Product({ product }: { product: {} }) {
 
         </section>
     )
-
-
 })
 
 const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImageProps) => (
