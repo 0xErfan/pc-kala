@@ -4,8 +4,12 @@ import ProductCart from "@/components/ProductCart";
 import Button from "@/components/Button";
 import Progress from "@/components/Progress";
 import Link from "next/link";
+import { useAppSelector } from "@/Hooks/useRedux";
+import { priceDiscountCalculator } from "@/utils";
 
 const Card = () => {
+
+    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData)
 
     return (
         <>
@@ -21,61 +25,79 @@ const Card = () => {
 
                     <div className="flex items-center gap-5 flex-col lg:flex-row text-white ch:rounded-md ch:p-3 mt-12 ch:bg-secondary-black">
 
-                        <div className="lg:flex-[3.2] flex-1">
+                        <div className="lg:flex-[3.2] flex-1 mb-auto h-full">
 
                             <div className="sm:hidden block  flex-col items-center">
                                 {
-                                    [2, 43, 2].map(prd => {
-                                        return <ProductCart
-                                            key={prd}
-                                            title="لپ تاپ ایسوس TUF Gaming F15 FX507VV4-AB i9-13900H/16GB/512GB/RTX4060-8G - گارانتی 18 ماهه شرکتی"
-                                            count={12}
-                                            price={12343523}
-                                            finalPrice={34523455}
-                                            id={12}
-                                            src="/images/laptop-default.webp"
-                                        />
-                                    })
+                                    BasketItem?.length
+                                        ?
+                                        [...BasketItem]?.map(data => {
+                                            return <ProductCart
+                                                key={data._id}
+                                                title={data.productID.name}
+                                                count={data.count}
+                                                price={data.productID.price.toLocaleString('fa-Ir')}
+                                                finalPrice={(data.productID.price * data.count).toLocaleString('fa-Ir')}
+                                                id={data.productID._id}
+                                                src="/images/laptop-default.webp"
+                                            />
+                                        })
+                                        :
+                                        <div></div>
                                 }
                             </div>
 
                             <table className="w-full sm:block hidden text-center">
 
-                                <thead>
-                                    <tr className="bg-primary-black ch:p-5">
-                                        <td>محصول</td>
-                                        <td>قیمت</td>
-                                        <td>تعداد</td>
-                                        <td>جمع جزء</td>
-                                    </tr>
-                                </thead>
+
+                                {
+                                    BasketItem?.length
+                                        ?
+                                        <thead>
+                                            <tr className="bg-primary-black w-full ch:p-5">
+                                                <th className="max-w-full w-full">محصول</th>
+                                                <th className="min-w-[120px]">قیمت</th>
+                                                <th className="min-w-[60px]">تعداد</th>
+                                                <th className="min-w-[120px]">جمع کل</th>
+                                            </tr>
+                                        </thead>
+                                        : <div className="text-center w-full text-white-red font-peyda text-[16px]">سبد خرید خالی است</div>
+                                }
 
                                 <tbody>
 
                                     {
-                                        [2, 43, 2].map(prd => {
-                                            return <ProductCart
-                                                key={prd}
-                                                title="لپ تاپ ایسوس TUF Gaming F15 FX507VV4-AB i9-13900H/16GB/512GB/RTX4060-8G - گارانتی 18 ماهه شرکتی"
-                                                count={12}
-                                                price={12343523}
-                                                finalPrice={34523455}
-                                                id={12}
-                                                src="/images/laptop-default.webp"
-                                            />
-                                        })
+                                        BasketItem?.length
+                                            ?
+                                            BasketItem?.map(data => {
+                                                return <ProductCart
+                                                    key={data._id}
+                                                    title={data.productID.name}
+                                                    count={data.count}
+                                                    price={data.productID.price.toLocaleString('fa-Ir')}
+                                                    finalPrice={(data.productID.price * data.count).toLocaleString('fa-Ir')}
+                                                    id={data.productID._id}
+                                                    src="/images/laptop-default.webp"
+                                                />
+                                            })
+                                            : null
                                     }
 
                                 </tbody>
                             </table>
 
-                            <div className="mt-20 border relative border-title-text rounded-md p-3">
-                                <span className="absolute w-20 h-4 p-3 bg-primary-black top-0 right-[30px] rounded-sm flex-center -translate-y-[50%]">کد تخفیف:</span>
-                                <div className="mt-5 flex items-center justify-between rounded-sm bg-primary-black border border-white/10">
-                                    <input placeholder="کد تخفیف:" className="w-full text-[16px] placeholder:text-[12px] flex-[5] outline-none bg-transparent p-2" type="text" />
-                                    <div className="p-2"><Button filled text="اعمال کد تخفیف" fn={() => { }} /></div>
-                                </div>
-                            </div>
+                            {
+                                BasketItem?.length
+                                    ?
+                                    <div className="mt-20 border relative border-title-text rounded-md p-3">
+                                        <span className="absolute w-20 h-4 p-3 bg-primary-black top-0 right-[30px] rounded-sm flex-center -translate-y-[50%]">کد تخفیف:</span>
+                                        <div className="mt-5 flex items-center justify-between rounded-sm bg-primary-black border border-white/10">
+                                            <input placeholder="کد تخفیف:" className="w-full text-[16px] placeholder:text-[12px] flex-[5] outline-none bg-transparent p-2" type="text" />
+                                            <div className="p-2"><Button filled text="اعمال کد تخفیف" fn={() => { }} /></div>
+                                        </div>
+                                    </div>
+                                    : null
+                            }
 
                         </div>
 

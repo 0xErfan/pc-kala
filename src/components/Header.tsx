@@ -79,8 +79,13 @@ export default function Header() {
                             <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
                             <div className="cursor-pointer" onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
-                                    <span
-                                        className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
+                                    {
+                                        BasketItem?.length
+                                            ?
+                                            <span className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
+                                            :
+                                            null
+                                    }
                                     <CiShoppingBasket className="size-[35px] text-white" />
                                 </div>
                             </div>
@@ -183,8 +188,13 @@ export default function Header() {
                             <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
                             <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
-                                    <span
-                                        className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
+                                    {
+                                        BasketItem?.length
+                                            ?
+                                            <span className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
+                                            :
+                                            null
+                                    }
                                     <CiShoppingBasket className="size-[35px] text-white" />
                                 </div>
                             </div>
