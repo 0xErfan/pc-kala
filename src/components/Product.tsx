@@ -17,18 +17,33 @@ const Product = (productProps: unknownObjProps<string | number>) => {
     const { data, relatedData }: { data: unknownObjProps<number> } = useAppSelector(state => state.userSlice) || {}
     const { discount, price, name, category, specs, _id } = productProps || {}
     const priceAfterOff = priceDiscountCalculator(price as number, discount as number)
-    const [isProductInUserWish, setIsProductInUserWish] = useState(false)
+
     const dispatch = useAppDispatch()
+
+    const [isProductInUserWish, setIsProductInUserWish] = useState(false)
+    const [isProductInBasket, setIsProductInBasket] = useState(false)
+
     const isLoggedIn = useAppSelector(state => state.userSlice.isLogin)
 
     useEffect(() => {
+
         relatedData?.Wish?.some(data => {
             if (data.productID._id == _id) {
                 setIsProductInUserWish(true)
                 return true
             }
         })
-    }, [relatedData?.Wish])
+
+        setIsProductInBasket(
+            relatedData?.BasketItem?.some(data => {
+                if (data.productID._id == _id) {
+                    setIsProductInBasket(true)
+                    return true
+                }
+            })
+        )
+
+    }, [relatedData?.Wish, relatedData?.BasketItem])
 
     const addWishHandler = () => {
 
@@ -40,7 +55,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
     }
 
     const addProductToBasket = async () => {
-        
+
         const res = await fetch('/api/basket/add', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -83,8 +98,17 @@ const Product = (productProps: unknownObjProps<string | number>) => {
             }
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
-                <CiShoppingBasket onClick={addProductToBasket} className="bg-primary-black p-[3px] rounded-full " />
-                <FaHeart onClick={addWishHandler} className={`p-[6px] ${!isProductInUserWish ? 'text-description-text' : 'text-white-red'} transition-all`} />
+
+                <CiShoppingBasket
+                    onClick={addProductToBasket}
+                    className={`bg-primary-black ${!isProductInBasket ? 'text-description-text' : 'text-white-red'} transition-all p-[3px] rounded-full`}
+                />
+
+                <FaHeart
+                    onClick={addWishHandler}
+                    className={`p-[6px] ${!isProductInUserWish ? 'text-description-text' : 'text-white-red'} transition-all`}
+                />
+
             </div>
         </div>
     )

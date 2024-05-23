@@ -28,7 +28,7 @@ export default function Home({ products }: productProps) {
 
     return (
 
-        <section className={`primary-bg ${} overflow-x-hidden font-sans`}>
+        <section className={`primary-bg overflow-x-hidden font-sans`}>
 
             <Header />
 
