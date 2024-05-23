@@ -17,7 +17,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const isProductExistInBasket = await BasketItemModel.findOne({ productID, userID })
 
         if (isProductExistInBasket) {
-            await BasketItemModel.findOneAndUpdate({ productID, userID }, { count: isProductExistInBasket.count + 1 })
+            await BasketItemModel.findOneAndUpdate({ productID, userID }, { count: count ?? isProductExistInBasket.count + 1 })
             return res.status(201).json({ message: 'تعداد محصول بروزرسانی شد' })
         }
 

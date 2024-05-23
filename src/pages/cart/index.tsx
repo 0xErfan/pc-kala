@@ -3,13 +3,27 @@ import Header from "@/components/Header"
 import ProductCart from "@/components/ProductCart";
 import Button from "@/components/Button";
 import Progress from "@/components/Progress";
-import Link from "next/link";
 import { useAppSelector } from "@/Hooks/useRedux";
-import { priceDiscountCalculator } from "@/utils";
+import { useMemo } from "react";
+import { showToast } from "@/utils";
+import { useRouter } from "next/router";
 
 const Card = () => {
 
     const { BasketItem } = useAppSelector(state => state.userSlice.relatedData)
+    const navigate = useRouter()
+    
+    const { sumOfProductsWithoutDiscount, sumOfProductsWithDiscount } = useMemo(() => {
+
+        const sumOfPrices = { sumOfProductsWithoutDiscount: 0, sumOfProductsWithDiscount: 0 }
+
+        BasketItem?.map(data => {
+            sumOfPrices.sumOfProductsWithoutDiscount += (data.productID.price * data.count)
+            sumOfPrices.sumOfProductsWithDiscount += ((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count)
+        })
+
+        return sumOfPrices
+    }, [BasketItem])
 
     return (
         <>
@@ -110,23 +124,22 @@ const Card = () => {
                             <div className="flex gap-3 text-[12px] flex-col my-6">
                                 <div className="flex items-center justify-between text-title-text">
                                     <p>جمع جزء</p>
-                                    <p><span className="text-white-red">23432555</span> تومان</p>
+                                    <p><span className="text-white-red">{sumOfProductsWithoutDiscount.toLocaleString('fa-Ir')}</span> تومان</p>
                                 </div>
 
                                 <div className="flex items-center justify-between text-title-text">
                                     <p>مجموع</p>
-                                    <p><span className="text-white-red">354665655</span> تومان</p>
+                                    <p><span className="text-white-red">{sumOfProductsWithDiscount.toLocaleString('fa-Ir')}</span> تومان</p>
                                 </div>
 
                                 <div className="flex items-center justify-between text-title-text">
-                                    <p>تخفیف شما از این خرید</p>
-                                    <p className="bg-blue-white p-1 rounded-xl text-[12px] text-white rounded-tl-none"><span>354665655</span> تومان</p>
+                                    <p>جمع تخفیف ها</p>
+                                    <p className="bg-blue-white p-1 rounded-xl text-[12px] text-white rounded-tl-none"><span>{(sumOfProductsWithoutDiscount - sumOfProductsWithDiscount).toLocaleString('fa-Ir')}</span> تومان</p>
                                 </div>
                             </div>
 
 
-                            <Link href={'/checkout'}><Button filled text="ادامه جهت تسویه حساب" fn={() => { }} /></Link>
-
+                            <Button filled text="ادامه جهت تسویه حساب" fn={() => BasketItem?.length ? navigate.push('/checkout') : showToast(false, 'محصولی برای پرداخت وجود نداره ها')} />
                         </div>
                     </div>
 
