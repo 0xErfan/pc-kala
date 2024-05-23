@@ -213,6 +213,25 @@ const convertNumbers2English = (string: any) => {
     });
 }
 
+const removeProductFromBasket = async (productID: string, userID: string) => {
+
+    try {
+        const res = await fetch('/api/basket/delete', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productID, userID })
+        })
+
+        const data = await res.json()
+
+        showToast(res.ok, data.message, 2000)
+
+    } catch (err) {
+        console.log(err)
+        showToast(false, err as string)
+    }
+}
+
 export {
     getTimer,
     fetchData,
@@ -226,5 +245,6 @@ export {
     engCategoryToPersian,
     itemsSorter,
     addWish,
-    convertNumbers2English
+    convertNumbers2English,
+    removeProductFromBasket
 }

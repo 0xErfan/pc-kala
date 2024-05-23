@@ -17,22 +17,18 @@ import { useRouter } from 'next/router';
 import connectToDB from '@/config/db';
 import Image from 'next/image';
 import ProductModel from '@/models/Product';
-import { showToast, shuffleArray } from '@/utils';
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux';
-import { userRelatedDataUpdater } from '@/Redux/Features/userSlice';
+import { shuffleArray } from '@/utils';
 
 interface productProps { [key: string]: [] }
 
 export default function Home({ products }: productProps) {
 
     const navigate = useRouter()
-
     const { laptops, pcs, parts } = products || {}
-    
+
     return (
 
-        <section className="primary-bg overflow-x-hidden font-sans">
+        <section className={`primary-bg ${} overflow-x-hidden font-sans`}>
 
             <Header />
 

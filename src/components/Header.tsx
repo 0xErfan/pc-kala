@@ -4,18 +4,17 @@ import { FaRegUser } from "react-icons/fa";
 import { MdPhoneInTalk } from "react-icons/md";
 import Category from "./Category";
 import SideMenu from "./SideMenu";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useAppSelector } from "@/Hooks/useRedux";
-
-
 import { FaComputer } from "react-icons/fa6";
 import { IoIosLaptop } from "react-icons/io";
 import { HiOutlineCpuChip } from "react-icons/hi2";
 import { PiHeadphones } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
+
 
 export default function Header() {
 
@@ -23,6 +22,7 @@ export default function Header() {
     const navigate = useRouter()
     const textInputElem = useRef<HTMLInputElement | null>(null)
     const isLogin = useAppSelector(state => state.userSlice.isLogin)
+    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData)
 
     const menusShown = useAppSelector(state => state.globalVarsSlice.isScrolledDown)
 
@@ -80,7 +80,7 @@ export default function Header() {
                             <div className="cursor-pointer" onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span
-                                        className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[11px] bg-primary-black">12</span>
+                                        className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
                                     <CiShoppingBasket className="size-[35px] text-white" />
                                 </div>
                             </div>
@@ -184,7 +184,7 @@ export default function Header() {
                             <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     <span
-                                        className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[11px] bg-primary-black">12</span>
+                                        className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
                                     <CiShoppingBasket className="size-[35px] text-white" />
                                 </div>
                             </div>

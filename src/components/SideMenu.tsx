@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { IoClose, IoReorderThree, IoSearch } from 'react-icons/io5'
 import Category from './Category'
 import { IoCloseOutline } from "react-icons/io5";
@@ -10,15 +10,38 @@ import { IoIosLaptop } from 'react-icons/io';
 import { HiOutlineCpuChip } from 'react-icons/hi2';
 import { PiHeadphones } from 'react-icons/pi';
 import { GiConsoleController } from 'react-icons/gi';
+import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux';
+import { BiBasket } from 'react-icons/bi';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { removeProductFromBasket, showToast } from '@/utils';
+import { changeCanScroll, userUpdater } from '@/Redux/Features/globalVarsSlice';
 
 const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideMenu"), changeTypeFn: () => true }) => {
 
     const [isMenuShown, setIsMenuShown] = useState<boolean>(false)
     const ref = useRef<HTMLDivElement>(null)
+    const navigate = useRouter()
+    const dispatch = useAppDispatch()
+
+    const { relatedData, data, isLogin } = useAppSelector(state => state.userSlice) || []
+
+    const sumOfProductsPrice = useMemo(() => {
+        let sum = 0
+        relatedData.BasketItem?.map(data => { sum += (data.productID.price * data.count) })
+        return sum
+    }, [relatedData.BasketItem])
+
+    const deleteProductFromBasket = (productID: string) => {
+        if (!isLogin) { showToast(false, 'ابتدا وارد حساب خود شوید'); return }
+        removeProductFromBasket(productID, data._id).then(() => dispatch(userUpdater()))
+    }
 
     useEffect(() => { dataToShow == "basket" && ref.current?.click() }, [dataToShow])
 
     const menuCloseHandler = () => { setIsMenuShown(false), changeTypeFn() }
+
+    useEffect(() => { dispatch(changeCanScroll(!isMenuShown)) }, [isMenuShown])
 
     return (
         <>
@@ -32,41 +55,44 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                             <div className='text-description-text w-[265px]'>
 
                                 <div className='flex items-center justify-between text-2xl border-b border-secondary-black text-[14px] pb-4 px-4 mt-4 mb-6 gap-3'>
-                                    <div className='flex-[7] justify-end pt-2'><div>سبد خرید <span className='px-2 bg-black rounded-md'>۱۲</span></div></div>
+                                    <div className='flex-[7] justify-end pt-2'><div>سبد خرید <span className='px-2 bg-black rounded-md'>{relatedData.BasketItem?.length}</span></div></div>
                                     <IoClose onClick={menuCloseHandler} className='cursor-pointer p-[3px] text-dark-red h-full bg-secondary-black rounded-full flex-1' />
                                 </div>
 
-                                {/* <div className='flex flex-col justify-center text-[13px] bg-secondary-black rounded-md text-title-text p-3 my-4 items-center gap-3'>
-                                    <BiBasket className='size-8 text-description-text' />
-                                    <p>هیچ محصولی در سبد خرید نیست</p>
-                                </div> */}
-
-                                <div className='space-y-1 flex flex-col gap-3 max-h-[600px] h-full overflow-auto'>
+                                <div className='space-y-1 flex flex-col gap-3 h-[600px] overflow-auto'>
 
                                     {
+                                        relatedData.BasketItem?.length
+                                            ?
+                                            [...relatedData.BasketItem].map(itemData => (
+                                                <div data-aos-duration="550" data-aos="fade-right" key={itemData.productID._id} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
 
-                                        [12, 32, 43, 34, 2, 1].map(prd => (
-                                            <div key={prd} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
-                                                <span className=' absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
-                                                <div className='flex-1'><img className='object-cover size-full' src="/images/laptop-default.webp" /></div>
+                                                    <span onClick={() => deleteProductFromBasket(itemData.productID._id)} className='absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
+                                                    <div className='flex-1'><Image alt={itemData.productID.name} width={400} height={400} className='object-cover size-full' src="/images/laptop-default.webp" /></div>
 
-                                                <div className='flex-[2]'>
-                                                    <Link href="/" className='line-clamp-3 transition-all duration-300 hover:text-white-red'>AN515-46-1 لپ تاپ ایسر ACER Nitro 5 AN515-46 R7-6800H/16G/1TB SSD/3070Ti-8G</Link>
-                                                    <p className='text-[15px] p-1 text-title-text'>{1} × <span className='text-white-red'>{71_580_634}</span> تومان</p>
+                                                    <div className='flex-[2]'>
+                                                        <Link href={`/products/search/${itemData.productID._id}`} className='line-clamp-3 transition-all duration-300 hover:text-white-red'>{itemData.productID.name}</Link>
+                                                        <p className='text-[15px] p-1 text-title-text'>{itemData.count} × <span className='text-white-red'>{itemData.productID.price.toLocaleString('fa-Ir')}</span> تومان</p>
+                                                    </div>
+
                                                 </div>
+                                            ))
+                                            :
+                                            <div className='flex flex-col justify-center text-[13px] bg-secondary-black rounded-md text-title-text p-3 my-4 items-center gap-3'>
+                                                <BiBasket className='size-8 text-description-text' />
+                                                <p>هیچ محصولی در سبد خرید نیست</p>
                                             </div>
-                                        ))
                                     }
                                 </div>
 
                                 <div className='h-full flex flex-col my-8 gap-3'>
                                     <div className='flex items-center justify-between border-y border-dark-gold py-3'>
                                         <p>جمع جزء:</p>
-                                        <p><span className='text-white-red text-[16px] font-bold'>{1231234}</span> تومان</p>
+                                        <p><span className='text-white-red text-[16px] font-bold'>{sumOfProductsPrice.toLocaleString('fa-Ir')}</span> تومان</p>
                                     </div>
                                     <div className='flex items-center justify-between ch:grow gap-2'>
-                                        <Button fn={() => { }} filled text='تسویه حساب' />
-                                        <Button fn={() => { }} filled text='مشاهده سبد خرید' />
+                                        <Button fn={() => navigate.push('/checkout')} filled text='تسویه حساب' />
+                                        <Button fn={() => navigate.push('/cart')} filled text='مشاهده سبد خرید' />
                                     </div>
                                 </div>
                             </div>
