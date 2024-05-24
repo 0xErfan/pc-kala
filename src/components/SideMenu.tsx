@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import { IoClose, IoReorderThree, IoSearch } from 'react-icons/io5'
 import Category from './Category'
 import { IoCloseOutline } from "react-icons/io5";
@@ -17,10 +17,17 @@ import { useRouter } from 'next/router';
 import { removeProductFromBasket, showToast } from '@/utils';
 import { changeCanScroll, userUpdater } from '@/Redux/Features/globalVarsSlice';
 
-const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideMenu"), changeTypeFn: () => true }) => {
+interface SideMenuProps {
+    dataToShow: 'basket' | 'sideMenu'
+    changeTypeFn: () => boolean
+}
+
+const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
     const [isMenuShown, setIsMenuShown] = useState<boolean>(false)
     const ref = useRef<HTMLDivElement>(null)
+    const searchTextRef = useRef<HTMLInputElement | null>(null)
+
     const navigate = useRouter()
     const dispatch = useAppDispatch()
 
@@ -37,9 +44,16 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
         removeProductFromBasket(productID, data._id).then(() => dispatch(userUpdater()))
     }
 
-    useEffect(() => { dataToShow == "basket" && ref.current?.click() }, [dataToShow])
+    const globalSearch = () => {
+        const textToSearch = searchTextRef?.current?.value.trim()
+        textToSearch?.length && navigate.push(`/search/${textToSearch.trim()}`)
+    }
 
     const menuCloseHandler = () => { setIsMenuShown(false), changeTypeFn() }
+
+    useEffect(() => { dataToShow == "basket" && ref.current?.click() }, [dataToShow])
+
+    useEffect(() => { setIsMenuShown(false) }, [location.href]) // if the route changed via the category links or..., the sidebar closes
 
     useEffect(() => { dispatch(changeCanScroll(!isMenuShown)) }, [isMenuShown])
 
@@ -71,7 +85,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                                     <div className='flex-1'><Image alt={itemData.productID.name} width={400} height={400} className='object-cover size-full' src="/images/laptop-default.webp" /></div>
 
                                                     <div className='flex-[2]'>
-                                                        <Link href={`/products/search/${itemData.productID._id}`} className='line-clamp-3 transition-all duration-300 hover:text-white-red'>{itemData.productID.name}</Link>
+                                                        <Link href={`/products/category/search/${itemData.productID._id}`} className='line-clamp-3 transition-all duration-300 hover:text-white-red'>{itemData.productID.name}</Link>
                                                         <p className='text-[15px] p-1 text-title-text'>{itemData.count} × <span className='text-white-red'>{itemData.productID.price.toLocaleString('fa-Ir')}</span> تومان</p>
                                                     </div>
 
@@ -102,13 +116,24 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                         <div className='py-2'>
 
                             <div className='flex items-center justify-between text-2xl px-4 mt-4 mb-6 gap-3 w-[265px]'>
-                                <div className='flex-[7] pt-2'><img className='object-cover px-1' src="/images/home/title.webp" /></div>
+
+                                <div className='flex-[7] pt-2'>
+                                    <Image
+                                        className='object-cover px-1'
+                                        src="/images/home/title.webp"
+                                        width={200}
+                                        height={200}
+                                        quality={100}
+                                        alt='site logo'
+                                    />
+                                </div>
+
                                 <IoClose onClick={menuCloseHandler} className='cursor-pointer p-[2px] text-dark-red h-full bg-secondary-black rounded-full flex-1' />
                             </div>
 
                             <div className="flex items-center bg-secondary-black text-white gap-2 ch:ml-auto pt-2 mx-3 p-2 border-b border-red-800 overflow-hidden rounded-md">
-                                <input className=" bg-transparent w-full text-sm " type="text" placeholder="محصول خود را بیابید..." />
-                                <IoSearch className='size-7' />
+                                <input ref={searchTextRef} onKeyDown={e => e.key == 'Enter' && globalSearch()} className=" bg-transparent w-full text-sm " type="text" placeholder="محصول خود را بیابید..." />
+                                <IoSearch onClick={globalSearch} className='size-7 cursor-pointer' />
                             </div>
 
                             <span className='border-b-2 rotate-180 mt-8 border-secondary-black block pt-4 opacity-[20] rounded-full m-auto w-3/4'></span>
@@ -120,11 +145,12 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                         title="کامپیوتر" screen="small"
                                         Icon={<FaComputer className="size-5" />}
                                         submenus={[
-                                            { title: 'کامپیوتر گیمینگ', path: '/products/pc/gaming' },
-                                            { title: 'کامپیوتر اقتصادی', path: '/products/pc/affordable' },
-                                            { title: 'کامپیوتر دانشجویی', path: '/products/pc/student' },
-                                            { title: 'کامپیوتر رندرینک', path: '/products/pc/rendering' },
-                                            { title: 'سیستم اداری', path: '/products/pc/office' },
+                                            { title: 'کامپیوتر گیمینگ', path: '/products/category/pc?filter=gaming' },
+                                            { title: 'کامپیوتر اقتصادی', path: '/products/category/pc?filter=affordable' },
+                                            { title: 'کامپیوتر دانشجویی', path: '/products/category/pc?filter=student' },
+                                            { title: 'کامپیوتر رندرینک', path: '/products/category/pc?filter=rendering' },
+                                            { title: 'سیستم اداری', path: '/products/category/pc?filter=office' },
+                                            { title: 'همه کامپیوتر ها', path: '/products/category/pc' },
                                         ]}
                                     />
                                     <Category
@@ -132,11 +158,12 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                         title="لپتاپ" screen="small"
                                         Icon={<IoIosLaptop className="size-6" />}
                                         submenus={[
-                                            { title: 'لپتاپ Lonovo ', path: '/products/laptop/lenovo' },
-                                            { title: 'لپتاپ Asus ', path: '/products/laptop/asus' },
-                                            { title: 'لپتاپ Msi ', path: '/products/laptop/msi' },
-                                            { title: 'لپتاپ Hp ', path: '/products/laptop/hp' },
-                                            { title: 'لپتاپ Acer ', path: '/products/laptop/acer' },
+                                            { title: 'لپتاپ Lonovo ', path: '/products/category/laptop?filter=lenovo' },
+                                            { title: 'لپتاپ Asus ', path: '/products/category/laptop?filter=asus' },
+                                            { title: 'لپتاپ Msi ', path: '/products/category/laptop?filter=msi' },
+                                            { title: 'لپتاپ Hp ', path: '/products/category/laptop?filter=hp' },
+                                            { title: 'لپتاپ Acer ', path: '/products/category/laptop?filter=acer' },
+                                            { title: 'همه لپتاپ ها', path: '/products/category/laptop' },
                                         ]}
                                     />
                                     <Category
@@ -144,15 +171,15 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                         title="قطعات کامپیوتر" screen="small"
                                         Icon={<HiOutlineCpuChip className="size-6" />}
                                         submenus={[
-                                            { title: 'مادربرد', path: '/products/parts/motherboard' },
-                                            { title: 'سیپیو', path: '/products/parts/cpu' },
-                                            { title: 'کارت گرافیک', path: '/products/parts/gpu' },
-                                            { title: 'رم', path: '/products/parts/ram' },
-                                            { title: 'هارد', path: '/products/parts/hard' },
-                                            { title: 'خنک کننده', path: '/products/parts/cooler' },
-                                            { title: 'حافظه SSD', path: '/products/parts/ssd' },
-                                            { title: 'مانیتور', path: '/products/parts/monitor' },
-                                            { title: 'کیس', path: '/products/parts/case' },
+                                            { title: 'مادربرد', path: '/products/category/parts?filter=motherboard' },
+                                            { title: 'سیپیو', path: '/products/category/parts?filter=cpu' },
+                                            { title: 'کارت گرافیک', path: '/products/category/parts?filter=gpu' },
+                                            { title: 'رم', path: '/products/category/parts?filter=ram' },
+                                            { title: 'هارد', path: '/products/category/parts?filter=hard' },
+                                            { title: 'خنک کننده', path: '/products/category/parts?filter=cooler' },
+                                            { title: 'حافظه SSD', path: '/products/category/parts?filter=ssd' },
+                                            { title: 'مانیتور', path: '/products/category/parts?filter=monitor' },
+                                            { title: 'همه قطعات', path: '/products/category/parts' },
                                         ]}
                                     />
                                     <Category
@@ -160,10 +187,11 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                         title="لوازم جانبی" screen="small"
                                         Icon={<PiHeadphones className="size-6" />}
                                         submenus={[
-                                            { title: 'موس', path: '/products/aditional/mouse' },
-                                            { title: 'کیبرد', path: '/products/aditional/keyboard' },
-                                            { title: 'اسپیکر', path: '/products/aditional/speaker' },
-                                            { title: 'وبکم', path: '/products/aditional/webcam' },
+                                            { title: 'موس', path: '/products/category/accessory?filter=mouse' },
+                                            { title: 'کیبرد', path: '/products/category/accessory?filter=keyboard' },
+                                            { title: 'اسپیکر', path: '/products/category/accessory?filter=speaker' },
+                                            { title: 'وبکم', path: '/products/category/accessory?filter=webcam' },
+                                            { title: 'همه لوازم جانبی', path: '/products/category/accessory' },
                                         ]}
                                     />
                                     <Category
@@ -171,8 +199,9 @@ const SideMenu = ({ dataToShow, changeTypeFn }: { dataToShow: ("basket" | "sideM
                                         title="کنسول بازی" screen="small"
                                         Icon={<GiConsoleController className="size-6" />}
                                         submenus={[
-                                            { title: 'کنسول ps5', path: '/products/console/ps5' },
-                                            { title: 'کنسول xbox', path: '/products/console/xbox' },
+                                            { title: 'کنسول ps5', path: '/products/category/console?filter=ps5' },
+                                            { title: 'کنسول xbox', path: '/products/category/console?filter=xbox' },
+                                            { title: 'همه کنسول ها', path: '/products/category/console' },
                                         ]}
                                     />
                                 </ul>

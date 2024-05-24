@@ -166,7 +166,10 @@ export default function Header() {
 
                 <div className="container flex items-center justify-between gap-4 w-full">
 
-                    <SideMenu changeTypeFn={() => { setSideMenuDataToShow("sideMenu"); return true }} dataToShow={sideMenuDataToShow} />
+                    <SideMenu
+                        changeTypeFn={() => { setSideMenuDataToShow("sideMenu"); return true }}
+                        dataToShow={sideMenuDataToShow}
+                    />
 
                     <Link href="/" className="max-w-[200px]">
                         <Image
