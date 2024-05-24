@@ -87,7 +87,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
 
                 <CiShoppingBasket
                     onClick={() => addProductToBasket(data._id, _id, 1, dispatch)}
-                    className={`bg-primary-black ${!isProductInBasket ? 'text-description-text' : 'text-white-red'} transition-all p-[3px] rounded-full`}
+                    className={`bg-primary-black ${!isProductInBasket ? 'text-description-text' : 'text-green'} transition-all p-[3px] rounded-full`}
                 />
 
                 <FaHeart
