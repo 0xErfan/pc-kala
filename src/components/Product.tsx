@@ -86,7 +86,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
 
                 <CiShoppingBasket
-                    onClick={() => addProductToBasket(data._id, _id, 1, dispatch)}
+                    onClick={() => isLoggedIn ? addProductToBasket(data._id, _id, 1, dispatch) : showToast(false, 'ابتدا وارد حساب خود شوید')}
                     className={`bg-primary-black ${!isProductInBasket ? 'text-description-text' : 'text-green'} transition-all p-[3px] rounded-full`}
                 />
 

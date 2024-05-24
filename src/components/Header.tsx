@@ -22,7 +22,7 @@ export default function Header() {
     const navigate = useRouter()
     const textInputElem = useRef<HTMLInputElement | null>(null)
     const isLogin = useAppSelector(state => state.userSlice.isLogin)
-    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData)
+    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData) || []
 
     const menusShown = useAppSelector(state => state.globalVarsSlice.isScrolledDown)
 
@@ -94,7 +94,6 @@ export default function Header() {
                 </div>
 
                 {
-
                     menusShown && <div data-aos-duration="400" data-aos="zoom-in-left" className={`container text-white overflow-visible relative`}>
                         <ul className="flex items-center lg:gap-[36px] gap-8 mt-5 text-[14px]">
                             <Category

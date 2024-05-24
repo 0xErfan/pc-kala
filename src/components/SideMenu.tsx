@@ -35,9 +35,9 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
     const sumOfProductsPrice = useMemo(() => {
         let sum = 0
-        relatedData.BasketItem?.map(data => { sum += (data.productID.price * data.count) })
+        relatedData?.BasketItem?.map(data => { sum += (data.productID.price * data.count) })
         return sum
-    }, [relatedData.BasketItem])
+    }, [relatedData?.BasketItem])
 
     const deleteProductFromBasket = (productID: string) => {
         if (!isLogin) { showToast(false, 'ابتدا وارد حساب خود شوید'); return }
@@ -69,16 +69,16 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                             <div className='text-description-text w-[265px]'>
 
                                 <div className='flex items-center justify-between text-2xl border-b border-secondary-black text-[14px] pb-4 px-4 mt-4 mb-6 gap-3'>
-                                    <div className='flex-[7] justify-end pt-2'><div>سبد خرید <span className='px-2 bg-black rounded-md'>{relatedData.BasketItem?.length}</span></div></div>
+                                    <div className='flex-[7] justify-end pt-2'><div>سبد خرید <span className='px-2 bg-black rounded-md'>{relatedData?.BasketItem?.length ?? 0}</span></div></div>
                                     <IoClose onClick={menuCloseHandler} className='cursor-pointer p-[3px] text-dark-red h-full bg-secondary-black rounded-full flex-1' />
                                 </div>
 
                                 <div className='space-y-1 flex flex-col gap-3 h-[600px] overflow-auto'>
 
                                     {
-                                        relatedData.BasketItem?.length
+                                        relatedData?.BasketItem?.length
                                             ?
-                                            [...relatedData.BasketItem].map(itemData => (
+                                            [...relatedData?.BasketItem].map(itemData => (
                                                 <div data-aos-duration="550" data-aos="fade-right" key={itemData.productID._id} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
 
                                                     <span onClick={() => deleteProductFromBasket(itemData.productID._id)} className='absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>

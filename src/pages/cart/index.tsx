@@ -10,9 +10,9 @@ import { useRouter } from "next/router";
 
 const Card = () => {
 
-    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData)
+    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData) || []
     const navigate = useRouter()
-    
+
     const { sumOfProductsWithoutDiscount, sumOfProductsWithDiscount } = useMemo(() => {
 
         const sumOfPrices = { sumOfProductsWithoutDiscount: 0, sumOfProductsWithDiscount: 0 }
@@ -45,7 +45,7 @@ const Card = () => {
                                 {
                                     BasketItem?.length
                                         ?
-                                        [...BasketItem]?.map(data => {
+                                        BasketItem?.map(data => {
                                             return <ProductCart
                                                 key={data._id}
                                                 title={data.productID.name}
@@ -56,8 +56,7 @@ const Card = () => {
                                                 src="/images/laptop-default.webp"
                                             />
                                         })
-                                        :
-                                        <div></div>
+                                        : <div className="text-center w-full text-white-red font-peyda text-[16px]">سبد خرید خالی است</div>
                                 }
                             </div>
 

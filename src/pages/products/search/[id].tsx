@@ -496,7 +496,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
     } catch (error) {
         console.error('Error fetching product:', error);
-        return { notFound: true }
+        return { props: { product: [] } }
     }
 }
 

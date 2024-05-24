@@ -1,9 +1,10 @@
-import { ReactNode, useState } from "react"
+import { ReactNode, useMemo, useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { Input } from "@/components/Input"
 import Link from "next/link"
 import Progress from "@/components/Progress"
+import { useAppSelector } from "@/Hooks/useRedux"
 
 interface TableDataProps {
     children: ReactNode,
@@ -13,8 +14,14 @@ interface TableDataProps {
 const Checkout = () => {
 
     const [formData, setFormData] = useState({});
-
+    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData) || []
     const inputUpdater = (name: string, value: unknown) => setFormData(prev => ({ ...prev, [name]: value }));
+
+    const sumOfProductsWithDiscount = useMemo(() => {
+        let sum = 0
+        BasketItem?.map(data => { sum += ((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count) })
+        return sum.toLocaleString('fa-Ir')
+    }, [BasketItem])
 
     console.log(formData);
 
@@ -35,7 +42,7 @@ const Checkout = () => {
                         <div data-aos-duration="550" data-aos="fade-left" className="flex-1 w-full mb-auto">
                             <h3 className="text-white py-8">جزئیات صورتحساب</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ch:mb-4">
-                                <Input fn={inputUpdater} name="name" title="نام" />
+                                <Input fn={(n, d, g) => console.log(n, d, g)} name="name" title="نام" />
                                 <Input fn={inputUpdater} name="lName" title="نام خانوادگی" />
                                 <Input fn={inputUpdater} name="ostan" title="استان">
                                     <option disabled value={0}>شهر مورد نظر را انتخاب کنید</option>
@@ -68,31 +75,31 @@ const Checkout = () => {
                                 <thead className="bg-primary-black text-[12px]">
                                     <tr>
                                         <td className={`p-4`}>محصول</td>
-                                        <td>جمع جزء</td>
+                                        <td>قیمت</td>
                                     </tr>
                                 </thead>
 
                                 <tbody>
 
-                                    {[2, 4, 43, 5].map(data => <tr key={data} className={"border border-gray-600"}>
-                                        <td className={`p-4 text-[12px] text-[#8b8b8b]`}>لپ تاپ ایسوس ROG Flow
-                                            X16-GV601VV-AE i9-13900H/64GB/2TB/RTX4070-8G - گارانتی 18 ماهه شرکتی × 1
-                                        </td>
-                                        <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}><span
-                                            className={"text-blue-white"}>162,283,869</span> تومان
-                                        </td>
-                                    </tr>)}
+                                    {
+                                        BasketItem?.map(data => (
+                                            <tr key={data} className={"border border-gray-600"}>
 
-                                    <TableData title={"جمع جزء"}><div><span className={"text-blue-white"}>2343425</span> تومان</div></TableData>
+                                                <td className={`p-4 text-[12px] text-[#8b8b8b]`}>{data.productID.name} x <span className="text-white-red" >{data.count}</span></td>
+
+                                                <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>
+                                                    <span className={"text-blue-white"}>{((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count).toLocaleString('fa-Ir')}</span> تومان
+                                                </td>
+                                            </tr>)
+                                        )
+                                    }
 
                                     <TableData title={"حمل و نقل"}><p className={"max-w-70 text-wrap"}>ارسال توسط تیپاکس، اتوبوس، باربری به تشخیص فروشگاه (پس کرایه)</p></TableData>
-
-                                    <TableData title={"مجموع"}><p className={"max-w-70 text-wrap"}><span className={"text-blue-white"}>29,792,683</span> تومان</p></TableData>
-
+                                    <TableData title={"مجموع (قیمت نهایی)"}><p className={"max-w-70 text-wrap"}><span className={"text-blue-white"}>{sumOfProductsWithDiscount}</span> تومان</p></TableData>
                                 </tbody>
 
                             </table>
-                            
+
                             <p className="border leading-[32px] text-description-text rounded-md border-gold/25 p-3">مشتری
                                 عزیز، محصولاتی که بالای 100 میلیون تومان هستند با درگاه پرداخت نمی توان آن ها را پرداخت
                                 کرد، لطفا برای گرفتن شماره حساب و یا راهنمایی بیشتر با شماره های 90909090909 ،
