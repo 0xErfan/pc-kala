@@ -23,6 +23,10 @@ const Checkout = () => {
         return sum.toLocaleString('fa-Ir')
     }, [BasketItem])
 
+    const submitOrder = () => {
+        console.log('hi buddy')
+    }
+
     console.log(formData);
 
     return (
@@ -100,20 +104,16 @@ const Checkout = () => {
 
                             </table>
 
-                            <p className="border leading-[32px] text-description-text rounded-md border-gold/25 p-3">مشتری
-                                عزیز، محصولاتی که بالای 100 میلیون تومان هستند با درگاه پرداخت نمی توان آن ها را پرداخت
-                                کرد، لطفا برای گرفتن شماره حساب و یا راهنمایی بیشتر با شماره های 90909090909 ،
-                                0909090909 تماس بگیرید.</p>
+                            <p className="border leading-[32px] text-description-text rounded-md border-gold/25 p-3">مشتری عزیز، محصولاتی که بالای 100 میلیون تومان هستند با درگاه پرداخت نمی توان آن ها را پرداخت کرد، لطفا برای گرفتن شماره حساب و یا راهنمایی بیشتر با شماره های 90909090909 ، 0909090909 تماس بگیرید.</p>
 
                             <div className="text-description-text rounded-md p-3">
                                 <div className="flex items-center gap-2">
                                     <input type="checkbox" />
-                                    <p className="text-gray-500 text-[12px]">من <Link href="/"
-                                        className="text-white hover:text-blue-dark transition-all">شرایط
-                                        و مقررات</Link> سایت را خوانده ام و آن را می پذیرم. </p>
+                                    <p className="text-gray-500 text-[12px]">من <Link href="/" className="text-white hover:text-blue-dark transition-all">شرایط و مقررات</Link> سایت را خوانده ام و آن را می پذیرم. </p>
                                 </div>
                             </div>
-                            <Link href='/success-purchase'><button className=" w-full rounded-md p-3 text-center text-white bg-white-red">ثبت سفارش</button></Link>
+
+                            <div onClick={submitOrder}><button className=" w-full rounded-md p-3 text-center text-white bg-white-red">ثبت سفارش</button></div>
                         </div>
                     </div>
                 </div>
