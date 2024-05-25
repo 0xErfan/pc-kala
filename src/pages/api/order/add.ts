@@ -13,10 +13,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { userID, customerData } = req.body
 
-        const userOrders = await BasketItemModel.find({ userID }, ['-__v', '-userID', '-_id']).populate('productID') // find user basket products
+        const userOrders = await BasketItemModel.find({ userID }, ['-__v', '-userID', '-_id']).populate('productID').exec() // find user basket products
 
-        const newOrderTransaction = await transactionModel.create({ productsList: userOrders, customerData, status: 'PROCESSING' })
-        
+        const userOrdersPlain = userOrders.map(order => order.toObject()); // use toObject so we can see the populated products data in client
+
+        const newOrderTransaction = await transactionModel.create({ productsList: userOrdersPlain, userID, customerData, status: 'PROCESSING' })
+
         await BasketItemModel.deleteMany({ userID }) // clear the user basket
 
         return res.status(200).json({ message: '(: سفارش شما با موفقیت ثبت گردید', transaction: newOrderTransaction })
