@@ -6,7 +6,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { FaRegBell } from "react-icons/fa6";
 import { IoExitOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useMemo, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
 import Button from "@/components/Button";
 import LikedProduct from "@/components/LikedProduct";
@@ -16,11 +16,12 @@ import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { changeProfileActiveMenu, userUpdater } from "@/Redux/Features/globalVarsSlice";
+import Image from "next/image";
 
 interface orderStatusProps {
     count: number
     text: string
-    status: "processing" | "delivered" | "returned"
+    status: "PROCESSING" | "DELIVERED" | "CANCELED"
 }
 
 const Profile = () => {
@@ -40,6 +41,31 @@ const Profile = () => {
 
     const { nameLastName, username, meliCode, email, phoneNumber } = fetchedData?.userData || {}
     const { Wish, Order, Notification, Comment } = fetchedData?.userRelatedData || []
+
+    const { processing, canceled, delivered } = useMemo(() => {
+
+        let processing = 0
+        let delivered = 0
+        let canceled = 0;
+
+        Order?.forEach(order => {
+            switch (order.status) {
+                case 'PROCESSING':
+                    processing++;
+                    break;
+                case 'DELIVERED':
+                    delivered++;
+                    break;
+                case 'CANCELED':
+                    canceled++;
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        return { processing, delivered, canceled }
+    }, [Order])
 
     const deleteNotificationHandler = async (id: string) => {
 
@@ -87,9 +113,9 @@ const Profile = () => {
                 setUserDataToRender(
                     <UserPanelTemplate title="سفارش های من">
                         <div className="flex flex-wrap md:flex-nowrap items-center justify-evenly gap-4 border-gray-700 p-3">
-                            <OrderStatus count={2} status="processing" text="جاری" />
-                            <OrderStatus count={0} status="delivered" text="تحویل شده" />
-                            <OrderStatus count={1} status="returned" text="مرجوع شده" />
+                            <OrderStatus count={processing} status="PROCESSING" text="جاری" />
+                            <OrderStatus count={delivered} status="DELIVERED" text="تحویل شده" />
+                            <OrderStatus count={canceled} status="CANCELED" text="مرجوع شده" />
                         </div>
                     </UserPanelTemplate>
                 );
@@ -287,16 +313,24 @@ const OrderStatus = ({ count, status, text }: orderStatusProps) => {
     useEffect(() => {
 
         switch (status) {
-            case "returned": { setSrc("returned"); break }
-            case "delivered": { setSrc("delivered"); break }
-            case "processing": { setSrc("processing"); break }
+            case "PROCESSING": { setSrc("PROCESSING"); break }
+            case "DELIVERED": { setSrc("DELIVERED"); break }
+            case "CANCELED": { setSrc("CANCELED"); break }
         }
 
     }, [status])
 
     return (
         <div className="flex items-center gap-3 mt-10">
-            <div><img src={`/images/${src}.svg`} /></div>
+            <div>
+                <Image
+                    src={`/images/${src}.svg`}
+                    width={85}
+                    height={85}
+                    quality={100}
+                    alt="orders status"
+                />
+            </div>
             <div className="flex items-center gap-3 flex-col">
                 <p className="text-white font-bold text-[14px]">{count} سفارش</p>
                 <p className="text-description-text">{text}</p>

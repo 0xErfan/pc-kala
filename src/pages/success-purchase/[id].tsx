@@ -2,9 +2,15 @@ import Button from "@/components/Button"
 import Footer from "@/components/Footer"
 import Header from "@/components/Header"
 import Progress from "@/components/Progress"
+import connectToDB from "@/config/db"
+import { unknownObjProps } from "@/global.t"
+import { transactionModel } from "@/models/Transactions"
+import { GetServerSidePropsContext } from "next"
 import { useRouter } from "next/router"
 
-const SuccessPurchase = () => {
+const SuccessPurchase = ({ orderTransaction }: unknownObjProps<string | number>) => {
+
+    console.log(orderTransaction)
 
     const navigate = useRouter()
 
@@ -32,4 +38,13 @@ const SuccessPurchase = () => {
     )
 }
 
-export default SuccessPurchase
+export default SuccessPurchase;
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+
+    await connectToDB()
+    const orderTransaction = await transactionModel.findOne({ id: context.params?.id })
+    if (!orderTransaction) return { notFound: true }
+
+    return { props: { orderTransaction: JSON.parse(JSON.stringify(orderTransaction)) } }
+}

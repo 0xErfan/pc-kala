@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react"
 import { CgFileDocument } from "react-icons/cg"
+import { CiShoppingBasket } from "react-icons/ci";
+import { CiDeliveryTruck } from "react-icons/ci";
+
 
 const Progress = () => {
 
@@ -7,7 +10,7 @@ const Progress = () => {
 
     useEffect(() => { setRouteParam(location.pathname) }, [])
 
-    const progressPercentage: number = routeParam == '/checkout' ? 2 : routeParam == '/success-purchase' ? 3 : 1
+    const progressPercentage: number = routeParam == '/checkout' ? 2 : routeParam.includes('/success-purchase') ? 3 : 1
 
     return (
         <div className="flex items-center justify-evenly gap-12 relative mb-12 container text-[12px]">
@@ -16,7 +19,7 @@ const Progress = () => {
             <span className="absolute rounded-sm w-full right-0 h-4 z-10 bg-secondary-black top-4"></span>
 
             <div className="flex items-center flex-col gap-2 z-30">
-                <CgFileDocument className="size-11 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
+                <CiShoppingBasket className="size-12 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
                 <p className="text-description-text transition-all hover:text-white">سبد خرید</p>
             </div>
             <div className="flex items-center flex-col gap-2 z-30">
@@ -24,7 +27,7 @@ const Progress = () => {
                 <p className="text-description-text transition-all hover:text-white">جزئیات پرداخت</p>
             </div>
             <div className="flex items-center flex-col gap-2 z-30">
-                <CgFileDocument className="size-11 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
+                <CiDeliveryTruck className="size-12 rounded-md text-dark-red/90 p-2 bg-secondary-black" />
                 <p className="text-description-text transition-all hover:text-white">تکمیل سفارش</p>
             </div>
 

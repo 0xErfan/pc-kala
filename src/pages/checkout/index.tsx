@@ -4,7 +4,11 @@ import Footer from "@/components/Footer"
 import { Input } from "@/components/Input"
 import Link from "next/link"
 import Progress from "@/components/Progress"
-import { useAppSelector } from "@/Hooks/useRedux"
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
+import { showToast } from "@/utils"
+import { userUpdater } from "@/Redux/Features/globalVarsSlice"
+import { useRouter } from "next/router"
+import Loader from "@/components/Loader"
 
 interface TableDataProps {
     children: ReactNode,
@@ -14,20 +18,55 @@ interface TableDataProps {
 const Checkout = () => {
 
     const [formData, setFormData] = useState({});
-    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData) || []
+    const [doesUserAccept, setDoesUserAccept] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const { relatedData, data } = useAppSelector(state => state.userSlice) || []
+    const dispatch = useAppDispatch()
+    const navigate = useRouter()
+
     const inputUpdater = (name: string, value: unknown) => setFormData(prev => ({ ...prev, [name]: value }));
 
     const sumOfProductsWithDiscount = useMemo(() => {
         let sum = 0
-        BasketItem?.map(data => { sum += ((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count) })
+        relatedData?.BasketItem?.map(data => { sum += ((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count) })
         return sum.toLocaleString('fa-Ir')
-    }, [BasketItem])
+    }, [relatedData?.BasketItem])
 
-    const submitOrder = () => {
-        console.log('hi buddy')
+    const submitOrder = async () => {
+
+        const fieldsToCheck = Object.entries(formData).filter(data => data[0] !== 'email' && data[0] !== 'orderDetails')
+
+        if (fieldsToCheck.some(data => {
+            if (!Boolean(!!data[1]) || !data[1].trim().length) { showToast(false, 'تمام اطلاعات خواسته شده صورتحساب را وارد کنید'); return true }
+        })) return // here we just check all values to not be empty
+
+        if (formData.name.trim().length > 20 || formData.name.trim().length < 3) { showToast(false, 'نام باید بیشتر از 3 و کمتر از 20 کاراکتر باشد'); return }
+        if (formData.lName.trim().length > 20 || formData.lName.trim().length < 3) { showToast(false, 'نام خانوادگی باید بیشتر از 3 و کمتر از 20 کاراکتر باشد'); return }
+        if (isNaN(formData.codePost) || formData.codePost.trim().length != 10) { showToast(false, 'کد پستی یک عدد ده رقمی است'); return }
+        if (!/^09\d{9}$/.test(formData.phoneNum)) { showToast(false, 'شماره موبایل معتبر نیست'); return }
+        if (!doesUserAccept) { showToast(false, 'موافقت با قوانین و مقررات الزامی است'); return }
+
+        setIsLoading(true)
+
+        const res = await fetch('/api/order/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userID: data._id, customerData: formData })
+        })
+        const resData = await res.json()
+
+        setTimeout(() => { // just some fake delay so user see the loading process :)
+            showToast(res.ok, resData.message)
+
+            if (res.ok) {
+                dispatch(userUpdater())
+                navigate.replace(`/success-purchase/${resData.transaction.id}`)
+            }
+
+            setIsLoading(false)
+        }, 1000);
     }
-
-    console.log(formData);
 
     return (
         <>
@@ -46,10 +85,10 @@ const Checkout = () => {
                         <div data-aos-duration="550" data-aos="fade-left" className="flex-1 w-full mb-auto">
                             <h3 className="text-white py-8">جزئیات صورتحساب</h3>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 ch:mb-4">
-                                <Input fn={(n, d, g) => console.log(n, d, g)} name="name" title="نام" />
+                                <Input fn={inputUpdater} name="name" title="نام" />
                                 <Input fn={inputUpdater} name="lName" title="نام خانوادگی" />
                                 <Input fn={inputUpdater} name="ostan" title="استان">
-                                    <option disabled value={0}>شهر مورد نظر را انتخاب کنید</option>
+                                    <option disabled value={0} selected>شهر مورد نظر را انتخاب کنید</option>
                                     <option value="tehe">تهران</option>
                                     <option value="kh">خراسان رضوی</option>
                                     <option value="esf">اصفهان</option>
@@ -57,10 +96,8 @@ const Checkout = () => {
                                 </Input>
                                 <Input fn={inputUpdater} name="province" title="خیابان" />
                                 <Input fn={inputUpdater} name="codePost" title="کد پستی (ده رقمی)" />
-                                <Input fn={inputUpdater} name="phoneNum" title="شماره موبایل" type="number"
-                                    placeHolder="09123456789" />
-                                <Input fn={inputUpdater} name="email" title="پست الکترونیک (اختیاری)" required={false}
-                                    type="email" placeHolder={"gmail.com@"} />
+                                <Input fn={inputUpdater} name="phoneNum" title="شماره موبایل" type="number" placeHolder="09123456789" />
+                                <Input fn={inputUpdater} name="email" title="پست الکترونیک (اختیاری)" required={false} type="email" placeHolder={"gmail.com@"} />
                             </div>
                             <div className="flex justify-center text-[13px] text-description-text mt-4 gap-4 flex-col">
                                 <p>توضیحات سفارش (اختیاری)</p>
@@ -86,8 +123,8 @@ const Checkout = () => {
                                 <tbody>
 
                                     {
-                                        BasketItem?.map(data => (
-                                            <tr key={data} className={"border border-gray-600"}>
+                                        relatedData?.BasketItem?.map(data => (
+                                            <tr key={data._id} className={"border border-gray-600"}>
 
                                                 <td className={`p-4 text-[12px] text-[#8b8b8b]`}>{data.productID.name} x <span className="text-white-red" >{data.count}</span></td>
 
@@ -108,12 +145,22 @@ const Checkout = () => {
 
                             <div className="text-description-text rounded-md p-3">
                                 <div className="flex items-center gap-2">
-                                    <input type="checkbox" />
+                                    <input onChange={e => setDoesUserAccept(e.target.checked)} type="checkbox" />
                                     <p className="text-gray-500 text-[12px]">من <Link href="/" className="text-white hover:text-blue-dark transition-all">شرایط و مقررات</Link> سایت را خوانده ام و آن را می پذیرم. </p>
                                 </div>
                             </div>
 
-                            <div onClick={submitOrder}><button className=" w-full rounded-md p-3 text-center text-white bg-white-red">ثبت سفارش</button></div>
+                            <div onClick={submitOrder}>
+                                <button className=" w-full rounded-md p-3 text-center text-white bg-white-red">
+                                    {
+                                        isLoading
+                                            ?
+                                            <Loader />
+                                            :
+                                            'ثبت سفارش'
+                                    }
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
