@@ -81,6 +81,8 @@ const Profile = () => {
         dispatch(userUpdater())
     }
 
+    console.log(Order)
+
     useEffect(() => {
         (
             async () => {
@@ -117,6 +119,9 @@ const Profile = () => {
                             <OrderStatus count={delivered} status="DELIVERED" text="تحویل شده" />
                             <OrderStatus count={canceled} status="CANCELED" text="مرجوع شده" />
                         </div>
+
+                        <div className="w-4/5 m-auto border border-gold my-2 rounded-t-xl"></div>
+
                     </UserPanelTemplate>
                 );
                 break;

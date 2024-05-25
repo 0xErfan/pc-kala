@@ -1,4 +1,5 @@
 import { CommentModel } from "@/models/Comment";
+import { transactionModel } from "@/models/Transactions";
 import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -21,7 +22,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userData = await response.json()
 
-        const userRelatedModels = [NotificationModel, CommentModel, WishModel, OrderModel, BasketItemModel]
+        const userRelatedModels = [NotificationModel, CommentModel, WishModel, OrderModel, BasketItemModel, transactionModel]
 
         const userRelatedData: {} = {}
 

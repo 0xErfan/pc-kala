@@ -15,9 +15,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userOrders = await BasketItemModel.find({ userID }, ['-__v', '-userID', '-_id']).populate('productID') // find user basket products
 
-        const productsList = await OrderModel.create({ userID, orderItems: userOrders, status: 'PROCESSING' })
+        const newOrderTransaction = await transactionModel.create({ productsList: userOrders, customerData, status: 'PROCESSING' })
+        
         await BasketItemModel.deleteMany({ userID }) // clear the user basket
-        const newOrderTransaction = await transactionModel.create({ id: Math.floor(Math.random() * 9999999 + 9999999), userID, productsList, customerData })
 
         return res.status(200).json({ message: '(: سفارش شما با موفقیت ثبت گردید', transaction: newOrderTransaction })
 
