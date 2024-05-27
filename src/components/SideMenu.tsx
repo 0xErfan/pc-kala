@@ -85,7 +85,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                                                     <div className='flex-1'><Image alt={itemData.productID.name} width={400} height={400} className='object-cover size-full' src="/images/laptop-default.webp" /></div>
 
                                                     <div className='flex-[2]'>
-                                                        <Link href={`/products/category/search/${itemData.productID._id}`} className='line-clamp-3 transition-all duration-300 hover:text-white-red'>{itemData.productID.name}</Link>
+                                                        <Link href={`/products/search/${itemData.productID._id}`} className='line-clamp-3 transition-all duration-300 hover:text-white-red'>{itemData.productID.name}</Link>
                                                         <p className='text-[15px] p-1 text-title-text'>{itemData.count} × <span className='text-white-red'>{itemData.productID.price.toLocaleString('fa-Ir')}</span> تومان</p>
                                                     </div>
 

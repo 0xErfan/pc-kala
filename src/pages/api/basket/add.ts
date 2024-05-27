@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { productID, userID, count } = req.body
 
-        if (!userID || !productID || !count) return res.status(421).json({ message: 'not enough information make a product in basket!' })
+        if (!userID || !productID) return res.status(421).json({ message: 'not enough information make a product in basket!' })
 
         const isProductExistInBasket = await BasketItemModel.findOne({ productID, userID })
 
@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(201).json({ message: 'تعداد محصول بروزرسانی شد' })
         }
 
-        await BasketItemModel.create({ productID, userID, count })
+        await BasketItemModel.create({ productID, userID, count: count ?? 1 })
 
         return res.status(201).json({ message: 'محصول به سبد خرید اضافه شد' })
 

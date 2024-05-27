@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await BasketItemModel.deleteMany({ userID }) // clear the user basket
 
-        await NotificationModel.create({ userID, body: `خرید شما با کد پیگیری ${String(newOrderTransaction._id).slice(-8, -1)} ثبت و درحال ارسال است :)` })
+        await NotificationModel.create({ userID, body: `خرید شما با کد پیگیری ${String(newOrderTransaction._id).slice(-8, -1).toUpperCase()} ثبت و درحال ارسال است :)` })
 
         return res.status(200).json({ message: '(: سفارش شما با موفقیت ثبت گردید', transaction: newOrderTransaction })
 

@@ -253,7 +253,7 @@ const addProductToBasket = async (userID, productID, count, dispatch) => {
     const res = await fetch('/api/basket/add', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userID, productID, count })
+        body: JSON.stringify({ userID, productID, count: count ?? null })
     })
 
     const finalData = await res.json()

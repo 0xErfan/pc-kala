@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { changeProfileActiveMenu, userUpdater } from "@/Redux/Features/globalVarsSlice";
 import Image from "next/image";
+import { unknownObjProps } from "@/global.t";
 
 interface orderStatusProps {
     count: number
@@ -133,19 +134,17 @@ const Profile = () => {
                                     </tr>
                                 </thead>
 
-                                <tbody className="h-[410px] overflow-auto">
+                                <tbody className="overflow-auto">
                                     {
                                         Transaction?.length
                                             ?
-                                            Transaction.map(data => {
+                                            [...Transaction].reverse().map(data => {
                                                 return <>
                                                     <tr className="text-[13px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
-                                                        <td>{data._id.slice(-8, -1) + ' #'}</td>
+                                                        <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-8, -1).toUpperCase()}</td>
                                                         <td>{new Date(data.createdAt).toLocaleDateString('fa-Ir')}</td>
-                                                        <td>
-                                                            اه
-                                                        </td>
-                                                        <td>{data.totalPrice} تومان </td>
+                                                        <td>{data.productsList.reduce((previous: unknownObjProps<number>, next: unknownObjProps<number>) => (previous?.count ?? previous) + next.count, 0)}</td>
+                                                        <td>{data.totalPrice.toLocaleString('fa-Ir')} تومان </td>
                                                         <td>
                                                             <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} p-2 rounded-md text-[12px]`}>
                                                                 {
@@ -181,7 +180,7 @@ const Profile = () => {
                             [...Wish].length
                                 ?
                                 < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-h-[700px] overflow-y-auto ml-auto p-3 gap-3">
-                                    {[...Wish].map(prd => <LikedProduct {...prd} key={prd._id} />)}
+                                    {[...Wish].reverse().map(prd => <LikedProduct {...prd} key={prd._id} />)}
                                 </div>
                                 :
                                 <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">محصولی یافت نشد</div>
