@@ -30,7 +30,7 @@ const Checkout = () => {
     const sumOfProductsWithDiscount = useMemo(() => {
         let sum = 0
         relatedData?.BasketItem?.map(data => { sum += ((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count) })
-        return sum.toLocaleString('fa-Ir')
+        return +sum
     }, [relatedData?.BasketItem])
 
     const submitOrder = async () => {
@@ -52,7 +52,7 @@ const Checkout = () => {
         const res = await fetch('/api/order/add', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userID: data._id, customerData: formData })
+            body: JSON.stringify({ userID: data._id, customerData: formData, totalPrice: sumOfProductsWithDiscount })
         })
         const resData = await res.json()
 
@@ -136,7 +136,7 @@ const Checkout = () => {
                                     }
 
                                     <TableData title={"حمل و نقل"}><p className={"max-w-70 text-wrap"}>ارسال توسط تیپاکس، اتوبوس، باربری به تشخیص فروشگاه (پس کرایه)</p></TableData>
-                                    <TableData title={"مجموع (قیمت نهایی)"}><p className={"max-w-70 text-wrap"}><span className={"text-blue-white"}>{sumOfProductsWithDiscount}</span> تومان</p></TableData>
+                                    <TableData title={"مجموع (قیمت نهایی)"}><p className={"max-w-70 text-wrap"}><span className={"text-blue-white"}>{sumOfProductsWithDiscount.toLocaleString('fa-Ir')}</span> تومان</p></TableData>
                                 </tbody>
 
                             </table>

@@ -142,8 +142,10 @@ const Profile = () => {
                                                     <tr className="text-[13px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
                                                         <td>{data._id.slice(-8, -1) + ' #'}</td>
                                                         <td>{new Date(data.createdAt).toLocaleDateString('fa-Ir')}</td>
-                                                        <td>12</td>
-                                                        <td>234000000</td>
+                                                        <td>
+                                                            اه
+                                                        </td>
+                                                        <td>{data.totalPrice} تومان </td>
                                                         <td>
                                                             <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} p-2 rounded-md text-[12px]`}>
                                                                 {
@@ -162,7 +164,7 @@ const Profile = () => {
                                                     </tr>
                                                 </>
                                             })
-                                            : null
+                                            : <div className="text-center font-peyda text-[16px] w-full m-auto">سفارشی یافت نشد</div>
                                     }
                                 </tbody>
 
