@@ -25,7 +25,7 @@ const BasketItemSchema = new mongoose.Schema({
 const NotificationSchema = new mongoose.Schema({
     userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     body: { type: String, required: true },
-});
+}, { timestamps: true });
 
 const WishModel = mongoose.models.Wish || mongoose.model('Wish', WishSchema);
 const OrderModel = mongoose.models.Order || mongoose.model('Order', OrderSchema);

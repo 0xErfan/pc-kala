@@ -43,7 +43,7 @@ export default SuccessPurchase;
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     await connectToDB()
-    const orderTransaction = await transactionModel.findOne({ id: context.params?.id })
+    const orderTransaction = await transactionModel.findOne({ _id: context.params?.id })
     if (!orderTransaction) return { notFound: true }
 
     return { props: { orderTransaction: JSON.parse(JSON.stringify(orderTransaction)) } }

@@ -17,7 +17,7 @@ const ScrollToTop = () => {
         if (!canScroll) { setScrollUpShown(false); return }
 
         const handleScroll = () => {
-            setScrollUpShown(window.pageYOffset > 0 ? true : false)
+            setScrollUpShown(window.pageYOffset < previousScrollValue)
             dispatch(isScrolledDownUpdater(window.pageYOffset > previousScrollValue ? false : true))
             setPreviousScrollValue(window.pageYOffset)
         }

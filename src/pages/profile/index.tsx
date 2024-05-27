@@ -40,7 +40,7 @@ const Profile = () => {
     const dataEditorCloser = () => setActiveEditShown(null)
 
     const { nameLastName, username, meliCode, email, phoneNumber } = fetchedData?.userData || {}
-    const { Wish, Order, Notification, Comment } = fetchedData?.userRelatedData || []
+    const { Wish, Notification, Comment, Transaction } = fetchedData?.userRelatedData || []
 
     const { processing, canceled, delivered } = useMemo(() => {
 
@@ -48,8 +48,8 @@ const Profile = () => {
         let delivered = 0
         let canceled = 0;
 
-        Order?.forEach(order => {
-            switch (order.status) {
+        Transaction?.forEach(data => {
+            switch (data.status) {
                 case 'PROCESSING':
                     processing++;
                     break;
@@ -65,7 +65,7 @@ const Profile = () => {
         });
 
         return { processing, delivered, canceled }
-    }, [Order])
+    }, [Transaction])
 
     const deleteNotificationHandler = async (id: string) => {
 
@@ -80,8 +80,6 @@ const Profile = () => {
         showToast(true, 'پیام با موفقیت حذف شد')
         dispatch(userUpdater())
     }
-
-    console.log(Order)
 
     useEffect(() => {
         (
@@ -122,6 +120,55 @@ const Profile = () => {
 
                         <div className="w-4/5 m-auto border border-gold my-2 rounded-t-xl"></div>
 
+                        <div className="w-full m-auto flex-center">
+                            <table className="bg-primary-black w-full p-3 text-center text-[15px] rounded-md shadow-regular my-4 mx-4">
+
+                                <thead className="bg-secondary-black/50 font-peyda text-title-text">
+                                    <tr className="ch:py-4">
+                                        <th>ایدی سفارش</th>
+                                        <th>تاریخ خرید</th>
+                                        <th>تعداد</th>
+                                        <th>قیمت</th>
+                                        <th>وضعیت سفارش</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody className="h-[410px] overflow-auto">
+                                    {
+                                        Transaction?.length
+                                            ?
+                                            Transaction.map(data => {
+                                                return <>
+                                                    <tr className="text-[13px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
+                                                        <td>{data._id.slice(-8, -1) + ' #'}</td>
+                                                        <td>{new Date(data.createdAt).toLocaleDateString('fa-Ir')}</td>
+                                                        <td>12</td>
+                                                        <td>234000000</td>
+                                                        <td>
+                                                            <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} p-2 rounded-md text-[12px]`}>
+                                                                {
+                                                                    data.status == 'DELIVERED'
+                                                                        ?
+                                                                        'ارسال موفق'
+                                                                        :
+                                                                        data.status == 'PROCESSING'
+                                                                            ?
+                                                                            'درحال ارسال'
+                                                                            :
+                                                                            'مرجوع شده'
+                                                                }
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </>
+                                            })
+                                            : null
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+
                     </UserPanelTemplate>
                 );
                 break;
@@ -147,20 +194,21 @@ const Profile = () => {
                             {
                                 Notification?.length
                                     ?
-                                    Notification.map((data: { body: string, _id: string }) => {
-                                        return (
-
-                                            <div
-                                                key={data._id}
-                                                data-aos-duration="550"
-                                                data-aos="fade-right"
-                                                className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
-                                            >
-                                                <p>{data.body}</p>
-                                                <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />
-                                            </div>
-                                        )
-                                    })
+                                    [...Notification]
+                                        .reverse()
+                                        .map((data: { body: string, _id: string }) => {
+                                            return (
+                                                <div
+                                                    key={data._id}
+                                                    data-aos-duration="550"
+                                                    data-aos="fade-right"
+                                                    className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
+                                                >
+                                                    <p>{data.body}</p>
+                                                    <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />
+                                                </div>
+                                            )
+                                        })
                                     :
                                     <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">پیامی وجود ندارد</div>
                             }
@@ -337,7 +385,7 @@ const OrderStatus = ({ count, status, text }: orderStatusProps) => {
                 />
             </div>
             <div className="flex items-center gap-3 flex-col">
-                <p className="text-white font-bold text-[14px]">{count} سفارش</p>
+                <p className="text-white font-bold text-[14px]"><span className="text-[15px] font-peyda font-bold">{count}</span> سفارش</p>
                 <p className="text-description-text">{text}</p>
             </div>
         </div>
