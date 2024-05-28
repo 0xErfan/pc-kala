@@ -16,6 +16,7 @@ import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { changeProfileActiveMenu, userUpdater } from "@/Redux/Features/globalVarsSlice";
+import { FaRegEye } from "react-icons/fa";
 import Image from "next/image";
 import { unknownObjProps } from "@/global.t";
 
@@ -131,6 +132,7 @@ const Profile = () => {
                                         <th>تعداد</th>
                                         <th>قیمت</th>
                                         <th>وضعیت سفارش</th>
+                                        <th>جزئیات</th>
                                     </tr>
                                 </thead>
 
@@ -138,31 +140,36 @@ const Profile = () => {
                                     {
                                         Transaction?.length
                                             ?
-                                            [...Transaction].reverse().map(data => {
-                                                return <>
-                                                    <tr className="text-[13px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
-                                                        <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-8, -1).toUpperCase()}</td>
-                                                        <td>{new Date(data.createdAt).toLocaleDateString('fa-Ir')}</td>
-                                                        <td>{data.productsList.reduce((previous: unknownObjProps<number>, next: unknownObjProps<number>) => (previous?.count ?? previous) + next.count, 0)}</td>
-                                                        <td>{data.totalPrice.toLocaleString('fa-Ir')} تومان </td>
-                                                        <td>
-                                                            <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} p-2 rounded-md text-[12px]`}>
-                                                                {
-                                                                    data.status == 'DELIVERED'
+                                            [...Transaction].reverse().map(data =>
+                                                <tr key={data._id} className="text-[13px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
+
+                                                    <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-8, -1).toUpperCase()}</td>
+
+                                                    <td>{new Date(data.createdAt).toLocaleDateString('fa-Ir')}</td>
+
+                                                    <td>{data.productsList.reduce((previous: unknownObjProps<number>, next: unknownObjProps<number>) => (previous?.count ?? previous) + next.count, 0)}</td>
+
+                                                    <td>{data.totalPrice.toLocaleString('fa-Ir')} تومان </td>
+
+                                                    <td>
+                                                        <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} p-2 rounded-md text-[12px]`}>
+                                                            {
+                                                                data.status == 'DELIVERED'
+                                                                    ?
+                                                                    'ارسال موفق'
+                                                                    :
+                                                                    data.status == 'PROCESSING'
                                                                         ?
-                                                                        'ارسال موفق'
+                                                                        'درحال ارسال'
                                                                         :
-                                                                        data.status == 'PROCESSING'
-                                                                            ?
-                                                                            'درحال ارسال'
-                                                                            :
-                                                                            'مرجوع شده'
-                                                                }
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </>
-                                            })
+                                                                        'مرجوع شده'
+                                                            }
+                                                        </div>
+                                                    </td>
+
+                                                    <td className="flex-center ch:border ch:border-white/35 ch:size-9 ch:p-2 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black"><FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} /></td>
+                                                </tr>
+                                            )
                                             : <div className="text-center font-peyda text-[16px] w-full m-auto">سفارشی یافت نشد</div>
                                     }
                                 </tbody>
@@ -283,6 +290,13 @@ const Profile = () => {
                 );
         }
     }, [activeMenu, activeEditShown, isLoaded])
+
+    useEffect(() => {
+        if (navigate.query?.menu == 'orders') {
+            dispatch(changeProfileActiveMenu('orders'))
+            navigate.push({ pathname: navigate.pathname }, undefined, { shallow: true })
+        }
+    }, [navigate.query])
 
     const logout = async () => {
         const res = await fetch('/api/auth/logout')

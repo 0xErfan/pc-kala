@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from "react"
+import { ReactNode, useEffect, useMemo, useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { Input } from "@/components/Input"
@@ -13,6 +13,15 @@ import Loader from "@/components/Loader"
 interface TableDataProps {
     children: ReactNode,
     title: string
+}
+
+const TableData = ({ title, children }: TableDataProps) => {
+    return (
+        <tr className={"border border-gray-600 bg-primary-black"}>
+            <td className={`p-4 text-[12px] text-white`}>{title}</td>
+            <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>{children}</td>
+        </tr>
+    )
 }
 
 const Checkout = () => {
@@ -79,8 +88,7 @@ const Checkout = () => {
                 <Progress />
 
                 <div className="container bg-secondary-black rounded-md p-4">
-
-                    <div className="flex flex-col lg:flex-row items-center gap-4">
+                    <div className="flex overflow-hidden flex-col lg:flex-row items-center gap-4">
 
                         <div data-aos-duration="550" data-aos="fade-left" className="flex-1 w-full mb-auto">
                             <h3 className="text-white py-8">جزئیات صورتحساب</h3>
@@ -167,18 +175,9 @@ const Checkout = () => {
 
                 <div className="h-12"></div>
             </section>
-
+            
             <Footer />
         </>
-    )
-}
-
-const TableData = ({ title, children }: TableDataProps) => {
-    return (
-        <tr className={"border border-gray-600 bg-primary-black"}>
-            <td className={`p-4 text-[12px] text-white`}>{title}</td>
-            <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>{children}</td>
-        </tr>
     )
 }
 

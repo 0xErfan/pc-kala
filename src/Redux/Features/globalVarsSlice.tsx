@@ -6,7 +6,7 @@ const globalVarsSlice = createSlice({
         isScrolledDown: true,
         userUpdater: true,
         canScroll: true,
-        activeProfileMenu: 'orders'
+        activeProfileMenu: 'account-details'
     },
     reducers: {
         isScrolledDownUpdater: (state, action) => { return { ...state, isScrolledDown: action.payload } },
