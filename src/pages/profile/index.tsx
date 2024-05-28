@@ -19,6 +19,7 @@ import { changeProfileActiveMenu, userUpdater } from "@/Redux/Features/globalVar
 import { FaRegEye } from "react-icons/fa";
 import Image from "next/image";
 import { unknownObjProps } from "@/global.t";
+import { userDataUpdater } from "@/Redux/Features/userSlice";
 
 interface orderStatusProps {
     count: number
@@ -34,15 +35,14 @@ const Profile = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const navigate = useRouter()
 
-    const updater = useAppSelector(state => state.globalVarsSlice.userUpdater)
-    const activeMenu = useAppSelector(state => state.globalVarsSlice.activeProfileMenu)
+    const { userUpdater: updater, activeProfileMenu: activeMenu } = useAppSelector(state => state.globalVarsSlice)
     const dispatch = useAppDispatch()
 
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
 
     const { nameLastName, username, meliCode, email, phoneNumber } = fetchedData?.userData || {}
-    const { Wish, Notification, Comment, Transaction } = fetchedData?.userRelatedData || []
+    const { Wish, Notification, Transaction } = fetchedData?.userRelatedData || []
 
     const { processing, canceled, delivered } = useMemo(() => {
 
@@ -136,7 +136,7 @@ const Profile = () => {
                                     </tr>
                                 </thead>
 
-                                <tbody className="overflow-auto">
+                                <tbody className="overflow-auto relative h-12">
                                     {
                                         Transaction?.length
                                             ?
@@ -170,7 +170,7 @@ const Profile = () => {
                                                     <td className="flex-center ch:border ch:border-white/35 ch:size-9 ch:p-2 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black"><FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} /></td>
                                                 </tr>
                                             )
-                                            : <div className="text-center font-peyda text-[16px] w-full m-auto">سفارشی یافت نشد</div>
+                                            : <tr className="text-center absolute right-0 left-0 font-peyda pt-3 text-white-red text-[16px] w-full m-auto">سفارشی یافت نشد</tr>
                                     }
                                 </tbody>
 
@@ -299,12 +299,14 @@ const Profile = () => {
     }, [navigate.query])
 
     const logout = async () => {
-        const res = await fetch('/api/auth/logout')
 
+        const res = await fetch('/api/auth/logout')
+        
         if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
 
         showToast(true, 'خروج از حساب موفقیت امیز بود')
-        dispatch(userUpdater())
+
+        dispatch(userDataUpdater({ isLogin: false }))
         navigate.replace('/')
     }
 
