@@ -125,13 +125,13 @@ const Profile = () => {
                         <div className="w-full m-auto flex-center">
                             <table className="bg-primary-black w-full p-3 text-center text-[15px] rounded-md shadow-regular my-4 mx-4">
 
-                                <thead className="bg-secondary-black/50 font-peyda text-title-text">
+                                <thead className="bg-secondary-black/50 sm:text-[15px] text-[13px] font-peyda text-title-text">
                                     <tr className="ch:py-4">
-                                        <th>ایدی سفارش</th>
+                                        <th>کد سفارش</th>
                                         <th>تاریخ خرید</th>
                                         <th>تعداد</th>
                                         <th>قیمت</th>
-                                        <th>وضعیت سفارش</th>
+                                        <th>وضعیت</th>
                                         <th>جزئیات</th>
                                     </tr>
                                 </thead>
@@ -141,18 +141,18 @@ const Profile = () => {
                                         Transaction?.length
                                             ?
                                             [...Transaction].reverse().map(data =>
-                                                <tr key={data._id} className="text-[13px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
+                                                <tr key={data._id} className="sm:text-[13px] text-[12px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
 
-                                                    <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-8, -1).toUpperCase()}</td>
+                                                    <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-6, -1).toUpperCase()}</td>
 
                                                     <td>{new Date(data.createdAt).toLocaleDateString('fa-Ir')}</td>
 
                                                     <td>{data.productsList.reduce((previous: unknownObjProps<number>, next: unknownObjProps<number>) => (previous?.count ?? previous) + next.count, 0)}</td>
 
-                                                    <td>{data.totalPrice.toLocaleString('fa-Ir')} تومان </td>
+                                                    <td className="break-words max-w-[65px]">{data.totalPrice.toLocaleString('fa-Ir')} تومان </td>
 
                                                     <td>
-                                                        <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} p-2 rounded-md text-[12px]`}>
+                                                        <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} sm:p-2 p-1 rounded-md text-[12px]`}>
                                                             {
                                                                 data.status == 'DELIVERED'
                                                                     ?
@@ -167,7 +167,7 @@ const Profile = () => {
                                                         </div>
                                                     </td>
 
-                                                    <td className="flex-center ch:border ch:border-white/35 ch:size-9 ch:p-2 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black"><FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} /></td>
+                                                    <td className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-8 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black"><FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} /></td>
                                                 </tr>
                                             )
                                             : <tr className="text-center absolute right-0 left-0 font-peyda pt-3 text-white-red text-[16px] w-full m-auto">سفارشی یافت نشد</tr>
@@ -204,7 +204,7 @@ const Profile = () => {
                                     ?
                                     [...Notification]
                                         .reverse()
-                                        .map((data: { body: string, _id: string }) => {
+                                        .map((data: { body: string, _id: string, createdAt: string }) => {
                                             return (
                                                 <div
                                                     key={data._id}
@@ -212,7 +212,10 @@ const Profile = () => {
                                                     data-aos="fade-right"
                                                     className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
                                                 >
-                                                    <p>{data.body}</p>
+                                                    <div className="p-1 space-y-2 flex items-center justify-end flex-col">
+                                                        <p dir="ltr" className="text-white/45 flex justify-end w-full">{new Date(data.createdAt).toLocaleDateString('fa-Ir') + ' - ' + new Date(data.createdAt).toLocaleTimeString('fa-Ir')}</p>
+                                                        <p>{data.body}</p>
+                                                    </div>
                                                     <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />
                                                 </div>
                                             )
@@ -301,7 +304,7 @@ const Profile = () => {
     const logout = async () => {
 
         const res = await fetch('/api/auth/logout')
-        
+
         if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
 
         showToast(true, 'خروج از حساب موفقیت امیز بود')
@@ -380,15 +383,7 @@ const OrderStatus = ({ count, status, text }: orderStatusProps) => {
 
     const [src, setSrc] = useState<orderStatusProps["status"] | null>(null)
 
-    useEffect(() => {
-
-        switch (status) {
-            case "PROCESSING": { setSrc("PROCESSING"); break }
-            case "DELIVERED": { setSrc("DELIVERED"); break }
-            case "CANCELED": { setSrc("CANCELED"); break }
-        }
-
-    }, [status])
+    useEffect(() => { setSrc(status) }, [status])
 
     return (
         <div className="flex items-center gap-3 mt-10">
