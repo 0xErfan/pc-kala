@@ -14,9 +14,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!_id) return res.status(422).json({ message: 'Hey we need an id to find comment for ya /: ' })
 
-        const productComments = await CommentModel.find({ productID: _id })
+        const productComments = await CommentModel.find({ productID: _id }).populate('productID')
 
-        return res.status(201).json({ productComments })
+        return res.status(201).json([...productComments])
 
     } catch (err) {
         console.log(err)

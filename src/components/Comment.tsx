@@ -3,19 +3,19 @@ import { useMemo } from 'react'
 import { IoStar } from 'react-icons/io5'
 import { SlUser } from 'react-icons/sl'
 
-const Comment = ({ body, createdAt, star, creator }: commentProps) => {
+const Comment = ({ body, createdAt, rate, creator }: commentProps) => {
 
     const userRate = useMemo(() => {
         let filledStars = [];
-        let starsCount = star
+        let starsCount = rate
 
-        for (let i = 5; i < 5; i--) {
-            filledStars.push(<IoStar className={`${starsCount > 0 ? 'text-gold' : null}`} />)
+        for (let i = 5; i != 0; i--) {
+            filledStars.push(<IoStar className={`${starsCount >= 1 ? 'text-gold' : null}`} />)
             starsCount > 0 && starsCount--
         }
 
         return filledStars;
-    }, [star])
+    }, [rate])
 
     return (
         <div data-aos-duration="550" data-aos="zoom-in" className="w-full p-4 md:p-5 bg-primary-black rounded-md">

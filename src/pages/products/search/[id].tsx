@@ -22,7 +22,8 @@ import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 import { useRouter } from "next/router";
-import { commentProps } from "@/global.t";
+import { commentProps, unknownObjProps } from "@/global.t";
+import Loader from "@/components/Loader";
 
 interface coordinates {
     x: number
@@ -35,26 +36,28 @@ interface FullScreenImageProps {
     closeFullScreenFn: () => void
 }
 
-export default memo(function Product({ product }: { product: {} }) {
+export default memo(function Product({ product }: { product: unknownObjProps<string> }) {
 
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
     const [productOffTimer, setProductOffTimer] = useState<productOffTimerProps | null>(null)
     const [circleCoordinates, setCircleCoordinates] = useState<coordinates>({ x: 0, y: 0 })
-    const productImgRef = useRef<HTMLImageElement | null>(null);
     const [zoomShown, setIsZoomShown] = useState<boolean>(false)
     const [fullScreenShown, setFullScreenShown] = useState(false)
-    const isLogin = useAppSelector(state => state.userSlice.isLogin)
+    const productImgRef = useRef<HTMLImageElement | null>(null);
+
+    const dispatch = useAppDispatch()
     const navigate = useRouter()
+    const isLogin = useAppSelector(state => state.userSlice.isLogin)
+    const { relatedData, data } = useAppSelector(state => state.userSlice) || []
+    const [newCommentData, setNewCommentData] = useState<{ text: string, rate: number }>({ text: '', rate: 1 })
 
     const [productComments, setProductComments] = useState<commentProps[]>([])
     const [updater, setUpdater] = useState(false)
+    const [isUpdating, setIsUpdating] = useState(false)
 
     const { name, price, discount, specs, _id, image } = product || {}
-    const productSpecs = Object.entries(specs)
-    const [isUpdating, setIsUpdating] = useState(false)
-    const dispatch = useAppDispatch()
-    const { relatedData, data } = useAppSelector(state => state.userSlice) || []
+    const productSpecs = useMemo(() => { return Object.entries(specs) }, [specs])
 
     const updateProductCount = async (count: number) => {
 
@@ -88,6 +91,38 @@ export default memo(function Product({ product }: { product: {} }) {
             setProductCount(1)
         })
     }, [relatedData?.BasketItem, _id])
+
+    const addNewComment = async () => {
+
+        if (newCommentData.text.length > 200 || newCommentData.text.length < 4) return showToast(false, 'نظر شما باید بیشتر از پنج و کمتر از ۲۰۰ کاراکتر باشد😙', 3500)
+
+        setIsUpdating(true)
+
+        try {
+            const res = await fetch('/api/comment/create', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    creator: data?._id,
+                    body: newCommentData.text,
+                    productID: _id,
+                    rate: newCommentData.rate
+                })
+            })
+
+            const responseData = await res.json()
+            showToast(res.ok, responseData.message)
+
+            if (res.ok) {
+                setTimeout(() => {
+                    setNewCommentData({ text: '', rate: 1 })
+                    setUpdater(previous => !previous)
+                }, 1200);
+            }
+
+        } catch (error) { showToast(false, error as string) }
+        finally { setIsUpdating(false) }
+    }
 
     useEffect(() => {
         const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
@@ -420,11 +455,18 @@ export default memo(function Product({ product }: { product: {} }) {
 
                                                     <textarea
                                                         className="max-h-60 h-[167px] w-full p-2 rounded-md my-2 bg-primary-black border border-description-text/10"
+                                                        value={newCommentData.text}
+                                                        onChange={e => setNewCommentData(preve => ({ ...preve, text: e.target.value }))}
                                                         id="textArea" cols={30} rows={10}>
                                                     </textarea>
 
-                                                    <Button text="ثبت نظر" filled={true} fn={() => { }}
+                                                    <Button
+                                                        text={isUpdating ? '' : 'ثبت نظر'}
+                                                        Icon={isUpdating ? <Loader /> : <></>}
+                                                        filled
+                                                        fn={addNewComment}
                                                     />
+
                                                 </div>
                                         }
                                     </div>
@@ -436,7 +478,7 @@ export default memo(function Product({ product }: { product: {} }) {
                                         <div className="flex items-center text-[11px] gap-4 text-description-text">
                                             <BsFilterLeft className="size-5" />
                                             <p className="text-white-red">جدیدترین</p>
-                                            <p>دیدکاه خریداران</p>
+                                            <p>دیدگاه خریداران</p>
                                         </div>
                                     </div>
 
@@ -445,11 +487,11 @@ export default memo(function Product({ product }: { product: {} }) {
                                             ?
                                             <div className="flex flex-col mt-3 gap-2">
                                                 {
-                                                    [...productComments].map((data: commentProps) => <Comment key={data.productID} {...data} />)
+                                                    [...productComments].map((data: commentProps) => <Comment key={data._id} {...data} />)
                                                 }
                                             </div>
                                             :
-                                            <div className="w-full mt-3 bg-white-red p-3 rounded-md">نظری برای این محصول ثبت نشده !</div>
+                                            <div className="w-full mt-3 bg-primary-black px-3 py-4 text-[14px] rounded-md">نظری برای این محصول ثبت نشده !</div>
                                     }
                                 </div>
                             </div>

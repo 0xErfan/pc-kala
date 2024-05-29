@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await CommentModel.create({ ...commentBody })
 
-        return res.status(201).json({ message: 'Comment created successfully :))' })
+        return res.status(201).json({ message: 'کامنت شما با موفقیت ثبت شد' })
 
     } catch (err) {
         console.log(err)

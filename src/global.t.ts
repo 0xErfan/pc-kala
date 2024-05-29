@@ -4,7 +4,7 @@ type categories = 'pc' | 'laptop' | 'accessory' | 'console' | 'parts' | 'لوا�
 
 interface commentProps {
     body: string
-    star: number
+    rate: number
     creator: unknownObjProps<string>
     productID: string
     createdAt: string
