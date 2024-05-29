@@ -22,6 +22,7 @@ import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 import { useRouter } from "next/router";
+import { commentProps } from "@/global.t";
 
 interface coordinates {
     x: number
@@ -44,8 +45,10 @@ export default memo(function Product({ product }: { product: {} }) {
     const [zoomShown, setIsZoomShown] = useState<boolean>(false)
     const [fullScreenShown, setFullScreenShown] = useState(false)
     const isLogin = useAppSelector(state => state.userSlice.isLogin)
-
     const navigate = useRouter()
+
+    const [productComments, setProductComments] = useState<commentProps[]>([])
+    const [updater, setUpdater] = useState(false)
 
     const { name, price, discount, specs, _id, image } = product || {}
     const productSpecs = Object.entries(specs)
@@ -90,6 +93,24 @@ export default memo(function Product({ product }: { product: {} }) {
         const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
         return () => clearInterval(timeout)
     }, [])
+
+    useEffect(() => {
+        (
+            async () => {
+                try {
+                    const res = await fetch('/api/comment/get', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ _id })
+                    })
+
+                    const productComments = await res.json()
+                    setProductComments(productComments)
+
+                } catch (error) { showToast(false, 'خطای اتصال به اینترنت') }
+            }
+        )()
+    }, [_id, updater]) // product comments updater
 
     return (
 
@@ -420,12 +441,12 @@ export default memo(function Product({ product }: { product: {} }) {
                                     </div>
 
                                     {
-                                        " "
+                                        productComments?.length
                                             ?
                                             <div className="flex flex-col mt-3 gap-2">
-                                                <Comment />
-                                                <Comment />
-                                                <Comment />
+                                                {
+                                                    [...productComments].map((data: commentProps) => <Comment key={data.productID} {...data} />)
+                                                }
                                             </div>
                                             :
                                             <div className="w-full mt-3 bg-white-red p-3 rounded-md">نظری برای این محصول ثبت نشده !</div>
