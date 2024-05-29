@@ -45,7 +45,7 @@ const Comment = ({ body, createdAt, rate, creator }: commentProps) => {
                     {userRate}
                 </div>
             </div>
-            <p className="font-danaLight text-[14px] break-words">{body}</p>
+            <p className="font-danaLight text-[14px] break-words leading-7">{body}</p>
         </div>
     )
 }

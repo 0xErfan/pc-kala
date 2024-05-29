@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 import { useRouter } from "next/router";
 import { commentProps, unknownObjProps } from "@/global.t";
+import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
 
 interface coordinates {
@@ -94,9 +95,9 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
     const addNewComment = async () => {
 
-        if (isUpdating) return // prevent click spams for clown users 🤡
-        console.log('add comment fn run ->')
-        if (newCommentData.text.length > 200 || newCommentData.text.length < 4) return showToast(false, 'نظر شما باید بیشتر از پنج و کمتر از ۲۰۰ کاراکتر باشد😙', 3500)
+        if (isUpdating) return // prevent click spams of clown users 🤡
+        if (newCommentData.text.length < 5) return showToast(false, 'نظر شما باید بیشتر از پنج کاراکتر باشد😙', 3500)
+        if (newCommentData.text.length > 4000) return showToast(false, 'نظر شما بسیار طولانی است', 3500)
 
         setIsUpdating(true)
 
@@ -128,6 +129,23 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
             setIsUpdating(false)
         }
     }
+
+    const userRates = useMemo(() => {
+
+        const allStars = []
+        let selectedStars = newCommentData.rate
+
+        for (let i = 0; i < 5; i++) {
+            allStars.push(<BsStarFill
+                onClick={() => setNewCommentData(prev => ({ ...prev, rate: i + 1 }))} // update new comment obj rate value
+                className={`${selectedStars > 0 && 'text-gold'} cursor-pointer`}
+                key={i}
+            />)
+            selectedStars > 0 && selectedStars--
+        }
+
+        return [...allStars]
+    }, [newCommentData.rate]) // calculate user rate and render the stars 
 
     useEffect(() => {
         const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
@@ -404,12 +422,12 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                     </div>
 
                     <div onClick={() => setActiveSection("comments")} className={`flex-1 relative`}>
-                        <div
-                            className={`flex-center flex-col ${activeSection == "comments" && "active-section"} gap-1`}>
+                        <div className={`flex-center flex-col ${activeSection == "comments" && "active-section"} gap-1`}>
                             <GoCommentDiscussion className="text-description-text size-6" />
                             <p>نظرات کاربران</p>
                         </div>
                     </div>
+                    {(productComments?.length && activeSection == 'comments') ? <span className="absolute bg-secondary-black aspect-square size-8 rounded-md left-5 top-[25px] flex-center text-center pt-2 text-gold shadow-md text-[16px] p-1">{productComments?.length}</span> : null}
 
                 </div>
 
@@ -456,7 +474,15 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                                                 :
                                                 <div className="mt-6">
 
-                                                    <label htmlFor="textArea">دیدگاه شما <span className="text-white-red">*</span></label>
+                                                    <div className="flex items-center justify-between ch:flex-1">
+
+                                                        <label htmlFor="textArea">دیدگاه شما <span className="text-white-red">*</span></label>
+
+                                                        <div className="flex items-center gap-1 justify-evenly">
+                                                            <div>امتیاز شما:</div>
+                                                            <div className="flex items-center gap-1 ch:size-6">{userRates}</div>
+                                                        </div>
+                                                    </div>
 
                                                     <textarea
                                                         className="max-h-60 h-[167px] w-full p-2 rounded-md my-2 bg-primary-black border border-description-text/10"
@@ -492,7 +518,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                                             ?
                                             <div className="flex flex-col mt-3 gap-2">
                                                 {
-                                                    [...productComments].map((data: commentProps) => <Comment key={data.createdAt} {...data} />)
+                                                    [...productComments].reverse().map((data: commentProps) => <Comment key={data.createdAt} {...data} />)
                                                 }
                                             </div>
                                             :
