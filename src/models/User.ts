@@ -7,7 +7,7 @@ const UserSchema = new mongoose.Schema({
     phoneNumber: { type: Number, default: '', length: 11 },
     password: { type: String, required: true },
     meliCode: { type: Number, default: "", length: 10 },
-    role: 'USER'
+    role: { type: String, default: 'USER', enum: ['USER', 'ADMIN'] }
 }, { timestamps: true })
 
 const UserModel = mongoose.models.User || mongoose.model('User', UserSchema);

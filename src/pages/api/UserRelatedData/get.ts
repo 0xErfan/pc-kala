@@ -20,6 +20,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             body: JSON.stringify(token)
         })
 
+        if (!response.ok) return res.status(401)
+
         const userData = await response.json()
 
         const userRelatedModels = [NotificationModel, CommentModel, WishModel, OrderModel, BasketItemModel, transactionModel]
