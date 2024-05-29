@@ -14,14 +14,14 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
                 try {
                     const res = await fetch('/api/UserRelatedData/get')
                     const { userData, userRelatedData } = await res.json()
-                    console.log(res)
+
                     dispatch(userDataUpdater({ userData, userRelatedData, isLogin: res.ok }))
                 } catch (error) { }
             }
         )()
     }, [updater, dispatch])
 
-    return (<></>)
+    return null;
 }
 
 export default FetchOnLoad;

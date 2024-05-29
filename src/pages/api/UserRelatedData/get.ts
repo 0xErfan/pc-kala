@@ -3,6 +3,7 @@ import { transactionModel } from "@/models/Transactions";
 import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
+import { cookies } from "next/headers";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -20,7 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             body: JSON.stringify(token)
         })
 
-        if (!response.ok) return res.status(401)
+        if (!response.ok) {
+            return res.setHeader('Set-Cookie', 'token=; Expires=Thu, 01 Jan 1970 00:00:00 UTC; Path=/; HttpOnly');
+        }
 
         const userData = await response.json()
 

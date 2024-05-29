@@ -1,20 +1,20 @@
 import { commentProps } from '@/global.t'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 import { IoStar } from 'react-icons/io5'
 import { SlUser } from 'react-icons/sl'
 
 const Comment = ({ body, createdAt, rate, creator }: commentProps) => {
 
     const userRate = useMemo(() => {
-        let filledStars = [];
+        let commentRates = [];
         let starsCount = rate
 
         for (let i = 5; i != 0; i--) {
-            filledStars.push(<IoStar className={`${starsCount >= 1 ? 'text-gold' : null}`} />)
+            commentRates.push(<IoStar key={i} className={`${starsCount >= 1 ? 'text-gold' : null}`} />)
             starsCount > 0 && starsCount--
         }
 
-        return filledStars;
+        return commentRates;
     }, [rate])
 
     return (
@@ -27,7 +27,11 @@ const Comment = ({ body, createdAt, rate, creator }: commentProps) => {
 
                     <div className="flex flex-col gap-1">
 
-                        <div className="flex items-center gap-x-1 "><span className="inline-block max-w-40 text-[15px] truncate">{creator?._id}</span></div>
+                        <div className="flex items-center gap-x-1 ">
+                            <span className="inline-block max-w-40 text-[15px] truncate">
+                                {creator?.username} - <span className={`${creator.role == 'ADMIN' && 'text-gold'}`}>{creator.role == 'USER' ? 'کاربر' : 'ادمین'}</span>
+                            </span>
+                        </div>
 
                         <span dir='ltr' className="font-danaLight text-sm opacity-70">
                             {
@@ -46,4 +50,4 @@ const Comment = ({ body, createdAt, rate, creator }: commentProps) => {
     )
 }
 
-export default Comment
+export default memo(Comment)

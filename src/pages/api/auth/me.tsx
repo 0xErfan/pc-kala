@@ -21,14 +21,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const verifiedToken: string | JwtPayload = tokenDecoder(token)
 
         const userData = await UserModel.findOne({ email: verifiedToken?.email })
-        console.log(userData)
 
         if (!userData) {
-            res.setHeader('Set-Cookie', 'token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; Path=/');
+            cookies().set('token', '', { expires: -1 });
             return res.status(401).json({ message: 'No user exist with this username or password!' })
         }
 
-        return res.status(200).json(userData)
+        return res.status(200).send(userData)
 
     } catch (err) {
         console.log(err)

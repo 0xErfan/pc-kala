@@ -36,7 +36,7 @@ interface FullScreenImageProps {
     closeFullScreenFn: () => void
 }
 
-export default memo(function Product({ product }: { product: unknownObjProps<string> }) {
+const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
@@ -94,6 +94,8 @@ export default memo(function Product({ product }: { product: unknownObjProps<str
 
     const addNewComment = async () => {
 
+        if (isUpdating) return // prevent click spams for clown users 🤡
+        console.log('add comment fn run ->')
         if (newCommentData.text.length > 200 || newCommentData.text.length < 4) return showToast(false, 'نظر شما باید بیشتر از پنج و کمتر از ۲۰۰ کاراکتر باشد😙', 3500)
 
         setIsUpdating(true)
@@ -111,17 +113,20 @@ export default memo(function Product({ product }: { product: unknownObjProps<str
             })
 
             const responseData = await res.json()
-            showToast(res.ok, responseData.message)
 
             if (res.ok) {
                 setTimeout(() => {
+                    showToast(res.ok, responseData.message)
                     setNewCommentData({ text: '', rate: 1 })
                     setUpdater(previous => !previous)
-                }, 1200);
-            }
+                    setIsUpdating(false)
+                }, 900);
+            } // just some fake loading for user
 
-        } catch (error) { showToast(false, error as string) }
-        finally { setIsUpdating(false) }
+        } catch (error) {
+            showToast(false, error as string)
+            setIsUpdating(false)
+        }
     }
 
     useEffect(() => {
@@ -487,7 +492,7 @@ export default memo(function Product({ product }: { product: unknownObjProps<str
                                             ?
                                             <div className="flex flex-col mt-3 gap-2">
                                                 {
-                                                    [...productComments].map((data: commentProps) => <Comment key={data._id} {...data} />)
+                                                    [...productComments].map((data: commentProps) => <Comment key={data.createdAt} {...data} />)
                                                 }
                                             </div>
                                             :
@@ -529,7 +534,7 @@ export default memo(function Product({ product }: { product: unknownObjProps<str
 
         </section>
     )
-})
+}
 
 const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImageProps) => (
     <div
@@ -569,3 +574,5 @@ export async function getStaticPaths() {
         fallback: 'blocking',
     };
 }
+
+export default memo(Product)
