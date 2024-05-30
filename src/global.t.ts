@@ -7,7 +7,8 @@ interface commentProps {
     rate: number
     creator: unknownObjProps<string>
     productID: string
-    createdAt: string
+    createdAt?: string
+    isCreatedByCustomer: boolean
 }
 
 export type { unknownObjProps, categories, commentProps }

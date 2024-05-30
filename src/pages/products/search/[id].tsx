@@ -102,16 +102,21 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
         setIsUpdating(true)
 
+        const commentData: commentProps = {
+            creator: data?._id,
+            body: newCommentData.text,
+            productID: _id,
+            rate: newCommentData.rate,
+            isCreatedByCustomer: [...relatedData.Transaction]
+                .filter(data => data.status !== 'CANCELED') // canceled transactions can't be counted here
+                .some(data => data.productsList.some(productData => { if (productData.productID._id == _id) return true })) // check if user bought the product
+        }
+
         try {
             const res = await fetch('/api/comment/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    creator: data?._id,
-                    body: newCommentData.text,
-                    productID: _id,
-                    rate: newCommentData.rate
-                })
+                body: JSON.stringify({ ...commentData })
             })
 
             const responseData = await res.json()
@@ -150,9 +155,9 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
     const sortedComments = useMemo(() => {
 
-        if (sortCommentsBy == 'byCustomer') return [...productComments].reverse()
         if (sortCommentsBy == 'newest') return [...productComments].reverse()
         if (sortCommentsBy == 'rate') return [...productComments].reverse().sort((a, b) => b.rate - a.rate)
+        if (sortCommentsBy == 'byCustomer') return [...productComments].reverse().sort((a, b) => +a.isCreatedByCustomer - +b.isCreatedByCustomer)
 
     }, [sortCommentsBy, productComments])
 
@@ -335,7 +340,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                             <div className="flex items-center gap-3 text-title-text text-2xl mt-10">
                                 {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-Ir')}</div>}
-                                <div className="text-blue-white">{priceDiscountCalculator(price, discount)}<span className="text-description-text text-xl"> تومان</span></div>
+                                <div className="text-blue-white">{priceDiscountCalculator(+price, +discount)}<span className="text-description-text text-xl"> تومان</span></div>
                             </div>
 
                             {
@@ -368,8 +373,8 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                                             <div className="w-10 flex-center border-l h-full border-dark-gold">{productCount}</div>
 
                                             <div className="flex-center flex-col w-6 ch:cursor-pointer gap-1">
-                                                <LuPlus onClick={() => setProductCount(preve => preve + 1)} />
-                                                <FiMinus onClick={() => productCount != 1 && setProductCount(preve => preve - 1)} />
+                                                <LuPlus onClick={() => setProductCount(prev => prev + 1)} />
+                                                <FiMinus onClick={() => productCount != 1 && setProductCount(prev => prev - 1)} />
                                             </div>
 
                                         </div>
