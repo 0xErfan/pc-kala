@@ -53,9 +53,9 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
     useEffect(() => { dataToShow == "basket" && ref.current?.click() }, [dataToShow])
 
-    useEffect(() => { setIsMenuShown(false) }, [location.href]) // if the route changed via the category links or..., the sidebar closes
+    useEffect(() => { setIsMenuShown(false) }, [navigate.pathname]) // if the route changed via the category links or..., the sidebar closes
 
-    useEffect(() => { dispatch(changeCanScroll(!isMenuShown)) }, [isMenuShown])
+    useEffect(() => { dispatch(changeCanScroll(!isMenuShown)) }, [dispatch, isMenuShown])
 
     return (
         <>

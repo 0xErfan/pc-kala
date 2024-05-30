@@ -1,17 +1,13 @@
-import { CommentModel } from "@/models/Comment";
 import { transactionModel } from "@/models/Transactions";
-import { BasketItemModel, NotificationModel, OrderModel, WishModel } from "@/models/UserRelatedSchemas";
+import { BasketItemModel, NotificationModel, WishModel } from "@/models/UserRelatedSchemas";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
-import { cookies } from "next/headers";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'GET') return res.status(421).json({ message: "This route can't be accessed without GET request_" })
-
     try {
 
-        const token = req.cookies?.token
+        const token = req.cookies?.token ?? req.body // we can get the cookie from req body or the cookie api of next js
 
         if (!token) return res.status(401).json({ message: 'Not loggedIn idiot' })
 
@@ -27,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userData = await response.json()
 
-        const userRelatedModels = [NotificationModel, CommentModel, WishModel, OrderModel, BasketItemModel, transactionModel]
+        const userRelatedModels = [NotificationModel, WishModel, BasketItemModel, transactionModel]
 
         const userRelatedData: {} = {}
 

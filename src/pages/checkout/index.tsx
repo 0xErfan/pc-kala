@@ -175,7 +175,7 @@ const Checkout = () => {
 
                 <div className="h-12"></div>
             </section>
-            
+
             <Footer />
         </>
     )

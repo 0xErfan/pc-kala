@@ -11,7 +11,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const token: string | undefined = req.cookies?.token || req.body
+        const token: string | undefined = req.cookies?.token ?? req.body
 
         if (!token) {
             res.setHeader('Set-Cookie', 'token=deleted; path=/; maxAge=0');
