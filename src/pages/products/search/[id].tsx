@@ -52,6 +52,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
     const isLogin = useAppSelector(state => state.userSlice.isLogin)
     const { relatedData, data } = useAppSelector(state => state.userSlice) || []
     const [newCommentData, setNewCommentData] = useState<{ text: string, rate: number }>({ text: '', rate: 1 })
+    const [sortCommentsBy, setSortCommentsBy] = useState<'rate' | 'byCustomer' | 'newest'>('newest')
 
     const [productComments, setProductComments] = useState<commentProps[]>([])
     const [updater, setUpdater] = useState(false)
@@ -146,6 +147,14 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
         return [...allStars]
     }, [newCommentData.rate]) // calculate user rate and render the stars 
+
+    const sortedComments = useMemo(() => {
+
+        if (sortCommentsBy == 'byCustomer') return [...productComments].reverse()
+        if (sortCommentsBy == 'newest') return [...productComments].reverse()
+        if (sortCommentsBy == 'rate') return [...productComments].reverse().sort((a, b) => b.rate - a.rate)
+
+    }, [sortCommentsBy, productComments])
 
     useEffect(() => {
         const timeout = setInterval(() => { setProductOffTimer(getTimer()) }, 1000)
@@ -506,19 +515,20 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                                 <div className="mt-24">
                                     <div className="flex items-center justify-between border-b border-title-text pb-2">
                                         <p className="font-peyda text-gold text-[15px]">نقد و بررسی ها</p>
-                                        <div className="flex items-center text-[11px] gap-4 text-description-text">
+                                        <div className="flex items-center text-[11px] gap-4 text-description-text ch:transition-all">
                                             <BsFilterLeft className="size-5" />
-                                            <p className="text-white-red">جدیدترین</p>
-                                            <p>دیدگاه خریداران</p>
+                                            <p onClick={() => setSortCommentsBy('newest')} className={`${sortCommentsBy == 'newest' && 'text-white-red'} cursor-pointer`}>جدیدترین</p>
+                                            <p onClick={() => setSortCommentsBy('rate')} className={`${sortCommentsBy == 'rate' && 'text-white-red'} cursor-pointer`}>براساس امتیاز</p>
+                                            <p onClick={() => setSortCommentsBy('byCustomer')} className={`${sortCommentsBy == 'byCustomer' && 'text-white-red'} cursor-pointer`}>دیدگاه خریداران</p>
                                         </div>
                                     </div>
 
                                     {
-                                        productComments?.length
+                                        sortedComments?.length
                                             ?
                                             <div className="flex flex-col mt-3 gap-2">
                                                 {
-                                                    [...productComments].reverse().map((data: commentProps) => <Comment key={data.createdAt} {...data} />)
+                                                    sortedComments.map((data: commentProps) => <Comment key={data.createdAt} {...data} />)
                                                 }
                                             </div>
                                             :
