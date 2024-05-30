@@ -157,7 +157,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
         if (sortCommentsBy == 'newest') return [...productComments].reverse()
         if (sortCommentsBy == 'rate') return [...productComments].reverse().sort((a, b) => b.rate - a.rate)
-        if (sortCommentsBy == 'byCustomer') return [...productComments].reverse().sort((a, b) => +a.isCreatedByCustomer - +b.isCreatedByCustomer)
+        if (sortCommentsBy == 'byCustomer') return [...productComments].reverse().sort((a, b) => +b.isCreatedByCustomer - +a.isCreatedByCustomer)
 
     }, [sortCommentsBy, productComments])
 

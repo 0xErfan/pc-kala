@@ -2,6 +2,7 @@ import { commentProps } from '@/global.t'
 import { memo, useMemo } from 'react'
 import { IoStar } from 'react-icons/io5'
 import { SlUser } from 'react-icons/sl'
+import { RiAdminFill } from "react-icons/ri";
 
 const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commentProps) => {
 
@@ -17,25 +18,19 @@ const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commen
         return commentRates;
     }, [rate])
 
-    const dd = () => {
-
-        
-        console.log(isCreatedByCustomer)
-    }
-
     return (
         <div data-aos-duration="550" data-aos="zoom-in" className="w-full p-4 md:p-5 bg-primary-black rounded-md">
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-b-neutral-200/60">
 
-                <div onClick={dd} className="flex items-center gap-x-3.5">
+                <div className="flex items-center gap-x-3.5">
 
-                    <div className="ch:size-6 size-14 border border-white flex-center rounded-full bg-secondary-black"><SlUser /></div>
+                    <div className={`ch:size-6 size-14 border ${creator.role == 'USER' ? 'border-white' : 'border-gold'} flex-center rounded-full bg-secondary-black`}> {creator.role == 'USER' ? <SlUser /> : <RiAdminFill />} </div>
 
                     <div className="flex flex-col gap-1">
 
                         <div className="flex items-center gap-x-1 ">
                             <span className="inline-block max-w-40 text-[15px] truncate">
-                                {creator?.username + `${isCreatedByCustomer ? '(خریدار)' : ''}`} - <span className={`${creator.role == 'ADMIN' && 'text-gold'}`}>{creator.role == 'USER' ? 'کاربر' : 'ادمین'}</span>
+                                {creator?.username + `${isCreatedByCustomer ? '(خریدار)' : ''}`} <span className={`${creator.role == 'ADMIN' && 'text-gold'}`}>{creator.role == 'ADMIN' && '- ادمین'}</span>
                             </span>
                         </div>
 
