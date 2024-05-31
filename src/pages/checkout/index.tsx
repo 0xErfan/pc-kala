@@ -5,7 +5,7 @@ import { Input } from "@/components/Input"
 import Link from "next/link"
 import Progress from "@/components/Progress"
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
-import { showToast } from "@/utils"
+import { showToast, totalPriceCalculator } from "@/utils"
 import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { useRouter } from "next/router"
 import Loader from "@/components/Loader"
@@ -38,11 +38,15 @@ const Checkout = () => {
 
     const sumOfProductsWithDiscount = useMemo(() => {
         let sum = 0
-        relatedData?.BasketItem?.map(data => { sum += ((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count) })
+        relatedData?.BasketItem?.map(({ productID, count, services }) => { sum += totalPriceCalculator(productID.price, productID.discount, count, services) })
         return +sum
     }, [relatedData?.BasketItem])
 
     const submitOrder = async () => {
+
+        if (isLoading) return // prevent user from spamming
+
+        console.log('hi im running here buddy')
 
         const fieldsToCheck = Object.entries(formData).filter(data => data[0] !== 'email' && data[0] !== 'orderDetails')
 
@@ -56,25 +60,33 @@ const Checkout = () => {
         if (!/^09\d{9}$/.test(formData.phoneNum)) { showToast(false, 'شماره موبایل معتبر نیست'); return }
         if (!doesUserAccept) { showToast(false, 'موافقت با قوانین و مقررات الزامی است'); return }
 
-        setIsLoading(true)
+        setIsLoading(true) // validation passed and start loading
 
-        const res = await fetch('/api/order/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userID: data._id, customerData: formData, totalPrice: sumOfProductsWithDiscount })
-        })
-        const resData = await res.json()
+        try {
 
-        setTimeout(() => { // just some fake delay so user see the loading process :)
-            showToast(res.ok, resData.message)
+            const res = await fetch('/api/order/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userID: data._id, customerData: formData, totalPrice: sumOfProductsWithDiscount })
+            })
+            const resData = await res.json()
 
-            if (res.ok) {
-                dispatch(userUpdater())
-                navigate.replace(`/success-purchase/${resData.transaction._id}`)
-            }
+            setTimeout(() => { // just some fake delay so user see the loading process :)
+                showToast(res.ok, resData.message)
 
+                if (res.ok) {
+                    dispatch(userUpdater())
+                    navigate.replace(`/success-purchase/${resData.transaction._id}`)
+                    setIsLoading(false)
+                }
+
+                setIsLoading(false)
+            }, 2500);
+
+        } catch (err) {
+            console.log(err)
             setIsLoading(false)
-        }, 1000);
+        }
     }
 
     return (
@@ -131,20 +143,20 @@ const Checkout = () => {
                                 <tbody>
 
                                     {
-                                        relatedData?.BasketItem?.map(data => (
-                                            <tr key={data._id} className={"border border-gray-600"}>
+                                        relatedData?.BasketItem?.map(({ _id, productID, count, services }) => (
+                                            <tr key={_id} className={"border border-gray-600"}>
 
-                                                <td className={`p-4 text-[12px] text-[#8b8b8b]`}>{data.productID.name} x <span className="text-white-red" >{data.count}</span></td>
+                                                <td className={`p-4 text-[12px] text-[#8b8b8b]`}>{productID.name} x <span className="text-white-red" >{count}</span></td>
 
                                                 <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>
-                                                    <span className={"text-blue-white"}>{((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count).toLocaleString('fa-Ir')}</span> تومان
+                                                    <span className={"text-blue-white"}>{(totalPriceCalculator(productID.price, productID.discount, count, services)).toLocaleString('fa-IR')}</span> تومان
                                                 </td>
                                             </tr>)
                                         )
                                     }
 
                                     <TableData title={"حمل و نقل"}><p className={"max-w-70 text-wrap"}>ارسال توسط تیپاکس، اتوبوس، باربری به تشخیص فروشگاه (پس کرایه)</p></TableData>
-                                    <TableData title={"مجموع (قیمت نهایی)"}><p className={"max-w-70 text-wrap"}><span className={"text-blue-white"}>{sumOfProductsWithDiscount.toLocaleString('fa-Ir')}</span> تومان</p></TableData>
+                                    <TableData title={"مجموع (قیمت نهایی)"}><p className={"max-w-70 text-wrap"}><span className={"text-blue-white"}>{sumOfProductsWithDiscount.toLocaleString('fa-IR')}</span> تومان</p></TableData>
                                 </tbody>
 
                             </table>

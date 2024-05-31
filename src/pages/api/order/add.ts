@@ -15,6 +15,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userOrders = await BasketItemModel.find({ userID }, ['-__v', '-userID', '-_id']).populate('productID').exec() // find user basket products
 
+        if (!userOrders.length) return res.status(422).json({ message: 'محصولی برای سفارش وجود نداره😂' })
+
         const userOrdersPlain = userOrders.map(order => order.toObject()); // use toObject so we can see the populated products data in client
 
         const newOrderTransaction = await transactionModel.create({ productsList: userOrdersPlain, userID, customerData, totalPrice, status: 'PROCESSING' })

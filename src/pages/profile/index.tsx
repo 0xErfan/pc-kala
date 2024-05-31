@@ -145,11 +145,11 @@ const Profile = () => {
 
                                                     <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-6, -1).toUpperCase()}</td>
 
-                                                    <td>{new Date(data.createdAt).toLocaleDateString('fa-Ir')}</td>
+                                                    <td>{new Date(data.createdAt).toLocaleDateString('fa-IR')}</td>
 
                                                     <td>{data.productsList.reduce((previous: unknownObjProps<number>, next: unknownObjProps<number>) => (previous?.count ?? previous) + next.count, 0)}</td>
 
-                                                    <td className="break-words max-w-[65px]">{data.totalPrice.toLocaleString('fa-Ir')} تومان </td>
+                                                    <td className="break-words max-w-[65px]">{data.totalPrice.toLocaleString('fa-IR')} تومان </td>
 
                                                     <td>
                                                         <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} sm:p-2 p-1 rounded-md text-[12px]`}>
@@ -213,7 +213,7 @@ const Profile = () => {
                                                     className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
                                                 >
                                                     <div className="p-1 space-y-2 flex items-center justify-end flex-col">
-                                                        <p dir="ltr" className="text-white/45 flex justify-end w-full">{new Date(data.createdAt).toLocaleDateString('fa-Ir') + ' - ' + new Date(data.createdAt).toLocaleTimeString('fa-Ir')}</p>
+                                                        <p dir="ltr" className="text-white/45 flex justify-end w-full">{new Date(data.createdAt).toLocaleDateString('fa-IR') + ' - ' + new Date(data.createdAt).toLocaleTimeString('fa-IR')}</p>
                                                         <p>{data.body}</p>
                                                     </div>
                                                     <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />

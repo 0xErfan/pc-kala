@@ -57,14 +57,14 @@ const Product = (productProps: unknownObjProps<string | number>) => {
     return (
         <div className="sm:max-w-[316px] transition-all duration-300 w-full relative m-auto bg-secondary-black border-t-4 border-dark-red rounded-xl p-3 overflow-hidden text-white text-sm">
 
-            {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-Ir')}٪</div>}
+            {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-IR')}٪</div>}
 
             <Link href={`/products/search/${_id}`}>
                 <Image width={500} height={500} priority alt="product-name" blurDataURL="true" src='/images/laptop-default.webp' className="m-auto object-cover my-3 cursor-pointer" />
             </Link>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">
-                {discount && <div className="red-line-through text-white ">{Number(price)?.toLocaleString('fa-Ir')}</div>}
+                {discount && <div className="red-line-through text-white ">{Number(price)?.toLocaleString('fa-IR')}</div>}
                 <div className="text-blue-white">{priceAfterOff.toLocaleString('fa-IR')} <span className="text-[10px] text-title-text">تومان</span></div>
             </div>
 

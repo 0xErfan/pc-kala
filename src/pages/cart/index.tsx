@@ -124,17 +124,17 @@ const Card = () => {
                             <div className="flex gap-3 text-[12px] flex-col my-6">
                                 <div className="flex items-center justify-between text-title-text">
                                     <p>جمع جزء</p>
-                                    <p><span className="text-white-red text-[15px]">{sumOfProductsWithoutDiscount.toLocaleString('fa-Ir')}</span> تومان</p>
+                                    <p><span className="text-white-red text-[15px]">{sumOfProductsWithoutDiscount.toLocaleString('fa-IR')}</span> تومان</p>
                                 </div>
 
                                 <div className="flex items-center justify-between text-title-text">
                                     <p>مجموع</p>
-                                    <p><span className="text-white-red text-[15px]">{sumOfProductsWithDiscount.toLocaleString('fa-Ir')}</span> تومان</p>
+                                    <p><span className="text-white-red text-[15px]">{sumOfProductsWithDiscount.toLocaleString('fa-IR')}</span> تومان</p>
                                 </div>
 
                                 <div className="flex items-center justify-between text-title-text">
                                     <p>جمع تخفیف ها</p>
-                                    <p className="bg-blue-white p-1 rounded-xl text-[14px] text-white rounded-tl-none"><span>{(sumOfProductsWithoutDiscount - sumOfProductsWithDiscount).toLocaleString('fa-Ir')}</span> تومان</p>
+                                    <p className="bg-blue-white p-1 rounded-xl text-[14px] text-white rounded-tl-none"><span>{(sumOfProductsWithoutDiscount - sumOfProductsWithDiscount).toLocaleString('fa-IR')}</span> تومان</p>
                                 </div>
                             </div>
 

@@ -110,7 +110,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                                 <div className='h-full flex flex-col my-8 gap-3'>
                                     <div className='flex items-center justify-between border-y border-dark-gold py-3'>
                                         <p>جمع جزء:</p>
-                                        <p><span className='text-white-red text-[16px] font-bold'>{sumOfProductsPrice.toLocaleString('fa-Ir')}</span> تومان</p>
+                                        <p><span className='text-white-red text-[16px] font-bold'>{sumOfProductsPrice.toLocaleString('fa-IR')}</span> تومان</p>
                                     </div>
                                     <div className='flex items-center justify-between ch:grow gap-2'>
                                         <Button fn={() => relatedData.BasketItem.length ? navigate.push('/checkout') : showToast(false, 'محصولی برای تسویه وجود نداره ها')} filled text='تسویه حساب' />

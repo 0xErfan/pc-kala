@@ -36,7 +36,7 @@ const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commen
 
                         <span dir='ltr' className="font-danaLight text-sm opacity-70">
                             {
-                                new Date(createdAt!).toLocaleDateString('fa-Ir') + ' - ' + new Date(createdAt!).toLocaleTimeString('fa-Ir')
+                                new Date(createdAt!).toLocaleDateString('fa-IR') + ' - ' + new Date(createdAt!).toLocaleTimeString('fa-IR')
                             }
                         </span>
                     </div>

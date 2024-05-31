@@ -24,7 +24,7 @@ const LikedProduct = ({ productID, creator }: likeProductProps) => {
             <Link href={`/products/search/${_id}`}><Image width={500} height={500} className="m-auto object-cover my-3 cursor-pointer" src="/images/laptop-default.webp" alt="product-name" /></Link>
 
             <div className="flex items-center gap-3 justify-center text-title-text text-sm">
-                {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-Ir')}</div>}
+                {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-IR')}</div>}
                 <div className="text-blue-white">{priceAfterDiscount} <span className="text-[10px] text-title-text">تومان</span></div>
             </div>
 
