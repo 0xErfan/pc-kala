@@ -46,8 +46,6 @@ const Checkout = () => {
 
         if (isLoading) return // prevent user from spamming
 
-        console.log('hi im running here buddy')
-
         const fieldsToCheck = Object.entries(formData).filter(data => data[0] !== 'email' && data[0] !== 'orderDetails')
 
         if (fieldsToCheck.some(data => {
@@ -144,9 +142,15 @@ const Checkout = () => {
 
                                     {
                                         relatedData?.BasketItem?.map(({ _id, productID, count, services }) => (
+
                                             <tr key={_id} className={"border border-gray-600"}>
 
-                                                <td className={`p-4 text-[12px] text-[#8b8b8b]`}>{productID.name} x <span className="text-white-red" >{count}</span></td>
+                                                <td className={`p-4 text-[12px] text-[#8b8b8b]`}>
+                                                    <div className="text-description-text text-[13px]">{productID.name}</div>
+                                                    <span>{`(${Object.keys(services).join(' - ')})`}</span>
+                                                    <span dir="ltr"> x </span>
+                                                    <span className="text-white-red" >{count}</span>
+                                                </td>
 
                                                 <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>
                                                     <span className={"text-blue-white"}>{(totalPriceCalculator(productID.price, productID.discount, count, services)).toLocaleString('fa-IR')}</span> تومان
