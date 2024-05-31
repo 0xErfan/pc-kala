@@ -57,7 +57,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
     const [productComments, setProductComments] = useState<commentProps[]>([])
     const [updater, setUpdater] = useState(false)
     const [isUpdating, setIsUpdating] = useState(false)
-    const [productServices, setProductServices] = useState<unknownObjProps<number>>({})
+    const [productServices, setProductServices] = useState<unknownObjProps<number>>({ 'گارانتی ۱۸ ماهه پیسی کالا': 0 })
 
     const { name, price, discount, specs, _id, image, category } = product || {}
 
@@ -388,8 +388,8 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                                             <div className="w-10 flex-center border-l h-full border-dark-gold">{productCount}</div>
 
                                             <div className={`flex-center flex-col w-6`}>
-                                                <LuPlus className={` ${isUpdating ? 'cursor-not-allowed' : 'cursor-pointer'} `} onClick={() => updateProductCount(productCount + 1)} />
-                                                <FiMinus className={` ${isUpdating ? 'cursor-not-allowed' : 'cursor-pointer'} `} onClick={() => updateProductCount(productCount - 1)} />
+                                                <LuPlus className={` ${isUpdating ? 'cursor-wait' : 'cursor-pointer'} `} onClick={() => updateProductCount(productCount + 1)} />
+                                                <FiMinus className={` ${isUpdating ? 'cursor-wait' : 'cursor-pointer'} `} onClick={() => updateProductCount(productCount - 1)} />
                                             </div>
 
                                         </div>

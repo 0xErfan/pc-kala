@@ -87,7 +87,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
                                 :
                                 <>
 
-                                    <div onClick={nextPageHandler} className={`hover:bg-black/40 ${currentPage >= availablePages && 'cursor-not-allowed'} px-5`}>بعدی</div>
+                                    <div onClick={nextPageHandler} className={`hover:bg-black/40 ${currentPage >= availablePages && 'cursor-wait'} px-5`}>بعدی</div>
 
                                     {currentPage < availablePages && <div onClick={nextPageHandler} className="hover:bg-black/40 px-[6px]">{currentPage + 1}</div>}
 
@@ -95,7 +95,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
 
                                     {currentPage > 1 && <div onClick={previousPageHandler} className="hover:bg-black/40 px-[6px]">{currentPage - 1}</div>}
 
-                                    <div onClick={previousPageHandler} className={`hover:bg-black/40 ${currentPage < 2 && 'cursor-not-allowed'} py-2 px-5`}>قبلی</div>
+                                    <div onClick={previousPageHandler} className={`hover:bg-black/40 ${currentPage < 2 && 'cursor-wait'} py-2 px-5`}>قبلی</div>
                                 </>
                         }
                     </div>

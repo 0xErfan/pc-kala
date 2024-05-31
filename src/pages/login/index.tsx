@@ -79,7 +79,7 @@ const Login = () => {
                     <button
                         disabled={loading}
                         onClick={formSubmit}
-                        className={`px-2 text-white bg-black rounded-xl text-center text-xl font-peyda p-3 w-full ${!loading ? 'cursor-pointer ch:cursor-pointer' : 'cursor-not-allowed ch:cursor-not-allowed'}  mt-12`}>
+                        className={`px-2 text-white bg-black rounded-xl text-center text-xl font-peyda p-3 w-full ${!loading ? 'cursor-pointer ch:cursor-pointer' : 'cursor-wait ch:cursor-wait'}  mt-12`}>
                         {
                             !loading
                                 ?

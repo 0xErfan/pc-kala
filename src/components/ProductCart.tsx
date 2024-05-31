@@ -93,8 +93,8 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
                     <div className="flex items-center flex-col gap-2">
                         {count}
                         <div className="flex items-center w-12 ch:w-full overflow-hidden justify-evenly text-center rounded-md border ch:transition-all border-dark-gold ch:p-1 ch:first:pl-1 ch:last:pr-1">
-                            <div onClick={() => updateProductCount(count + 1)} className={`hover:bg-black/30 ${isUpdating ? 'cursor-not-allowed' : 'cursor-pointer'}`}>+</div>
-                            <div onClick={() => updateProductCount(count - 1)} className={`hover:bg-black/30 ${isUpdating ? 'cursor-not-allowed' : 'cursor-pointer'}`}>-</div>
+                            <div onClick={() => updateProductCount(count + 1)} className={`hover:bg-black/30 ${isUpdating ? 'cursor-wait' : 'cursor-pointer'}`}>+</div>
+                            <div onClick={() => updateProductCount(count - 1)} className={`hover:bg-black/30 ${isUpdating ? 'cursor-wait' : 'cursor-pointer'}`}>-</div>
                         </div>
                     </div>
                 </td>

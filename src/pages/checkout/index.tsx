@@ -81,7 +81,7 @@ const Checkout = () => {
                 }
 
                 setIsLoading(false)
-            }, 2500);
+            }, 800);
 
         } catch (err) {
             console.log(err)
