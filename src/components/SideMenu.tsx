@@ -105,7 +105,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                                         <p><span className='text-white-red text-[16px] font-bold'>{sumOfProductsPrice.toLocaleString('fa-Ir')}</span> تومان</p>
                                     </div>
                                     <div className='flex items-center justify-between ch:grow gap-2'>
-                                        <Button fn={() => navigate.push('/checkout')} filled text='تسویه حساب' />
+                                        <Button fn={() => relatedData.BasketItem.length ? navigate.push('/checkout') : showToast(false, 'محصولی برای تسویه وجود نداره ها')} filled text='تسویه حساب' />
                                         <Button fn={() => navigate.push('/cart')} filled text='مشاهده سبد خرید' />
                                     </div>
                                 </div>

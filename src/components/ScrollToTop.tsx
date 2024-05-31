@@ -6,7 +6,7 @@ import { FaArrowUp } from "react-icons/fa"
 const ScrollToTop = () => {
 
     const [scrollUpShown, setScrollUpShown] = useState(false)
-    const [previousScrollValue, setPreviousScrollValue] = useState(window.pageYOffset)
+    const [previousScrollValue, setPreviousScrollValue] = useState(window.scrollY)
     const canScroll = useAppSelector(state => state.globalVarsSlice.canScroll)
 
     const dispatch = useAppDispatch()
@@ -17,9 +17,9 @@ const ScrollToTop = () => {
         if (!canScroll) { setScrollUpShown(false); return }
 
         const handleScroll = () => {
-            setScrollUpShown(window.pageYOffset < previousScrollValue)
-            dispatch(isScrolledDownUpdater(window.pageYOffset > previousScrollValue ? false : true))
-            setPreviousScrollValue(window.pageYOffset)
+            setScrollUpShown(window.scrollY < previousScrollValue && window.scrollY !== 0)
+            dispatch(isScrolledDownUpdater(window.scrollY > previousScrollValue ? false : true))
+            setPreviousScrollValue(window.scrollY)
         }
 
         window.addEventListener('scroll', handleScroll)

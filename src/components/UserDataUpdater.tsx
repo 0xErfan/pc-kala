@@ -33,7 +33,7 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
         if (!data?.isValid) { showToast(false, data.errorMessage); return }
         if (value == inputValue) return
 
-        if (name == 'changePass') { // this if statement is just for change password validations
+        if (name == 'changePass') { // this 'if' statement is just for change password validations
 
             setLoading(true)
 
@@ -81,16 +81,22 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
             })
 
             const { message } = await res.json()
+            
+            if (!res.ok) {
+                showToast(false, message)
+                setLoading(false)
+                return
+            }
 
-            showToast(res.status == 200, message);
-            if (res.status !== 200) return
+            setTimeout(() => {
+                showToast(res.status == 200, message);
+                setValue(value)
+                dispatch(userUpdater())
+                dataEditorCloser()
+                setLoading(false)
+            }, 600);
 
-            setValue(value)
-            dispatch(userUpdater())
-            dataEditorCloser()
-
-        } catch (err) { showToast(false, 'خطا - از اتصال به اینترنت اطمینان منید') }
-        finally { setLoading(false) }
+        } catch (err) { showToast(false, 'خطا - از اتصال به اینترنت اطمینان منید'); setLoading(false) }
     }
 
     return (
