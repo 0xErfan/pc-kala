@@ -20,7 +20,7 @@ const BasketItemSchema = new mongoose.Schema({
     userID: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     productID: { type: mongoose.Schema.Types.ObjectId, ref: 'Product', required: true },
     count: { type: Number, default: 1, min: 1 },
-    services: { type: mongoose.Schema.Types.Mixed, default: [] }
+    services: { type: mongoose.Schema.Types.Mixed, default: {} }
 });
 
 const NotificationSchema = new mongoose.Schema({

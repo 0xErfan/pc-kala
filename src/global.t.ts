@@ -9,6 +9,7 @@ interface commentProps {
     productID: string
     createdAt?: string
     isCreatedByCustomer: boolean
+    services: unknownObjProps<string | number>
 }
 
 export type { unknownObjProps, categories, commentProps }

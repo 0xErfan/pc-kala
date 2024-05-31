@@ -94,11 +94,6 @@ const showToast = (status: boolean, message: string, duration: number = 2500) =>
     )
 }
 
-const priceDiscountCalculator = (price: number, discount: number) => {
-    const priceAfterDiscount = price - (price * (discount / 100))
-    return priceAfterDiscount.toLocaleString('fa-Ir')
-}
-
 const tokenDecoder = (token: string) => verify(token, process.env.secretKey as Secret)
 
 const tokenGenerator = (data: object, days: number = 7) => sign({ email: data }, process.env.secretKey as Secret, { expiresIn: 60 * 60 * 24 * days })
@@ -248,12 +243,12 @@ const removeProductFromBasket = async (productID: string, userID: string) => {
     }
 }
 
-const addProductToBasket = async (userID, productID, count, dispatch) => {
+const addProductToBasket = async (userID, productID, count, dispatch, productServices = {}) => {
 
     const res = await fetch('/api/basket/add', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userID, productID, count: count ?? null })
+        body: JSON.stringify({ userID, productID, count: count ?? null, services: productServices })
     })
 
     const finalData = await res.json()
@@ -262,11 +257,18 @@ const addProductToBasket = async (userID, productID, count, dispatch) => {
     if (res.ok) dispatch(userUpdater())
 }
 
+const totalPriceCalculator = (price: number, discount: number, count: number, services: unknownObjProps<number>) => {
+
+    const priceAfterDiscount = price - (price * (discount / 100))
+    const servicesPrice = services ? Object.values(services).reduce((prev, next) => prev + next, 0) : 0
+
+    return (priceAfterDiscount + servicesPrice) * count
+}
+
 export {
     getTimer,
     fetchData,
     showToast,
-    priceDiscountCalculator,
     tokenDecoder,
     tokenGenerator,
     isEmptyInput,
@@ -278,5 +280,6 @@ export {
     addWish,
     convertNumbers2English,
     removeProductFromBasket,
-    addProductToBasket
+    addProductToBasket,
+    totalPriceCalculator
 }

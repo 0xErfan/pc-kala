@@ -13,7 +13,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Header from "@/components/Header";
-import { addProductToBasket, getTimer, priceDiscountCalculator, productOffTimerProps, sharePage, showToast } from '@/utils'
+import { addProductToBasket, getTimer, productOffTimerProps, sharePage, showToast, totalPriceCalculator } from '@/utils'
 import BreadCrumb from "@/components/BreadCrumb";
 import { MdClose } from "react-icons/md";
 import { GetStaticPropsContext } from "next";
@@ -57,8 +57,10 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
     const [productComments, setProductComments] = useState<commentProps[]>([])
     const [updater, setUpdater] = useState(false)
     const [isUpdating, setIsUpdating] = useState(false)
+    const [productServices, setProductServices] = useState<unknownObjProps<number>>({})
 
-    const { name, price, discount, specs, _id, image } = product || {}
+    const { name, price, discount, specs, _id, image, category } = product || {}
+
     const productSpecs = useMemo(() => { return Object.entries(specs) }, [specs])
 
     const updateProductCount = async (count: number) => {
@@ -80,6 +82,15 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
             if (res.ok) dispatch(userUpdater())
             setIsUpdating(false)
         }, 800); // just debounce so user don't spam 😂🤔
+    }
+
+    const productServicesUpdater = (value: boolean, title: string, price: number) => {
+        if (value) {
+            setProductServices(prev => ({ ...prev, [title]: price }))
+        } else {
+            delete productServices[title]
+            setProductServices({ ...productServices })
+        }
     }
 
     const breadCrumbData = [
@@ -107,6 +118,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
             body: newCommentData.text,
             productID: _id,
             rate: newCommentData.rate,
+            services: { ...productServices },
             isCreatedByCustomer: [...relatedData.Transaction]
                 .filter(data => data.status !== 'CANCELED') // canceled transactions can't be counted here
                 .some(data => data.productsList.some(productData => { if (productData.productID._id == _id) return true })) // check if user bought the product
@@ -144,7 +156,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
         for (let i = 0; i < 5; i++) {
             allStars.push(<BsStarFill
                 onClick={() => setNewCommentData(prev => ({ ...prev, rate: i + 1 }))} // update new comment obj rate value
-                className={`${selectedStars > 0 && 'text-gold'} cursor-pointer`}
+                className={`${selectedStars > 0 && 'text-gold'} cursor-pointer size-4`}
                 key={i}
             />)
             selectedStars > 0 && selectedStars--
@@ -299,7 +311,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                             <p>گارانتی دستگاه</p>
 
-                            <select defaultValue={0}
+                            <select defaultValue={1}
                                 className="bg-primary-black rounded-md p-2 border border-dark-gold">
                                 <option disabled={true} value={0}>گارانتی دستگاه را انتخاب کنید</option>
                                 <option value={1}>گارانتی 18 ماهه شرکتی</option>
@@ -307,40 +319,57 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                         </div>
 
-                        <p className="text-dark-red mt-6 text-sm">خدمات ویژه پی سی کالا :</p>
 
-                        <div className="text-[12px] ch:my-3 ch:text-description-text">
+                        <div className={`${(category == 'pc' || category == 'laptop') ? 'visible' : 'invisible'} xl:py-6 `}>
+                            <p className="text-dark-red mt-6 text-sm">خدمات ویژه پی سی کالا :</p>
 
-                            <div className="flex items-center gap-1">
-                                <input name="inshurance" type="checkbox" />
-                                <label htmlFor="inshurance">گارانتی طلایی پی سی کالا (پس انداز اندک برای حسرت های
-                                    ناگهانی) <span className="text-blue-white mx-1">10,602,042 تومان</span></label>
-                            </div>
+                            <div className="text-[12px] ch:my-3 ch:text-description-text">
 
-                            <div className="flex items-center gap-1">
-                                <input name="windows" type="checkbox" />
-                                <label htmlFor="windows">نصب ویندوز حرفه ای کار هرکسی نیست ، تیکو بزن . <span
-                                    className="text-blue-white mx-1">500,000 تومان</span> </label>
-                            </div>
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        onChange={e => productServicesUpdater(e.target.checked, 'بیمه محصول', 1500000)}
+                                        name="insurance"
+                                        type="checkbox"
+                                    />
+                                    <label htmlFor="insurance">گارانتی طلایی پی سی کالا (پس انداز اندک برای حسرت های ناگهانی) <span className="text-blue-white mx-1">1,500,000 تومان</span></label>
+                                </div>
 
-                            <div className="flex items-center gap-1">
-                                <input name="windows-org" type="checkbox" />
-                                <label htmlFor="windows-org">ویندوز اورجینال (لایسنس 1 ساله)<span
-                                    className="text-blue-white mx-1">2,500,000 تومان</span> </label>
-                            </div>
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        onChange={e => productServicesUpdater(e.target.checked, 'نصب ویندوز', 500000)}
+                                        name="windows"
+                                        type="checkbox"
+                                    />
+                                    <label htmlFor="windows">نصب ویندوز حرفه ای کار هرکسی نیست ، تیکو بزن . <span className="text-blue-white mx-1">500,000 تومان</span> </label>
+                                </div>
 
-                            <div className="flex items-center gap-1">
-                                <input name="anti-virus" type="checkbox" />
-                                <label htmlFor="anti-virus"> نصب آنتی ویروس<span className="text-blue-white mx-1">150,000 تومان</span>
-                                </label>
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        onChange={e => productServicesUpdater(e.target.checked, 'نصب ویندوز اورجینال', 2500000)}
+                                        name="windows-org"
+                                        type="checkbox"
+                                    />
+                                    <label htmlFor="windows-org">ویندوز اورجینال (لایسنس 1 ساله)<span className="text-blue-white mx-1">2,500,000 تومان</span> </label>
+                                </div>
+
+                                <div className="flex items-center gap-1">
+                                    <input
+                                        onChange={e => productServicesUpdater(e.target.checked, 'نصب انتی ویروس', 150000)}
+                                        name="anti-virus"
+                                        type="checkbox"
+                                    />
+                                    <label htmlFor="anti-virus"> نصب آنتی ویروس<span className="text-blue-white mx-1">150,000 تومان</span></label>
+                                </div>
+
                             </div>
                         </div>
 
-                        <div>
 
-                            <div className="flex items-center gap-3 text-title-text text-2xl mt-10">
-                                {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-Ir')}</div>}
-                                <div className="text-blue-white">{priceDiscountCalculator(+price, +discount)}<span className="text-description-text text-xl"> تومان</span></div>
+                        <div className="">
+
+                            <div className="flex items-center gap-3 text-title-text text-2xl xl:mt-10 mt-8">
+                                {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-IR')}</div>}
+                                <div className="text-blue-white">{totalPriceCalculator(+price, +discount, 1, productServices, false).toLocaleString('fa-IR')}<span className="text-description-text text-xl"> تومان</span></div>
                             </div>
 
                             {
@@ -381,7 +410,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                                         <Button
                                             text="افزودن به سبد خرید"
-                                            fn={() => addProductToBasket(data._id, _id, productCount, dispatch)}
+                                            fn={() => addProductToBasket(data._id, _id, productCount, dispatch, productServices)}
                                             Icon={<MdAddShoppingCart />}
                                             filled
                                         />
@@ -480,7 +509,9 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                                     <div className={`flex-1 mb-auto`}>
 
-                                        <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “{name}”</p>
+                                        {
+                                            productComments?.length ? null : <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “{name}”</p>
+                                        }
 
                                         {
                                             !isLogin ?
@@ -494,7 +525,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                                                         <div className="flex items-center gap-1 justify-evenly">
                                                             <div>امتیاز شما:</div>
-                                                            <div className="flex items-center gap-1 ch:size-6">{userRates}</div>
+                                                            <div className="flex items-center gap-1 ch:size-5">{userRates}</div>
                                                         </div>
                                                     </div>
 

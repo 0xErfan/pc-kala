@@ -1,7 +1,7 @@
 import { FaHeart } from "react-icons/fa";
 import { CiShoppingBasket } from "react-icons/ci";
 import Link from "next/link";
-import { addProductToBasket, addWish, priceDiscountCalculator, showToast } from "../utils";
+import { addProductToBasket, addWish, showToast } from "../utils";
 import Image from "next/image";
 import { BsGpuCard } from "react-icons/bs";
 import { HiOutlineCpuChip } from "react-icons/hi2";
@@ -16,7 +16,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
 
     const { data, relatedData }: { data: unknownObjProps<number> } = useAppSelector(state => state.userSlice) || {}
     const { discount, price, name, category, specs, _id } = productProps || {}
-    const priceAfterOff = priceDiscountCalculator(price as number, discount as number)
+    const priceAfterOff = price - (price * (discount / 100))
 
     const dispatch = useAppDispatch()
 

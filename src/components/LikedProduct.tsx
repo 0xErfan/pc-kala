@@ -1,7 +1,7 @@
 import Link from "next/link"
 import Button from "./Button"
 import { IoTrashOutline } from "react-icons/io5"
-import { addWish, priceDiscountCalculator } from "@/utils"
+import { addWish } from "@/utils"
 import Image from "next/image"
 import { unknownObjProps } from "@/global.t"
 import { useAppDispatch } from "@/Hooks/useRedux"
@@ -15,7 +15,7 @@ interface likeProductProps {
 const LikedProduct = ({ productID, creator }: likeProductProps) => {
 
     const { price, discount, image, _id, name } = productID
-    const priceAfterDiscount = priceDiscountCalculator(price as number, discount as number)
+    const priceAfterDiscount = price - (price * (discount / 100))
     const dispatch = useAppDispatch()
 
     return (
