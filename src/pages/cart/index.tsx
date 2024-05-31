@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Progress from "@/components/Progress";
 import { useAppSelector } from "@/Hooks/useRedux";
 import { useMemo } from "react";
-import { showToast } from "@/utils";
+import { showToast, totalPriceCalculator } from "@/utils";
 import { useRouter } from "next/router";
 
 const Card = () => {
@@ -17,9 +17,10 @@ const Card = () => {
 
         const sumOfPrices = { sumOfProductsWithoutDiscount: 0, sumOfProductsWithDiscount: 0 }
 
-        BasketItem?.map(data => {
-            sumOfPrices.sumOfProductsWithoutDiscount += (data.productID.price * data.count)
-            sumOfPrices.sumOfProductsWithDiscount += ((data.productID.price - (data.productID.price * data.productID.discount / 100)) * data.count)
+        BasketItem?.map(({ productID, count, services }) => {
+
+            sumOfPrices.sumOfProductsWithoutDiscount += (totalPriceCalculator(productID.price, productID.discount, count, services, false))
+            sumOfPrices.sumOfProductsWithDiscount += (totalPriceCalculator(productID.price, productID.discount, count, services))
         })
 
         return sumOfPrices
@@ -45,14 +46,14 @@ const Card = () => {
                                 {
                                     BasketItem?.length
                                         ?
-                                        BasketItem?.map(data => {
+                                        BasketItem.map(({ productID, count, services }) => {
                                             return <ProductCart
-                                                key={data._id}
-                                                title={data.productID.name}
-                                                count={data.count}
-                                                price={data.productID.price.toLocaleString('fa-Ir')}
-                                                finalPrice={(data.productID.price * data.count).toLocaleString('fa-Ir')}
-                                                id={data.productID._id}
+                                                key={productID._id}
+                                                title={productID.name}
+                                                count={count}
+                                                price={totalPriceCalculator(productID.price, productID.discount, 1, services, false)}
+                                                finalPrice={totalPriceCalculator(productID.price, productID.discount, count, services, false)}
+                                                id={productID._id}
                                                 src="/images/laptop-default.webp"
                                             />
                                         })
@@ -69,7 +70,7 @@ const Card = () => {
                                         <thead>
                                             <tr className="bg-primary-black w-full ch:p-5">
                                                 <th className="max-w-full w-full">محصول</th>
-                                                <th className="min-w-[120px]">قیمت</th>
+                                                <th className="min-w-[140px] whitespace-nowrap">قیمت(بدون تخفیف)</th>
                                                 <th className="min-w-[60px]">تعداد</th>
                                                 <th className="min-w-[120px]">جمع کل</th>
                                             </tr>
@@ -82,14 +83,14 @@ const Card = () => {
                                     {
                                         BasketItem?.length
                                             ?
-                                            BasketItem?.map(data => {
+                                            BasketItem.map(({ productID, count, services }) => {
                                                 return <ProductCart
-                                                    key={data._id}
-                                                    title={data.productID.name}
-                                                    count={data.count}
-                                                    price={data.productID.price.toLocaleString('fa-Ir')}
-                                                    finalPrice={(data.productID.price * data.count).toLocaleString('fa-Ir')}
-                                                    id={data.productID._id}
+                                                    key={productID._id}
+                                                    title={productID.name}
+                                                    count={count}
+                                                    price={totalPriceCalculator(productID.price, productID.discount, 1, services, false)}
+                                                    finalPrice={totalPriceCalculator(productID.price, productID.discount, count, services, false)}
+                                                    id={productID._id}
                                                     src="/images/laptop-default.webp"
                                                 />
                                             })

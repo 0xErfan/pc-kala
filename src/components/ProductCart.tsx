@@ -8,7 +8,7 @@ import { useState } from "react"
 
 export interface ProductCartProps {
     price: number
-    finalPrice: string
+    finalPrice: number
     count: number
     title: string
     src?: string
@@ -67,12 +67,27 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
             <tr className="border-y w-full isHidden border-gold/30 text-[13px] ch:border-l ch:border-dark-gold ch:last:border-l-none">
 
                 <td className="flex ch:border-l ch:border-dark-gold">
-                    <div onClick={() => removeProductFromBasket(id, data?._id).then(() => dispatch(userUpdater()))} className="flex-1 cursor-pointer flex-center border-r border-dark-gold"><IoClose className="size-6 rounded-sm bg-primary-black p-1" /></div>
-                    <div className="flex-[2] size-20"><Image width={400} height={400} alt={title} className="object-cover size-full p-1" src={src as string} /></div>
+
+                    <div
+                        onClick={() => removeProductFromBasket(id, data?._id).then(() => dispatch(userUpdater()))}
+                        className="flex-1 cursor-pointer flex-center border-r border-dark-gold"><IoClose className="size-6 rounded-sm bg-primary-black p-1"
+                        />
+                    </div>
+
+                    <div className="flex-[2] size-20">
+                        <Image
+                            width={400}
+                            src={src as string}
+                            height={400}
+                            alt={title}
+                            className="object-cover size-full p-1"
+                        />
+                    </div>
+
                     <Link href={`/products/search/${id}`} className="flex-[8] hover:text-blue-white transition-all duration-200 cursor-pointer h-full m-auto text-title-text px-2 last:border-none">{title}</Link>
                 </td>
 
-                <td><span className="text-white-red">{price}</span> تومان</td>
+                <td><span className="text-white-red">{price.toLocaleString('fa-IR')}</span> تومان</td>
 
                 <td>
                     <div className="flex items-center flex-col gap-2">
@@ -84,7 +99,7 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
                     </div>
                 </td>
 
-                <td><span className="text-white-red">{finalPrice}</span> تومان</td>
+                <td><span className="text-white-red">{finalPrice.toLocaleString('fa-IR')}</span> تومان</td>
             </tr>
         </>
     )
