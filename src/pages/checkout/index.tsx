@@ -18,7 +18,7 @@ interface TableDataProps {
 const TableData = ({ title, children }: TableDataProps) => {
     return (
         <tr className={"border border-gray-600 bg-primary-black"}>
-            <td className={`p-4 text-[12px] text-white`}>{title}</td>
+            <td className={`p-3 text-[12px] text-white`}>{title}</td>
             <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>{children}</td>
         </tr>
     )
@@ -97,8 +97,8 @@ const Checkout = () => {
 
                 <Progress />
 
-                <div className="container bg-secondary-black rounded-md p-4">
-                    <div className="flex overflow-hidden flex-col lg:flex-row items-center gap-4">
+                <div className="container bg-secondary-black rounded-md p-3">
+                    <div className="flex overflow-hidden flex-col lg:flex-row items-center gap-3">
 
                         <div data-aos-duration="550" data-aos="fade-left" className="flex-1 w-full mb-auto">
                             <h3 className="text-white py-8">جزئیات صورتحساب</h3>
@@ -106,23 +106,28 @@ const Checkout = () => {
                                 <Input fn={inputUpdater} name="name" title="نام" />
                                 <Input fn={inputUpdater} name="lName" title="نام خانوادگی" />
                                 <Input fn={inputUpdater} name="ostan" title="استان">
-                                    <option disabled value={0} selected>شهر مورد نظر را انتخاب کنید</option>
-                                    <option value="tehe">تهران</option>
-                                    <option value="kh">خراسان رضوی</option>
-                                    <option value="esf">اصفهان</option>
-                                    <option value="shrz">شیراز</option>
+                                    <option disabled value={0} selected>استان مورد نظر را انتخاب کنید</option>
+                                    <option value="نهران">تهران</option>
+                                    <option value="خراسان رضوی">خراسان رضوی</option>
+                                    <option value="اصفهان">اصفهان</option>
+                                    <option value="شیراز">شیراز</option>
                                 </Input>
                                 <Input fn={inputUpdater} name="province" title="خیابان" />
                                 <Input fn={inputUpdater} name="codePost" title="کد پستی (ده رقمی)" />
                                 <Input fn={inputUpdater} name="phoneNum" title="شماره موبایل" type="number" placeHolder="09123456789" />
                                 <Input fn={inputUpdater} name="email" title="پست الکترونیک (اختیاری)" required={false} type="email" placeHolder={"gmail.com@"} />
                             </div>
-                            <div className="flex justify-center text-[13px] text-description-text mt-4 gap-4 flex-col">
+
+                            <div className="flex justify-center text-[13px] text-description-text mt-4 gap-3 flex-col">
+
                                 <p>توضیحات سفارش (اختیاری)</p>
+
                                 <textarea onChange={e => inputUpdater("orderDetails", e.target.value)}
                                     className="appearance w-full placeholder:text-[12px] h-[80px] max-h-[200px] bg-primary-black outline-none border rounded-md border-white/20 p-2"
                                     placeholder="یادداشت‌ها درباره سفارش شما، برای مثال نکات مهم درباره نحوه تحویل سفارش"
-                                    cols={30} rows={10}></textarea>
+                                    cols={30} rows={10}>
+                                </textarea>
+
                             </div>
                         </div>
 
@@ -133,7 +138,7 @@ const Checkout = () => {
 
                                 <thead className="bg-primary-black text-[12px]">
                                     <tr>
-                                        <td className={`p-4`}>محصول</td>
+                                        <td className={`p-3`}>محصول</td>
                                         <td>قیمت</td>
                                     </tr>
                                 </thead>
@@ -145,7 +150,7 @@ const Checkout = () => {
 
                                             <tr key={_id} className={"border border-gray-600"}>
 
-                                                <td className={`p-4 text-[12px] text-[#8b8b8b]`}>
+                                                <td className={`p-3 text-[12px] text-[#8b8b8b]`}>
                                                     <div className="text-description-text text-[13px]">{productID.name}</div>
                                                     <span>{`(${Object.keys(services).join(' - ')})`}</span>
                                                     <span dir="ltr"> x </span>

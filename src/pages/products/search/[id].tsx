@@ -9,7 +9,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { BsFilterLeft } from "react-icons/bs";
 import { GrGroup } from "react-icons/gr";
 import Button from "@/components/Button";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Header from "@/components/Header";
@@ -84,26 +84,55 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
         }, 800); // just debounce so user don't spam 😂🤔
     }
 
-    const productServicesUpdater = (value: boolean, title: string, price: number) => {
-        if (value) {
-            setProductServices(prev => ({ ...prev, [title]: price }))
-        } else {
-            delete productServices[title]
-            setProductServices({ ...productServices })
-        }
-    }
-
     const breadCrumbData = [
         { text: "لپتاپ", link: "/products/category/laptop" },
         { text: name },
     ]
 
     const isProductInBasket = useMemo(() => {
+
         return relatedData?.BasketItem?.some(data => {
-            if (data.productID._id == _id) { setProductCount(data.count); return true }
+
+            if (data.productID._id == _id) {
+                setProductCount(data.count)
+                setProductServices({ ...data.services, 'گارانتی ۱۸ ماهه پیسی کالا': 0 })
+                return true
+            }
             setProductCount(1)
         })
     }, [relatedData?.BasketItem, _id])
+
+    const productServicesUpdater = useCallback((value: boolean, title: string, price: number) => {
+
+        if (isUpdating) return // prevent user spam (good for clown ones 🤡😂)
+
+        if (isProductInBasket) {
+
+            setIsUpdating(true)
+            // Conditionally update or remove the property based on the value
+            let updatedProductServices;
+
+            if (value) {
+                updatedProductServices = { ...productServices, [title]: value };
+            } else {
+                updatedProductServices = { ...productServices };
+                delete updatedProductServices[title];
+            }
+
+            setTimeout(() => {
+                addProductToBasket(data._id, _id, productCount, dispatch, updatedProductServices)
+                    .then(() => { dispatch(userUpdater()); return setIsUpdating(false) })
+            }, 800);
+        }
+
+        if (value) {
+            setProductServices(prev => ({ ...prev, [title]: price }))
+        } else {
+            delete productServices[title]
+            setProductServices({ ...productServices })
+        }
+
+    }, [productServices, isProductInBasket]);
 
     const addNewComment = async () => {
 
@@ -327,36 +356,44 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                                 <div className="flex items-center gap-1">
                                     <input
+                                        checked={Object.keys(productServices)?.some(key => key == 'بیمه محصول')}
                                         onChange={e => productServicesUpdater(e.target.checked, 'بیمه محصول', 1500000)}
                                         name="insurance"
                                         type="checkbox"
+                                        className={`${isUpdating && 'cursor-wait'}`}
                                     />
                                     <label htmlFor="insurance">گارانتی طلایی پی سی کالا (پس انداز اندک برای حسرت های ناگهانی) <span className="text-blue-white mx-1">1,500,000 تومان</span></label>
                                 </div>
 
                                 <div className="flex items-center gap-1">
                                     <input
+                                        checked={Object.keys(productServices)?.some(key => key == 'نصب ویندوز')}
                                         onChange={e => productServicesUpdater(e.target.checked, 'نصب ویندوز', 500000)}
                                         name="windows"
                                         type="checkbox"
+                                        className={`${isUpdating && 'cursor-wait'}`}
                                     />
                                     <label htmlFor="windows">نصب ویندوز حرفه ای کار هرکسی نیست ، تیکو بزن . <span className="text-blue-white mx-1">500,000 تومان</span> </label>
                                 </div>
 
                                 <div className="flex items-center gap-1">
                                     <input
+                                        checked={Object.keys(productServices)?.some(key => key == 'نصب ویندوز اورجینال')}
                                         onChange={e => productServicesUpdater(e.target.checked, 'نصب ویندوز اورجینال', 2500000)}
                                         name="windows-org"
                                         type="checkbox"
+                                        className={`${isUpdating && 'cursor-wait'}`}
                                     />
                                     <label htmlFor="windows-org">ویندوز اورجینال (لایسنس 1 ساله)<span className="text-blue-white mx-1">2,500,000 تومان</span> </label>
                                 </div>
 
                                 <div className="flex items-center gap-1">
                                     <input
+                                        checked={Object.keys(productServices)?.some(key => key == 'نصب انتی ویروس')}
                                         onChange={e => productServicesUpdater(e.target.checked, 'نصب انتی ویروس', 150000)}
                                         name="anti-virus"
                                         type="checkbox"
+                                        className={`${isUpdating && 'cursor-wait'}`}
                                     />
                                     <label htmlFor="anti-virus"> نصب آنتی ویروس<span className="text-blue-white mx-1">150,000 تومان</span></label>
                                 </div>
@@ -365,11 +402,11 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                         </div>
 
 
-                        <div className="">
+                        <div>
 
                             <div className="flex items-center gap-3 text-title-text text-2xl xl:mt-10 mt-8">
                                 {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-IR')}</div>}
-                                <div className="text-blue-white">{totalPriceCalculator(+price, +discount, 1, productServices, false).toLocaleString('fa-IR')}<span className="text-description-text text-xl"> تومان</span></div>
+                                <div className="text-blue-white">{totalPriceCalculator(+price, +discount, 1, productServices, true).toLocaleString('fa-IR')}<span className="text-description-text text-xl"> تومان</span></div>
                             </div>
 
                             {
