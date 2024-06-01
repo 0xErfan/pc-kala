@@ -7,13 +7,16 @@ import { unknownObjProps } from "@/global.t"
 import { transactionModel } from "@/models/Transactions"
 import { totalPriceCalculator } from "@/utils"
 import { GetServerSidePropsContext } from "next"
+import { IoIosArrowDown } from "react-icons/io";
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 
 const SuccessPurchase = ({ transactionData }: unknownObjProps<string | number>) => {
 
     const navigate = useRouter()
+
+    const [showMoreShown, setShowMoreShown] = useState(false)
 
     const sumOfProductsWithDiscount = useMemo(() => {
         let sum = 0
@@ -87,6 +90,54 @@ const SuccessPurchase = ({ transactionData }: unknownObjProps<string | number>) 
                                 <p className="font-sans">{'ایران - ' + transactionData?.customerData.ostan + ' - ' + transactionData?.customerData.province}</p>
                             </div>
 
+                            {
+                                showMoreShown
+                                    ?
+                                    <>
+                                        <div className="font-bold flex justify-between">
+                                            <p>کد پستی: </p>
+                                            <p className="font-sans">{transactionData?.customerData.codePost}</p>
+                                        </div>
+
+                                        <div className="font-bold flex justify-between">
+                                            <p>شماره موبایل: </p>
+                                            <p className="font-sans">{transactionData?.customerData.phoneNum}</p>
+                                        </div>
+
+                                        <div className="font-bold flex justify-between">
+                                            <p>ایمیل: </p>
+                                            <p className="font-sans">{transactionData?.customerData?.email || 'ایمیل یافت نشد'}</p>
+                                        </div>
+
+                                        <div className="font-bold flex justify-between">
+                                            <p>توضیحات: </p>
+                                            <p className="font-sans">{transactionData?.customerData?.orderDetails || 'توضیحات یافت نشد'}</p>
+                                        </div>
+                                    </>
+                                    : null
+                            }
+
+                            <div onClick={() => setShowMoreShown(prev => !prev)} className="inline-flex w-1/3 m-auto rounded-md gap-2 text-center justify-center items-center p-1 text-md text-white-red cursor-pointer hover:bg-white-red hover:text-white transition-all">
+                                <div>مشاهده <span>{showMoreShown ? 'کمتر' : 'بیشتر'}</span></div>
+                                <IoIosArrowDown className={`size-5 ${showMoreShown && 'rotate-180'} transition-all duration-300 `} />
+                            </div>
+
+                        </div>
+
+                        <div className="flex flex-col items-center justify-center gap-3 w-full ch:w-full">
+
+                            <div className="flex items-center gap-3 m-auto mt-0 justify-start w-full ch:w-full">
+                                <Button fn={() => navigate.replace('/profile?menu=orders')} text="مشاهده پروفایل " filled />
+                                <Button fn={() => navigate.replace('/')} text="بازگشت به خانه" />
+                            </div>
+
+                            {
+                                transactionData?.status == 'PROCESSING'
+                                    ?
+                                    <Button fn={() => navigate.replace('/')} text="لغو سفارش" />
+                                    : null
+                            }
+                            
                         </div>
 
                     </div>
@@ -110,11 +161,6 @@ const SuccessPurchase = ({ transactionData }: unknownObjProps<string | number>) 
                                 <p className="text-gold/75">مجموع: </p>
                                 <div className="text-description-text font-sans font-bold mt-1"> <span>{sumOfProductsWithDiscount.toLocaleString('fa-IR')}</span> تومان </div>
                             </div>
-                        </div>
-
-                        <div className="flex items-center gap-3 m-auto mt-3 justify-start w-full">
-                            <Button fn={() => navigate.replace('/profile?menu=orders')} text="مشاهده پروفایل " filled />
-                            <Button fn={() => navigate.replace('/')} text="خانه" />
                         </div>
 
                     </div>
