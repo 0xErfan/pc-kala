@@ -2,6 +2,7 @@ import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
 import { categories, unknownObjProps } from "./global.t"
 import { userUpdater } from "./Redux/Features/globalVarsSlice"
+import productsSlice from "./Redux/Features/productsSlice"
 
 export interface productOffTimerProps {
     hours: number | string
@@ -243,13 +244,15 @@ const removeProductFromBasket = async (productID: string, userID: string) => {
     }
 }
 
-const addProductToBasket = async (userID, productID, count, dispatch, productServices = {}) => {
+const addProductToBasket = async (userID, productID, count, dispatch, productServices = { 'گارانتی ۱۸ ماهه پیسی کالا': 0 }) => {
 
     const res = await fetch('/api/basket/add', {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userID, productID, count: count ?? null, services: productServices })
     })
+
+    console.log(productServices)
 
     const finalData = await res.json()
 

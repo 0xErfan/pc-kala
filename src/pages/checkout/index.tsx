@@ -152,7 +152,7 @@ const Checkout = () => {
 
                                                 <td className={`p-3 text-[12px] text-[#8b8b8b]`}>
                                                     <div className="text-description-text text-[13px]">{productID.name}</div>
-                                                    <span>{`(${Object.keys(services).join(' - ')})`}</span>
+                                                    <span>{`(${services ? Object.keys(services).join(' - ') : ''})`}</span>
                                                     <span dir="ltr"> x </span>
                                                     <span className="text-white-red" >{count}</span>
                                                 </td>
