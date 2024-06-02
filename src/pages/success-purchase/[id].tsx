@@ -250,7 +250,7 @@ const UserOrder = ({ productID, count, services }) => {
                 </div>
 
                 <div className="flex-[4] mb-auto">
-                    <p className="text-title-text text-md">{productID.name}</p>
+                    <p className="text-title-text text-md">{productID.name} <span className="text-[12px] text-description-text">({Object.keys(services)?.join(', ')} )</span> </p>
                 </div>
 
             </div>

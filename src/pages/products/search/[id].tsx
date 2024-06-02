@@ -447,7 +447,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                                         <Button
                                             text="افزودن به سبد خرید"
-                                            fn={() => addProductToBasket(data._id, _id, productCount, dispatch, productServices)}
+                                            fn={() => { isLogin ? addProductToBasket(data._id, _id, productCount, dispatch, productServices) : showToast(false, 'ابتدا وارد حساب خود شوید')}}
                                             Icon={<MdAddShoppingCart />}
                                             filled
                                         />

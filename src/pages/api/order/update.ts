@@ -16,9 +16,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!key || !value || !transactionID) return res.status(422).json({ message: 'all needed data to update the transaction did not received' })
 
         const updatedTransaction = await transactionModel.findOneAndUpdate({ _id: transactionID }, { [key]: value })
-        await NotificationModel.create({ userID: updatedTransaction.userID, body: 'سفارش شما با موفقیت لغو شد 🥲' })
+        await NotificationModel.create({ userID: updatedTransaction.userID, body: `سفارش شما با کد ${transactionID.slice(-6, -1).toUpperCase()}  با موفقیت لغو شد 🥲‍` })
 
-        return res.status(200).json({ message: 'سفارش شما با موفقیت لغو شد' })
+        return res.status(200).json({ message: `سفارش شما با موفقیت لغو شد` })
 
     } catch (err) {
         console.log(err)

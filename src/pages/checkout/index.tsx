@@ -69,13 +69,13 @@ const Checkout = () => {
             })
             const resData = await res.json()
 
-            setTimeout(() => { // just some fake delay so user see the loading process :)
+            setTimeout(async () => { // just some fake delay so user see the loading process :)
                 showToast(res.ok, resData.message)
 
                 if (res.ok) {
                     dispatch(userUpdater())
-                    navigate.replace(`/success-purchase/${resData.transaction._id}`)
                     setIsLoading(false)
+                    setTimeout(() => { navigate.replace(`/success-purchase/${resData.transaction._id}`) }, 200); // a little time for redux updating
                 }
 
                 setIsLoading(false)
