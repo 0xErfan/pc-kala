@@ -2,21 +2,66 @@ import Button from "@/components/Button"
 import Footer from "@/components/Footer"
 import Header from "@/components/Header"
 import Progress from "@/components/Progress"
-import connectToDB from "@/config/db"
-import { unknownObjProps } from "@/global.t"
-import { transactionModel } from "@/models/Transactions"
-import { totalPriceCalculator } from "@/utils"
-import { GetServerSidePropsContext } from "next"
+import { showToast, totalPriceCalculator } from "@/utils"
 import { IoIosArrowDown } from "react-icons/io";
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
+import Loader from "@/components/Loader"
+import { unknownObjProps } from "@/global.t"
+import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 
-const SuccessPurchase = ({ transactionData }: unknownObjProps<string | number>) => {
+const SuccessPurchase = () => {
 
     const navigate = useRouter()
+    const dispatch = useAppDispatch()
 
+    const { Transaction }: unknownObjProps<string | number>[] | {} = useAppSelector(state => state.userSlice.relatedData) || {}
+
+    const [transactionData, setTransactionData] = useState(Transaction)
     const [showMoreShown, setShowMoreShown] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+
+        if (!Transaction) return // waiting for redux to get the transaction data
+
+        const getTransaction = Transaction?.find(data => data._id == navigate.query?.id)
+
+        if (!getTransaction) navigate.replace('/') // if user change the route id with an invalid one
+
+        setTransactionData(getTransaction)
+
+    }, [Transaction, navigate.query?.id])
+
+    const cancelTransaction = async () => {
+
+        try {
+
+            if (isLoading) return
+
+            setIsLoading(true)
+
+            const res = await fetch('/api/order/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: 'status', value: 'CANCELED', transactionID: transactionData?._id })
+            })
+
+            const data = await res.json()
+
+            setTimeout(async () => {
+                showToast(res.ok, data.message)
+                dispatch(userUpdater())
+                setIsLoading(false)
+            }, 700);
+
+        } catch (error) {
+            console.log(error)
+            setIsLoading(false)
+        }
+    }
 
     const sumOfProductsWithDiscount = useMemo(() => {
         let sum = 0
@@ -34,138 +79,148 @@ const SuccessPurchase = ({ transactionData }: unknownObjProps<string | number>) 
 
                 <Progress />
 
-                <div className="flex gap-5">
+                {
+                    !transactionData ? <div className="bg-red-900"></div>
+                        :
+                        <div className="flex gap-5">
 
-                    <div className="flex-1 ch:bg-secondary-black ch:p-3 gap-1 flex flex-col ch:rounded-sm">
+                            <div className="flex-1 ch:bg-secondary-black ch:p-3 gap-1 flex flex-col ch:rounded-sm">
 
-                        <div className="text-[13px] flex flex-col gap-4 text-description-text">
+                                <div className="text-[13px] flex flex-col gap-4 text-description-text">
 
-                            <h3 className="text-center font-peyda text-xl text-gold pb-3">اطلاعات سفارش</h3>
+                                    <h3 className="text-center font-peyda text-xl text-gold pb-3">اطلاعات سفارش</h3>
 
-                            <div className="flex justify-between">
+                                    <div className="flex justify-between">
 
-                                <p className="font-peyda text-md">وضعیت سفارش:</p>
+                                        <p className="font-peyda text-md">وضعیت سفارش:</p>
 
-                                <p className={`${transactionData?.status == 'PROCESSING' ? 'text-dark-gold/70' : transactionData?.status == 'DELIVERED' ? 'text-green' : 'text-white-red'}`}>
+                                        <p className={`${transactionData?.status == 'PROCESSING' ? 'text-dark-gold/70' : transactionData?.status == 'DELIVERED' ? 'text-green' : 'text-white-red'}`}>
+                                            {
+                                                transactionData?.status == 'DELIVERED'
+                                                    ?
+                                                    'ارسال موفق'
+                                                    :
+                                                    transactionData?.status == 'PROCESSING'
+                                                        ?
+                                                        'درحال ارسال'
+                                                        :
+                                                        'لغو شده'
+                                            }
+                                        </p>
+                                    </div>
+
+                                    <div className="flex justify-between">
+                                        <p className="font-peyda text-md">کد سفارش:</p>
+                                        <p dir="ltr">#{transactionData?._id?.slice(-6, -1).toUpperCase()}</p>
+                                    </div>
+
+                                    <div className="flex justify-between">
+                                        <p className="font-peyda text-md">وضعیت پرداخت:</p>
+                                        <p>تسویه شده</p>
+                                    </div>
+
+                                    <div className="flex justify-between">
+                                        <p className="font-peyda text-md">جمع خرید:</p>
+                                        <p> {sumOfProductsWithDiscount.toLocaleString('fa-IR')} تومان </p>
+                                    </div>
+
+                                </div>
+
+                                <div className="text-[13px] flex flex-col gap-4 text-description-text font-peyda">
+
+                                    <div className="font-bold flex justify-between">
+                                        <p>نام و نام خانوادگی: </p>
+                                        <p className="font-sans">{transactionData?.customerData?.name + ' ' + transactionData?.customerData?.lName}</p>
+                                    </div>
+
+                                    <div className="font-bold flex justify-between">
+                                        <p>ادرس: </p>
+                                        <p className="font-sans">{'ایران - ' + transactionData?.customerData?.ostan + ' - ' + transactionData?.customerData?.province}</p>
+                                    </div>
+
                                     {
-                                        transactionData?.status == 'DELIVERED'
+                                        showMoreShown
                                             ?
-                                            'ارسال موفق'
-                                            :
-                                            transactionData?.status == 'PROCESSING'
-                                                ?
-                                                'درحال ارسال'
-                                                :
-                                                'مرجوع شده'
+                                            <>
+                                                <div className="font-bold flex justify-between">
+                                                    <p>کد پستی: </p>
+                                                    <p className="font-sans">{transactionData?.customerData.codePost}</p>
+                                                </div>
+
+                                                <div className="font-bold flex justify-between">
+                                                    <p>شماره موبایل: </p>
+                                                    <p className="font-sans">{transactionData?.customerData.phoneNum}</p>
+                                                </div>
+
+                                                <div className="font-bold flex justify-between">
+                                                    <p>ایمیل: </p>
+                                                    <p className="font-sans">{transactionData?.customerData?.email || 'ایمیل یافت نشد'}</p>
+                                                </div>
+
+                                                <div className="font-bold flex justify-between">
+                                                    <p>توضیحات: </p>
+                                                    <p className="font-sans">{transactionData?.customerData?.orderDetails || 'توضیحات یافت نشد'}</p>
+                                                </div>
+                                            </>
+                                            : null
                                     }
-                                </p>
+
+                                    <div onClick={() => setShowMoreShown(prev => !prev)} className="inline-flex w-1/3 m-auto rounded-md gap-2 text-center justify-center items-center p-1 text-md text-white-red cursor-pointer hover:bg-white-red hover:text-white transition-all">
+                                        <div>مشاهده <span>{showMoreShown ? 'کمتر' : 'بیشتر'}</span></div>
+                                        <IoIosArrowDown className={`size-5 ${showMoreShown && 'rotate-180'} transition-all duration-300 `} />
+                                    </div>
+
+                                </div>
+
+                                <div className="flex flex-col items-center justify-center gap-3 w-full ch:w-full">
+
+                                    <div className="flex items-center gap-3 m-auto mt-0 justify-start w-full ch:w-full">
+                                        <Button fn={() => navigate.replace('/profile?menu=orders')} text="مشاهده پروفایل " />
+                                        <Button fn={() => navigate.replace('/')} text="بازگشت به خانه" />
+                                    </div>
+
+                                    {
+                                        transactionData?.status == 'PROCESSING'
+                                            ?
+                                            <Button
+                                                fn={cancelTransaction}
+                                                Icon={isLoading ? <Loader /> : <></>}
+                                                text={isLoading ? '' : "لغو سفارش"}
+                                                filled
+                                            />
+                                            : null
+                                    }
+
+                                </div>
+
                             </div>
 
-                            <div className="flex justify-between">
-                                <p className="font-peyda text-md">کد سفارش:</p>
-                                <p dir="ltr">#{transactionData?._id.slice(-6, -1).toUpperCase()}</p>
-                            </div>
+                            <div className="flex-[2]  rounded-sm space-y-2">
 
-                            <div className="flex justify-between">
-                                <p className="font-peyda text-md">وضعیت پرداخت:</p>
-                                <p>تسویه شده</p>
-                            </div>
+                                {
+                                    transactionData?.productsList?.length
+                                    &&
+                                    transactionData?.productsList.map(data => <UserOrder key={data.productID._id} {...data} />)
+                                }
 
-                            <div className="flex justify-between">
-                                <p className="font-peyda text-md">جمع خرید:</p>
-                                <p> {sumOfProductsWithDiscount.toLocaleString('fa-IR')} تومان </p>
-                            </div>
+                                <div className="border p-3 border-gray-500 rounded-sm flex justify-between font-peyda">
 
-                        </div>
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-gold/75">کد سفارش: </p>
+                                        <p dir="ltr" className="text-description-text font-bold"> # {transactionData?._id?.slice(-6, -1).toUpperCase()}</p>
+                                    </div>
 
-                        <div className="text-[13px] flex flex-col gap-4 text-description-text font-peyda">
+                                    <div className="flex items-center gap-2">
+                                        <p className="text-gold/75">مجموع: </p>
+                                        <div className="text-description-text font-sans font-bold mt-1"> <span>{sumOfProductsWithDiscount.toLocaleString('fa-IR')}</span> تومان </div>
+                                    </div>
+                                </div>
 
-                            <div className="font-bold flex justify-between">
-                                <p>نام و نام خانوادگی: </p>
-                                <p className="font-sans">{transactionData?.customerData.name + ' ' + transactionData?.customerData.lName}</p>
-                            </div>
-
-                            <div className="font-bold flex justify-between">
-                                <p>ادرس: </p>
-                                <p className="font-sans">{'ایران - ' + transactionData?.customerData.ostan + ' - ' + transactionData?.customerData.province}</p>
-                            </div>
-
-                            {
-                                showMoreShown
-                                    ?
-                                    <>
-                                        <div className="font-bold flex justify-between">
-                                            <p>کد پستی: </p>
-                                            <p className="font-sans">{transactionData?.customerData.codePost}</p>
-                                        </div>
-
-                                        <div className="font-bold flex justify-between">
-                                            <p>شماره موبایل: </p>
-                                            <p className="font-sans">{transactionData?.customerData.phoneNum}</p>
-                                        </div>
-
-                                        <div className="font-bold flex justify-between">
-                                            <p>ایمیل: </p>
-                                            <p className="font-sans">{transactionData?.customerData?.email || 'ایمیل یافت نشد'}</p>
-                                        </div>
-
-                                        <div className="font-bold flex justify-between">
-                                            <p>توضیحات: </p>
-                                            <p className="font-sans">{transactionData?.customerData?.orderDetails || 'توضیحات یافت نشد'}</p>
-                                        </div>
-                                    </>
-                                    : null
-                            }
-
-                            <div onClick={() => setShowMoreShown(prev => !prev)} className="inline-flex w-1/3 m-auto rounded-md gap-2 text-center justify-center items-center p-1 text-md text-white-red cursor-pointer hover:bg-white-red hover:text-white transition-all">
-                                <div>مشاهده <span>{showMoreShown ? 'کمتر' : 'بیشتر'}</span></div>
-                                <IoIosArrowDown className={`size-5 ${showMoreShown && 'rotate-180'} transition-all duration-300 `} />
                             </div>
 
                         </div>
+                }
 
-                        <div className="flex flex-col items-center justify-center gap-3 w-full ch:w-full">
-
-                            <div className="flex items-center gap-3 m-auto mt-0 justify-start w-full ch:w-full">
-                                <Button fn={() => navigate.replace('/profile?menu=orders')} text="مشاهده پروفایل " filled />
-                                <Button fn={() => navigate.replace('/')} text="بازگشت به خانه" />
-                            </div>
-
-                            {
-                                transactionData?.status == 'PROCESSING'
-                                    ?
-                                    <Button fn={() => navigate.replace('/')} text="لغو سفارش" />
-                                    : null
-                            }
-                            
-                        </div>
-
-                    </div>
-
-                    <div className="flex-[2]  rounded-sm space-y-2">
-
-                        {
-                            transactionData?.productsList?.length
-                            &&
-                            transactionData?.productsList.map(data => <UserOrder key={data.productID._id} {...data} />)
-                        }
-
-                        <div className="border p-3 border-gray-500 rounded-sm flex justify-between font-peyda">
-
-                            <div className="flex items-center gap-2">
-                                <p className="text-gold/75">کد سفارش: </p>
-                                <p dir="ltr" className="text-description-text font-bold"> # {transactionData._id.slice(-6, -1).toUpperCase()}</p>
-                            </div>
-
-                            <div className="flex items-center gap-2">
-                                <p className="text-gold/75">مجموع: </p>
-                                <div className="text-description-text font-sans font-bold mt-1"> <span>{sumOfProductsWithDiscount.toLocaleString('fa-IR')}</span> تومان </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
             </div>
 
             <Footer />
@@ -174,16 +229,6 @@ const SuccessPurchase = ({ transactionData }: unknownObjProps<string | number>) 
 }
 
 export default SuccessPurchase;
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-
-    await connectToDB()
-
-    const transactionData = await transactionModel.findOne({ _id: context.params?.id })
-    if (!transactionData) return { notFound: true }
-
-    return { props: { transactionData: JSON.parse(JSON.stringify(transactionData)) } }
-}
 
 const UserOrder = ({ productID, count, services }) => {
 

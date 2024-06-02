@@ -117,7 +117,7 @@ const Profile = () => {
                         <div className="flex flex-wrap md:flex-nowrap items-center justify-evenly gap-4 border-gray-700 p-3">
                             <OrderStatus count={processing} status="PROCESSING" text="جاری" />
                             <OrderStatus count={delivered} status="DELIVERED" text="تحویل شده" />
-                            <OrderStatus count={canceled} status="CANCELED" text="مرجوع شده" />
+                            <OrderStatus count={canceled} status="CANCELED" text="لغو شده" />
                         </div>
 
                         <div className="w-4/5 m-auto border border-gold my-2 rounded-t-xl"></div>
@@ -162,7 +162,7 @@ const Profile = () => {
                                                                         ?
                                                                         'درحال ارسال'
                                                                         :
-                                                                        'مرجوع شده'
+                                                                        'لغو شده'
                                                             }
                                                         </div>
                                                     </td>
