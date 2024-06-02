@@ -19,11 +19,12 @@ const Register = () => {
     const dispatch = useAppDispatch()
 
     const formSubmit = async (e: FormEvent) => {
+
         e.preventDefault();
 
-        if (isEmptyInput(registerFrom, ['username', 'password', 'confirmPassword', 'email'])) { showToast(false, 'لطفا تمام فیلد هارا پر کنید'); return }
-        if (formUpdater.password !== formUpdater.confirmPassword) return
-        if (inputValidationErrors.length) { showToast(false, inputValidationErrors[0].message); return }
+        if (isEmptyInput(registerFrom, ['username', 'password', 'confirmPassword', 'email'])) return showToast(false, 'لطفا تمام فیلد هارا پر کنید')
+        if (registerFrom.password !== registerFrom.confirmPassword) return
+        if (inputValidationErrors.length) return showToast(false, inputValidationErrors[0].message)
 
         setLoading(true)
 
@@ -37,7 +38,7 @@ const Register = () => {
 
             const data = await res.json()
 
-            if (!res.ok) { showToast(false, data.message, 3200); return }
+            if (!res.ok) return showToast(false, data.message, 3200)
 
             showToast(true, 'ثبت نام با موفقیت انجام شد :))')
             setRegisterFrom({})
@@ -48,11 +49,11 @@ const Register = () => {
         finally { setLoading(false) }
     }
 
-    const updateErrorArray = (data: unknownObjProps<unknown>) => { // sorry for the mess (: 😂
+    const updateErrorArray = (data: unknownObjProps<unknown>) => {
 
         const previousErrors = [...inputValidationErrors]
 
-        const doesErrorExist = previousErrors.some((error: errorDataType) => { // check if the error exist and now solved, so remove the error by make its isShown prop to false
+        const doesErrorExist = previousErrors.some((error: unknownObjProps<unknown>) => { // check if the error exist and then solved, so remove the error by make its isShown prop to false
             if (error.message == data.message) {
                 error.isShown = data.isShown
                 return true
@@ -61,7 +62,7 @@ const Register = () => {
 
         const updatedErrors: any = doesErrorExist ? previousErrors : [...previousErrors, data] // if error already exist, just use the updated error, else add the error
 
-        setInputValidationErrors(updatedErrors.filter((error: errorDataType) => error.isShown))
+        setInputValidationErrors(updatedErrors.filter((error: unknownObjProps<unknown>) => error.isShown))
     }
 
     const formUpdater = (prop: string, value: string) => setRegisterFrom({ ...registerFrom, [prop]: value })

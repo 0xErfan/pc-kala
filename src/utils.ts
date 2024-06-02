@@ -2,7 +2,6 @@ import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
 import { categories, unknownObjProps } from "./global.t"
 import { userUpdater } from "./Redux/Features/globalVarsSlice"
-import productsSlice from "./Redux/Features/productsSlice"
 
 export interface productOffTimerProps {
     hours: number | string
