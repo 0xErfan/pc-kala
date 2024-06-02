@@ -22,7 +22,7 @@ export default function Header() {
     const navigate = useRouter()
     const textInputElem = useRef<HTMLInputElement | null>(null)
     const isLogin = useAppSelector(state => state.userSlice.isLogin)
-    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData) || []
+    const { BasketItem, Notification } = useAppSelector(state => state.userSlice.relatedData) || []
 
     const menusShown = useAppSelector(state => state.globalVarsSlice.isScrolledDown)
 
@@ -75,8 +75,17 @@ export default function Header() {
                             <MdPhoneInTalk className="size-7 text-blue-dark" />
                         </div>
 
-                        <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2">
+                        <div className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] ch:ch:size-9 ch:ch:p-2 relative">
+
                             <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
+
+                            {
+                                Notification?.length
+                                    ?
+                                    <span className="absolute size-2 rounded-full bg-gold right-1 top-px cursor-pointer animate-bounce"></span>
+                                    : null
+                            }
+
                             <div className="cursor-pointer" onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     {
