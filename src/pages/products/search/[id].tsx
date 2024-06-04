@@ -149,8 +149,8 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
             rate: newCommentData.rate,
             services: { ...productServices },
             isCreatedByCustomer: [...relatedData.Transaction]
-                .filter(data => data.status !== 'CANCELED') // canceled transactions can't be counted here
-                .some(data => data.productsList.some(productData => { if (productData.productID._id == _id) return true })) // check if user bought the product
+                .filter(data => data.status !== 'CANCELED') // canceled transactions can't be counted as customer buy
+                .some(data => data.productsList.some(productData => { if (productData.productID._id == _id) return true })) // check if user bought the product from hes/her transactions record
         }
 
         try {
@@ -164,7 +164,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
             if (res.ok) {
                 setTimeout(() => {
-                    showToast(res.ok, responseData.message)
+                    showToast(res.ok, responseData.message, 4500)
                     setNewCommentData({ text: '', rate: 1 })
                     setUpdater(previous => !previous)
                     setIsUpdating(false)
@@ -218,7 +218,10 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                     })
 
                     const productComments = await res.json()
-                    setProductComments(productComments)
+
+                    const acceptedComments = [...productComments].filter(data => data.accepted == 1)
+
+                    setProductComments(acceptedComments)
 
                 } catch (error) { showToast(false, 'خطای اتصال به اینترنت') }
             }
@@ -447,7 +450,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
                                         <Button
                                             text="افزودن به سبد خرید"
-                                            fn={() => { isLogin ? addProductToBasket(data._id, _id, productCount, dispatch, productServices) : showToast(false, 'ابتدا وارد حساب خود شوید')}}
+                                            fn={() => { isLogin ? addProductToBasket(data._id, _id, productCount, dispatch, productServices) : showToast(false, 'ابتدا وارد حساب خود شوید') }}
                                             Icon={<MdAddShoppingCart />}
                                             filled
                                         />

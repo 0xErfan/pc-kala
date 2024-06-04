@@ -17,9 +17,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const newComment = await CommentModel.create({ ...commentBody })
 
-        await NotificationModel.create({ userID: newComment.creator, body: 'کامنت شما با موفقیت ثبت و بعد از بررسی منتشر خواهد شد.🥲' })
+        await NotificationModel.create({ userID: newComment.creator, body: 'کامنت شما با موفقیت ثبت و پس از بررسی منتشر خواهد شد.🥲' })
 
-        return res.status(201).json({ message: 'کامنت شما با موفقیت ثبت شد' })
+        return res.status(201).json({ message: 'کامنت شما با موفقیت ثبت و پس از بررسی منتشر خواهد شد' })
 
     } catch (err) {
         console.log(err)
