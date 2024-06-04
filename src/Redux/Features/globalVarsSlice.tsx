@@ -10,7 +10,7 @@ const globalVarsSlice = createSlice({
     },
     reducers: {
         isScrolledDownUpdater: (state, action) => { return { ...state, isScrolledDown: action.payload } },
-        changeProfileActiveMenu: (state, action: { payload: 'account-details' | 'orders' | 'likes' | 'messages' }) => { return { ...state, activeProfileMenu: action.payload } },
+        changeProfileActiveMenu: (state, action: { payload: 'account-details' | 'orders' | 'likes' | 'messages' | 'comments' }) => { return { ...state, activeProfileMenu: action.payload } },
         userUpdater: state => { return { ...state, userUpdater: !state.userUpdater } },
         changeCanScroll: (state, action) => { return { ...state, canScroll: action.payload } },
     },

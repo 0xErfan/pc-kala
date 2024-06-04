@@ -5,6 +5,7 @@ import { IoBagHandleOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { FaRegBell } from "react-icons/fa6";
 import { IoExitOutline } from "react-icons/io5";
+import { FaRegCommentAlt } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa6";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
@@ -20,6 +21,7 @@ import { FaRegEye } from "react-icons/fa";
 import Image from "next/image";
 import { unknownObjProps } from "@/global.t";
 import { userDataUpdater } from "@/Redux/Features/userSlice";
+import { BsStarFill } from "react-icons/bs";
 
 interface orderStatusProps {
     count: number
@@ -42,7 +44,9 @@ const Profile = () => {
     const dataEditorCloser = () => setActiveEditShown(null)
 
     const { nameLastName, username, meliCode, email, phoneNumber } = fetchedData?.userData || {}
-    const { Wish, Notification, Transaction } = fetchedData?.userRelatedData || []
+    const { Wish, Notification, Transaction, Comment } = fetchedData?.userRelatedData || []
+
+    console.log(Comment)
 
     const { processing, canceled, delivered } = useMemo(() => {
 
@@ -191,6 +195,85 @@ const Profile = () => {
                                 </div>
                                 :
                                 <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">محصولی یافت نشد</div>
+                        }
+                    </UserPanelTemplate >
+                );
+                break;
+            case "comments":
+                setUserDataToRender(
+                    <UserPanelTemplate title="کامنت های من">
+                        {
+                            <div className="w-full m-auto flex-center">
+                                <table className="bg-primary-black w-full p-3 text-center text-[15px] rounded-md shadow-regular my-4 mx-4">
+
+                                    <thead className="bg-secondary-black/50 sm:text-[15px] text-[13px] font-peyda text-title-text">
+                                        <tr className="ch:py-4">
+                                            <th>شناسه</th>
+                                            <th>تاریخ</th>
+                                            <th>کالا</th>
+                                            <th>امتیاز</th>
+                                            <th>وضعیت</th>
+                                            <th>پیام</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody className="overflow-auto relative h-12">
+                                        {
+                                            Comment?.length
+                                                ?
+                                                [...Comment].reverse().map(data =>
+                                                    <tr key={data._id} className="sm:text-[13px] text-[12px]  border-b border-black/15 hover:bg-secondary-black transition-all">
+
+                                                        <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-4, -1).toUpperCase()}</td>
+
+                                                        <td>{new Date(data.createdAt).toLocaleDateString('fa-IR')}</td>
+
+                                                        <tr>
+                                                            <div
+                                                                dir="ltr"
+                                                                onClick={() => navigate.push(`/products/search/${data.productID._id}`)}
+                                                                className="line-clamp-1 max-w-[180px] flex-center whitespace-nowrap underline m-auto w-full cursor-pointer overflow-ellipsis" >{data.productID.name}
+                                                            </div>
+                                                        </tr>
+
+                                                        <td className="break-words max-w-[65px]">
+                                                            <div className="flex ch:size-5 m-auto gap-1">
+                                                                {
+                                                                    new Array(data.rate).fill(0).map((_, index) => <BsStarFill className="text-gold" key={index} />)
+                                                                        .concat(new Array(5 - data.rate).fill(0).map((_, index) => <BsStarFill key={index} />))
+                                                                }
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div className={`w-3/4 h-3/4 m-auto flex-center ${data.accepted == 1 ? 'bg-green' : data.accepted == 0 ? 'bg-white-red' : 'bg-dark-gold/70'} sm:p-2 p-1 rounded-md text-[12px]`}>
+                                                                {
+                                                                    data.status == 1
+                                                                        ?
+                                                                        'تایید شده'
+                                                                        :
+                                                                        data.status == 0
+                                                                            ?
+                                                                            'رد شده'
+                                                                            :
+                                                                            'درحال بررسی'
+                                                                }
+                                                            </div>
+                                                        </td>
+
+                                                        <td>
+                                                            <div className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-8 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black">
+                                                                <FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} />
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                                : <tr className="text-center absolute right-0 left-0 font-peyda pt-3 text-white-red text-[16px] w-full m-auto">کامنتی یافت نشد</tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
                         }
                     </UserPanelTemplate >
                 );
@@ -348,6 +431,14 @@ const Profile = () => {
                         <div className="flex items-center gap-2">
                             <FaRegHeart className="size-[17px]" />
                             <p>لیست های من</p>
+                        </div>
+                        {Wish?.length ? <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Wish?.length}</div> : <></>}
+                    </div>
+
+                    <div onClick={() => dispatch(changeProfileActiveMenu("comments"))} className={`flex ${activeMenu == "comments" && "activeMenu ch:mr-2"} items-center gap-2 border-b border-gray-600/15 pb-3 cursor-pointer justify-between hover:bg-black/15`}>
+                        <div className="flex items-center gap-2">
+                            <FaRegCommentAlt className="size-[17px]" />
+                            <p>کامنت ها</p>
                         </div>
                         {Wish?.length ? <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Wish?.length}</div> : <></>}
                     </div>

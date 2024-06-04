@@ -82,7 +82,7 @@ export default function Header() {
                             {
                                 Notification?.length
                                     ?
-                                    <span className="absolute size-2 rounded-full bg-gold right-1 top-px cursor-pointer animate-bounce"></span>
+                                    <span onClick={() => navigate.push(isLogin ? '/profile' : '/login')} className="absolute size-2 rounded-full bg-gold right-1 top-px cursor-pointer animate-bounce"></span>
                                     : null
                             }
 
