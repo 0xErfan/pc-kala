@@ -22,6 +22,7 @@ import Image from "next/image";
 import { unknownObjProps } from "@/global.t";
 import { userDataUpdater } from "@/Redux/Features/userSlice";
 import { BsStarFill } from "react-icons/bs";
+import Link from "next/link";
 
 interface orderStatusProps {
     count: number
@@ -222,22 +223,23 @@ const Profile = () => {
                                             Comment?.length
                                                 ?
                                                 [...Comment].reverse().map(data =>
-                                                    <tr key={data._id} className="sm:text-[13px] text-[12px]  border-b border-black/15 hover:bg-secondary-black transition-all">
+                                                    <tr key={data._id} className="sm:text-[13px] text-[12px] ch:md:p-2 border-b border-black/15 hover:bg-secondary-black transition-all">
 
                                                         <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-4, -1).toUpperCase()}</td>
 
                                                         <td>{new Date(data.createdAt).toLocaleDateString('fa-IR')}</td>
 
-                                                        <tr>
+                                                        <td>
                                                             <div
                                                                 dir="ltr"
-                                                                onClick={() => navigate.push(`/products/search/${data.productID._id}`)}
-                                                                className="line-clamp-1 max-w-[180px] flex-center whitespace-nowrap underline m-auto w-full cursor-pointer overflow-ellipsis" >{data.productID.name}
+                                                                className="line-clamp-1 md:max-w-[180px] max-w-[140px] hover:text-blue-500 duration-200 transition-all flex-center whitespace-nowrap underline m-auto w-full cursor-pointer overflow-ellipsis" >
+                                                                <Link href={`/products/search/${data.productID._id}`} className="hidden sm:block">{data.productID.name}</Link>
+                                                                <Link href={`/products/search/${data.productID._id}`} className="text-white-red text-[15px] sm:hidden">...</Link>
                                                             </div>
-                                                        </tr>
+                                                        </td>
 
                                                         <td className="break-words max-w-[65px]">
-                                                            <div className="flex ch:size-5 m-auto gap-1">
+                                                            <div className="flex-center md:ch:size-5 ch:size-3 m-auto gap-1">
                                                                 {
                                                                     new Array(data.rate).fill(0).map((_, index) => <BsStarFill className="text-gold" key={index} />)
                                                                         .concat(new Array(5 - data.rate).fill(0).map((_, index) => <BsStarFill key={index} />))
@@ -248,11 +250,11 @@ const Profile = () => {
                                                         <td>
                                                             <div className={`w-3/4 h-3/4 m-auto flex-center ${data.accepted == 1 ? 'bg-green' : data.accepted == 0 ? 'bg-white-red' : 'bg-dark-gold/70'} sm:p-2 p-1 rounded-md text-[12px]`}>
                                                                 {
-                                                                    data.status == 1
+                                                                    data.accepted == 1
                                                                         ?
                                                                         'تایید شده'
                                                                         :
-                                                                        data.status == 0
+                                                                        data.accepted == 0
                                                                             ?
                                                                             'رد شده'
                                                                             :
@@ -262,7 +264,7 @@ const Profile = () => {
                                                         </td>
 
                                                         <td>
-                                                            <div className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-8 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black">
+                                                            <div className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-7 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black">
                                                                 <FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} />
                                                             </div>
                                                         </td>

@@ -1,5 +1,6 @@
 import connectToDB from "@/config/db";
 import { CommentModel } from "@/models/Comment";
+import { NotificationModel } from "@/models/UserRelatedSchemas";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -14,7 +15,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!commentBody) throw new Error("Required fields to create comment not passed !")
 
-        await CommentModel.create({ ...commentBody })
+        const newComment = await CommentModel.create({ ...commentBody })
+
+        await NotificationModel.create({ userID: newComment.creator, body: 'کامنت شما با موفقیت ثبت و بعد از بررسی منتشر خواهد شد.🥲' })
 
         return res.status(201).json({ message: 'کامنت شما با موفقیت ثبت شد' })
 
