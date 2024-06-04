@@ -4,7 +4,8 @@ import productsSlice from "./Features/productsSlice"
 import globalVarsSlice from "./Features/globalVarsSlice"
 
 export const store = configureStore({
-    reducer: { userSlice, productsSlice, globalVarsSlice }
+    reducer: { userSlice, productsSlice, globalVarsSlice },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 })
 
 export type RootState = ReturnType<typeof store.getState>

@@ -276,7 +276,7 @@ const Profile = () => {
 
     const logout = async () => {
 
-        dispatch(modalDataUpdater({ isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروخ از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
+        dispatch(modalDataUpdater({ isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروج از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
             
             const res = await fetch('/api/auth/logout')
             
