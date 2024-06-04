@@ -1,7 +1,7 @@
+import { useAppDispatch } from "@/Hooks/useRedux"
+import { modalDataUpdater } from "@/Redux/Features/globalVarsSlice"
 import { unknownObjProps } from "@/global.t"
 import Link from "next/link"
-import { useRouter } from "next/router"
-import { useState } from "react"
 import { BsStarFill } from "react-icons/bs"
 import { FaRegEye } from "react-icons/fa"
 
@@ -11,12 +11,23 @@ interface commentProps {
     productID: unknownObjProps<number>
     accepted: 1 | 0 | -1
     rate: number
+    body: string
 }
 
-const Comment = ({ _id, createdAt, productID, rate, accepted }: commentProps) => {
+const Comment = ({ _id, createdAt, productID, rate, accepted, body }: commentProps) => {
 
-    const navigate = useRouter()
-    const [isMessageShown, setIsMessageShown] = useState(false)
+    const dispatch = useAppDispatch()
+
+    const showMessageBody = () => {
+
+        dispatch(modalDataUpdater({
+            status: true,
+            isShown: true,
+            message: body,
+            cancelBtnText: false,
+            okBtnText: 'بستن',
+        }))
+    }
 
     return (
         <tr className="sm:text-[13px] text-[12px] ch:md:p-2 ch:py-4 border-b border-black/15 hover:bg-secondary-black transition-all">
@@ -61,7 +72,7 @@ const Comment = ({ _id, createdAt, productID, rate, accepted }: commentProps) =>
 
             <td>
                 <div className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-7 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black">
-                    <FaRegEye onClick={() => {}} />
+                    <FaRegEye onClick={showMessageBody} />
                 </div>
             </td>
         </tr>

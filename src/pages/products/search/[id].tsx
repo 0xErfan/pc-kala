@@ -20,11 +20,12 @@ import { GetStaticPropsContext } from "next";
 import Image from "next/image";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
-import { userUpdater } from "@/Redux/Features/globalVarsSlice";
+import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice";
 import { useRouter } from "next/router";
 import { commentProps, unknownObjProps } from "@/global.t";
 import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
+import { ModalProps } from "@/components/Modal";
 
 interface coordinates {
     x: number
@@ -164,7 +165,17 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
             if (res.ok) {
                 setTimeout(() => {
-                    showToast(res.ok, responseData.message, 4500)
+
+                    dispatch(modalDataUpdater({
+                        status: true,
+                        isShown: true,
+                        okBtnText: 'باش😒',
+                        cancelBtnText: false,
+                        title: 'ثبت موفق کامنت',
+                        message: 'نظر شما با موفقیت ثبت شد و پس از بررسی های لازم منتشر خواهد شد.',
+                        fn: () => { },
+                    }))
+
                     setNewCommentData({ text: '', rate: 1 })
                     setUpdater(previous => !previous)
                     setIsUpdating(false)

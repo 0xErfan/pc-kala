@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import Loader from "@/components/Loader"
 import { unknownObjProps } from "@/global.t"
-import { userUpdater } from "@/Redux/Features/globalVarsSlice"
+import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice"
 
 const SuccessPurchase = () => {
 
@@ -37,30 +37,38 @@ const SuccessPurchase = () => {
 
     const cancelTransaction = async () => {
 
-        try {
+        dispatch(modalDataUpdater({
+            isShown: true,
+            title: 'لغو سفارش',
+            message: 'آیا تصمیم به لغو سفارش خود دارید؟',
+            fn: async () => {
+                try {
 
-            if (isLoading) return
+                    if (isLoading) return
 
-            setIsLoading(true)
+                    setIsLoading(true)
 
-            const res = await fetch('/api/order/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ key: 'status', value: 'CANCELED', transactionID: transactionData?._id })
-            })
+                    const res = await fetch('/api/order/update', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: 'status', value: 'CANCELED', transactionID: transactionData?._id })
+                    })
 
-            const data = await res.json()
+                    const data = await res.json()
 
-            setTimeout(async () => {
-                showToast(res.ok, data.message)
-                dispatch(userUpdater())
-                setIsLoading(false)
-            }, 700);
+                    setTimeout(async () => {
+                        showToast(res.ok, data.message)
+                        dispatch(userUpdater())
+                        setIsLoading(false)
+                    }, 700);
 
-        } catch (error) {
-            console.log(error)
-            setIsLoading(false)
-        }
+                } catch (error) {
+                    console.log(error)
+                    setIsLoading(false)
+                }
+            }
+        }))
+
     }
 
     const sumOfProductsWithDiscount = useMemo(() => {

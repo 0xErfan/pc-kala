@@ -276,18 +276,17 @@ const Profile = () => {
 
     const logout = async () => {
 
-        dispatch(modalDataUpdater({ isShown: true }))
-
-        return
-
-        const res = await fetch('/api/auth/logout')
-
-        if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
-
-        showToast(true, 'خروج از حساب موفقیت امیز بود')
-
-        dispatch(userDataUpdater({ isLogin: false }))
-        navigate.replace('/')
+        dispatch(modalDataUpdater({ isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروخ از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
+            
+            const res = await fetch('/api/auth/logout')
+            
+            if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
+            
+            showToast(true, 'خروج از حساب موفقیت امیز بود')
+            
+            dispatch(userDataUpdater({ isLogin: false }))
+            navigate.replace('/')
+        } }))
     }
 
     return (
