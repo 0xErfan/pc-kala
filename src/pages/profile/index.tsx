@@ -8,21 +8,18 @@ import { IoExitOutline } from "react-icons/io5";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa6";
 import { ReactNode, useEffect, useMemo, useState } from "react";
-import { IoTrashOutline } from "react-icons/io5";
-import Button from "@/components/Button";
-import LikedProduct from "@/components/LikedProduct";
+import LikedProduct from "@/components/p-user/LikedProduct";
 import UserPanelTemplate from "@/components/UserPanelTemplate";
 import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
-import { changeProfileActiveMenu, userUpdater } from "@/Redux/Features/globalVarsSlice";
-import { FaRegEye } from "react-icons/fa";
+import { changeProfileActiveMenu, modalDataUpdater } from "@/Redux/Features/globalVarsSlice";
 import Image from "next/image";
-import { unknownObjProps } from "@/global.t";
 import { userDataUpdater } from "@/Redux/Features/userSlice";
-import { BsStarFill } from "react-icons/bs";
-import Link from "next/link";
+import CommentData from '@/components/p-user/CommentData'
+import Message from "@/components/p-user/Message";
+import TransactionData from "@/components/p-user/TransactionData";
 
 interface orderStatusProps {
     count: number
@@ -46,8 +43,6 @@ const Profile = () => {
 
     const { nameLastName, username, meliCode, email, phoneNumber } = fetchedData?.userData || {}
     const { Wish, Notification, Transaction, Comment } = fetchedData?.userRelatedData || []
-
-    console.log(Comment)
 
     const { processing, canceled, delivered } = useMemo(() => {
 
@@ -73,20 +68,6 @@ const Profile = () => {
 
         return { processing, delivered, canceled }
     }, [Transaction])
-
-    const deleteNotificationHandler = async (id: string) => {
-
-        const res = await fetch('/api/notifications/delete', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(id)
-        })
-
-        if (!res.ok) { showToast(false, 'خطا در اتصال به اینترنت'); return }
-
-        showToast(true, 'پیام با موفقیت حذف شد')
-        dispatch(userUpdater())
-    }
 
     useEffect(() => {
         (
@@ -145,36 +126,7 @@ const Profile = () => {
                                     {
                                         Transaction?.length
                                             ?
-                                            [...Transaction].reverse().map(data =>
-                                                <tr key={data._id} className="sm:text-[13px] text-[12px] ch:py-3 border-b border-black/15 hover:bg-secondary-black transition-all">
-
-                                                    <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-6, -1).toUpperCase()}</td>
-
-                                                    <td>{new Date(data.createdAt).toLocaleDateString('fa-IR')}</td>
-
-                                                    <td>{data.productsList.reduce((previous: unknownObjProps<number>, next: unknownObjProps<number>) => (previous?.count ?? previous) + next.count, 0)}</td>
-
-                                                    <td className="break-words max-w-[65px]">{data.totalPrice.toLocaleString('fa-IR')} تومان </td>
-
-                                                    <td>
-                                                        <div className={`w-3/4 h-3/4 m-auto flex-center ${data.status == 'PROCESSING' ? 'bg-dark-gold/70' : data.status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} sm:p-2 p-1 rounded-md text-[12px]`}>
-                                                            {
-                                                                data.status == 'DELIVERED'
-                                                                    ?
-                                                                    'ارسال موفق'
-                                                                    :
-                                                                    data.status == 'PROCESSING'
-                                                                        ?
-                                                                        'درحال ارسال'
-                                                                        :
-                                                                        'لغو شده'
-                                                            }
-                                                        </div>
-                                                    </td>
-
-                                                    <td className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-8 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black"><FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} /></td>
-                                                </tr>
-                                            )
+                                            [...Transaction].reverse().map(data => <TransactionData key={data._id} {...data} />)
                                             : <tr className="text-center absolute right-0 left-0 font-peyda pt-3 text-white-red text-[16px] w-full m-auto">سفارشی یافت نشد</tr>
                                     }
                                 </tbody>
@@ -222,54 +174,7 @@ const Profile = () => {
                                         {
                                             Comment?.length
                                                 ?
-                                                [...Comment].reverse().map(data =>
-                                                    <tr key={data._id} className="sm:text-[13px] text-[12px] ch:md:p-2 border-b border-black/15 hover:bg-secondary-black transition-all">
-
-                                                        <td dir="ltr" className="text-[14px] tracking-wide">#{data._id.slice(-4, -1).toUpperCase()}</td>
-
-                                                        <td>{new Date(data.createdAt).toLocaleDateString('fa-IR')}</td>
-
-                                                        <td>
-                                                            <div
-                                                                dir="ltr"
-                                                                className="line-clamp-1 md:max-w-[180px] max-w-[140px] hover:text-blue-500 duration-200 transition-all flex-center whitespace-nowrap underline m-auto w-full cursor-pointer overflow-ellipsis" >
-                                                                <Link href={`/products/search/${data.productID._id}`} className="hidden sm:block">{data.productID.name}</Link>
-                                                                <Link href={`/products/search/${data.productID._id}`} className="text-white-red text-[15px] sm:hidden">...</Link>
-                                                            </div>
-                                                        </td>
-
-                                                        <td className="break-words max-w-[65px]">
-                                                            <div className="flex-center md:ch:size-5 ch:size-3 m-auto gap-1">
-                                                                {
-                                                                    new Array(data.rate).fill(0).map((_, index) => <BsStarFill className="text-gold" key={index} />)
-                                                                        .concat(new Array(5 - data.rate).fill(0).map((_, index) => <BsStarFill key={index} />))
-                                                                }
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div className={`w-3/4 h-3/4 m-auto flex-center ${data.accepted == 1 ? 'bg-green' : data.accepted == 0 ? 'bg-white-red' : 'bg-dark-gold/70'} sm:p-2 p-1 rounded-md text-[12px]`}>
-                                                                {
-                                                                    data.accepted == 1
-                                                                        ?
-                                                                        'تایید شده'
-                                                                        :
-                                                                        data.accepted == 0
-                                                                            ?
-                                                                            'رد شده'
-                                                                            :
-                                                                            'درحال بررسی'
-                                                                }
-                                                            </div>
-                                                        </td>
-
-                                                        <td>
-                                                            <div className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-7 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black">
-                                                                <FaRegEye onClick={() => navigate.push(`success-purchase/${data._id}`)} />
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                )
+                                                [...Comment].reverse().map(data => <CommentData key={data._id} {...data} />)
                                                 : <tr className="text-center absolute right-0 left-0 font-peyda pt-3 text-white-red text-[16px] w-full m-auto">کامنتی یافت نشد</tr>
                                         }
                                     </tbody>
@@ -287,24 +192,7 @@ const Profile = () => {
                             {
                                 Notification?.length
                                     ?
-                                    [...Notification]
-                                        .reverse()
-                                        .map((data: { body: string, _id: string, createdAt: string }) => {
-                                            return (
-                                                <div
-                                                    key={data._id}
-                                                    data-aos-duration="550"
-                                                    data-aos="fade-right"
-                                                    className="rounded-md p-2 w-full text-[14px] border border-gray-600/15 flex items-center justify-between bg-secondary-black bg-black/15"
-                                                >
-                                                    <div className="p-1 space-y-2 flex items-center justify-end flex-col">
-                                                        <p dir="ltr" className="text-white/45 flex justify-end w-full">{new Date(data.createdAt).toLocaleDateString('fa-IR') + ' - ' + new Date(data.createdAt).toLocaleTimeString('fa-IR')}</p>
-                                                        <p>{data.body}</p>
-                                                    </div>
-                                                    <Button Icon={<IoTrashOutline />} fn={() => deleteNotificationHandler(data._id)} />
-                                                </div>
-                                            )
-                                        })
+                                    [...Notification].reverse().map(data => <Message key={data._id} {...data} />)
                                     :
                                     <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">پیامی وجود ندارد</div>
                             }
@@ -384,9 +272,13 @@ const Profile = () => {
             dispatch(changeProfileActiveMenu('orders'))
             navigate.push({ pathname: navigate.pathname }, undefined, { shallow: true })
         }
-    }, [navigate.query])
+    }, [navigate, dispatch])
 
     const logout = async () => {
+
+        dispatch(modalDataUpdater({ isShown: true }))
+
+        return
 
         const res = await fetch('/api/auth/logout')
 
@@ -442,7 +334,7 @@ const Profile = () => {
                             <FaRegCommentAlt className="size-[17px]" />
                             <p>کامنت ها</p>
                         </div>
-                        {Wish?.length ? <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Wish?.length}</div> : <></>}
+                        {Comment?.length ? <div className="bg-white-red text-[15px] flex-center size-5 rounded-sm mr-auto text-center">{Comment?.length}</div> : <></>}
                     </div>
 
                     <div onClick={() => dispatch(changeProfileActiveMenu("messages"))} className={`flex items-center ${activeMenu == "messages" && "activeMenu ch:mr-2"} justify-between border-b border-gray-600/15 pb-3 cursor-pointer hover:bg-black/15`}>

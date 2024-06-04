@@ -195,8 +195,16 @@ export default function Header() {
                     <div className="flex-center gap-12 text-description-text ">
 
                         <div
-                            className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] sm:ch:ch:size-9 ch:ch:size-8 ch:ch:p-2">
+                            className="flex-center gap-2 ch:ch:rounded-md ch:ch:bg-[#393A3D] sm:ch:ch:size-9 ch:ch:size-8 relative ch:ch:p-2">
                             <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
+
+                            {
+                                Notification?.length
+                                    ?
+                                    <span onClick={() => navigate.push(isLogin ? '/profile' : '/login')} className="absolute size-2 rounded-full bg-gold right-1 top-px cursor-pointer animate-bounce"></span>
+                                    : null
+                            }
+
                             <div onClick={() => setSideMenuDataToShow("basket")}>
                                 <div className="flex-center relative">
                                     {

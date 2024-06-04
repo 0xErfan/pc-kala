@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Button from "./Button"
+import Button from "../Button"
 import { IoTrashOutline } from "react-icons/io5"
 import { addWish } from "@/utils"
 import Image from "next/image"
