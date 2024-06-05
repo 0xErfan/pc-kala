@@ -15,7 +15,7 @@ export const Input = ({ required = true, title, placeHolder, type = "text", name
     const [value, setValue] = useState("")
     const [formError, setFormError] = useState<{ isErrorShown: boolean, errorMessage: string }>({ isErrorShown: false, errorMessage: "" })
 
-    const showError = (status: boolean) => { setFormError(preve => ({ ...preve, isErrorShown: status })); return }
+    const showError = (status: boolean) => { setFormError(prev => ({ ...prev, isErrorShown: status })); return }
 
     const inputValueChecker = (e: React.FocusEvent<HTMLInputElement>) => {
 
@@ -37,13 +37,13 @@ export const Input = ({ required = true, title, placeHolder, type = "text", name
 
     useEffect(() => {
         switch (name) {
-            case "name": { setFormError(preve => ({ ...preve, errorMessage: "نام باید حداقل سه کاراکتر باشد " })); break }
-            case "lName": { setFormError(preve => ({ ...preve, errorMessage: "نام خانوادگی باید حداقل سه کاراکتر باشد " })); break }
-            case "email": { setFormError(preve => ({ ...preve, errorMessage: "ایمیل خود را به درستی وارد کنید" })); break }
-            case "codePost": { setFormError(preve => ({ ...preve, errorMessage: "کد پستی را به درستی وارد کنید" })); break }
-            case "phoneNum": { setFormError(preve => ({ ...preve, errorMessage: "شماره موبایل  نامعتبر است" })); break }
-            case "ostan": { setFormError(preve => ({ ...preve, errorMessage: "استان خود را انتخاب کنید" })); break }
-            case "province": { setFormError(preve => ({ ...preve, errorMessage: "اسم خیابان را وارد کنید" })); break }
+            case "name": { setFormError(prev => ({ ...prev, errorMessage: "نام باید حداقل سه کاراکتر باشد " })); break }
+            case "lName": { setFormError(prev => ({ ...prev, errorMessage: "نام خانوادگی باید حداقل سه کاراکتر باشد " })); break }
+            case "email": { setFormError(prev => ({ ...prev, errorMessage: "ایمیل خود را به درستی وارد کنید" })); break }
+            case "codePost": { setFormError(prev => ({ ...prev, errorMessage: "کد پستی را به درستی وارد کنید" })); break }
+            case "phoneNum": { setFormError(prev => ({ ...prev, errorMessage: "شماره موبایل  نامعتبر است" })); break }
+            case "ostan": { setFormError(prev => ({ ...prev, errorMessage: "استان خود را انتخاب کنید" })); break }
+            case "province": { setFormError(prev => ({ ...prev, errorMessage: "اسم خیابان را وارد کنید" })); break }
             default: console.error("invalid input name => ", name)
         }
     }, [name])

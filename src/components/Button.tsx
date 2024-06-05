@@ -1,6 +1,6 @@
 import { ReactElement } from "react"
 
-interface ButtonProops {
+interface ButtonProps {
     filled?: boolean
     active?: boolean
     fn: () => unknown
@@ -9,7 +9,7 @@ interface ButtonProops {
     Icon?: ReactElement
 }
 
-const Button = ({ filled, active, fn, text, Icon, size = "md" }: ButtonProops) => {
+const Button = ({ filled, active, fn, text, Icon, size = "md" }: ButtonProps) => {
 
     return (
         <button
