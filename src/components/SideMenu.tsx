@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { removeProductFromBasket, showToast, totalPriceCalculator } from '@/utils';
 import { changeCanScroll, userUpdater } from '@/Redux/Features/globalVarsSlice';
+import { productDataTypes, userDataTypes, userRelatedDataTypes } from '@/global.t';
 
 interface SideMenuProps {
     dataToShow: 'basket' | 'sideMenu'

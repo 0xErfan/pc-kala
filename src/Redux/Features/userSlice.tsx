@@ -1,8 +1,9 @@
+import { userDataTypes, userRelatedDataTypes } from "@/global.t";
 import { createSlice } from "@reduxjs/toolkit";
 
 const userSlice = createSlice({
     name: "userSlice",
-    initialState: { data: null, relatedData: {}, isLogin: false },
+    initialState: { data: {}, relatedData: {}, isLogin: false } as { data: userDataTypes, relatedData: userRelatedDataTypes, isLogin: boolean },
     reducers: {
         userDataUpdater: (state, action) => ({
             ...state,

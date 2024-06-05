@@ -24,6 +24,7 @@ interface userDataTypes {
 }
 
 interface productDataTypes {
+    _id: string
     name: string
     price: number
     discount: number
@@ -35,7 +36,7 @@ interface productDataTypes {
 interface userRelatedDataTypes {
     Wish: { creator: userRelatedDataTypes, productID: productDataTypes }
     Order: { productID: productDataTypes, count: number }
-    BasketItem: { userID: userRelatedDataTypes, productID: productDataTypes, count: number, services: unknownObjProps<number> }
+    BasketItem: { userID: userRelatedDataTypes, productID: productDataTypes, count: number, services: unknownObjProps<number> }[]
     Notification: { userID: userRelatedDataTypes, body: string, createdAt: string }
 }
 
