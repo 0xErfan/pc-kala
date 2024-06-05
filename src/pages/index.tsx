@@ -18,10 +18,13 @@ import connectToDB from '@/config/db';
 import Image from 'next/image';
 import ProductModel from '@/models/Product';
 import { shuffleArray } from '@/utils';
+import { productDataTypes } from '@/global.t';
 
-interface productProps { [key: string]: [] }
+interface ProductsDataType {
+    products: { [key: string]: productDataTypes[] }
+}
 
-export default function Home({ products }: productProps) {
+export default function Home({ products }: ProductsDataType) {
 
     const navigate = useRouter()
     const { laptops, pcs, parts } = products || {}
@@ -234,11 +237,12 @@ export default function Home({ products }: productProps) {
         </section>
     )
 }
+
 export async function getStaticProps() { // static rendering(SSG) for needed products to show in main page
 
     await connectToDB()
 
-    let products: productProps = {}
+    let products: { [key: string]: productDataTypes[] } = {}
 
     products.laptops = await ProductModel.find({ category: 'laptop' }).limit(8) as []
     products.pcs = await ProductModel.find({ category: 'pc' }).limit(8) as []

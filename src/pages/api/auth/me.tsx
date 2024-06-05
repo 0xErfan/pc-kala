@@ -18,9 +18,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             return res.status(401).json({ message: 'You are not logged in' })
         }
 
-        const verifiedToken: string | JwtPayload = tokenDecoder(token)
+        const verifiedToken = tokenDecoder(token) as { email: string }
 
-        const userData = await UserModel.findOne({ email: verifiedToken?.email })
+        const userData = await UserModel.findOne({ email: verifiedToken.email })
 
         if (!userData) {
             cookies().set('token', '', { expires: -1 });

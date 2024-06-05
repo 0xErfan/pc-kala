@@ -1,4 +1,5 @@
 import connectToDB from "@/config/db";
+import { unknownObjProps, userRelatedDataTypes } from "@/global.t";
 import { transactionModel } from "@/models/Transactions";
 import { BasketItemModel, NotificationModel, OrderModel } from "@/models/UserRelatedSchemas";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -17,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!userOrders.length) return res.status(422).json({ message: 'محصولی برای سفارش وجود نداره😂' })
 
-        const userOrdersPlain = userOrders.map(order => order.toObject()); // use toObject so we can see the populated products data in client
+        const userOrdersPlain = userOrders.map((order: any) => order.toObject()); // use toObject so we can see the populated products data in client
 
         const newOrderTransaction = await transactionModel.create({ productsList: userOrdersPlain, userID, customerData, totalPrice, status: 'PROCESSING' })
 
