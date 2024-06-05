@@ -7,15 +7,15 @@ import { BsGpuCard } from "react-icons/bs";
 import { HiOutlineCpuChip } from "react-icons/hi2";
 import { RiRam2Line } from "react-icons/ri";
 import { LuHardDrive } from "react-icons/lu";
-import { unknownObjProps } from "@/global.t";
+import { productDataTypes } from "@/global.t";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { useEffect, useState } from "react";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 
-const Product = (productProps: unknownObjProps<string | number>) => {
+const Product = (product: productDataTypes) => {
 
-    const { data, relatedData }: { data: unknownObjProps<number> } = useAppSelector(state => state.userSlice) || {}
-    const { discount, price, name, category, specs, _id } = productProps || {}
+    const { data, relatedData } = useAppSelector(state => state.userSlice) || {}
+    const { discount, price, name, category, specs, _id } = product || {}
     const priceAfterOff = price - (price * (discount / 100))
 
     const dispatch = useAppDispatch()
@@ -27,7 +27,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
 
     useEffect(() => {
 
-        relatedData?.Wish?.some(data => {
+        relatedData?.Wish.some(data => {
             if (data.productID._id == _id) {
                 setIsProductInUserWish(true)
                 return true
@@ -43,13 +43,13 @@ const Product = (productProps: unknownObjProps<string | number>) => {
             })
         )
 
-    }, [relatedData?.Wish, relatedData?.BasketItem])
+    }, [relatedData?.Wish, relatedData?.BasketItem, _id])
 
     const addWishHandler = () => {
 
         if (!isLoggedIn) { showToast(false, 'ابتدا وارد حساب خود شوید'); return }
 
-        addWish(data._id, _id as number)
+        addWish(+data._id, +_id)
             .then(() => dispatch(userUpdater()))
             .then(() => setIsProductInUserWish(preve => !preve))
     }
@@ -76,7 +76,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
                     <div className="grid grid-cols-4 gap-2 ch:bg-primary-black ch:rounded-md ch-gap-1 font-peyda text-[13px]">
                         <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <BsGpuCard /> <p className="text-blue-white">{specs.gpu.value.split(' ')[0]}</p></div>
                         <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <LuHardDrive /> <p className="text-blue-white">{specs.ssd.value.split(' ').find(value => value.includes('GB') || value.includes('MB') || value.includes('TB'))}</p></div>
-                        <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <HiOutlineCpuChip /> <p className="text-blue-white">{specs.cpu.value.split(' ').find(value => value.length > 3 && value.split('').some(char => !isNaN(char)))}</p></div>
+                        <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <HiOutlineCpuChip /> <p className="text-blue-white">{specs.cpu.value.split(' ').find(value => value.length > 3 && value.split('').some(char => !isNaN(+char)))}</p></div>
                         <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <RiRam2Line /> <p className="text-blue-white">{specs.ram.value.split(' ').find(value => value.includes('GB') || value.includes('MB'))}</p></div>
                     </div>
                     :
@@ -86,7 +86,7 @@ const Product = (productProps: unknownObjProps<string | number>) => {
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
 
                 <CiShoppingBasket
-                    onClick={() => isLoggedIn ? addProductToBasket(data._id, _id, null, dispatch) : showToast(false, 'ابتدا وارد حساب خود شوید')}
+                    onClick={() => isLoggedIn ? addProductToBasket(data._id, _id, undefined, dispatch) : showToast(false, 'ابتدا وارد حساب خود شوید')}
                     className={`bg-primary-black ${!isProductInBasket ? 'text-description-text' : 'text-green'} transition-all p-[3px] rounded-full`}
                 />
 

@@ -12,7 +12,7 @@ export interface ProductCartProps {
     count: number
     title: string
     src?: string
-    id: number
+    id: string
 }
 
 const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartProps) => {
@@ -50,7 +50,7 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
                     <div className="sm:flex-1 cursor-pointer ml-auto flex-center "><IoClose className="size-6 rounded-sm bg-primary-black p-1" /></div>
 
                     <div className="m-auto flex items-center justify-between">
-                        <Image width={400} height={400} className="object-cover size-1/2 p-1" alt={title} src={src} />
+                        <Image width={400} height={400} className="object-cover size-1/2 p-1" alt={title} src={src!} />
 
                         <div className="flex flex-col gap-1">
                             <div>تعداد: <span className="text-white-red"> {price}</span> * {count} تومان </div>
@@ -69,7 +69,7 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
                 <td className="flex ch:border-l ch:border-dark-gold">
 
                     <div
-                        onClick={() => removeProductFromBasket(id, data?._id).then(() => dispatch(userUpdater()))}
+                        onClick={() => removeProductFromBasket(id, data._id).then(() => dispatch(userUpdater()))}
                         className="flex-1 cursor-pointer flex-center border-r border-dark-gold"><IoClose className="size-6 rounded-sm bg-primary-black p-1"
                         />
                     </div>

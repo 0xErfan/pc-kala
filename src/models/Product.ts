@@ -11,6 +11,7 @@ const ProductSchema = new Schema({
         required: true,
     },
     specs: { type: Schema.Types.Mixed },
+    category: { type: String, required: true }
 });
 
 const ProductModel = models.Product || model('Product', ProductSchema);
