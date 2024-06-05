@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { CiEdit } from "react-icons/ci";
 import Button from "./Button";
-import { convertNumbers2English, inputValidations, showToast } from "@/utils";
+import { convertNumbers2English, inputValidationProps, inputValidations, showToast } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
+import { unknownObjProps, userDataTypes } from "@/global.t";
 import Loader from "./Loader";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 
@@ -16,6 +17,8 @@ interface inputProps {
     editToggle: () => void
 }
 
+
+
 export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = true, editToggle, dataEditorCloser }: inputProps) => {
 
     const [value, setValue] = useState(inputValue)
@@ -23,14 +26,15 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
     const [isPasswordValid, setIsPasswordValid] = useState(false)
 
     const dispatch = useAppDispatch()
-    const { _id, password } = useAppSelector(state => state.userSlice.data) || ''
+    const { _id }: Partial<userDataTypes> = useAppSelector(state => state.userSlice.data || { _id: '' })
 
 
     const validateValueAndUpdate = async () => {
 
-        const data = inputValidations(name, value)
+        const data: inputValidationProps | undefined = inputValidations(name, value)
 
-        if (!data?.isValid) { showToast(false, data.errorMessage); return }
+        if (!data?.isValid) return showToast(false, data?.errorMessage as string)
+
         if (value == inputValue) return
 
         if (name == 'changePass') { // this 'if' statement is just for change password validations
@@ -81,7 +85,7 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
             })
 
             const { message } = await res.json()
-            
+
             if (!res.ok) {
                 showToast(false, message)
                 setLoading(false)

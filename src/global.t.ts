@@ -12,4 +12,20 @@ interface commentProps {
     services: unknownObjProps<string | number>
 }
 
-export type { unknownObjProps, categories, commentProps }
+interface userDataTypes {
+    _id: string
+    nameLastName: string
+    username: string
+    email: string
+    phoneNumber: number
+    password: string
+    nationalCode: number
+    role: 'USER' | 'ADMIN'
+}
+
+export type {
+    unknownObjProps,
+    categories,
+    commentProps,
+    userDataTypes,
+}
