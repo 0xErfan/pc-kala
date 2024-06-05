@@ -9,17 +9,17 @@ import { useRouter } from "next/router"
 import { useEffect, useMemo, useState } from "react"
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import Loader from "@/components/Loader"
-import { unknownObjProps } from "@/global.t"
 import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice"
+import { TransactionProductsTypes, TransactionProps } from "@/global.t"
 
 const SuccessPurchase = () => {
 
     const navigate = useRouter()
     const dispatch = useAppDispatch()
 
-    const { Transaction }: unknownObjProps<string | number>[] | {} = useAppSelector(state => state.userSlice.relatedData) || {}
+    const { Transaction } = useAppSelector(state => state.userSlice.relatedData) || {}
 
-    const [transactionData, setTransactionData] = useState(Transaction)
+    const [transactionData, setTransactionData] = useState<TransactionProps>()
     const [showMoreShown, setShowMoreShown] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -33,7 +33,7 @@ const SuccessPurchase = () => {
 
         setTransactionData(getTransaction)
 
-    }, [Transaction, navigate.query?.id])
+    }, [Transaction, navigate])
 
     const cancelTransaction = async () => {
 
@@ -238,7 +238,7 @@ const SuccessPurchase = () => {
 
 export default SuccessPurchase;
 
-const UserOrder = ({ productID, count, services }) => {
+const UserOrder = ({ productID, count, services }: TransactionProductsTypes) => {
 
     return (
         <div className="border p-2 border-gray-500 flex flex-col">

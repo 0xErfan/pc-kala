@@ -12,6 +12,17 @@ interface commentProps {
     services: unknownObjProps<string | number>
 }
 
+interface CustomerDataForTransactionData {
+    name: string
+    lName: string
+    ostan: string
+    province: string
+    codePost: number
+    phoneNum: string
+    email?: string
+    orderDetails?: string
+}
+
 interface userDataTypes {
     _id: string
     nameLastName: string
@@ -34,11 +45,28 @@ interface productDataTypes {
     specs: unknownObjProps<unknownObjProps<string>>
 }
 
+interface TransactionProductsTypes {
+    productID: productDataTypes,
+    services: unknownObjProps<number>,
+    count: number
+}
+
+interface TransactionProps {
+    _id: string
+    userID: userRelatedDataTypes | string,
+    customerData: CustomerDataForTransactionData,
+    productsList: TransactionProductsTypes[],
+    status: 'DELIVERED' | 'CANCELED' | 'PROCESSING',
+    totalPrice: number,
+    createdAt: string
+}
+
 interface userRelatedDataTypes {
     Wish: { creator: userRelatedDataTypes, productID: productDataTypes }[]
     Order: { productID: productDataTypes, count: number }[]
     BasketItem: { userID: userRelatedDataTypes, productID: productDataTypes, count: number, services: unknownObjProps<number> }[]
-    Notification: { userID: userRelatedDataTypes, body: string, createdAt: string }[]
+    Notification: { userID: userRelatedDataTypes, body: string, createdAt: string }[],
+    Transaction: TransactionProps[]
 }
 
 export type {
@@ -47,5 +75,8 @@ export type {
     commentProps,
     userDataTypes,
     productDataTypes,
-    userRelatedDataTypes
+    userRelatedDataTypes,
+    TransactionProps,
+    TransactionProductsTypes,
+    CustomerDataForTransactionData,
 }
