@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Button from "./Button"
-import { unknownObjProps } from "@/global.t"
+import { productDataTypes, unknownObjProps } from "@/global.t"
 import Product from "./Product"
 import { itemsSorter } from "@/utils"
 import { productSortOptions } from "@/data"
@@ -20,12 +20,17 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
     const [paginatedItems, setPaginatedItems] = useState([...itemsArray])
     const [sortBy, setSortBy] = useState('')
 
-    const startIndex = paginationType == 'seeMore' ? 0 : currentPage * itemsPerPage - itemsPerPage
-    const endIndex = currentPage * itemsPerPage
+    const { startIndex, endIndex } = useMemo(() => {
+        return {
+            startIndex: paginationType == 'seeMore' ? 0 : currentPage * itemsPerPage - itemsPerPage,
+            endIndex: currentPage * itemsPerPage
+        }
+    }, [currentPage, itemsPerPage, paginationType])
+
     const availablePages = Math.ceil(itemsArray.length / itemsPerPage)
 
-    const nextPageHandler = () => { currentPage < availablePages && setCurrentPage(preve => preve + 1) }
-    const previousPageHandler = () => { currentPage > 1 && setCurrentPage(preve => preve - 1) }
+    const nextPageHandler = () => { currentPage < availablePages && setCurrentPage(prev => prev + 1) }
+    const previousPageHandler = () => { currentPage > 1 && setCurrentPage(prev => prev - 1) }
     // static codes
 
 
@@ -43,7 +48,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
 
     useEffect(() => {
         setPaginatedItems(itemsSorter(sortBy, [...itemsArray].slice(startIndex, endIndex)))
-    }, [currentPage, itemsArray, sortBy]) // this effect first of all sort the pure items and then slice them to prevent losing sorted items between currentpage changing
+    }, [currentPage, itemsArray, sortBy, startIndex, endIndex]) // this effect first of all sort the pure items and then slice them to prevent losing sorted items between current page changing
 
     return (
         <>
@@ -68,7 +73,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
                 </div>
 
                 <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-6"}>
-                    {paginatedItems?.map((data: unknownObjProps<{}>) => <Product {...data} key={data._id as string} />)}
+                    {paginatedItems?.map((data: productDataTypes) => <Product {...data} key={data._id} />)}
                 </div >
 
             </div>

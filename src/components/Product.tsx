@@ -27,7 +27,7 @@ const Product = (product: productDataTypes) => {
 
     useEffect(() => {
 
-        relatedData?.Wish.some(data => {
+        relatedData?.Wish?.some(data => {
             if (data.productID._id == _id) {
                 setIsProductInUserWish(true)
                 return true
