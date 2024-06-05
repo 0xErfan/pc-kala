@@ -2,6 +2,9 @@ import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
 import { categories, unknownObjProps } from "./global.t"
 import { userUpdater } from "./Redux/Features/globalVarsSlice"
+import { store } from "./Redux/store"
+
+type addProductFunctionProps = (userID: string, productID: string, count?: number, dispatch?: typeof store.dispatch, productServices?: unknownObjProps<number>) => unknown
 
 export interface productOffTimerProps {
     hours: number | string
@@ -10,13 +13,11 @@ export interface productOffTimerProps {
     seconds: number | string
 }
 
-interface unknownObject {
-    [key: string]: unknown
-}
+
 
 interface FetchOptions {
     method?: 'POST' | 'DELETE' | 'PUT'
-    body?: unknownObject
+    body?: unknownObjProps<unknown>
 }
 
 type FetchResponse<T> = {
@@ -246,7 +247,7 @@ const removeProductFromBasket = async (productID: string, userID: string) => {
     }
 }
 
-const addProductToBasket = async (userID, productID, count, dispatch, productServices = { 'گارانتی ۱۸ ماهه پیسی کالا': 0 }) => {
+const addProductToBasket: addProductFunctionProps = async (userID, productID, count, dispatch, productServices = { 'گارانتی ۱۸ ماهه پیسی کالا': 0 }) => {
 
     const res = await fetch('/api/basket/add', {
         method: "POST",
@@ -257,10 +258,10 @@ const addProductToBasket = async (userID, productID, count, dispatch, productSer
     const finalData = await res.json()
 
     showToast(res.ok, finalData.message)
-    if (res.ok) dispatch(userUpdater())
+    if (res.ok) dispatch!(userUpdater())
 }
 
-const totalPriceCalculator = (price: number, discount: number, count: number, services: unknownObjProps<number>, withDiscount?: boolean = true) => {
+const totalPriceCalculator = (price: number, discount: number, count: number, services: unknownObjProps<number>, withDiscount?: boolean) => {
 
     const priceAfterDiscount = withDiscount ? price - (price * (discount / 100)) : price
     const servicesPrice = services ? Object.values(services).reduce((prev, next) => prev + next, 0) : 0
