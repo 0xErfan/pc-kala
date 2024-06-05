@@ -23,9 +23,27 @@ interface userDataTypes {
     role: 'USER' | 'ADMIN'
 }
 
+interface productDataTypes {
+    name: string
+    price: number
+    discount: number
+    image: string
+    type: 'pc' | 'laptop' | 'parts' | 'accessory' | 'console'
+    specs: unknownObjProps<unknownObjProps<string>>
+}
+
+interface userRelatedDataTypes {
+    Wish: { creator: userRelatedDataTypes, productID: productDataTypes }
+    Order: { productID: productDataTypes, count: number }
+    BasketItem: { userID: userRelatedDataTypes, productID: productDataTypes, count: number, services: unknownObjProps<number> }
+    Notification: { userID: userRelatedDataTypes, body: string, createdAt: string }
+}
+
 export type {
     unknownObjProps,
     categories,
     commentProps,
     userDataTypes,
+    productDataTypes,
+    userRelatedDataTypes
 }
