@@ -43,7 +43,7 @@ const Modal = () => {
     }
 
     return (
-        <section onClick={e => String(e.target?.className ?? '').includes('modalContainer') && notifyUserToClickButtons()} className={`fixed modalContainer duration-200 transition-all ${isShown ? 'opacity-100 visible' : 'opacity-0 invisible'} w-full z-[1000] h-full flex-center px-12 inset-0 m-auto bg-transparent`}>
+        <section onClick={e => String(e.target?.className ?? '').includes('modalContainer') && notifyUserToClickButtons()} className={`fixed modalContainer duration-200 transition-all ${isShown ? 'opacity-100 visible' : 'opacity-0 invisible'} w-full z-[1000] h-full flex-center px-12 inset-0 m-auto bg-transparent select-none`}>
 
             <div className={`max-w-[512px] transition-all ${moveModal ? 'scale-75' : ''} w-full text-center rounded-b-xl rounded-l-xl p-4 flex flex-col z-[100] items-center justify-center space-y-5 bg-white shadow-md overflow-hidden`}>
 

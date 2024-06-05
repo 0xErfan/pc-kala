@@ -41,7 +41,7 @@ const Profile = () => {
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
 
-    const { nameLastName, username, meliCode, email, phoneNumber } = fetchedData?.userData || {}
+    const { nameLastName, username, nationalCode, email, phoneNumber } = fetchedData?.userData || {}
     const { Wish, Notification, Transaction, Comment } = fetchedData?.userRelatedData || []
 
     const { processing, canceled, delivered } = useMemo(() => {
@@ -225,11 +225,11 @@ const Profile = () => {
 
                             <UserDataUpdater
                                 dataEditorCloser={dataEditorCloser}
-                                name="meliCode"
+                                name="nationalCode"
                                 title="کد ملی"
-                                inputValue={meliCode || ''}
-                                readOnly={!activeEditShown?.meliCode}
-                                editToggle={() => activeEditChanger("meliCode")}
+                                inputValue={nationalCode || ''}
+                                readOnly={!activeEditShown?.nationalCode}
+                                editToggle={() => activeEditChanger("nationalCode")}
                             />
 
                             <UserDataUpdater

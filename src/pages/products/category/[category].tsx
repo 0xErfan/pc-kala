@@ -8,7 +8,6 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import connectToDB from "@/config/db";
 
 const Category = ({ product }: any) => {
 
@@ -17,7 +16,7 @@ const Category = ({ product }: any) => {
     const router = useRouter()
 
     const breadCrumbData = [
-        { text: "دسته بندی ها", link: `/category` },
+        { text: "دسته بندی ها", link: `/products/category/${product[0].category}` },
         { text: `${engCategoryToPersian(product[0].category)}` }
     ]
 
