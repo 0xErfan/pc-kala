@@ -559,7 +559,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                         </div>
                                     </div>
 
-                                    <div className={`flex-1 mb-auto`}>
+                                    <div className={`flex-1 mb-auto w-full`}>
 
                                         {
                                             productComments?.length ? null : <p className="text-description-text pt-2">اولین کسی باشید که دیدگاهی می نویسد “{name}”</p>
@@ -569,9 +569,9 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                             !isLogin ?
                                                 <div className="text-center mt-12 p-3 border border-dark-gold rounded-md w-3/4 m-auto">برای ثبت نظر ابتدا <Link href="/login" className="text-blue-dark">وارد حساب </Link>خود شوید.</div>
                                                 :
-                                                <div className="mt-6">
+                                                <div className="mt-6 w-full">
 
-                                                    <div className="flex items-center justify-between ch:flex-1">
+                                                    <div className="flex items-center justify-between ch:flex-1 w-full">
 
                                                         <label htmlFor="textArea">دیدگاه شما <span className="text-white-red">*</span></label>
 
@@ -588,12 +588,14 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                                         id="textArea" cols={30} rows={10}>
                                                     </textarea>
 
-                                                    <Button
-                                                        text={isUpdating ? '' : 'ثبت نظر'}
-                                                        Icon={isUpdating ? <Loader /> : <></>}
-                                                        filled
-                                                        fn={addNewComment}
-                                                    />
+                                                    <div className="w-full ch:w-full">
+                                                        <Button
+                                                            text={isUpdating ? '' : 'ثبت نظر'}
+                                                            Icon={isUpdating ? <Loader /> : <></>}
+                                                            filled
+                                                            fn={addNewComment}
+                                                        />
+                                                    </div>
 
                                                 </div>
                                         }

@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 import Button from "./Button";
 import { convertNumbers2English, inputValidationProps, inputValidations, showToast } from "@/utils";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
-import { unknownObjProps, userDataTypes } from "@/global.t";
+import { userDataTypes } from "@/global.t";
 import Loader from "./Loader";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 
@@ -17,9 +17,7 @@ interface inputProps {
     editToggle: () => void
 }
 
-
-
-export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = true, editToggle, dataEditorCloser }: inputProps) => {
+const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = true, editToggle, dataEditorCloser }: inputProps) => {
 
     const [value, setValue] = useState(inputValue)
     const [loading, setLoading] = useState(false)
@@ -59,7 +57,7 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
                 }
 
             } else {
-                // here user changed his/her pass and will see the result
+                // here user password changed successfully
                 showToast(res.ok, data.message)
 
                 if (res.status == 200) {
@@ -67,12 +65,13 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
                     dataEditorCloser()
                     setValue('')
                 }
-                return
             }
 
             setLoading(false)
             return
         }
+
+        console.log('im also running here bro')
 
         setLoading(true)
 
