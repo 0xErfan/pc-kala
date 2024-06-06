@@ -71,8 +71,6 @@ const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = true, e
             return
         }
 
-        console.log('im also running here bro')
-
         setLoading(true)
 
         try {

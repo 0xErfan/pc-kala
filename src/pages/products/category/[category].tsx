@@ -89,7 +89,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         if (!response.ok) throw new Error('Failed to fetch product')
 
         const product = await response.json();
-
+        
         return { props: { product } };
 
     } catch (error) {
