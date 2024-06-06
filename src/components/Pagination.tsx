@@ -9,7 +9,7 @@ import { BsSortDown } from "react-icons/bs"
 interface paginationProps {
     currentPage?: number
     itemsPerPage?: number
-    itemsArray: []
+    itemsArray: productDataTypes[]
     paginationType?: 'withPage' | 'seeMore'
 }
 
@@ -47,7 +47,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
     useEffect(() => { setSortBy('') }, [itemsArray])
 
     useEffect(() => {
-        setPaginatedItems(itemsSorter(sortBy, [...itemsArray].slice(startIndex, endIndex)))
+        setPaginatedItems(itemsSorter(sortBy, [...itemsArray as []].slice(startIndex, endIndex)))
     }, [currentPage, itemsArray, sortBy, startIndex, endIndex]) // this effect first of all sort the pure items and then slice them to prevent losing sorted items between current page changing
 
     return (

@@ -48,7 +48,6 @@ const config: Config = {
       },
       fontFamily: {
         "sans": "sans",
-        "sans-thin": "sans-thin",
         "peyda": "peyda",
       },
       boxShadow: {

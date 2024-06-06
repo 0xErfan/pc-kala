@@ -485,14 +485,16 @@ const Product = ({ product }: { product: productDataTypes }) => {
                         </div>
 
                         <div className="mt-5">
-                            <div className="p-3 text-center rounded-sm cursor-pointer bg-dark-red text-[13px]">نحوه خرید
-                                اقساطی
-                            </div>
+
+                            <div className="p-3 text-center rounded-sm cursor-pointer bg-dark-red text-[13px]">نحوه خرید اقساطی</div>
+
                             <div className="flex items-center gap-2 mt-2 ch:rounded-sm ch:cursor-pointer">
+
                                 <div
                                     className="flex items-center flex-1 flex-center font-bold gap-2 p-2 bg-secondary-black text-title-text border-dashed hover:bg-blue-dark transition-all border border-blue-dark">
                                     <MdOutlinePhoneEnabled className="size-5" />نیاز به مشاوره
                                 </div>
+
                                 <div
                                     className="flex items-center flex-1 flex-center font-bold gap-2 p-2 text-secondary-black bg-title-text">
                                     <GrGroup className="size-5 text-tex" />امور مشتریان

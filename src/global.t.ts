@@ -41,7 +41,8 @@ interface productDataTypes {
     name: string
     price: number
     discount: number
-    category: string
+    category: categories
+    'sub-cat'?: string
     image: string
     type: 'pc' | 'laptop' | 'parts' | 'accessory' | 'console'
     specs: unknownObjProps<unknownObjProps<string>>
@@ -71,6 +72,7 @@ interface NotificationProps {
 }
 
 interface BasketItemProps {
+    _id: string
     userID: userRelatedDataTypes
     productID: productDataTypes
     count: number

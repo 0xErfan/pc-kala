@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useMemo, useState } from "react"
+import { ReactNode, useMemo, useState } from "react"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import { Input } from "@/components/Input"
@@ -9,6 +9,7 @@ import { showToast, totalPriceCalculator } from "@/utils"
 import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { useRouter } from "next/router"
 import Loader from "@/components/Loader"
+import { unknownObjProps } from "@/global.t"
 
 interface TableDataProps {
     children: ReactNode,
@@ -26,7 +27,7 @@ const TableData = ({ title, children }: TableDataProps) => {
 
 const Checkout = () => {
 
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState<unknownObjProps<string>>({});
     const [doesUserAccept, setDoesUserAccept] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -34,13 +35,16 @@ const Checkout = () => {
     const dispatch = useAppDispatch()
     const navigate = useRouter()
 
-    const inputUpdater = (name: string, value: unknown) => setFormData(prev => ({ ...prev, [name]: value }));
+    const inputUpdater = (name: string, value: string) => setFormData(prev => ({ ...prev, [name]: value }));
 
     const sumOfProductsWithDiscount = useMemo(() => {
-        let sum = 0
-        relatedData?.BasketItem?.map(({ productID, count, services }) => { sum += totalPriceCalculator(productID.price, productID.discount, count, services) })
-        return +sum
-    }, [relatedData?.BasketItem])
+
+        if (!relatedData?.BasketItem) return 0;
+
+        return relatedData.BasketItem
+            .reduce((sum, { productID, count, services }) => sum + totalPriceCalculator(productID.price, productID.discount, count, services), 0);
+
+    }, [relatedData?.BasketItem]);
 
     const submitOrder = async () => {
 
@@ -54,7 +58,7 @@ const Checkout = () => {
 
         if (formData.name.trim().length > 20 || formData.name.trim().length < 3) { showToast(false, 'نام باید بیشتر از 3 و کمتر از 20 کاراکتر باشد'); return }
         if (formData.lName.trim().length > 20 || formData.lName.trim().length < 3) { showToast(false, 'نام خانوادگی باید بیشتر از 3 و کمتر از 20 کاراکتر باشد'); return }
-        if (isNaN(formData.codePost) || formData.codePost.trim().length != 10) { showToast(false, 'کد پستی یک عدد ده رقمی است'); return }
+        if (isNaN(+formData.codePost) || formData.codePost.trim().length != 10) { showToast(false, 'کد پستی یک عدد ده رقمی است'); return }
         if (!/^09\d{9}$/.test(formData.phoneNum)) { showToast(false, 'شماره موبایل معتبر نیست'); return }
         if (!doesUserAccept) { showToast(false, 'موافقت با قوانین و مقررات الزامی است'); return }
 

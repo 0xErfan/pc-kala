@@ -8,11 +8,6 @@
 }
 
 @font-face {
-    font-family: "sans-thin";
-    src: url("/fonts/Iransans/IRANSansX\ Thin.ttf") format("truetype");
-}
-
-@font-face {
     font-family: "peyda";
     src: url("/fonts/Peyda/PeydaWeb.ttf") format("truetype");
 }

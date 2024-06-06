@@ -8,8 +8,9 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { productDataTypes } from "@/global.t";
 
-const Category = ({ product }: any) => {
+const Category = ({ product }: { product: productDataTypes[] }) => {
 
     const [products, setProducts] = useState([...product])
 
@@ -37,7 +38,7 @@ const Category = ({ product }: any) => {
                 case 'student': { return item.price > 25_000_000 }
                 case 'rendering': { return item.price > 42_000_000 }
                 case 'office': { return item.price > 15_000_000 }
-                default: { return item["sub-cat"]?.toLowerCase() == filter || item.name.toLowerCase().includes(filter) }
+                default: { return item["sub-cat"]?.toLowerCase() == filter || item.name.toLowerCase().includes(filter as string) }
             }
         })
 
@@ -59,7 +60,7 @@ const Category = ({ product }: any) => {
 
                 <BlockTitle title={`قیمت لپ تاپ`} Icon={<HiOutlineClipboardList className="p-[6px]" />} />
 
-                <Pagination itemsArray={filter ? products as [] : product} />
+                <Pagination itemsArray={filter ? products : product} />
 
             </div>
 
