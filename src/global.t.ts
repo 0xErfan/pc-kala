@@ -55,6 +55,13 @@ interface TransactionProductsTypes {
     count: number
 }
 
+interface DiscountDataTypes {
+    code: string
+    value: number
+    maxUse: number
+    createdAt: string
+}
+
 interface TransactionProps {
     _id: string
     userID: userRelatedDataTypes | string,
@@ -113,4 +120,5 @@ export type {
     BasketItemProps,
     OrderDataTypes,
     WishDataTypes,
+    DiscountDataTypes,
 }
