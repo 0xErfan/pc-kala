@@ -146,7 +146,7 @@ const Profile = () => {
                                 ?
                                 < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-h-[700px] overflow-y-auto ml-auto p-3 gap-3">
                                     {
-                                        [...Wish].reverse().map(prd => <LikedProduct productID={prd.productID} creator={_id as string} key={prd.productID._id} />)
+                                        [...Wish].reverse().map(prd => <LikedProduct productID={prd.productID} creator={_id as string} key={prd.productID?._id} />)
                                     }
                                 </div>
                                 :

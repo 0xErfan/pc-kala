@@ -93,7 +93,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
         return relatedData?.BasketItem?.some(data => {
 
-            if (data.productID._id == _id) {
+            if (data.productID?._id == _id) {
                 setProductCount(data.count)
                 setProductServices({ ...data.services, 'گارانتی ۱۸ ماهه پیسی کالا': 0 })
                 return true
@@ -110,22 +110,24 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
             setIsUpdating(true)
             // Conditionally update or remove the property, based on the value(if true update else delete)
-            let updatedProductServices;
+            let updatedProductServices: unknownObjProps<number>;
 
             if (value) {
-                updatedProductServices = { ...productServices, [title]: value };
+                updatedProductServices = { ...productServices, [title]: price };
             } else {
                 updatedProductServices = { ...productServices };
                 delete updatedProductServices[title];
             }
 
             setTimeout(() => {
-                addProductToBasket(data._id, _id, productCount, dispatch, { 'w': 12 })
+                addProductToBasket(data._id, _id, productCount, dispatch, updatedProductServices)
                     .then(() => {
                         dispatch(userUpdater())
                         return setIsUpdating(false)
                     })
             }, 800);
+
+            return
         }
 
         if (value) {
@@ -153,7 +155,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
             services: { ...productServices },
             isCreatedByCustomer: [...relatedData.Transaction]
                 .filter(data => data.status !== 'CANCELED') // canceled transactions can't be counted as customer buy
-                .some(data => data.productsList.some(productData => { if (productData.productID._id == _id) return true })) // check if user bought the product from hes/her transactions record
+                .some(data => data.productsList.some(productData => { if (productData.productID?._id == _id) return true })) // check if user bought the product from hes/her transactions record
         }
 
         try {

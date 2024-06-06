@@ -28,7 +28,7 @@ const Product = (product: productDataTypes) => {
     useEffect(() => {
 
         relatedData?.Wish?.some(data => {
-            if (data.productID._id == _id) {
+            if (data.productID?._id == _id) {
                 setIsProductInUserWish(true)
                 return true
             }
@@ -36,7 +36,7 @@ const Product = (product: productDataTypes) => {
 
         setIsProductInBasket(
             relatedData?.BasketItem?.some(data => {
-                if (data.productID._id == _id) {
+                if (data.productID?._id == _id) {
                     setIsProductInBasket(true)
                     return true
                 }

@@ -73,7 +73,7 @@ const TransactionDetails = () => {
 
     const sumOfProductsWithDiscount = useMemo(() => {
         let sum = 0
-        transactionData?.productsList?.map(({ productID, count, services }) => { sum += totalPriceCalculator(productID.price, productID.discount, count, services) })
+        transactionData?.productsList?.map(({ productID, count, services }) => { sum += totalPriceCalculator(productID?.price, productID?.discount, count, services) })
         return +sum
     }, [transactionData?.productsList])
 
@@ -208,7 +208,7 @@ const TransactionDetails = () => {
                                 {
                                     transactionData?.productsList?.length
                                     &&
-                                    transactionData?.productsList.map(data => <UserOrder key={data.productID._id} {...data} />)
+                                    transactionData?.productsList.map(data => <UserOrder key={data.productID?._id} {...data} />)
                                 }
 
                                 <div className="border p-3 border-gray-500 rounded-sm flex justify-between font-peyda">
@@ -248,7 +248,7 @@ const UserOrder = ({ productID, count, services }: TransactionProductsTypes) => 
                 <div className="size-24">
                     <Image
                         className=" object-cover bg-center flex-1 h-full w-full"
-                        alt={productID.name}
+                        alt={productID?.name}
                         width={100}
                         height={100}
                         quality={100}
@@ -258,14 +258,14 @@ const UserOrder = ({ productID, count, services }: TransactionProductsTypes) => 
                 </div>
 
                 <div className="flex-[4] mb-auto">
-                    <p className="text-title-text text-md">{productID.name} <span className="text-[12px] text-description-text">({Object.keys(services)?.join(', ')} )</span> </p>
+                    <p className="text-title-text text-md">{productID?.name} <span className="text-[12px] text-description-text">({Object.keys(services)?.join(', ')} )</span> </p>
                 </div>
 
             </div>
 
             <div className="flex justify-between text-description-text">
                 <div>تعداد:  <span className="text-white-red font-peyda">{count}</span> </div>
-                <div><span className="text-white-red">{totalPriceCalculator(productID.price, productID.discount, count, services, true).toLocaleString('fa-IR')}</span> تومان </div>
+                <div><span className="text-white-red">{totalPriceCalculator(productID?.price, productID?.discount, count, services, true).toLocaleString('fa-IR')}</span> تومان </div>
             </div>
         </div>
     )

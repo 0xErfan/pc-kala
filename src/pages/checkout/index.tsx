@@ -42,7 +42,7 @@ const Checkout = () => {
         if (!relatedData?.BasketItem) return 0;
 
         return relatedData.BasketItem
-            .reduce((sum, { productID, count, services }) => sum + totalPriceCalculator(productID.price, productID.discount, count, services), 0);
+            .reduce((sum, { productID, count, services }) => sum + totalPriceCalculator(productID?.price, productID?.discount, count, services), 0);
 
     }, [relatedData?.BasketItem]);
 
@@ -155,14 +155,14 @@ const Checkout = () => {
                                             <tr key={_id} className={"border border-gray-600"}>
 
                                                 <td className={`p-3 text-[12px] text-[#8b8b8b]`}>
-                                                    <div className="text-description-text text-[13px]">{productID.name}</div>
+                                                    <div className="text-description-text text-[13px]">{productID?.name}</div>
                                                     <span>{`(${services ? Object.keys(services).join(' - ') : ''})`}</span>
                                                     <span dir="ltr"> x </span>
                                                     <span className="text-white-red" >{count}</span>
                                                 </td>
 
                                                 <td className={"text-nowrap p-3 border-r-2 border-gray-600 text-[13px]"}>
-                                                    <span className={"text-blue-white"}>{(totalPriceCalculator(productID.price, productID.discount, count, services)).toLocaleString('fa-IR')}</span> تومان
+                                                    <span className={"text-blue-white"}>{(totalPriceCalculator(productID?.price, productID?.discount, count, services)).toLocaleString('fa-IR')}</span> تومان
                                                 </td>
                                             </tr>)
                                         )

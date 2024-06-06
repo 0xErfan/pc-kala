@@ -3,15 +3,80 @@ import Header from "@/components/Header"
 import ProductCart from "@/components/ProductCart";
 import Button from "@/components/Button";
 import Progress from "@/components/Progress";
-import { useAppSelector } from "@/Hooks/useRedux";
-import { useMemo } from "react";
-import { showToast, totalPriceCalculator } from "@/utils";
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
+import { useEffect, useMemo, useState } from "react";
+import { addProductToBasket, showToast, totalPriceCalculator } from "@/utils";
 import { useRouter } from "next/router";
+import Loader from "@/components/Loader";
+import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 
 const Card = () => {
 
-    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData) || []
     const navigate = useRouter()
+    const dispatch = useAppDispatch()
+
+    const { BasketItem } = useAppSelector(state => state.userSlice.relatedData) || []
+    const userID = useAppSelector(state => state.userSlice.data._id)
+
+    const [discountInput, setDiscountInput] = useState('')
+    const [isDiscountValid, setIsDiscountValid] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+
+    useEffect(() => {
+        if (BasketItem?.length) {
+            const doesBasketHaveDiscount = Object.keys(BasketItem[0].services)
+                .some(data => {
+                    if (data.includes('کد تخفیف')) return true
+                })
+            setIsDiscountValid(doesBasketHaveDiscount)
+        }
+    }, [BasketItem])
+
+    const checkAndActiveDiscount = async () => {
+
+        if (isDiscountValid) return;
+
+        if (!discountInput.trim().length) return showToast(false, 'کد تخفیف نامعتبر است 😒')
+
+        setIsLoading(true)
+
+        const res = await fetch('/api/discount/use', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: discountInput, basketID: BasketItem[0]._id, userID })
+        })
+
+        const data = await res.json()
+
+        setTimeout(() => {
+            setIsDiscountValid(res.ok)
+            showToast(res.ok, data.message, res.ok ? 4500 : 2500)
+            setIsLoading(false)
+            if (res.ok) dispatch(userUpdater())
+        }, 800);
+    }
+
+    const removeDiscountFromBasket = async () => {
+
+        const removedDiscountFromBasket = { ...BasketItem[0].services }
+
+        for (let key in removedDiscountFromBasket) {
+            if (key.includes('کد تخفیف')) {
+                delete removedDiscountFromBasket[key]
+            }
+        }
+
+        const res = await fetch('/api/discount/delete', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productID: BasketItem[0]._id, services: removedDiscountFromBasket })
+        })
+
+        const data = await res.json()
+
+        showToast(res.ok, data.message)
+        if (res.ok) dispatch(userUpdater())
+    }
 
     const { sumOfProductsWithoutDiscount, sumOfProductsWithDiscount } = useMemo(() => {
 
@@ -19,8 +84,8 @@ const Card = () => {
 
         BasketItem?.map(({ productID, count, services }) => {
 
-            sumOfPrices.sumOfProductsWithoutDiscount += (totalPriceCalculator(productID.price, productID.discount, count, services, false))
-            sumOfPrices.sumOfProductsWithDiscount += (totalPriceCalculator(productID.price, productID.discount, count, services))
+            sumOfPrices.sumOfProductsWithoutDiscount += (totalPriceCalculator(productID?.price, productID?.discount, count, services, false))
+            sumOfPrices.sumOfProductsWithDiscount += (totalPriceCalculator(productID?.price, productID?.discount, count, services))
         })
 
         return sumOfPrices
@@ -48,12 +113,12 @@ const Card = () => {
                                         ?
                                         BasketItem.map(({ productID, count, services }) => {
                                             return <ProductCart
-                                                key={productID._id}
-                                                title={productID.name}
+                                                key={productID?._id}
+                                                title={productID?.name}
                                                 count={count}
-                                                price={totalPriceCalculator(productID.price, productID.discount, 1, services, false)}
-                                                finalPrice={totalPriceCalculator(productID.price, productID.discount, count, services, false)}
-                                                id={productID._id}
+                                                price={totalPriceCalculator(productID?.price, productID?.discount, 1, services, false)}
+                                                finalPrice={totalPriceCalculator(productID?.price, productID?.discount, count, services, false)}
+                                                id={productID?._id}
                                                 src="/images/laptop-default.webp"
                                             />
                                         })
@@ -85,12 +150,12 @@ const Card = () => {
                                             ?
                                             BasketItem.map(({ productID, count, services }) => {
                                                 return <ProductCart
-                                                    key={productID._id}
-                                                    title={productID.name}
+                                                    key={productID?._id}
+                                                    title={productID?.name}
                                                     count={count}
-                                                    price={totalPriceCalculator(productID.price, productID.discount, 1, services, false)}
-                                                    finalPrice={totalPriceCalculator(productID.price, productID.discount, count, services, false)}
-                                                    id={productID._id}
+                                                    price={totalPriceCalculator(productID?.price, productID?.discount, 1, services, false)}
+                                                    finalPrice={totalPriceCalculator(productID?.price, productID?.discount, count, services, false)}
+                                                    id={productID?._id}
                                                     src="/images/laptop-default.webp"
                                                 />
                                             })
@@ -104,10 +169,40 @@ const Card = () => {
                                 BasketItem?.length
                                     ?
                                     <div className="mt-20 border relative border-title-text rounded-md p-3">
+
                                         <span className="absolute w-20 h-4 p-3 bg-primary-black top-0 right-[30px] rounded-sm flex-center -translate-y-[50%]">کد تخفیف:</span>
+
                                         <div className="mt-5 flex items-center justify-between rounded-sm bg-primary-black border border-white/10">
-                                            <input placeholder="کد تخفیف:" className="w-full text-[16px] placeholder:text-[12px] flex-[5] outline-none bg-transparent p-2" type="text" />
-                                            <div className="p-2"><Button filled text="اعمال کد تخفیف" fn={() => { }} /></div>
+
+                                            <input
+                                                className="w-full text-[16px] placeholder:text-[12px] flex-[5] outline-none bg-transparent p-2"
+                                                value={discountInput}
+                                                onChange={e => isDiscountValid ? null : setDiscountInput(e.target.value)}
+                                                onKeyDown={e => e.key == 'Enter' && checkAndActiveDiscount()}
+                                                placeholder="کد تخفیف:"
+                                                spellCheck={false}
+                                                type="text"
+                                            />
+
+                                            <div className="p-2 flex flex-row-reverse gap-2">
+                                                <Button
+                                                    filled
+                                                    bgColor={isDiscountValid ? "bg-green" : undefined}
+                                                    active={isDiscountValid}
+                                                    Icon={isLoading ? <Loader /> : <></>}
+                                                    text={isLoading ? '' : isDiscountValid ? 'کد تخفیف اعمال شد' : 'اعمال کد تخفیف'}
+                                                    fn={checkAndActiveDiscount}
+                                                />
+                                                {
+                                                    isDiscountValid
+                                                        ?
+                                                        <Button
+                                                            text='لغو کد تخفیف'
+                                                            fn={removeDiscountFromBasket}
+                                                        />
+                                                        : null
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                     : null

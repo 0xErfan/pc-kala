@@ -16,7 +16,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { removeProductFromBasket, showToast, totalPriceCalculator } from '@/utils';
 import { changeCanScroll, userUpdater } from '@/Redux/Features/globalVarsSlice';
-import { productDataTypes, userDataTypes, userRelatedDataTypes } from '@/global.t';
 
 interface SideMenuProps {
     dataToShow: 'basket' | 'sideMenu'
@@ -36,8 +35,10 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
     const sumOfProductsPrice = useMemo(() => {
 
+        if (!relatedData?.BasketItem?.length) return 0
+
         let sum = 0
-        relatedData?.BasketItem?.map(data => { sum += (totalPriceCalculator(data.productID.price, data.productID.discount, data.count, data.services)) })
+        relatedData?.BasketItem?.map(data => { sum += (totalPriceCalculator(data.productID?.price, data.productID?.discount, data.count, data.services)) })
 
         return sum
     }, [relatedData?.BasketItem])
@@ -83,18 +84,18 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                                             ?
                                             relatedData.BasketItem.map(({ productID, count, services }) => (
 
-                                                <div data-aos-duration="550" data-aos="fade-right" key={productID._id} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
+                                                <div data-aos-duration="550" data-aos="fade-right" key={productID?._id} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
 
-                                                    <span onClick={() => deleteProductFromBasket(productID._id)} className='absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
+                                                    <span onClick={() => deleteProductFromBasket(productID?._id)} className='absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
 
-                                                    <div className='flex-1'><Image alt={productID.name} width={400} height={400} className='object-cover size-full' src="/images/laptop-default.webp" /></div>
+                                                    <div className='flex-1'><Image alt={productID?.name} width={400} height={400} className='object-cover size-full' src="/images/laptop-default.webp" /></div>
 
                                                     <div className='flex-[2]'>
 
-                                                        <Link href={`/products/search/${productID._id}`} className='line-clamp-3 transition-all duration-300 hover:text-white-red'>{productID.name}</Link>
+                                                        <Link href={`/products/search/${productID?._id}`} className='line-clamp-3 transition-all duration-300 hover:text-white-red'>{productID?.name}</Link>
 
                                                         <p className='text-[15px] p-1 text-title-text'>{count} × <span className='text-white-red'>
-                                                            {totalPriceCalculator(productID.price, productID.discount, 1, services).toLocaleString('fa-IR')}</span> تومان
+                                                            {totalPriceCalculator(productID?.price, productID?.discount, 1, services).toLocaleString('fa-IR')}</span> تومان
                                                         </p>
                                                     </div>
 

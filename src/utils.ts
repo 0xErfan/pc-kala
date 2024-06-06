@@ -261,12 +261,13 @@ const addProductToBasket: addProductFunctionProps<unknown> = async (userID, prod
     if (res.ok) dispatch!(userUpdater())
 }
 
-const totalPriceCalculator = (price: number, discount: number, count: number, services: unknownObjProps<number>, withDiscount?: boolean) => {
+const totalPriceCalculator = (price: number, discount: number, count: number, services: unknownObjProps<number>, withDiscount: boolean = true) => {
 
     const priceAfterDiscount = withDiscount ? price - (price * (discount / 100)) : price
     const servicesPrice = services ? Object.values(services).reduce((prev, next) => prev + next, 0) : 0
 
-    return (priceAfterDiscount + servicesPrice) * count
+    // return (priceAfterDiscount + servicesPrice) * count
+    return ((priceAfterDiscount + servicesPrice) * count) - (servicesPrice * (count - 1))
 }
 
 export {

@@ -31,8 +31,8 @@ const Comment = ({ _id, createdAt, productID, rate, accepted, body }: commentPro
                 <div
                     dir="ltr"
                     className="line-clamp-1 md:max-w-[180px] max-w-[140px] hover:text-blue-500 duration-200 transition-all flex-center whitespace-nowrap underline m-auto w-full cursor-pointer overflow-ellipsis" >
-                    <Link href={`/products/search/${productID._id}`} className="hidden sm:block">{productID.name}</Link>
-                    <Link href={`/products/search/${productID._id}`} className="text-white-red text-[15px] sm:hidden">...</Link>
+                    <Link href={`/products/search/${productID?._id}`} className="hidden sm:block">{productID?.name}</Link>
+                    <Link href={`/products/search/${productID?._id}`} className="text-white-red text-[15px] sm:hidden">...</Link>
                 </div>
             </td>
 
