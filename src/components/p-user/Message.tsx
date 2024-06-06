@@ -4,14 +4,10 @@ import { IoTrashOutline } from 'react-icons/io5'
 import { useAppDispatch } from '@/Hooks/useRedux'
 import { showToast } from '@/utils'
 import { userUpdater } from '@/Redux/Features/globalVarsSlice'
+import { NotificationProps } from '@/global.t'
 
-interface MessageProps {
-    body: string
-    _id: string
-    createdAt: string
-}
 
-const Message = ({ _id, body, createdAt }: MessageProps) => {
+const Message = ({ _id, body, createdAt }: NotificationProps) => {
 
     const dispatch = useAppDispatch()
 

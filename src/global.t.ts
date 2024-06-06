@@ -3,10 +3,12 @@ interface unknownObjProps<T> { [key: string]: T }
 type categories = 'pc' | 'laptop' | 'accessory' | 'console' | 'parts' | 'لوازم جانبی' | 'کنسول بازی' | 'لپتاپ' | 'قطعات کامپیوتر' | 'کامپیوتر'
 
 interface commentProps {
+    _id: string
     body: string
     rate: number
     creator: unknownObjProps<string>
-    productID: string
+    productID: productDataTypes
+    accepted: 0 | -1 | 1
     createdAt?: string
     isCreatedByCustomer: boolean
     services: unknownObjProps<string | number>
@@ -61,11 +63,35 @@ interface TransactionProps {
     createdAt: string
 }
 
+interface NotificationProps {
+    _id: string
+    userID: userRelatedDataTypes
+    body: string
+    createdAt: string
+}
+
+interface BasketItemProps {
+    userID: userRelatedDataTypes
+    productID: productDataTypes
+    count: number
+    services: unknownObjProps<number>
+}
+
+interface OrderDataTypes {
+    productID: productDataTypes
+    count: number
+}
+
+interface WishDataTypes {
+    creator: userRelatedDataTypes
+    productID: productDataTypes
+}
+
 interface userRelatedDataTypes {
-    Wish: { creator: userRelatedDataTypes, productID: productDataTypes }[]
-    Order: { productID: productDataTypes, count: number }[]
-    BasketItem: { userID: userRelatedDataTypes, productID: productDataTypes, count: number, services: unknownObjProps<number> }[]
-    Notification: { userID: userRelatedDataTypes, body: string, createdAt: string }[],
+    Wish: WishDataTypes[]
+    Order: OrderDataTypes[]
+    BasketItem: BasketItemProps[]
+    Notification: NotificationProps[],
     Transaction: TransactionProps[]
     Comment: commentProps[]
 }
@@ -80,4 +106,8 @@ export type {
     TransactionProps,
     TransactionProductsTypes,
     CustomerDataForTransactionData,
+    NotificationProps,
+    BasketItemProps,
+    OrderDataTypes,
+    WishDataTypes,
 }

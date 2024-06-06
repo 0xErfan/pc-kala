@@ -4,7 +4,7 @@ import { categories, unknownObjProps } from "./global.t"
 import { userUpdater } from "./Redux/Features/globalVarsSlice"
 import { store } from "./Redux/store"
 
-type addProductFunctionProps = (userID: string, productID: string, count?: number, dispatch?: typeof store.dispatch, productServices?: unknownObjProps<number>) => unknown
+type addProductFunctionProps<T> = (userID: string, productID: string, count?: number, dispatch?: typeof store.dispatch, productServices?: unknownObjProps<number>) => Promise<T>
 
 export interface productOffTimerProps {
     hours: number | string
@@ -247,7 +247,7 @@ const removeProductFromBasket = async (productID: string, userID: string) => {
     }
 }
 
-const addProductToBasket: addProductFunctionProps = async (userID, productID, count, dispatch, productServices = { 'گارانتی ۱۸ ماهه پیسی کالا': 0 }) => {
+const addProductToBasket: addProductFunctionProps<unknown> = async (userID, productID, count, dispatch, productServices = { 'گارانتی ۱۸ ماهه پیسی کالا': 0 }) => {
 
     const res = await fetch('/api/basket/add', {
         method: "POST",

@@ -1,18 +1,9 @@
 import { useAppDispatch } from "@/Hooks/useRedux"
 import { modalDataUpdater } from "@/Redux/Features/globalVarsSlice"
-import { unknownObjProps } from "@/global.t"
+import { commentProps, unknownObjProps } from "@/global.t"
 import Link from "next/link"
 import { BsStarFill } from "react-icons/bs"
 import { FaRegEye } from "react-icons/fa"
-
-interface commentProps {
-    _id: string
-    createdAt: string
-    productID: unknownObjProps<number>
-    accepted: 1 | 0 | -1
-    rate: number
-    body: string
-}
 
 const Comment = ({ _id, createdAt, productID, rate, accepted, body }: commentProps) => {
 
@@ -34,7 +25,7 @@ const Comment = ({ _id, createdAt, productID, rate, accepted, body }: commentPro
 
             <td dir="ltr" className="text-[14px] tracking-wide">#{_id.slice(-4, -1).toUpperCase()}</td>
 
-            <td>{new Date(createdAt).toLocaleDateString('fa-IR')}</td>
+            <td>{new Date(createdAt!).toLocaleDateString('fa-IR')}</td>
 
             <td>
                 <div

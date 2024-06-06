@@ -22,10 +22,9 @@ import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice";
 import { useRouter } from "next/router";
-import { commentProps, unknownObjProps } from "@/global.t";
+import { commentProps, productDataTypes, unknownObjProps } from "@/global.t";
 import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
-import { ModalProps } from "@/components/Modal";
 
 interface coordinates {
     x: number
@@ -38,7 +37,7 @@ interface FullScreenImageProps {
     closeFullScreenFn: () => void
 }
 
-const Product = ({ product }: { product: unknownObjProps<string> }) => {
+const Product = ({ product }: { product: productDataTypes }) => {
 
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
@@ -110,7 +109,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
         if (isProductInBasket) {
 
             setIsUpdating(true)
-            // Conditionally update or remove the property based on the value
+            // Conditionally update or remove the property, based on the value(if true update else delete)
             let updatedProductServices;
 
             if (value) {
@@ -121,8 +120,11 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
             }
 
             setTimeout(() => {
-                addProductToBasket(data._id, _id, productCount, dispatch, updatedProductServices)
-                    .then(() => { dispatch(userUpdater()); return setIsUpdating(false) })
+                addProductToBasket(data._id, _id, productCount, dispatch, { 'w': 12 })
+                    .then(() => {
+                        dispatch(userUpdater())
+                        return setIsUpdating(false)
+                    })
             }, 800);
         }
 
@@ -143,7 +145,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
 
         setIsUpdating(true)
 
-        const commentData: commentProps = {
+        const commentData = {
             creator: data?._id,
             body: newCommentData.text,
             productID: _id,
@@ -478,10 +480,7 @@ const Product = ({ product }: { product: unknownObjProps<string> }) => {
                             {
                                 [...productSpecs]
                                     .slice(0, 6)
-                                    .map((prd, len) => <h4
-                                        key={len}
-                                        className="bg-primary-black flex items-center gap-2 py-1 ch:flex-shrink-0 px-2"><GoCpu />{prd[1].value}
-                                    </h4>)
+                                    .map((data, len) => <h4 key={len} className="bg-primary-black flex items-center gap-2 py-1 ch:flex-shrink-0 px-2"><GoCpu />{data[1].value}</h4>)
                             }
                         </div>
 
