@@ -19,7 +19,7 @@ const Transaction = ({ _id, createdAt, status, productsList, totalPrice }: Trans
             <td className="break-words max-w-[65px]">{totalPrice.toLocaleString('fa-IR')} تومان </td>
 
             <td>
-                <div className={`w-3/4 h-3/4 m-auto flex-center ${status == 'PROCESSING' ? 'bg-dark-gold/70' : status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} sm:p-2 p-1 rounded-md text-[12px]`}>
+                <div className={`w-3/4 h-3/4 m-auto flex-center ${status == 'PROCESSING' ? 'bg-dark-gold/70' : status == 'DELIVERED' ? 'bg-green' : 'bg-white-red'} sm:p-2 p-1 whitespace-nowrap rounded-md text-[12px]`}>
                     {
                         status == 'DELIVERED'
                             ?
@@ -34,7 +34,7 @@ const Transaction = ({ _id, createdAt, status, productsList, totalPrice }: Trans
                 </div>
             </td>
 
-            <td className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-8 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black"><FaRegEye onClick={() => navigate.push(`success-purchase/${_id}`)} /></td>
+            <td className="flex-center items-center ch:border ch:border-white/35 sm:ch:size-9 sm:ch:p-2 ch:size-8 ch:p-1 ch:rounded-md ch:cursor-pointer ch:bg-secondary-black"><FaRegEye onClick={() => navigate.push(`transactionDetails/${_id}`)} /></td>
         </tr>
     )
 }

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
-    matcher: ['/login', '/register', '/profile', '/success-purchase', '/checkout'],
+    matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout'],
 };
 
 export default async function middleware(request: NextRequest) {
@@ -17,7 +17,7 @@ export default async function middleware(request: NextRequest) {
         if (!cookie) return NextResponse.redirect(new URL('http://localhost:3000/login', request.url));
     }
 
-    if (path == '/success-purchase') {
+    if (path == '/transactionDetails') {
         if (!cookie) return NextResponse.redirect(new URL('http://localhost:3000/', request.url));
     }
 

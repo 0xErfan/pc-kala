@@ -87,9 +87,9 @@ const Modal = () => {
                     }
                 </div>
 
-                <div className="text-[#111827]">{title}</div>
+                <div className="text-[#111827] text-[16px]">{title}</div>
 
-                <div className="text-[#6b7280] leading-6 ">{message}</div>
+                <div className="text-[#6b7280] text-[14px] leading-5 ">{message}</div>
 
                 <div className="flex items-center justify-center ch:w-full w-full ch:cursor-pointer ch:text-center gap-1 ch:flex-1 ch:shrink font-peyda">
 

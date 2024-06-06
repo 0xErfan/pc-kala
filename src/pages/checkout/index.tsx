@@ -79,7 +79,7 @@ const Checkout = () => {
                 if (res.ok) {
                     dispatch(userUpdater())
                     setIsLoading(false)
-                    setTimeout(() => { navigate.replace(`/success-purchase/${resData.transaction._id}`) }, 200); // a little time for redux updating
+                    setTimeout(() => { navigate.replace(`/transactionDetails/${resData.transaction._id}`) }, 200); // a little time for redux updating
                 }
 
                 setIsLoading(false)

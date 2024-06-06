@@ -12,7 +12,7 @@ import Loader from "@/components/Loader"
 import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { TransactionProductsTypes, TransactionProps } from "@/global.t"
 
-const SuccessPurchase = () => {
+const TransactionDetails = () => {
 
     const navigate = useRouter()
     const dispatch = useAppDispatch()
@@ -88,9 +88,9 @@ const SuccessPurchase = () => {
                 <Progress />
 
                 {
-                    !transactionData ? <div className="bg-red-900"></div>
+                    !transactionData ? <div className="bg-primary-black h-52"></div>
                         :
-                        <div className="flex gap-5">
+                        <div className="flex md:flex-row flex-col xl:gap-5 gap-3">
 
                             <div className="flex-1 ch:bg-secondary-black ch:p-3 gap-1 flex flex-col ch:rounded-sm">
 
@@ -236,7 +236,7 @@ const SuccessPurchase = () => {
     )
 }
 
-export default SuccessPurchase;
+export default TransactionDetails;
 
 const UserOrder = ({ productID, count, services }: TransactionProductsTypes) => {
 
