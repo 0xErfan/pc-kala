@@ -11,6 +11,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "target": "ES2016",
     "jsx": "preserve",
     "incremental": true,
     "paths": {

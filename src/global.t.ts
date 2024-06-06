@@ -49,6 +49,7 @@ interface productDataTypes {
 }
 
 interface TransactionProductsTypes {
+    _id: string
     productID: productDataTypes,
     services: unknownObjProps<number>,
     count: number
