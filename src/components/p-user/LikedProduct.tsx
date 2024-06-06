@@ -9,7 +9,7 @@ import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 
 interface likeProductProps {
     productID: productDataTypes
-    creator: number
+    creator: string
 }
 
 const LikedProduct = ({ productID, creator }: likeProductProps) => {
@@ -31,7 +31,7 @@ const LikedProduct = ({ productID, creator }: likeProductProps) => {
 
             <Link href={`/products/search/${_id}`} className="text-center min-h-[50px] h-full px-3 transition-all line-clamp-2 hover:text-blue-dark duration-300 cursor-pointer text-title-text break-all leading-[25px] my-4 ">{name}</Link>
 
-            <Button Icon={<IoTrashOutline />} fn={() => addWish(creator, +_id).then(() => dispatch(userUpdater()))} />
+            <Button Icon={<IoTrashOutline />} fn={() => addWish(creator, _id).then(() => dispatch(userUpdater()))} />
         </div>
     )
 }

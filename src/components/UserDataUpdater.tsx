@@ -9,7 +9,7 @@ import { userUpdater } from "@/Redux/Features/globalVarsSlice";
 
 interface inputProps {
     title: string
-    inputValue: string
+    inputValue: string | number
     name: string
     readOnly?: boolean
     editAble?: boolean
@@ -31,7 +31,7 @@ export const UserDataUpdater = ({ name, readOnly, title, inputValue, editAble = 
 
     const validateValueAndUpdate = async () => {
 
-        const data: inputValidationProps | undefined = inputValidations(name, value)
+        const data: inputValidationProps | undefined = inputValidations(name, value as string)
 
         if (!data?.isValid) return showToast(false, data?.errorMessage as string)
 

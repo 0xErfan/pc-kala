@@ -67,6 +67,7 @@ interface userRelatedDataTypes {
     BasketItem: { userID: userRelatedDataTypes, productID: productDataTypes, count: number, services: unknownObjProps<number> }[]
     Notification: { userID: userRelatedDataTypes, body: string, createdAt: string }[],
     Transaction: TransactionProps[]
+    Comment: commentProps[]
 }
 
 export type {

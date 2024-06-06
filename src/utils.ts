@@ -200,7 +200,7 @@ const itemsSorter = (type: string, items: never[]) => {
     return sortedProducts;
 }
 
-const addWish = async (creator: number, productID: number) => {
+const addWish = async (creator: string, productID: string) => {
 
     try {
         const res = await fetch('/api/wish/create', {

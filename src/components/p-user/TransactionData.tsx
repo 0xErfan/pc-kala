@@ -1,16 +1,9 @@
+import { TransactionProps } from "@/global.t"
 import { useRouter } from "next/router"
 import { memo } from "react"
 import { FaRegEye } from "react-icons/fa"
 
-interface TransactionData {
-    _id: string
-    createdAt: string
-    status: 'PROCESSING' | 'ACCEPTED' | 'DELIVERED'
-    productsList: any[]
-    totalPrice: number
-}
-
-const Transaction = ({ _id, createdAt, status, productsList, totalPrice }: TransactionData) => {
+const Transaction = ({ _id, createdAt, status, productsList, totalPrice }: TransactionProps) => {
 
     const navigate = useRouter()
 
@@ -21,7 +14,7 @@ const Transaction = ({ _id, createdAt, status, productsList, totalPrice }: Trans
 
             <td>{new Date(createdAt).toLocaleDateString('fa-IR')}</td>
 
-            <td>{productsList.reduce((previous, next) => (previous?.count ?? previous) + next.count, 0)}</td>
+            <td>{productsList.reduce((previous, next) => previous + next.count, 0)}</td>
 
             <td className="break-words max-w-[65px]">{totalPrice.toLocaleString('fa-IR')} تومان </td>
 

@@ -20,6 +20,7 @@ import { userDataUpdater } from "@/Redux/Features/userSlice";
 import CommentData from '@/components/p-user/CommentData'
 import Message from "@/components/p-user/Message";
 import TransactionData from "@/components/p-user/TransactionData";
+import { userDataTypes, userRelatedDataTypes } from "@/global.t";
 
 interface orderStatusProps {
     count: number
@@ -31,7 +32,7 @@ const Profile = () => {
 
     const [userDataToRender, setUserDataToRender] = useState<ReactNode | null>(null)
     const [activeEditShown, setActiveEditShown] = useState<Record<string, unknown> | null>(null)
-    const [fetchedData, setFetchedData] = useState()
+    const [fetchedData, setFetchedData] = useState<{ userData: userDataTypes, userRelatedData: Partial<userRelatedDataTypes> }>()
     const [isLoaded, setIsLoaded] = useState(false)
     const navigate = useRouter()
 
@@ -41,8 +42,8 @@ const Profile = () => {
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
 
-    const { nameLastName, username, nationalCode, email, phoneNumber } = fetchedData?.userData || {}
-    const { Wish, Notification, Transaction, Comment } = fetchedData?.userRelatedData || []
+    const { nameLastName, username, nationalCode, email, phoneNumber, _id } = fetchedData?.userData || {}
+    const { Wish, Notification, Transaction, Comment } = fetchedData?.userRelatedData || {}
 
     const { processing, canceled, delivered } = useMemo(() => {
 
@@ -141,10 +142,12 @@ const Profile = () => {
                 setUserDataToRender(
                     <UserPanelTemplate title="علاقه مندی ها">
                         {
-                            [...Wish].length
+                            Wish?.length
                                 ?
                                 < div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 max-h-[700px] overflow-y-auto ml-auto p-3 gap-3">
-                                    {[...Wish].reverse().map(prd => <LikedProduct {...prd} key={prd._id} />)}
+                                    {
+                                        [...Wish].reverse().map(prd => <LikedProduct productID={prd.productID} creator={_id as string} key={prd.productID._id} />)
+                                    }
                                 </div>
                                 :
                                 <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">محصولی یافت نشد</div>
@@ -236,7 +239,7 @@ const Profile = () => {
                                 dataEditorCloser={dataEditorCloser}
                                 name="phoneNumber"
                                 title="شماره موبایل"
-                                inputValue={phoneNumber ?? ''}
+                                inputValue={phoneNumber || ''}
                                 readOnly={!activeEditShown?.phoneNumber}
                                 editToggle={() => activeEditChanger("phoneNumber")}
                             />
@@ -276,17 +279,19 @@ const Profile = () => {
 
     const logout = async () => {
 
-        dispatch(modalDataUpdater({ isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروج از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
-            
-            const res = await fetch('/api/auth/logout')
-            
-            if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
-            
-            showToast(true, 'خروج از حساب موفقیت امیز بود')
-            
-            dispatch(userDataUpdater({ isLogin: false }))
-            navigate.replace('/')
-        } }))
+        dispatch(modalDataUpdater({
+            isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروج از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
+
+                const res = await fetch('/api/auth/logout')
+
+                if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
+
+                showToast(true, 'خروج از حساب موفقیت امیز بود')
+
+                dispatch(userDataUpdater({ isLogin: false }))
+                navigate.replace('/')
+            }
+        }))
     }
 
     return (

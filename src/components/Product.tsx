@@ -47,11 +47,11 @@ const Product = (product: productDataTypes) => {
 
     const addWishHandler = () => {
 
-        if (!isLoggedIn) { showToast(false, 'ابتدا وارد حساب خود شوید'); return }
+        if (!isLoggedIn) return showToast(false, 'ابتدا وارد حساب خود شوید')
 
-        addWish(+data._id, +_id)
+        addWish(data._id, _id)
             .then(() => dispatch(userUpdater()))
-            .then(() => setIsProductInUserWish(preve => !preve))
+            .then(() => setIsProductInUserWish(prev => !prev))
     }
 
     return (
