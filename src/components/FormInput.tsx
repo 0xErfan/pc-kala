@@ -1,5 +1,11 @@
+import { unknownObjProps } from "@/global.t";
 import { inputValidationProps, inputValidations } from "@/utils";
 import { useEffect, useState } from "react";
+
+interface InputErrorProps {
+    isShown: boolean
+    message: string
+}
 
 interface formInputProps {
     label: string
@@ -7,13 +13,14 @@ interface formInputProps {
     type?: string
     confirmPassword?: string
     id: string
-    updater: any
-    errorUpdater: any
+    updater: (id: string, value: string) => void
+    errorUpdater: (data: InputErrorProps) => void
 }
+
 
 const FormInput = ({ label, placeHolder, type = 'text', id, confirmPassword, updater, errorUpdater }: formInputProps) => {
 
-    const [errorPayload, setErrorPayload] = useState<{ isShown: boolean, message: string | null }>({ isShown: false, message: null })
+    const [data, setData] = useState({ isShown: false, message: '' })
     const [value, setValue] = useState('')
 
     useEffect(() => {
@@ -24,11 +31,11 @@ const FormInput = ({ label, placeHolder, type = 'text', id, confirmPassword, upd
         return () => clearTimeout(timeOut)
     }, [value])
 
-    useEffect(() => { errorUpdater(errorPayload) }, [errorPayload])
+    useEffect(() => { errorUpdater(data!) }, [data])
 
     const validateInput = () => {
         const { isValid, errorMessage }: inputValidationProps = inputValidations(id, value, id === 'confirmPassword' ? confirmPassword : "")!
-        setErrorPayload({ isShown: !isValid, message: errorMessage })
+        setData({ isShown: !isValid, message: errorMessage })
     }
 
     return (
@@ -38,7 +45,7 @@ const FormInput = ({ label, placeHolder, type = 'text', id, confirmPassword, upd
                 name={id}
                 value={value}
                 onChange={e => setValue(e.target.value)}
-                className={`p-3 input-shadow rounded-lg transition-all placeholder:text-[12px] ${errorPayload.isShown && 'border border-white-red'} text-[15px] text-gray-500 outline-none`} type={type} placeholder={placeHolder} />
+                className={`p-3 input-shadow rounded-lg transition-all placeholder:text-[12px] ${data.isShown && 'border border-white-red'} text-[15px] text-gray-500 outline-none`} type={type} placeholder={placeHolder} />
         </div>
     )
 }

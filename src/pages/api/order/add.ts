@@ -1,4 +1,5 @@
 import connectToDB from "@/config/db";
+import { unknownObjProps } from "@/global.t";
 import ActiveDiscountModel from "@/models/Discount/ActiveDiscount";
 import DiscountModel from "@/models/Discount/Discount";
 import { transactionModel } from "@/models/Transactions";
@@ -15,11 +16,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { userID, customerData, totalPrice } = req.body
 
-        const userOrders = await BasketItemModel.find({ userID }, ['-__v', '-userID', '-_id']).populate('productID').exec() // find user basket products
+        const userOrders = await BasketItemModel.find({ userID }, ['-__v', '-userID', '-_id']).populate('productID').lean() // find user basket products
 
         if (!userOrders.length) return res.status(422).json({ message: 'محصولی برای سفارش وجود نداره😂' })
-
-        const userOrdersPlain = userOrders.map((order: any) => order.toObject()); // use toObject so we can see the populated products data in client (we can use .lean() too)
 
         const checkForDiscount = await ActiveDiscountModel.findOne({ userID, isUsed: false })
 
@@ -32,7 +31,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             await ActiveDiscountModel.findOneAndUpdate({ userID, isUsed: false }, { isUsed: true }) // so user can't use this discount anymore
         }
 
-        const newOrderTransaction = await transactionModel.create({ productsList: userOrdersPlain, userID, customerData, totalPrice, status: 'PROCESSING' })
+        const newOrderTransaction = await transactionModel.create({ productsList: userOrders, userID, customerData, totalPrice, status: 'PROCESSING' })
 
 
         await BasketItemModel.deleteMany({ userID }) // clear the user basket

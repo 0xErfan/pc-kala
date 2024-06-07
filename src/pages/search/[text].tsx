@@ -7,6 +7,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/router";
 import { GetStaticPropsContext } from "next";
 import Pagination from "@/components/Pagination";
+import { ParsedUrlQuery } from "querystring";
 
 const Search = ({ products }: { products: [] }) => {
 
@@ -55,7 +56,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
     try {
 
-        const { text }: any = context.params
+        const { text } = context.params!
 
         const response = await fetch(`http://localhost:3000/api/products/globalSearch/${text}`, {
             method: "POST",

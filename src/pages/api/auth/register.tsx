@@ -11,9 +11,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request!" })
 
     try {
-        connectToDB()
+
+        await connectToDB()
 
         const { name, username, email, lastname } = req.body
+
         const password = await hash(req.body.password, 12)
 
         const userData = await UserModel.create({ name, username, email, password, lastname })
@@ -27,7 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .status(201).json(userData)
 
     } catch (err: any) {
-
+ 
         const duplicatedInputs = Object.keys(err.errorResponse?.keyPattern).join('')
 
         if (duplicatedInputs) {

@@ -266,8 +266,9 @@ const totalPriceCalculator = (price: number, discount: number, count: number, se
     const priceAfterDiscount = withDiscount ? price - (price * (discount / 100)) : price
     const servicesPrice = services ? Object.values(services).reduce((prev, next) => prev + next, 0) : 0
 
-    // return (priceAfterDiscount + servicesPrice) * count
-    return ((priceAfterDiscount + servicesPrice) * count) - (servicesPrice * (count - 1))
+    const totalPrice = ((priceAfterDiscount + servicesPrice) * count) - (servicesPrice * (count - 1))
+    
+    return totalPrice < 0 ? 0 : totalPrice
 }
 
 export {

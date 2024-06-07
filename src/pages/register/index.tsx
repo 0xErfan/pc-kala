@@ -49,18 +49,18 @@ const Register = () => {
         finally { setLoading(false) }
     }
 
-    const updateErrorArray = (data: unknownObjProps<unknown>) => {
+    const updateErrorArray = (data: { isShown: boolean, message: string }) => {
 
         const previousErrors = [...inputValidationErrors]
 
-        const doesErrorExist = previousErrors.some((error: unknownObjProps<unknown>) => { // check if the error exist and then solved, so remove the error by make its isShown prop to false
+        const doesErrorExist = previousErrors.some((error: { message: string, isShown?: boolean }) => { // check if the existed error solved, so remove the error by make its isShown prop to false
             if (error.message == data.message) {
                 error.isShown = data.isShown
                 return true
             }
         })
 
-        const updatedErrors: any = doesErrorExist ? previousErrors : [...previousErrors, data] // if error already exist, just use the updated error, else add the error
+        const updatedErrors = doesErrorExist ? previousErrors : [...previousErrors, data] // if error already exist, just use the updated error, else add the error
 
         setInputValidationErrors(updatedErrors.filter((error: unknownObjProps<unknown>) => error.isShown))
     }
