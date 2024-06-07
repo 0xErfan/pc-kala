@@ -8,11 +8,29 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
 
+        const { productID, userID } = req.body
+        
+        if (!userID || !productID) return res.status(421).json({ message: 'not enough information make a product in basket!' })
+
         await connectToDB()
 
-        const { productID, userID} = req.body
+        const productToDelete = await BasketItemModel.findOne({ productID, userID })
 
-        if (!userID || !productID) return res.status(421).json({ message: 'not enough information make a product in basket!' })
+        const isProductServiceHaveDiscount = Object.keys(productToDelete.services).some(data => {
+            if (data.includes('کد تخفیف')) return true
+        })
+
+        if (isProductServiceHaveDiscount) { // if the product that user want to remove from basket have the discount in its services object, we want to swap the discount data to another user basket product
+
+            const allProductIDsInUserBasket = await BasketItemModel.find({ userID })
+
+            if (allProductIDsInUserBasket.length != 1) {
+
+                const availableProductIdToAddDiscount = [...allProductIDsInUserBasket].find(data => data.productID != productID).productID // as we are removing the product, we have to swap the discount value that is in the product services to another product
+
+                await BasketItemModel.findOneAndUpdate({ productID: availableProductIdToAddDiscount, userID }, { services: productToDelete.services })
+            }
+        }
 
         await BasketItemModel.findOneAndDelete({ productID, userID })
 

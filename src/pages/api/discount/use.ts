@@ -30,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 services: { ...updatedBasketServices }
             })
 
-        return res.status(201).json({ message: `کد تخفیف ${isDiscountCodeValid.value} تومانی برای خرید شما اعمال شد🥲` })
+        return res.status(201).json({ message: `کد تخفیف ${isDiscountCodeValid.value.toLocaleString() } تومانی برای خرید شما اعمال شد🥲` })
 
     } catch (err) {
         console.log(err)

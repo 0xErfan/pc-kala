@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import Progress from "@/components/Progress";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { useEffect, useMemo, useState } from "react";
-import { addProductToBasket, showToast, totalPriceCalculator } from "@/utils";
+import { showToast, totalPriceCalculator } from "@/utils";
 import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
@@ -23,14 +23,17 @@ const Card = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+
         if (BasketItem?.length) {
-            const doesBasketHaveDiscount = Object.keys(BasketItem[0].services)
+
+            const doesBasketHaveDiscount = BasketItem.some(data => Object.keys(data.services)
                 .some(data => {
                     if (data.includes('کد تخفیف')) return true
-                })
+                }))
+
             setIsDiscountValid(doesBasketHaveDiscount)
         }
-    }, [BasketItem])
+    }, [BasketItem]) // we check all userBasket product services to see if user already have the discount
 
     const checkAndActiveDiscount = async () => {
 
@@ -56,26 +59,33 @@ const Card = () => {
         }, 800);
     }
 
-    const removeDiscountFromBasket = async () => {
+    const removeDiscount = async () => {
 
-        const removedDiscountFromBasket = { ...BasketItem[0].services }
+        const productWithDiscount = BasketItem.find(item =>
+            Object.keys(item.services).some(service => service.includes('کد تخفیف'))
+        ); // we just find the product that have the discount object in its services
 
-        for (let key in removedDiscountFromBasket) {
+        const updatedProductServices = { ...productWithDiscount?.services }
+
+        for (let key in updatedProductServices) {
             if (key.includes('کد تخفیف')) {
-                delete removedDiscountFromBasket[key]
+                delete updatedProductServices[key]
             }
         }
 
         const res = await fetch('/api/discount/delete', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ productID: BasketItem[0]._id, services: removedDiscountFromBasket })
+            body: JSON.stringify({ productID: productWithDiscount?.productID, services: updatedProductServices, userID })
         })
 
         const data = await res.json()
 
         showToast(res.ok, data.message)
-        if (res.ok) dispatch(userUpdater())
+        if (res.ok) {
+            setDiscountInput('')
+            dispatch(userUpdater())
+        }
     }
 
     const { sumOfProductsWithoutDiscount, sumOfProductsWithDiscount } = useMemo(() => {
@@ -198,7 +208,7 @@ const Card = () => {
                                                         ?
                                                         <Button
                                                             text='لغو کد تخفیف'
-                                                            fn={removeDiscountFromBasket}
+                                                            fn={removeDiscount}
                                                         />
                                                         : null
                                                 }

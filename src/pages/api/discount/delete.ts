@@ -1,5 +1,4 @@
 import connectToDB from "@/config/db";
-import DiscountModel from "@/models/Discount";
 import { BasketItemModel } from "@/models/UserRelatedSchemas";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -11,22 +10,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const { productID, services } = req.body
+        const { productID, services, userID } = req.body
 
-        const basketItemData = await BasketItemModel.findOne({ _id: productID })
+        const basketItemData = await BasketItemModel.findOne({ productID })
 
         if (!basketItemData) return res.status(421).json({ message: 'no basketItem found with this _id' })
 
-        // const removedDiscountFromBasket = { ...services }
+        const removedDiscountFromBasket = { ...services } 
 
-        // for (let key in removedDiscountFromBasket) {
-        //     if (key.includes('کد تخفیف')) {
-        //         delete removedDiscountFromBasket[key]
-        //     }
-        // }
+        for (let key in removedDiscountFromBasket) { // even the services object is updated from client(discount removed), we check again to be sure
+            if (key.includes('کد تخفیف')) {
+                delete removedDiscountFromBasket[key]
+            }
+        }
 
-        const ddd = await BasketItemModel.findOneAndUpdate({ _id: productID }, { services })
-        console.log(ddd)
+        await BasketItemModel.findOneAndUpdate({ productID, userID }, { services: removedDiscountFromBasket })
+
         return res.status(201).json({ message: 'کد تخفیف با موفقیت حذف شد' })
 
     } catch (err) {
