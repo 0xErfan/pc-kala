@@ -1,6 +1,7 @@
 import connectToDB from "@/config/db";
 import { DiscountDataTypes } from "@/global.t";
-import DiscountModel from "@/models/Discount";
+import ActiveDiscountModel from "@/models/Discount/ActiveDiscount";
+import DiscountModel from "@/models/Discount/Discount";
 import { BasketItemModel } from "@/models/UserRelatedSchemas";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -29,6 +30,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             {
                 services: { ...updatedBasketServices }
             })
+
+            await ActiveDiscountModel.create({ code, userID })
 
         return res.status(201).json({ message: `کد تخفیف ${isDiscountCodeValid.value.toLocaleString() } تومانی برای خرید شما اعمال شد🥲` })
 

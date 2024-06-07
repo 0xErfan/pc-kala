@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer"
 import Header from "@/components/Header"
 import ProductCart from "@/components/ProductCart";
+import { IoTrashOutline } from "react-icons/io5";
 import Button from "@/components/Button";
 import Progress from "@/components/Progress";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
@@ -37,7 +38,7 @@ const Card = () => {
 
     const checkAndActiveDiscount = async () => {
 
-        if (isDiscountValid) return;
+        if (isDiscountValid || isLoading) return;
 
         if (!discountInput.trim().length) return showToast(false, 'کد تخفیف نامعتبر است 😒')
 
@@ -56,7 +57,7 @@ const Card = () => {
             showToast(res.ok, data.message, res.ok ? 4500 : 2500)
             setIsLoading(false)
             if (res.ok) dispatch(userUpdater())
-        }, 800);
+        }, 900);
     }
 
     const removeDiscount = async () => {
@@ -200,14 +201,14 @@ const Card = () => {
                                                     bgColor={isDiscountValid ? "bg-green" : undefined}
                                                     active={isDiscountValid}
                                                     Icon={isLoading ? <Loader /> : <></>}
-                                                    text={isLoading ? '' : isDiscountValid ? 'کد تخفیف اعمال شد' : 'اعمال کد تخفیف'}
+                                                    text={isLoading ? '' : isDiscountValid ? 'کد تخفیف اعمال شده' : 'اعمال کد تخفیف'}
                                                     fn={checkAndActiveDiscount}
                                                 />
                                                 {
                                                     isDiscountValid
                                                         ?
                                                         <Button
-                                                            text='لغو کد تخفیف'
+                                                            Icon={<IoTrashOutline />}
                                                             fn={removeDiscount}
                                                         />
                                                         : null

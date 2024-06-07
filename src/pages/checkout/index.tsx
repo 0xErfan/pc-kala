@@ -6,10 +6,11 @@ import Link from "next/link"
 import Progress from "@/components/Progress"
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import { showToast, totalPriceCalculator } from "@/utils"
-import { userUpdater } from "@/Redux/Features/globalVarsSlice"
+import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { useRouter } from "next/router"
 import Loader from "@/components/Loader"
 import { unknownObjProps } from "@/global.t"
+import { ModalProps } from "@/components/Modal"
 
 interface TableDataProps {
     children: ReactNode,
@@ -48,21 +49,21 @@ const Checkout = () => {
 
     const submitOrder = async () => {
 
-        if (isLoading) return // prevent user from spamming
+        if (isLoading) return
 
         const fieldsToCheck = Object.entries(formData).filter(data => data[0] !== 'email' && data[0] !== 'orderDetails')
 
-        if (fieldsToCheck.some(data => {
-            if (!Boolean(!!data[1]) || !data[1].trim().length) { showToast(false, 'تمام اطلاعات خواسته شده صورتحساب را وارد کنید'); return true }
-        })) return // here we just check all values to not be empty
+        if (fieldsToCheck.some(data => !Boolean(!!data[1]) || !data[1].trim().length)) {
+            return showToast(false, 'تمام اطلاعات خواسته شده صورتحساب را وارد کنید')
+        } // here we just check all values to not be empty
 
-        if (formData.name.trim().length > 20 || formData.name.trim().length < 3) { showToast(false, 'نام باید بیشتر از 3 و کمتر از 20 کاراکتر باشد'); return }
-        if (formData.lName.trim().length > 20 || formData.lName.trim().length < 3) { showToast(false, 'نام خانوادگی باید بیشتر از 3 و کمتر از 20 کاراکتر باشد'); return }
-        if (isNaN(+formData.codePost) || formData.codePost.trim().length != 10) { showToast(false, 'کد پستی یک عدد ده رقمی است'); return }
-        if (!/^09\d{9}$/.test(formData.phoneNum)) { showToast(false, 'شماره موبایل معتبر نیست'); return }
-        if (!doesUserAccept) { showToast(false, 'موافقت با قوانین و مقررات الزامی است'); return }
+        if (formData.name.trim().length > 20 || formData.name.trim().length < 3) { return showToast(false, 'نام باید بیشتر از 3 و کمتر از 20 کاراکتر باشد') }
+        if (formData.lName.trim().length > 20 || formData.lName.trim().length < 3) { return showToast(false, 'نام خانوادگی باید بیشتر از 3 و کمتر از 20 کاراکتر باشد') }
+        if (isNaN(+formData.codePost) || formData.codePost.trim().length != 10) { return showToast(false, 'کد پستی یک عدد ده رقمی است') }
+        if (!/^09\d{9}$/.test(formData.phoneNum)) { return showToast(false, 'شماره موبایل معتبر نیست') }
+        if (!doesUserAccept) { return showToast(false, 'موافقت با قوانین و مقررات الزامی است') }
 
-        setIsLoading(true) // validation passed and start loading
+        setIsLoading(true)
 
         try {
 
@@ -71,10 +72,22 @@ const Checkout = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userID: data._id, customerData: formData, totalPrice: sumOfProductsWithDiscount })
             })
+
             const resData = await res.json()
 
             setTimeout(async () => { // just some fake delay so user see the loading process :)
-                showToast(res.ok, resData.message)
+
+                dispatch(modalDataUpdater({
+                    isShown: true,
+                    message: resData.message,
+                    status: res.ok,
+                    title: res.ok ? 'خرید موفق' : 'کد تخفیف نامعتبر',
+                    cancelBtnText: res.ok ? false : 'لغو',
+                    okBtnText: res.ok ? 'باشه' : 'حذف کد تخفیف',
+                    fn: () => {
+                        navigate.push('/cart')
+                    },
+                } as ModalProps))
 
                 if (res.ok) {
                     dispatch(userUpdater())

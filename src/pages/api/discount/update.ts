@@ -1,6 +1,6 @@
 import connectToDB from "@/config/db";
 import { DiscountDataTypes } from "@/global.t";
-import DiscountModel from "@/models/Discount";
+import DiscountModel from "@/models/Discount/Discount";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
