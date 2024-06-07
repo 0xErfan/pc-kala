@@ -289,7 +289,7 @@ const Profile = () => {
                 showToast(true, 'خروج از حساب موفقیت امیز بود')
 
                 dispatch(userDataUpdater({ isLogin: false }))
-                navigate.replace('/')
+                navigate.reload()
             }
         }))
     }
