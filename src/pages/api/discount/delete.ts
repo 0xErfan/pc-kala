@@ -13,10 +13,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { productID, services, userID } = req.body
 
-        const basketItemData = await BasketItemModel.findOne({ productID })
-
-        if (!basketItemData) return res.status(421).json({ message: 'no basketItem found with this _id' })
-
         const removedDiscountFromBasket = { ...services }
 
         for (let key in removedDiscountFromBasket) { // even the services object is updated from client(discount removed), we check again to be sure
@@ -26,7 +22,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         await ActiveDiscountModel.findOneAndDelete({ userID, isUsed: false })
-
         await BasketItemModel.findOneAndUpdate({ productID, userID }, { services: removedDiscountFromBasket })
 
         return res.status(201).json({ message: 'کد تخفیف با موفقیت حذف شد' })

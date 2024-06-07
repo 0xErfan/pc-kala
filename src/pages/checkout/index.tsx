@@ -32,6 +32,7 @@ const Checkout = () => {
     const [doesUserAccept, setDoesUserAccept] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
+
     const { relatedData, data } = useAppSelector(state => state.userSlice) || []
     const dispatch = useAppDispatch()
     const navigate = useRouter()
@@ -46,6 +47,33 @@ const Checkout = () => {
             .reduce((sum, { productID, count, services }) => sum + totalPriceCalculator(productID?.price, productID?.discount, count, services), 0);
 
     }, [relatedData?.BasketItem]);
+
+    const removeDiscount = async () => {
+
+        const productWithDiscount = relatedData.BasketItem.find(item =>
+            Object.keys(item.services).some(service => service.includes('کد تخفیف'))
+        ); // we just find the product that have the discount object in its services
+
+        const updatedProductServices = { ...productWithDiscount?.services }
+
+        for (let key in updatedProductServices) {
+            if (key.includes('کد تخفیف')) {
+                delete updatedProductServices[key]
+            }
+        }
+
+        const res = await fetch('/api/discount/delete', {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ productID: productWithDiscount?.productID, services: updatedProductServices, userID: data._id })
+        })
+
+        const resData = await res.json()
+
+        showToast(res.ok, resData.message)
+
+        if (res.ok) { dispatch(userUpdater()) }
+    }
 
     const submitOrder = async () => {
 
@@ -83,9 +111,9 @@ const Checkout = () => {
                     status: res.ok,
                     title: res.ok ? 'خرید موفق' : 'کد تخفیف نامعتبر',
                     cancelBtnText: res.ok ? false : 'لغو',
-                    okBtnText: res.ok ? 'باشه' : 'حذف کد تخفیف',
-                    fn: () => {
-                        navigate.push('/cart')
+                    okBtnText: res.ok ? 'باشه' : 'حذف کد تخفیف و تلاش مجدد',
+                    fn: async () => {
+                        !res.ok && await removeDiscount().then(() => submitOrder()) // only run if response is not ok(invalid discount)
                     },
                 } as ModalProps))
 
@@ -96,7 +124,7 @@ const Checkout = () => {
                 }
 
                 setIsLoading(false)
-            }, 800);
+            }, 900);
 
         } catch (err) {
             console.log(err)
