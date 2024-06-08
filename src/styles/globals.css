@@ -4,12 +4,12 @@
 
 @font-face {
     font-family: "sans";
-    src: url("https://0xerfan.github.io/pc-kala//fonts/Iransans/FontsFree-Net-ir_sans.ttf") format("truetype");
+    src: url("https://master--beamish-trifle-8c913b.netlify.app//fonts/Iransans/FontsFree-Net-ir_sans.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "peyda";
-    src: url("https://0xerfan.github.io/pc-kala//fonts/Peyda/PeydaWeb.ttf") format("truetype");
+    src: url("https://master--beamish-trifle-8c913b.netlify.app//fonts/Peyda/PeydaWeb.ttf") format("truetype");
 }
 
 * {
@@ -39,7 +39,7 @@
 
 .primary-bg {
     @apply absolute w-full -z-[1];
-    background: url('https://0xerfan.github.io/pc-kala/images/backGround.webp') repeat rgb(41, 42, 45);
+    background: url('https://master--beamish-trifle-8c913b.netlify.app/images/backGround.webp') repeat rgb(41, 42, 45);
 }
 
 .overlay {

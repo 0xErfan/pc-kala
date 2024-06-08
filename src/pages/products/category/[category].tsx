@@ -80,7 +80,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
     try {
 
-        const response = await fetch(`https://0xerfan.github.io/pc-kala/api/products/category`, {
+        const response = await fetch(`https://master--beamish-trifle-8c913b.netlify.app/api/products/category`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: query?.category })
