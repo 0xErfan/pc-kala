@@ -21,8 +21,4 @@ const nextConfig = {
   // Add any additional configurations here
 };
 
-// Determine if the build is running in GitHub Actions
-
-
-// Export the configuration object
-
+export default nextConfig;
