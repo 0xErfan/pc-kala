@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { removeProductFromBasket, showToast, totalPriceCalculator } from '@/utils';
 import { changeCanScroll, userUpdater } from '@/Redux/Features/globalVarsSlice';
+import prefix from '@/config/prefix';
 
 interface SideMenuProps {
     dataToShow: 'basket' | 'sideMenu'
@@ -88,7 +89,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
                                                     <span onClick={() => deleteProductFromBasket(productID?._id)} className='absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
 
-                                                    <div className='flex-1'><Image alt={productID?.name} width={400} height={400} className='object-cover size-full' src="/images/laptop-default.webp" /></div>
+                                                    <div className='flex-1'><Image alt={productID?.name} width={400} height={400} className='object-cover size-full' src={`${prefix}/images/laptop-default.webp`} /></div>
 
                                                     <div className='flex-[2]'>
 
@@ -130,7 +131,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                                 <div className='flex-[7] pt-2'>
                                     <Image
                                         className='object-cover px-1'
-                                        src="/images/home/title.webp"
+                                        src={`${prefix}/images/home/title.webp`}
                                         width={200}
                                         height={200}
                                         quality={100}

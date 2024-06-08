@@ -11,6 +11,7 @@ import { Toaster } from "react-hot-toast";
 import ScrollToTop from "@/components/ScrollToTop";
 import FetchOnLoad from "@/components/FetchOnLoad";
 import 'react-loading-skeleton'
+import prefix from "@/config/prefix";
 
 export default function App({ Component, pageProps }: AppProps) {
 
@@ -23,7 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <link rel="icon" href="/images/fav-logo.png"></link>
+                <link rel="icon" href={`${prefix}/images/fav-logo.png`}></link>
                 <title>پی سی کالا | رقابت قدرت </title>
             </Head>
 

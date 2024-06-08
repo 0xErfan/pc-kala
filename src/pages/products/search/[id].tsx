@@ -25,6 +25,7 @@ import { useRouter } from "next/router";
 import { commentProps, productDataTypes, unknownObjProps } from "@/global.t";
 import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
+import prefix from "@/config/prefix";
 
 interface coordinates {
     x: number
@@ -298,11 +299,11 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                             <div className="flex-1">
                                 <div className="flex items-center gap-2 flex-col ch:cursor-pointer">
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-red" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src="/images/laptop-default.webp" width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-red" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
+                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
                                 </div>
                             </div>
 
@@ -312,7 +313,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                     <Image
                                         ref={productImgRef}
                                         className="flex-center w-full object-cover py-4"
-                                        src="/images/laptop-default.webp"
+                                        src={`${prefix}/images/laptop-default.webp`}
                                         width={600}
                                         height={600}
                                         alt="product-img"
@@ -323,7 +324,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                                     <span
                                         style={{ left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current ? productImgRef.current.clientHeight / 2 : 0) + "px" }}
-                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: "url('/images/laptop-default.webp')", backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} />
+                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: `url('${prefix}/images/laptop-default.webp')`, backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} />
                                     </span>
 
                                 </div>
@@ -340,7 +341,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                             </div>
 
-                            <FullScreenImage url='/images/laptop-default.webp' isShown={fullScreenShown} closeFullScreenFn={() => setFullScreenShown(false)} />
+                            <FullScreenImage url={`${prefix}/images/laptop-default.webp`} isShown={fullScreenShown} closeFullScreenFn={() => setFullScreenShown(false)} />
 
                         </div>
 

@@ -6,6 +6,7 @@ import Image from "next/image"
 import { productDataTypes } from "@/global.t"
 import { useAppDispatch } from "@/Hooks/useRedux"
 import { userUpdater } from "@/Redux/Features/globalVarsSlice"
+import prefix from "@/config/prefix"
 
 interface likeProductProps {
     productID: productDataTypes
@@ -22,7 +23,7 @@ const LikedProduct = ({ productID, creator }: likeProductProps) => {
     return (
         <div className="max-w-[316px] relative w-full m-auto bg-black/15 border border-gray-600/15 rounded-md p-3 overflow-hidden text-white text-sm">
 
-            <Link href={`/products/search/${_id}`}><Image width={500} height={500} className="m-auto object-cover my-3 cursor-pointer" src="/images/laptop-default.webp" alt="product-name" /></Link>
+            <Link href={`/products/search/${_id}`}><Image width={500} height={500} className="m-auto object-cover my-3 cursor-pointer" src={`${prefix}/images/laptop-default.webp`} alt="product-name" /></Link>
 
             <div className="flex items-center gap-3 justify-center text-title-text text-sm">
                 {discount && <div className="red-line-through text-white ">{price.toLocaleString('fa-IR')}</div>}

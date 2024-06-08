@@ -21,6 +21,7 @@ import CommentData from '@/components/p-user/CommentData'
 import Message from "@/components/p-user/Message";
 import TransactionData from "@/components/p-user/TransactionData";
 import { userDataTypes, userRelatedDataTypes } from "@/global.t";
+import prefix from "@/config/prefix";
 
 interface orderStatusProps {
     count: number
@@ -378,7 +379,7 @@ const OrderStatus = ({ count, status, text }: orderStatusProps) => {
         <div className="flex items-center gap-3 mt-10">
             <div>
                 <Image
-                    src={`/images/${src}.svg`}
+                    src={`${prefix}/images/${src}.svg`}
                     width={85}
                     height={85}
                     quality={100}

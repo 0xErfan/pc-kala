@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import Loader from "@/components/Loader"
 import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { TransactionProductsTypes, TransactionProps } from "@/global.t"
+import prefix from "@/config/prefix"
 
 const TransactionDetails = () => {
 
@@ -253,7 +254,7 @@ const UserOrder = ({ productID, count, services }: TransactionProductsTypes) => 
                         height={100}
                         quality={100}
                         loading="lazy"
-                        src='/images/laptop-default.webp'
+                        src={`${prefix}/images/laptop-default.webp`}
                     />
                 </div>
 

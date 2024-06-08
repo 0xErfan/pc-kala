@@ -39,7 +39,7 @@
 
 .primary-bg {
     @apply absolute w-full -z-[1];
-    background: url('/images/backGround.webp') repeat rgb(41, 42, 45);
+    background: url('https: //0xerfan.github.io/pc-kala/images/backGround.webp') repeat rgb(41, 42, 45);
 }
 
 .overlay {

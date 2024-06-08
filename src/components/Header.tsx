@@ -14,6 +14,7 @@ import { IoIosLaptop } from "react-icons/io";
 import { HiOutlineCpuChip } from "react-icons/hi2";
 import { PiHeadphones } from "react-icons/pi";
 import { GiConsoleController } from "react-icons/gi";
+import prefix from "@/config/prefix";
 
 
 export default function Header() {
@@ -41,7 +42,7 @@ export default function Header() {
                     <Link href="/" className="max-w-[200px] relative">
                         <Image
                             alt="pc-kala-shop"
-                            src='/images/home/title.webp'
+                            src={`${prefix}/images/home/title.webp`}
                             width={300}
                             height={100}
                             priority
@@ -182,7 +183,7 @@ export default function Header() {
                     <Link href="/" className="max-w-[200px]">
                         <Image
                             alt="pc-kala-shop"
-                            src='/images/home/title.webp'
+                            src={`${prefix}/images/home/title.webp`}
                             width={150}
                             height={50}
                             className="object-cover"

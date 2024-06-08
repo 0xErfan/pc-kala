@@ -11,6 +11,7 @@ import { productDataTypes } from "@/global.t";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { useEffect, useState } from "react";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
+import prefix from "@/config/prefix";
 
 const Product = (product: productDataTypes) => {
 
@@ -60,7 +61,7 @@ const Product = (product: productDataTypes) => {
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-IR')}٪</div>}
 
             <Link href={`/products/search/${_id}`}>
-                <Image width={500} height={500} priority alt="product-name" blurDataURL="true" src='/images/laptop-default.webp' className="m-auto object-cover my-3 cursor-pointer" />
+                <Image width={500} height={500} priority alt="product-name" blurDataURL="true" src={`${prefix}/images/laptop-default.webp`} className="m-auto object-cover my-3 cursor-pointer" />
             </Link>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">

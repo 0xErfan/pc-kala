@@ -10,6 +10,7 @@ import { showToast, totalPriceCalculator } from "@/utils";
 import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
+import prefix from "@/config/prefix";
 
 const Card = () => {
 
@@ -130,7 +131,7 @@ const Card = () => {
                                                 price={totalPriceCalculator(productID?.price, productID?.discount, 1, services, false)}
                                                 finalPrice={totalPriceCalculator(productID?.price, productID?.discount, count, services, false)}
                                                 id={productID?._id}
-                                                src="/images/laptop-default.webp"
+                                                src={`${prefix}/images/laptop-default.webp`}
                                             />
                                         })
                                         : <div className="text-center w-full text-white-red font-peyda text-[16px]">سبد خرید خالی است</div>
@@ -167,7 +168,7 @@ const Card = () => {
                                                     price={totalPriceCalculator(productID?.price, productID?.discount, 1, services, false)}
                                                     finalPrice={totalPriceCalculator(productID?.price, productID?.discount, count, services, false)}
                                                     id={productID?._id}
-                                                    src="/images/laptop-default.webp"
+                                                    src={`${prefix}/images/laptop-default.webp`}
                                                 />
                                             })
                                             : null
