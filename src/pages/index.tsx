@@ -19,6 +19,7 @@ import Image from 'next/image';
 import ProductModel from '@/models/Product';
 import { shuffleArray } from '@/utils';
 import { productDataTypes } from '@/global.t';
+import prefix from '@/config/prefix';
 
 interface ProductsDataType {
     products: { [key: string]: productDataTypes[] }
@@ -62,7 +63,7 @@ export default function Home({ products }: ProductsDataType) {
                         priority
                         height={600}
                         className="w-full h-full object-cover"
-                        src="/images/home/laptop.webp"
+                        src={`${prefix}/images/home/laptop.webp`}
                         alt="pc-kala"
                     />
                 </div>
@@ -80,7 +81,7 @@ export default function Home({ products }: ProductsDataType) {
 
             <div className="container flex-col lg:flex-row flex ch:flex-1 gap-8 mt-36 mb-24">
 
-                <div data-aos-duration="550" data-aos="zoom-in"><Image loading='lazy' width={600} height={600} className="max-h-[480px] m-auto h-full  w-[200px]" src="/images/home/case.webp" alt="pc-kala" /></div>
+                <div data-aos-duration="550" data-aos="zoom-in"><Image loading='lazy' width={600} height={600} className="max-h-[480px] m-auto h-full  w-[200px]" src={`${prefix}/images/home/case.webp`} alt="pc-kala" /></div>
 
                 <div data-aos-duration="550" data-aos="zoom-in">
 
@@ -139,7 +140,7 @@ export default function Home({ products }: ProductsDataType) {
                     <Image
                         loading='lazy'
                         className="sm:max-w-[450px] size-auto m-auto object-cover"
-                        src="/images/home/ghesti.webp"
+                        src={`${prefix}/images/home/ghesti.webp`}
                         width={600}
                         height={600}
                         quality={90}
@@ -156,7 +157,8 @@ export default function Home({ products }: ProductsDataType) {
                         width={600}
                         height={600}
                         className="m-auto lg:h-[600px] h-auto w-[500px]"
-                        src="/images/home/parts.webp" alt="pc-kala"
+                        src={`${prefix}/images/home/parts.webp`}
+                        alt="pc-kala"
                     />
                 </div>
 
@@ -197,18 +199,18 @@ export default function Home({ products }: ProductsDataType) {
                         width={300}
                         height={300}
                         className="m-auto "
-                        src="/images/home/pckala.webp"
+                        src={`${prefix}/images/home/pckala.webp`}
                         alt="pc-kala-logo"
                     />
                 </div>
 
                 <div
                     className="flex items-center justify-center ch:shrink ch:size-auto gap-0 lg:gap-8 xl:gap-24 mt-20 lg:mt-10">
-                    <Image loading='lazy' width={300} height={300} alt='achivment' className="md:block hidden" src="/images/home/cup-1.webp" />
-                    <Image loading='lazy' width={300} height={300} alt='achivment' className="md:block hidden" src="/images/home/cup-2.webp" />
-                    <Image loading='lazy' width={300} height={300} alt='achivment' src="/images/home/cup-3.webp" />
-                    <Image loading='lazy' width={300} height={300} alt='achivment' src="/images/home/cup-4.webp" />
-                    <Image loading='lazy' width={300} height={300} alt='achivment' src="/images/home/cup-5.webp" />
+                    <Image loading='lazy' width={300} height={300} alt='achivment' className="md:block hidden" src={`${prefix}/images/home/cup-1.webp`} />
+                    <Image loading='lazy' width={300} height={300} alt='achivment' className="md:block hidden" src={`${prefix}/images/home/cup-2.webp`} />
+                    <Image loading='lazy' width={300} height={300} alt='achivment' src={`${prefix}/images/home/cup-3.webp`} />
+                    <Image loading='lazy' width={300} height={300} alt='achivment' src={`${prefix}/images/home/cup-4.webp`} />
+                    <Image loading='lazy' width={300} height={300} alt='achivment' src={`${prefix}/images/home/cup-5.webp`} />
                 </div>
 
             </section>
@@ -217,8 +219,8 @@ export default function Home({ products }: ProductsDataType) {
 
                 <h3 className="bold-title sm:text-[40px] text-[32px] text-center">برترین متخصصین کشور</h3>
 
-                <Image loading='lazy' width={300} height={300} alt='red-wave' src="/images/home/wave-red.webp" className="sm:absolute md:flex hidden left-[19px] lg:left-60 top-48 w-[400px] h-[450px]"></Image>
-                <Image loading='lazy' width={300} height={300} alt='red-wave' src="/images/home/wave-red.webp" className="absolute inset-0 -z-[5] md:hidden block top-[50%] right-[50%] translate-x-[50%] size-2/3 brightness-[0.2] -translate-y-[50%]"></Image>
+                <Image loading='lazy' width={300} height={300} alt='red-wave' src={`${prefix}/images/home/wave-red.webp`} className="sm:absolute md:flex hidden left-[19px] lg:left-60 top-48 w-[400px] h-[450px]"></Image>
+                <Image loading='lazy' width={300} height={300} alt='red-wave' src={`${prefix}/images/home/wave-red.webp`} className="absolute inset-0 -z-[5] md:hidden block top-[50%] right-[50%] translate-x-[50%] size-2/3 brightness-[0.2] -translate-y-[50%]"></Image>
 
                 <div className="lg:px-[200px] px-4 sm:px-[100px]">
 

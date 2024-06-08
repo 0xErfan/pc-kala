@@ -10,7 +10,7 @@ export default async function middleware(request: NextRequest) {
     let cookie = request.cookies.get('token')?.value;
 
     if (path == '/login' || path == '/register') {
-        if (cookie) return NextResponse.redirect(new URL('http://localhost:3000', request.url));
+        if (cookie) return NextResponse.redirect(new URL('https://0xerfan.github.io/pc-kala/', request.url));
     }
 
     if (path == '/profile') {
