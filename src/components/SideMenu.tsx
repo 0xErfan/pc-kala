@@ -199,7 +199,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                                         submenus={[
                                             { title: 'موس', path: '/products/category/accessory?filter=mouse' },
                                             { title: 'کیبرد', path: '/products/category/accessory?filter=keyboard' },
-                                            { title: 'اسپیکر', path: '/products/category/accessory?filter=speaker' },
+                                            { title: 'اسپیکر', path: '/products/category/accessory?filter=headphone' },
                                             { title: 'وبکم', path: '/products/category/accessory?filter=webcam' },
                                             { title: 'همه لوازم جانبی', path: '/products/category/accessory' },
                                         ]}
