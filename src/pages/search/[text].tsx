@@ -58,7 +58,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
         const { text } = context.params!
 
-        const response = await fetch(`http://localhost:3000/api/products/globalSearch`, {
+        const response = await fetch(`https://0xerfan.github.io/pc-kala/api/products/globalSearch`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text })

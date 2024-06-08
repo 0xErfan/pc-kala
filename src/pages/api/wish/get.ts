@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!token) return res.status(401).json({ message: 'You are not logged in idiot!' })
 
-        const response = await fetch('http://localhost:3000/api/auth/me', {
+        const response = await fetch('https://0xerfan.github.io/pc-kala/api/auth/me', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(token)

@@ -14,19 +14,19 @@ export default async function middleware(request: NextRequest) {
     }
 
     if (path == '/profile') {
-        if (!cookie) return NextResponse.redirect(new URL('http://localhost:3000/login', request.url));
+        if (!cookie) return NextResponse.redirect(new URL('https://0xerfan.github.io/pc-kala/login', request.url));
     }
 
     if (path == '/transactionDetails') {
-        if (!cookie) return NextResponse.redirect(new URL('http://localhost:3000/', request.url));
+        if (!cookie) return NextResponse.redirect(new URL('https://0xerfan.github.io/pc-kala/', request.url));
     }
 
     if (path == '/checkout') {
         
-        if (!cookie) return NextResponse.redirect(new URL('http://localhost:3000/', request.url));
+        if (!cookie) return NextResponse.redirect(new URL('https://0xerfan.github.io/pc-kala/', request.url));
         
         // this scope check for user basket so if its empty, checkout page is forbidden
-        const response = await fetch('http://localhost:3000/api/UserRelatedData/get', {
+        const response = await fetch('https://0xerfan.github.io/pc-kala/api/UserRelatedData/get', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cookie)
@@ -34,7 +34,7 @@ export default async function middleware(request: NextRequest) {
 
         const { userRelatedData } = await response.json()
 
-        if (!userRelatedData.BasketItem?.length) return NextResponse.redirect(new URL('http://localhost:3000/', request.url));
+        if (!userRelatedData.BasketItem?.length) return NextResponse.redirect(new URL('https://0xerfan.github.io/pc-kala/', request.url));
     }
 
     return NextResponse.next()
