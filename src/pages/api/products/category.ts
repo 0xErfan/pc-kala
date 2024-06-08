@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
 
-        const { name } = req.query;
+        const { name } = req.body;
 
         const isCategoryValid = ['accessory', 'pc', 'parts', 'laptop', 'console'].find(cat => cat == name)
 
@@ -16,9 +16,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        let products = await ProductModel.find({ category: name })
+        let product = await ProductModel.find({ category: name })
 
-        return res.status(201).json(products)
+        return res.status(201).json({ product })
 
     } catch (err) {
         console.log(err)

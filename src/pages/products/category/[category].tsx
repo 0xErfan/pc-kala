@@ -8,7 +8,7 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { productDataTypes } from "@/global.t";
+import { productDataTypes, unknownObjProps } from "@/global.t";
 
 const Category = ({ product }: { product: productDataTypes[] }) => {
 
@@ -79,18 +79,18 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     const query = context.params
 
     try {
- 
+
         const response = await fetch(`http://localhost:3000/api/products/category`, {
-            method: "POST",
+            method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(query?.category)
-        });
+            body: JSON.stringify({ name: query?.category })
+        })
 
         if (!response.ok) throw new Error('Failed to fetch product')
 
-        const product = await response.json();
+        const { product } = await response.json();
 
-        return { props: { product } };
+        return { props: { product: JSON.parse(JSON.stringify(product)) } };
 
     } catch (error) {
         console.error('Error fetching product:', error);
@@ -101,12 +101,12 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 export async function getStaticPaths() {
     return {
         paths: [
-            { params: { category: 'laptop' } },
-            { params: { category: 'parts' } },
-            { params: { category: 'accessory' } },
-            { params: { category: 'pc' } },
-            { params: { category: 'console' } }
+            // { params: { category: 'laptop' } },
+            // { params: { category: 'parts' } },
+            // { params: { category: 'accessory' } },
+            // { params: { category: 'pc' } },
+            // { params: { category: 'console' } }
         ],
-        fallback: false,
+        fallback: true,
     };
 }

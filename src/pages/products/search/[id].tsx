@@ -681,7 +681,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         const response = await fetch(`http://localhost:3000/api/products/search`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(context.params?.id)
+            body: JSON.stringify({ _id: context.params?.id })
         });
 
         if (!response.ok) throw new Error('Failed to fetch product')

@@ -4,18 +4,18 @@ import ProductModel from "@/models/Product";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be acceessed without POST request_" })
-    
+    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request_" })
+
 
     try {
 
-        const { id } = req.query
+        const { _id } = req.body
 
         await connectToDB()
 
-        const product = await ProductModel.findOne({ _id: id })
+        const product = await ProductModel.findOne({ _id})
 
-        if (!product) return res.status(421).json({ message: 'no prodct found with this id haha' })
+        if (!product) return res.status(421).json({ message: 'no product found with this id' })
 
         return res.status(200).json(product)
 
