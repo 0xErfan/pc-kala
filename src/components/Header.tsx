@@ -150,7 +150,7 @@ export default function Header() {
                                 submenus={[
                                     { title: 'موس', path: '/products/category/accessory?filter=mouse' },
                                     { title: 'کیبرد', path: '/products/category/accessory?filter=keyboard' },
-                                    { title: 'اسپیکر', path: '/products/category/accessory?filter=headphone' },
+                                    { title: 'هدفون', path: '/products/category/accessory?filter=headphone' },
                                     { title: 'وبکم', path: '/products/category/accessory?filter=webcam' },
                                 ]}
                             />

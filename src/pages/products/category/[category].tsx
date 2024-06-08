@@ -79,8 +79,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     const query = context.params
 
     try {
-
-        const response = await fetch(`http://localhost:3000/api/products/category/${query?.category}`, {
+ 
+        const response = await fetch(`http://localhost:3000/api/products/category`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(query?.category)
