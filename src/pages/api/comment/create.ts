@@ -5,7 +5,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
-    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be acceessed without POST request_" })
+    if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request_" })
 
     try {
 

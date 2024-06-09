@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         return res
             .setHeader("Set-Cookie", serialize("token", token, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 6 }))
-            .status(201).json(userData)
+            .status(201).json({ userData, message: 'ورود با موفقیت انجام شد.' })
 
     } catch (err) {
         console.log(err)

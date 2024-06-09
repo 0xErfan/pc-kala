@@ -4,26 +4,28 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { engCategoryToPersian } from "@/utils";
 import { GetStaticPropsContext } from "next";
-import { HiOutlineClipboardList } from "react-icons/hi";
 import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { productDataTypes, unknownObjProps } from "@/global.t";
+import { categories, productDataTypes } from "@/global.t";
+import { HiOutlineInformationCircle } from "react-icons/hi"
+import { HiOutlineClipboardList } from "react-icons/hi";
 
 const Category = ({ product }: { product: productDataTypes[] }) => {
 
-    const [products, setProducts] = useState([...product])
+    const [products, setProducts] = useState<productDataTypes[]>(product || [])
 
     const router = useRouter()
 
+    const { filter, category } = router.query || {}
+
     const breadCrumbData = [
-        { text: "دسته بندی ها", link: `/products/category/${product[0].category}` },
-        { text: `${engCategoryToPersian(product[0].category)}` }
+        { text: "دسته بندی ها", link: `/products/category/${category}` },
+        { text: `${engCategoryToPersian(category as categories)}` }
     ]
 
-    useEffect(() => { setProducts(product) }, [product])
+    useEffect(() => { product?.length && setProducts(product) }, [product])
 
-    const { filter, category } = router.query || {}
 
     const pathnameWithoutFilter = router.pathname.split('/').filter(value => !value.startsWith('[')).join('/').concat('/' + category)
 
@@ -54,17 +56,21 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
             <Header />
 
+            {
+                !product?.length && <div></div>
+            }
+
             <div className={"space-y-6 container"}>
 
                 <BreadCrumb path={breadCrumbData} />
 
-                <BlockTitle title={`قیمت لپ تاپ`} Icon={<HiOutlineClipboardList className="p-[6px]" />} />
+                <BlockTitle title={`${product?.length} کالا`} Icon={<HiOutlineInformationCircle className="p-[6px]" />} />
 
-                <Pagination itemsArray={filter ? products : product} />
+                <Pagination itemsArray={filter ? products! : product || []} />
 
             </div>
 
-            <div className={`${products.length ? 'h-12' : 'h-48'}`}></div>
+            <div className={`${products?.length ? 'h-12' : 'h-48'}`}></div>
 
             <Footer />
 
@@ -80,7 +86,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
     try {
 
-        const response = await fetch(`https://master--beamish-trifle-8c913b.netlify.app/api/products/category`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/products/category`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name: query?.category })

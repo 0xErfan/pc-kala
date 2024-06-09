@@ -103,28 +103,27 @@ const Checkout = () => {
 
             const resData = await res.json()
 
-            setTimeout(async () => { // just some fake delay so user see the loading process :)
+            dispatch(modalDataUpdater({
+                isShown: true,
+                message: resData.message,
+                status: res.ok,
+                title: res.ok ? 'خرید موفق' : 'کد تخفیف نامعتبر',
+                cancelBtnText: res.ok ? false : 'لغو',
+                okBtnText: res.ok ? 'باشه' : 'حذف کد تخفیف و تلاش مجدد',
+                fn: async () => {
+                    !res.ok && await removeDiscount().then(() => submitOrder()) // only run if response is not ok(invalid discount)
+                },
+            } as ModalProps))
 
-                dispatch(modalDataUpdater({
-                    isShown: true,
-                    message: resData.message,
-                    status: res.ok,
-                    title: res.ok ? 'خرید موفق' : 'کد تخفیف نامعتبر',
-                    cancelBtnText: res.ok ? false : 'لغو',
-                    okBtnText: res.ok ? 'باشه' : 'حذف کد تخفیف و تلاش مجدد',
-                    fn: async () => {
-                        !res.ok && await removeDiscount().then(() => submitOrder()) // only run if response is not ok(invalid discount)
-                    },
-                } as ModalProps))
-
-                if (res.ok) {
-                    dispatch(userUpdater())
+            if (res.ok) {
+                dispatch(userUpdater())
+                setTimeout(() => {
                     setIsLoading(false)
-                    setTimeout(() => { navigate.replace(`/transactionDetails/${resData.transaction._id}`) }, 200); // a little time for redux updating
-                }
+                    navigate.replace(`/transactionDetails/${resData.transaction._id}`)
+                }, 400); // a little time for redux updating
+            }
 
-                setIsLoading(false)
-            }, 900);
+            setIsLoading(false)
 
         } catch (err) {
             console.log(err)

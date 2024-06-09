@@ -33,12 +33,16 @@ const Login = () => {
 
             const data = await res.json()
 
-            if (!res.ok) { showToast(false, data.message, 3200); return }
+            showToast(res.ok, data.message, 3000)
 
-            showToast(true, 'ورود با موفقیت انجام شد :))')
-            setLoginFrom({})
+            if (res.ok) {
 
-            setTimeout(() => { navigate.replace('/'), dispatch(userUpdater()) }, 2000);
+                setLoginFrom({})
+                dispatch(userUpdater())
+
+                setTimeout(() => { navigate.replace('/') }, 1500);
+            }
+
         }
         catch (error) { showToast(false, String(error)) }
         finally { setLoading(false) }

@@ -2,6 +2,7 @@ import { unknownObjProps } from "@/global.t";
 import { CommentModel } from "@/models/Comment";
 import { transactionModel } from "@/models/Transactions";
 import { BasketItemModel, NotificationModel, WishModel } from "@/models/UserRelatedSchemas";
+import { authUser } from "@/utils";
 import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -9,21 +10,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
 
-        const token = req.cookies?.token ?? req.body // we can get the cookie from req body or the cookie api of next js
+        const userData = await authUser({ isFromClient: false, cookie: req.cookies?.token })
 
-        if (!token) return res.status(401).json({ message: 'Not loggedIn idiot' })
-
-        const response = await fetch('https://master--beamish-trifle-8c913b.netlify.app/api/auth/me', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(token)
-        })
-
-        if (!response.ok) {
-            return res.setHeader('Set-Cookie', 'token=; Expires=Thu, 01 Jan 1970 00:00:00 UTC; Path=/; HttpOnly');
-        }
-
-        const userData = await response.json()
+        if (!userData) return res.status(401).json({ message: 'This route is protected buddy' })
 
         const userRelatedModels = [NotificationModel, WishModel, BasketItemModel, transactionModel, CommentModel]
 

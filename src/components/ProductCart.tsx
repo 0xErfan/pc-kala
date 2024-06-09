@@ -35,11 +35,9 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
 
         const finalData = await res.json()
 
-        setTimeout(() => {
-            showToast(res.ok, finalData.message)
-            if (res.ok) dispatch(userUpdater())
-            setIsUpdating(false)
-        }, 800); // just debounce so user don't spam 😂🤔
+        if (res.ok) dispatch(userUpdater())
+        setIsUpdating(false)
+        showToast(res.ok, finalData.message)
     }
 
     return (
@@ -53,8 +51,8 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
                         <Image width={400} height={400} className="object-cover size-1/2 p-1" alt={title} src={src!} />
 
                         <div className="flex flex-col gap-1">
-                            <div>تعداد: <span className="text-white-red"> {price}</span> * {count} تومان </div>
-                            <div>مجموع: <span className="text-white-red">{finalPrice}</span> تومان</div>
+                            <div>تعداد: <span className="text-white-red"> {price.toLocaleString('fa-IR')}</span> * {count} تومان </div>
+                            <div>مجموع: <span className="text-white-red">{finalPrice.toLocaleString('fa-IR')}</span> تومان</div>
                         </div>
 
                     </div>

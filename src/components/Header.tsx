@@ -211,7 +211,7 @@ export default function Header() {
                                     {
                                         BasketItem?.length
                                             ?
-                                            <span className="absolute -top-[10px] -left-[10px] p-1 rounded-full size-6 flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
+                                            <span className="absolute -top-[10px] -left-[10px] p-[3px] rounded-full size-[22px] flex-center text-[12px] bg-primary-black">{BasketItem?.length}</span>
                                             :
                                             null
                                     }

@@ -37,7 +37,7 @@ const TransactionDetails = () => {
     }, [Transaction, navigate])
 
     const cancelTransaction = async () => {
-
+        
         dispatch(modalDataUpdater({
             isShown: true,
             title: 'لغو سفارش',
@@ -57,11 +57,9 @@ const TransactionDetails = () => {
 
                     const data = await res.json()
 
-                    setTimeout(async () => {
-                        showToast(res.ok, data.message)
-                        dispatch(userUpdater())
-                        setIsLoading(false)
-                    }, 700);
+                    showToast(res.ok, data.message)
+                    res.ok && dispatch(userUpdater())
+                    setIsLoading(false)
 
                 } catch (error) {
                     console.log(error)

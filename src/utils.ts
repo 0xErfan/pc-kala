@@ -1,6 +1,6 @@
 import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
-import { categories, unknownObjProps } from "./global.t"
+import { categories, unknownObjProps, userDataTypes } from "./global.t"
 import { userUpdater } from "./Redux/Features/globalVarsSlice"
 import { store } from "./Redux/store"
 
@@ -267,8 +267,28 @@ const totalPriceCalculator = (price: number, discount: number, count: number, se
     const servicesPrice = services ? Object.values(services).reduce((prev, next) => prev + next, 0) : 0
 
     const totalPrice = ((priceAfterDiscount + servicesPrice) * count) - (servicesPrice * (count - 1))
-    
+
     return totalPrice < 0 ? 0 : totalPrice
+}
+
+const authUser = async({ isFromClient = false, cookie }: { isFromClient?: boolean, cookie?: string }) => {
+
+    try {
+        const res = await fetch(`${isFromClient ? '' : process.env.NEXT_PUBLIC_BASE_PATH}/api/auth/me`, isFromClient ? {} : {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(cookie)
+        })
+
+        if (!res.ok) return null;
+
+        const userData: userDataTypes = await res.json()
+
+        return userData;
+    }
+    catch (error) {
+        console.log(error)
+    }
 }
 
 export {
@@ -287,5 +307,6 @@ export {
     convertNumbers2English,
     removeProductFromBasket,
     addProductToBasket,
-    totalPriceCalculator
+    totalPriceCalculator,
+    authUser,
 }

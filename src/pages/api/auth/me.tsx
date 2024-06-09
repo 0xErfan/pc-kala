@@ -11,14 +11,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const token: string | undefined = req.cookies?.token ?? req.body
 
-        if (!token) {
-            res.setHeader('Set-Cookie', 'token=deleted; path=/; maxAge=0');
-            return res.status(401).json({ message: 'You are not logged in' })
-        }
+        if (!token) return res.status(401).json({ message: 'You are not logged in' })
 
         const verifiedToken = tokenDecoder(token) as { email: string }
 
-        const userData = await UserModel.findOne({ email: verifiedToken.email })
+        const userData = await UserModel.findOne({ email: verifiedToken?.email })
 
         if (!userData) {
             return res.setHeader('token', 'expires=0;').status(401).json({ message: 'No user exist with this username or password!' })

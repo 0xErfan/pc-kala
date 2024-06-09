@@ -56,7 +56,6 @@ const Product = ({ product }: { product: productDataTypes }) => {
     const [sortCommentsBy, setSortCommentsBy] = useState<'rate' | 'byCustomer' | 'newest'>('newest')
 
     const [productComments, setProductComments] = useState<commentProps[]>([])
-    const [updater, setUpdater] = useState(false)
     const [isUpdating, setIsUpdating] = useState(false)
     const [productServices, setProductServices] = useState<unknownObjProps<number>>({ 'گارانتی ۱۸ ماهه پیسی کالا': 0 })
 
@@ -78,11 +77,9 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
         const finalData = await res.json()
 
-        setTimeout(() => {
-            showToast(res.ok, finalData.message)
-            if (res.ok) dispatch(userUpdater())
-            setIsUpdating(false)
-        }, 800); // just debounce so user don't spam 😂🤔
+        showToast(res.ok, finalData.message)
+        if (res.ok) dispatch(userUpdater())
+        setIsUpdating(false)
     }
 
     const breadCrumbData = [
@@ -166,26 +163,21 @@ const Product = ({ product }: { product: productDataTypes }) => {
                 body: JSON.stringify({ ...commentData })
             })
 
-            const responseData = await res.json()
-
             if (res.ok) {
-                setTimeout(() => {
 
-                    dispatch(modalDataUpdater({
-                        status: true,
-                        isShown: true,
-                        okBtnText: 'باش😒',
-                        cancelBtnText: false,
-                        title: 'ثبت موفق کامنت',
-                        message: 'نظر شما با موفقیت ثبت شد و پس از بررسی های لازم منتشر خواهد شد.',
-                        fn: () => { },
-                    }))
+                dispatch(modalDataUpdater({
+                    status: true,
+                    isShown: true,
+                    okBtnText: 'باش😒',
+                    cancelBtnText: false,
+                    title: 'ثبت موفق کامنت',
+                    message: 'نظر شما با موفقیت ثبت شد و پس از بررسی های لازم منتشر خواهد شد.',
+                    fn: () => { },
+                }))
 
-                    setNewCommentData({ text: '', rate: 1 })
-                    setUpdater(previous => !previous)
-                    setIsUpdating(false)
-                }, 900);
-            } // just some fake loading for user
+                setNewCommentData({ text: '', rate: 1 })
+                setIsUpdating(false)
+            }
 
         } catch (error) {
             showToast(false, error as string)
@@ -242,7 +234,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
                 } catch (error) { showToast(false, 'خطای اتصال به اینترنت') }
             }
         )()
-    }, [_id, updater]) // product comments updater
+    }, [_id])
 
     return (
 
@@ -643,9 +635,10 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                             return (
                                                 <div
                                                     key={ind}
-                                                    className="flex items-center ch:pr-3 ch:h-8 gap-[3px] ch:w-full ch:bg-primary-black">
-                                                    <div className="rounded-br-3xl flex-1 flex items-center rounded-tr-sm">{data[1].title}</div>
-                                                    <div className="lg:flex-[7] sm:flex-[4] flex-[2] text-[13px] flex items-center">{data[1].value}</div>
+                                                    className="flex items-center ch:pr-3 ch:min-h-9 ch:h-full gap-[3px] ch:w-full ch:bg-primary-black"
+                                                >
+                                                    <div className="rounded-br-3xl flex-1 flex pr-2 font-peyda text-[15px] items-center rounded-tr-sm">{data[1].title}</div>
+                                                    <div className="lg:flex-[7] sm:flex-[4] flex-[3.5] text-[12px] sm:text-[13px] flex items-center">{data[1].value}</div>
                                                 </div>
                                             )
                                         })
@@ -679,7 +672,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
     try {
 
-        const response = await fetch(`https://master--beamish-trifle-8c913b.netlify.app/api/products/search`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/products/search`, {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ _id: context.params?.id })

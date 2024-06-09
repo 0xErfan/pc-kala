@@ -15,7 +15,7 @@ const Slider = ({ children }: SliderProps) => {
                 spaceBetween={12}
                 loop={true}
                 autoplay={{
-                    delay: 2500,
+                    delay: 3300,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true
                 }}

@@ -38,12 +38,14 @@ const Register = () => {
 
             const data = await res.json()
 
-            if (!res.ok) return showToast(false, data.message, 3200)
+            showToast(res.ok, data.message, 3000)
 
-            showToast(true, 'ثبت نام با موفقیت انجام شد :))')
-            setRegisterFrom({})
-
-            setTimeout(() => { navigate.replace('/'), dispatch(userUpdater()) }, 1700);
+            if (res.ok) {
+                setRegisterFrom({})
+                dispatch(userUpdater())
+                setTimeout(() => { navigate.replace('/') }, 1700);
+            }
+            
         }
         catch (error) { showToast(false, String(error)) }
         finally { setLoading(false) }

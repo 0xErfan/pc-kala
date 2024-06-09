@@ -61,7 +61,15 @@ const Product = (product: productDataTypes) => {
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-IR')}٪</div>}
 
             <Link href={`/products/search/${_id}`}>
-                <Image width={500} height={500} priority alt="product-name" blurDataURL="true" src={`${prefix}/images/laptop-default.webp`} className="m-auto object-cover my-3 cursor-pointer" />
+                <Image
+                    className="m-auto object-cover cursor-pointer md:size-[80%] size-[73%]"
+                    src={`${prefix}/images/laptop-default.webp`}
+                    width={500}
+                    height={500}
+                    priority
+                    alt="product-name"
+                    blurDataURL="true"
+                />
             </Link>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">
@@ -81,7 +89,7 @@ const Product = (product: productDataTypes) => {
                         <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <RiRam2Line /> <p className="text-blue-white">{specs.ram.value.split(' ').find(value => value.includes('GB') || value.includes('MB'))}</p></div>
                     </div>
                     :
-                    <div className="h-[56px]"></div>
+                    <div className="md:h-[56px]"></div>
             }
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">

@@ -37,16 +37,17 @@ const Comment = ({ _id, createdAt, productID, rate, accepted, body }: commentPro
             </td>
 
             <td className="break-words max-w-[110px]">
-                <div className="flex-center ch:size-4 m-auto gap-1">
+                <div className="hidden items-start justify-center sm:flex ch:size-4 m-auto gap-1">
                     {
                         new Array(rate).fill(0).map((_, index) => <BsStarFill className="text-gold" key={index} />)
                             .concat(new Array(5 - rate).fill(0).map((_, index) => <BsStarFill key={index + 5} />))
                     }
                 </div>
+                <div className="sm:hidden block">{rate}</div>
             </td>
 
             <td>
-                <div className={`sm:w-3/4 w-[87%] sm:h-3/4 h-[87%] m-auto text-[9px] sm:text-[12px] flex-center whitespace-nowrap ${accepted == 1 ? 'bg-green' : accepted == 0 ? 'bg-white-red' : 'bg-dark-gold/70'} sm:p-2 p-1 rounded-md text-[12px]`}>
+                <div className={`sm:w-3/4 w-[90%] sm:h-3/4 h-[90%] m-auto text-[10px] sm:text-[12px] flex-center whitespace-nowrap ${accepted == 1 ? 'bg-green' : accepted == 0 ? 'bg-white-red' : 'bg-dark-gold/70'} sm:p-2 p-1 rounded-md text-[12px]`}>
                     {
                         accepted == 1
                             ?

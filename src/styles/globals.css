@@ -54,8 +54,7 @@
 }
 
 .submenu:hover {
-    padding-right: 1.3rem;
-    transition: all 0.4s ease;
+    @apply md:pr-[20px] transition-all duration-300;
 }
 
 .submenu::after {
@@ -74,9 +73,7 @@
 }
 
 .submenu:hover::after {
-    background-color: red;
-    opacity: 1;
-    padding-left: 14px;
+    @apply md:bg-red-600 md:opacity-100 md:pl-[14px];
 }
 
 .user-basket {
