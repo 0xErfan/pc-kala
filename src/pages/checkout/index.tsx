@@ -77,6 +77,8 @@ const Checkout = () => {
 
     const submitOrder = async () => {
 
+        if (!relatedData?.BasketItem?.length) return showToast(false, 'محصولی برای خرید وجود نداره')
+
         if (isLoading) return
 
         const fieldsToCheck = Object.entries(formData).filter(data => data[0] !== 'email' && data[0] !== 'orderDetails')

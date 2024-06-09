@@ -21,21 +21,21 @@ export default async function middleware(request: NextRequest) {
         if (!cookie) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
     }
 
-    if (path == '/checkout') {
+    // if (path == '/checkout') {
         
-        if (!cookie) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
+    //     if (!cookie) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
         
-        // this scope check for user basket so if its empty, checkout page is forbidden
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/UserRelatedData/get`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(cookie)
-        })
+    //     // this scope check for user basket so if its empty, checkout page is forbidden
+    //     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/UserRelatedData/get`, {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: JSON.stringify(cookie)
+    //     })
 
-        const { userRelatedData } = await response.json()
+    //     const { userRelatedData } = await response.json()
 
-        if (!userRelatedData?.BasketItem?.length) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
-    }
+    //     if (!userRelatedData?.BasketItem?.length) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
+    // }
 
     return NextResponse.next()
 }
