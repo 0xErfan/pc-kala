@@ -274,7 +274,7 @@ const Profile = () => {
                     </UserPanelTemplate>
                 );
         }
-    }, [activeMenu, activeEditShown, isLoaded])
+    }, [activeMenu, activeEditShown, isLoaded, data, relatedData])
 
     useEffect(() => {
         if (navigate.query?.menu == 'orders') {
