@@ -637,7 +637,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                                     key={ind}
                                                     className="flex items-center ch:pr-3 ch:min-h-9 ch:h-full gap-[3px] ch:w-full ch:bg-primary-black"
                                                 >
-                                                    <div className="rounded-br-3xl flex-1 flex pr-2 font-peyda text-[15px] items-center rounded-tr-sm">{data[1].title}</div>
+                                                    <div className="rounded-br-3xl flex-1 flex pr-2 font-peyda text-[12px] items-center rounded-tr-sm">{data[1].title}</div>
                                                     <div className="lg:flex-[7] sm:flex-[4] flex-[3.5] text-[12px] sm:text-[13px] flex items-center">{data[1].value}</div>
                                                 </div>
                                             )

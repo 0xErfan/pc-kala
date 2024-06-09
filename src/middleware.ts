@@ -34,7 +34,7 @@ export default async function middleware(request: NextRequest) {
 
         const { userRelatedData } = await response.json()
 
-        if (!userRelatedData.BasketItem?.length) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
+        if (!userRelatedData?.BasketItem?.length) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
     }
 
     return NextResponse.next()

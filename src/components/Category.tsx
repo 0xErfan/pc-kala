@@ -1,6 +1,7 @@
 import { categories } from "@/global.t";
 import { engCategoryToPersian } from "@/utils";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { ReactNode, memo, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
@@ -14,6 +15,7 @@ interface CategoryProps {
 export default memo(function Category({ screen, title, Icon, submenus }: CategoryProps) {
 
     const [isCategoryShown, setIsCategoryShown] = useState(false)
+    const navigate = useRouter()
 
     return (
         <>
@@ -43,17 +45,22 @@ export default memo(function Category({ screen, title, Icon, submenus }: Categor
                     <li className="flex flex-col gap-2 cursor-pointer w-full">
 
                         <div
-                            onClick={() => setIsCategoryShown(preve => !preve)}
+                            onClick={() => setIsCategoryShown(prev => !prev)}
                             className={`flex items-center justify-between ${isCategoryShown && "text-dark-red"} text-[15px] fontb transition-all delay-[40] duration-200 gap-1`}>
                             <div className="flex items-center gap-2 font-peyda text-[14px]" >{Icon}{title}</div>
                             <FaAngleDown className={` ${isCategoryShown && "rotate-180 "} size-4 duration-200 transition-all delay-[40]`} />
                         </div>
 
                         <div
-                            onClick={() => setIsCategoryShown(preve => !preve)}
                             className={`${!isCategoryShown ? "invisible h-0" : "visible h-full"} delay-[40] duration-200 transition-all cursor-pointe`}>
                             <ul className="ch:py-2 bg-secondary-black p-3 text-[13px] rounded-md w-full">
-                                {submenus.map(menu => <li key={menu.title} className="submenu relative"><Link href={menu.path} > {menu.title} </Link></li>)}
+                                {
+                                    submenus.map(menu =>
+                                        <li key={menu.title}
+                                            className={`relative ${menu.path?.includes(navigate.query?.filter as string) && 'active-menu'}`}>
+                                            <Link href={menu.path} > {menu.title} </Link>
+                                        </li>)
+                                }
                             </ul>
                         </div>
                     </li>

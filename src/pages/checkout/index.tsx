@@ -50,7 +50,7 @@ const Checkout = () => {
 
     const removeDiscount = async () => {
 
-        const productWithDiscount = relatedData.BasketItem.find(item =>
+        const productWithDiscount = relatedData?.BasketItem.find(item =>
             Object.keys(item.services).some(service => service.includes('کد تخفیف'))
         ); // we just find the product that have the discount object in its services
 

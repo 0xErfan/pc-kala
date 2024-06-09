@@ -58,7 +58,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
     useEffect(() => { dataToShow == "basket" && ref.current?.click() }, [dataToShow])
 
-    useEffect(() => { setIsMenuShown(false) }, [navigate.pathname]) // if the route changed via the category links or..., the sidebar closes
+    useEffect(() => { setIsMenuShown(false) }, [navigate.asPath]) // if the route changed via the category links or..., the sidebar closes
 
     useEffect(() => { dispatch(changeCanScroll(!isMenuShown)) }, [dispatch, isMenuShown])
 
@@ -85,7 +85,10 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                                             ?
                                             relatedData.BasketItem.map(({ productID, count, services }) => (
 
-                                                <div data-aos-duration="550" data-aos="fade-right" key={productID?._id} className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'>
+                                                <div
+                                                    key={productID?._id}
+                                                    className='flex gap-2 items-center relative text-[12px] border-b border-dark-gold pb-2 last:border-none'
+                                                >
 
                                                     <span onClick={() => deleteProductFromBasket(productID?._id)} className='absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
 
@@ -126,7 +129,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                         :
                         <div className='py-2'>
 
-                            <div className='flex items-center justify-between text-2xl px-4 mt-4 mb-6 gap-3 w-[265px]'>
+                            <div className='flex items-center w-full justify-between text-2xl px-4 mt-4 mb-6 gap-3 '>
 
                                 <div className='flex-[7] pt-2'>
                                     <Image

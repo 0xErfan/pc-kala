@@ -43,8 +43,10 @@ const Profile = () => {
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
     const dataEditorCloser = () => setActiveEditShown(null)
 
-    const { nameLastName, username, nationalCode, email, phoneNumber, _id } = fetchedData?.userData || {}
-    const { Wish, Notification, Transaction, Comment } = fetchedData?.userRelatedData || {}
+    const { data, relatedData } = useAppSelector(state => state.userSlice)
+
+    const { nameLastName, username, nationalCode, email, phoneNumber, _id } = data || fetchedData?.userData || {}
+    const { Wish, Notification, Transaction, Comment } = relatedData || fetchedData?.userRelatedData || {}
 
     const { processing, canceled, delivered } = useMemo(() => {
 
@@ -74,6 +76,9 @@ const Profile = () => {
     useEffect(() => {
         (
             async () => {
+
+                if (data?.email) return setIsLoaded(true) // use cached data instead of fetching again
+
                 try {
                     setIsLoaded(false)
 
@@ -89,7 +94,7 @@ const Profile = () => {
                 } catch (error) { showToast(false, 'از اتصال به اینترنت مطمان شوید', 3000) }
             }
         )()
-    }, [updater])
+    }, [data])
 
     useEffect(() => {
 
