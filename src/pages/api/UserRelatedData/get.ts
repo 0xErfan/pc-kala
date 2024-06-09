@@ -10,7 +10,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
 
-        const userData = await authUser({ isFromClient: false, cookie: req.cookies?.token })
+        const token = await req.body
+
+        const userData = await authUser({ isFromClient: Boolean(token), cookie: req.cookies?.token || token })
 
         if (!userData) return res.status(401).json({ message: 'This route is protected buddy' })
 
