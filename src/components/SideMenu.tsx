@@ -72,7 +72,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                 <IoReorderThree className="size-10 sm:size-[46px] p-[6px] bg-primary-black rounded-full text-title-text" />
             </div>
 
-            <div className={`fixed h-screen ${ !isMenuShown ? 'opacity-0' : 'opacity-100' } bg-primary-black overflow-y-auto top-0 bottom-0 transition-all duration-300 ${isMenuShown ? ` shadow-regular ${dataToShow == "sideMenu" ? "right-0" : "left-0"}` : ` ${dataToShow == "sideMenu" ? "-right-[290px]" : "-left-[290px]"}`} z-40`}>
+            <div className={`fixed h-screen ${ !isMenuShown ? 'opacity-0' : 'opacity-100' } bg-primary-black overflow-y-auto top-0 bottom-0 transition-all duration-200 ${isMenuShown ? ` shadow-regular ${dataToShow == "sideMenu" ? "right-0" : "left-0"}` : ` ${dataToShow == "sideMenu" ? "-right-[290px]" : "-left-[290px]"}`} z-40`}>
                 {
                     dataToShow !== "sideMenu"
                         ?
