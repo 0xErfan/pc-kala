@@ -26,16 +26,16 @@ const TransactionDetails = () => {
 
     useEffect(() => {
 
-        if (Transaction?.length) {
+        if (Transaction?.length && navigate.query?.id) {
 
-            const getTransaction = Transaction.find(data => data._id == navigate.query?.id)
+            const getTransaction = Transaction.find(data => data._id == navigate.query.id)
 
             if (!getTransaction) navigate.replace('/') // if user change the route id with an invalid one
 
             setTransactionData(getTransaction)
         }
 
-    }, [Transaction, navigate, navigate.asPath])
+    }, [Transaction, navigate.query?.id, navigate])
 
     const cancelTransaction = async () => {
 
