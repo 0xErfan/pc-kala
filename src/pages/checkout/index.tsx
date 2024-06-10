@@ -109,20 +109,21 @@ const Checkout = () => {
                 isShown: true,
                 message: resData.message,
                 status: res.ok,
-                title: res.ok ? 'خرید موفق' : 'کد تخفیف نامعتبر',
+                title: res.ok ? 'خرید موفق' : 'خرید ناموفق',
                 cancelBtnText: res.ok ? false : 'لغو',
-                okBtnText: res.ok ? 'باشه' : 'حذف کد تخفیف و تلاش مجدد',
+                okBtnText: res.ok ? 'باشه' : res.status == 421 ? 'حذف کد تخفیف و تلاش مجدد' : 'تلاش مجدد',
                 fn: async () => {
-                    !res.ok && await removeDiscount().then(() => submitOrder()) // only run if response is not ok(invalid discount)
+                    if (!res.ok) {
+                        if (res.status == 421) return await removeDiscount().then(() => submitOrder()) // only run if response is not ok(invalid discount)
+                        if (res.status == 500) return submitOrder()
+                    } else { () => { } }
                 },
             } as ModalProps))
 
             if (res.ok) {
                 dispatch(userUpdater())
-                setTimeout(() => {
-                    setIsLoading(false)
-                    navigate.replace(`/transactionDetails/${resData.transaction._id}`)
-                }, 400); // a little time for redux updating
+                setIsLoading(false)
+                setTimeout(() => { navigate.replace(`/transactionDetails/${resData.transaction._id}`) }, 500);
             }
 
             setIsLoading(false)

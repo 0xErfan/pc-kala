@@ -26,18 +26,19 @@ const TransactionDetails = () => {
 
     useEffect(() => {
 
-        if (!Transaction) return // waiting for redux to get the transaction data
+        if (Transaction?.length) {
 
-        const getTransaction = Transaction?.find(data => data._id == navigate.query?.id)
+            const getTransaction = Transaction.find(data => data._id == navigate.query?.id)
 
-        if (!getTransaction) navigate.replace('/') // if user change the route id with an invalid one
+            if (!getTransaction) navigate.replace('/') // if user change the route id with an invalid one
 
-        setTransactionData(getTransaction)
+            setTransactionData(getTransaction)
+        }
 
-    }, [Transaction, navigate])
+    }, [Transaction, navigate, navigate.asPath])
 
     const cancelTransaction = async () => {
-        
+
         dispatch(modalDataUpdater({
             isShown: true,
             title: 'لغو سفارش',
