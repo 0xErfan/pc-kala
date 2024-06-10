@@ -37,7 +37,7 @@ const Profile = () => {
     const [isLoaded, setIsLoaded] = useState(false)
     const navigate = useRouter()
 
-    const { userUpdater: updater, activeProfileMenu: activeMenu } = useAppSelector(state => state.globalVarsSlice)
+    const { activeProfileMenu: activeMenu } = useAppSelector(state => state.globalVarsSlice)
     const dispatch = useAppDispatch()
 
     const activeEditChanger = (prop: string) => { setActiveEditShown({ [prop]: true }) }
@@ -376,15 +376,11 @@ const Profile = () => {
 
 const OrderStatus = ({ count, status, text }: orderStatusProps) => {
 
-    const [src, setSrc] = useState<orderStatusProps["status"] | null>(null)
-
-    useEffect(() => { setSrc(status) }, [status])
-
     return (
         <div className="flex items-center gap-3 mt-10">
             <div>
                 <Image
-                    src={`${prefix}/images/${src}.svg`}
+                    src={`${prefix}/images/${status}.svg`}
                     width={85}
                     height={85}
                     quality={100}
