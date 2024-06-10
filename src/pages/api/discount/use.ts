@@ -17,7 +17,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const isDiscountCodeValid: DiscountDataTypes | null = await DiscountModel.findOne({ code })
 
-        if (!isDiscountCodeValid || isDiscountCodeValid.maxUse <= 0) return res.status(421).json({ message: 'کد تخفیف نامعتبر است' })
+        if (!isDiscountCodeValid) return res.status(421).json({ message: 'کد تخفیف نامعتبر است' })
+        if (isDiscountCodeValid.maxUse <= 0) return res.status(421).json({ message: 'کد تخفیف منقضی شده' })
 
         const basketData = await BasketItemModel.findOne({ _id: basketID, userID })
 
@@ -31,9 +32,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 services: { ...updatedBasketServices }
             })
 
-            await ActiveDiscountModel.create({ code, userID })
+        await ActiveDiscountModel.create({ code, userID })
 
-        return res.status(201).json({ message: `کد تخفیف ${isDiscountCodeValid.value.toLocaleString() } تومانی برای خرید شما اعمال شد🥲` })
+        return res.status(201).json({ message: `کد تخفیف ${isDiscountCodeValid.value.toLocaleString()} تومانی برای خرید شما اعمال شد🥲` })
 
     } catch (err) {
         console.log(err)

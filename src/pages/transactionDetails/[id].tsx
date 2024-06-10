@@ -78,10 +78,12 @@ const TransactionDetails = () => {
     }, [transactionData?.productsList])
 
     return (
+
         <section className="bg-primary-black">
+
             <Header />
 
-            <span className='pt-[180px] block'></span>
+            <span className='md:pt-[180px] pt-[165px] block'></span>
 
             <div className="container mb-12">
 

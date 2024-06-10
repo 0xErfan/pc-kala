@@ -359,8 +359,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                         </div>
 
-
-                        <div className={`${(category == 'pc' || category == 'laptop') ? 'visible' : 'invisible'} xl:py-6 `}>
+                        <div className={`${(category == 'pc' || category == 'laptop') ? 'visible' : 'invisible'} xl:py-6 py-0 `}>
                             <p className="text-dark-red mt-6 text-sm">خدمات ویژه پی سی کالا :</p>
 
                             <div className="text-[12px] ch:my-3 ch:text-description-text">
