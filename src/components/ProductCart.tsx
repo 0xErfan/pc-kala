@@ -40,6 +40,16 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
         showToast(res.ok, finalData.message)
     }
 
+    const removeFromBasket = async () => {
+
+        if (isUpdating) return
+        setIsUpdating(true)
+
+        removeProductFromBasket(id, data._id)
+            .then(() => dispatch(userUpdater()))
+            .finally(() => setIsUpdating(false))
+    }
+
     return (
         <>
             <tr className=" block sm:hidden text-center border-b p-2 border-dark-gold pb-3 text-[13px]">
@@ -67,7 +77,7 @@ const ProductCart = ({ price, finalPrice, count, title, src, id }: ProductCartPr
                 <td className="flex ch:border-l ch:border-dark-gold">
 
                     <div
-                        onClick={() => removeProductFromBasket(id, data._id).then(() => dispatch(userUpdater()))}
+                        onClick={removeFromBasket}
                         className="flex-1 cursor-pointer flex-center border-r border-dark-gold"><IoClose className="size-6 rounded-sm bg-primary-black p-1"
                         />
                     </div>

@@ -231,7 +231,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                     setProductComments(acceptedComments)
 
-                } catch (error) { showToast(false, 'خطای اتصال به اینترنت') }
+                } catch (error) { console.log(error) }
             }
         )()
     }, [_id])

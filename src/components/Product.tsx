@@ -51,8 +51,8 @@ const Product = (product: productDataTypes) => {
         if (!isLoggedIn) return showToast(false, 'ابتدا وارد حساب خود شوید')
 
         addWish(data._id, _id)
-            .then(() => dispatch(userUpdater()))
             .then(() => setIsProductInUserWish(prev => !prev))
+            .then(() => dispatch(userUpdater()))
     }
 
     return (

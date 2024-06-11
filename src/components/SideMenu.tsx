@@ -26,6 +26,8 @@ interface SideMenuProps {
 const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
     const [isMenuShown, setIsMenuShown] = useState<boolean>(false)
+    const [isUpdating, setIsUpdating] = useState(false)
+
     const ref = useRef<HTMLDivElement>(null)
     const searchTextRef = useRef<HTMLInputElement | null>(null)
 
@@ -45,8 +47,15 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
     }, [relatedData?.BasketItem])
 
     const deleteProductFromBasket = (productID: string) => {
-        if (!isLogin) { showToast(false, 'ابتدا وارد حساب خود شوید'); return }
-        removeProductFromBasket(productID, data._id).then(() => dispatch(userUpdater()))
+
+        if (!isLogin) return showToast(false, 'ابتدا وارد حساب خود شوید')
+        if (isUpdating) return
+
+        setIsUpdating(true);
+
+        removeProductFromBasket(productID, data._id)
+            .then(() => dispatch(userUpdater()))
+            .finally(() => setIsUpdating(false))
     }
 
     const globalSearch = () => {
@@ -72,7 +81,7 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
                 <IoReorderThree className="size-10 sm:size-[46px] p-[6px] bg-primary-black rounded-full text-title-text" />
             </div>
 
-            <div className={`fixed h-screen ${ !isMenuShown ? 'opacity-0' : 'opacity-100' } bg-primary-black overflow-y-auto top-0 bottom-0 transition-all duration-200 ${isMenuShown ? ` shadow-regular ${dataToShow == "sideMenu" ? "right-0" : "left-0"}` : ` ${dataToShow == "sideMenu" ? "-right-[290px]" : "-left-[290px]"}`} z-40`}>
+            <div className={`fixed h-screen ${!isMenuShown ? 'opacity-0' : 'opacity-100'} bg-primary-black overflow-y-auto top-0 bottom-0 transition-all duration-200 ${isMenuShown ? ` shadow-regular ${dataToShow == "sideMenu" ? "right-0" : "left-0"}` : ` ${dataToShow == "sideMenu" ? "-right-[290px]" : "-left-[290px]"}`} z-40`}>
                 {
                     dataToShow !== "sideMenu"
                         ?
