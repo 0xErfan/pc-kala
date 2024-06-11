@@ -49,8 +49,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).json({ userData, userRelatedData })
 
     } catch (err) {
-        console.log(err)
-        res.setHeader("Set-Cookie", serialize("token", "", { httpOnly: true, path: "/", maxAge: 0 }))
+        console.log('error from get userdata api -> ', err)
+        // res.setHeader("Set-Cookie", serialize("token", "", { httpOnly: true, path: "/", maxAge: 0 }))
         return res.status(401).json({ message: 'not logged in' })
     }
 }
