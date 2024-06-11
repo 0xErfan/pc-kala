@@ -23,6 +23,7 @@ const Product = (product: productDataTypes) => {
 
     const [isProductInUserWish, setIsProductInUserWish] = useState(false)
     const [isProductInBasket, setIsProductInBasket] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const isLoggedIn = useAppSelector(state => state.userSlice.isLogin)
 
@@ -49,10 +50,25 @@ const Product = (product: productDataTypes) => {
     const addWishHandler = () => {
 
         if (!isLoggedIn) return showToast(false, 'ابتدا وارد حساب خود شوید')
+        if (isLoading) return
+
+        setIsLoading(true)
 
         addWish(data._id, _id)
-            .then(() => setIsProductInUserWish(prev => !prev))
             .then(() => dispatch(userUpdater()))
+            .then(() => setIsProductInUserWish(prev => !prev))
+            .finally(() => setIsLoading(false))
+    }
+
+    const addToBasket = () => {
+
+        if (!isLoggedIn) return showToast(false, 'ابتدا وارد حساب خود شوید')
+        if (isLoading) return
+
+        setIsLoading(true)
+
+        addProductToBasket(data._id, _id, undefined, dispatch)
+            .finally(() => setIsLoading(false))
     }
 
     return (
@@ -95,7 +111,7 @@ const Product = (product: productDataTypes) => {
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
 
                 <CiShoppingBasket
-                    onClick={() => isLoggedIn ? addProductToBasket(data._id, _id, undefined, dispatch) : showToast(false, 'ابتدا وارد حساب خود شوید')}
+                    onClick={addToBasket}
                     className={`bg-primary-black ${!isProductInBasket ? 'text-description-text' : 'text-green'} transition-all p-[3px] rounded-full`}
                 />
 

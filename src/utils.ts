@@ -210,6 +210,7 @@ const addWish = async (creator: string, productID: string) => {
         })
 
         const data = await res.json()
+        if (!res.ok) throw new Error(data.message)
 
         showToast(res.ok, data.message, 2000)
 
@@ -271,7 +272,7 @@ const totalPriceCalculator = (price: number, discount: number, count: number, se
     return totalPrice < 0 ? 0 : totalPrice
 }
 
-const authUser = async({ isFromClient = false, cookie }: { isFromClient?: boolean, cookie?: string }) => {
+const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boolean, cookie?: string }) => {
 
     try {
         const res = await fetch(`${isFromClient ? '' : process.env.NEXT_PUBLIC_BASE_PATH}/api/auth/me`, isFromClient ? {} : {
