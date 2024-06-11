@@ -51,7 +51,8 @@ const config: Config = {
         "peyda": "peyda",
       },
       boxShadow: {
-        "regular": `0px 0px 23px 0px rgba(0,0,0,0.46)`
+        "regular": `0px 0px 23px 0px rgba(0,0,0,0.46)`,
+        "bottomShadow": '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
       }
     },
   },
