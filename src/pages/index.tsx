@@ -1,6 +1,5 @@
 import 'swiper/css';
 import 'swiper/css/pagination';
-
 import Button from "../components/Button";
 import BlockTitle from "../components/BlockTitle";
 import Product from "../components/Product";
@@ -11,16 +10,17 @@ import { AiOutlinePartition } from "react-icons/ai";
 import { BsCpu } from "react-icons/bs";
 import { SwiperSlide } from 'swiper/react';
 import Slider from "../components/Slider";
-import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { useRouter } from 'next/router';
 import connectToDB from '@/config/db';
 import Image from 'next/image';
 import ProductModel from '@/models/Product';
 import { shuffleArray } from '@/utils';
 import { productDataTypes } from '@/global.t';
 import prefix from '@/config/prefix';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 
+const DynamicFooter = dynamic(() => import('@/components/Footer'))
 interface ProductsDataType {
     products: { [key: string]: productDataTypes[] }
 }
@@ -56,12 +56,12 @@ export default function Home({ products }: ProductsDataType) {
 
                 </div>
 
-                <div data-aos-duration="550" data-aos="zoom-in">
+                <div>
                     <Image
-                        width={600}
-                        quality={100}
+                        width={500}
+                        quality={80}
                         priority
-                        height={600}
+                        height={500}
                         className="w-full h-full object-cover"
                         src={`${prefix}/images/home/laptop.webp`}
                         alt="pc-kala"
@@ -81,7 +81,16 @@ export default function Home({ products }: ProductsDataType) {
 
             <div className="container flex-col lg:flex-row flex ch:flex-1 gap-8 mt-36 mb-24">
 
-                <div data-aos-duration="550" data-aos="zoom-in"><Image loading='lazy' width={600} height={600} className="max-h-[480px] m-auto h-full  w-[200px]" src={`${prefix}/images/home/case.webp`} alt="pc-kala" /></div>
+                <div data-aos-duration="550" data-aos="zoom-in">
+                    <Image
+                        loading='lazy'
+                        width={500}
+                        height={500}
+                        className="max-h-[480px] m-auto h-full  w-[200px]"
+                        src={`${prefix}/images/home/case.webp`}
+                        alt="pc-kala"
+                    />
+                </div>
 
                 <div data-aos-duration="550" data-aos="zoom-in">
 
@@ -141,8 +150,8 @@ export default function Home({ products }: ProductsDataType) {
                         loading='lazy'
                         className="sm:max-w-[450px] size-auto m-auto object-cover"
                         src={`${prefix}/images/home/ghesti.webp`}
-                        width={600}
-                        height={600}
+                        width={500}
+                        height={500}
                         quality={90}
                         alt="pc-kala"
                     />
@@ -154,8 +163,8 @@ export default function Home({ products }: ProductsDataType) {
                 <div data-aos-duration="550" data-aos="zoom-in">
                     <Image
                         loading='lazy'
-                        width={600}
-                        height={600}
+                        width={500}
+                        height={500}
                         className="m-auto lg:h-[600px] h-auto w-[500px]"
                         src={`${prefix}/images/home/parts.webp`}
                         alt="pc-kala"
@@ -234,7 +243,7 @@ export default function Home({ products }: ProductsDataType) {
                 </div>
             </section>
 
-            <Footer />
+            <DynamicFooter />
 
         </section>
     )
