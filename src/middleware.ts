@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const config = {
@@ -25,7 +26,9 @@ export default async function middleware(request: NextRequest) {
             console.log(data)
 
             if (res.ok) return NextResponse.next()
+
             request.cookies.delete('token')
+            cookies().delete('token')
             return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
 
         } catch (error) {
