@@ -1,6 +1,7 @@
 import connectToDB from "@/config/db";
 import UserModel from "@/models/User";
 import { tokenDecoder } from "@/utils";
+import { serialize } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,7 +10,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const token: string | undefined = req.cookies?.token ?? req.body
+        const tokenFromReq = req.cookies?.token
+        const tokenFromBody = req.body
+
+        const token: string | undefined = tokenFromBody || tokenFromReq
 
         if (!token) return res.status(401).json({ message: 'You are not logged in' })
 
@@ -17,8 +21,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userData = await UserModel.findOne({ email: verifiedToken?.email })
 
-        if (!userData) {
-            return res.setHeader('token', 'expires=0;').status(401).json({ message: 'No user exist with this username or password!' })
+        if (!userData || !verifiedToken) {
+            res.setHeader("Set-Cookie", serialize("token", "", { httpOnly: true, path: "/", maxAge: 0 }))
+            return res.status(401).json({ message: 'No user exist with this username or password!' })
         }
 
         return res.status(200).send(userData)

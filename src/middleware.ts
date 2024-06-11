@@ -16,19 +16,14 @@ export default async function middleware(request: NextRequest) {
 
         try {
 
-            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/auth/me`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/auth/me`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(cookie)
             })
 
-            const data = await res.json()
-            console.log(data)
+            if (!res.ok) return NextResponse.next()
 
-            if (res.ok) return NextResponse.next()
-
-            request.cookies.delete('token')
-            cookies().delete('token')
             return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
 
         } catch (error) {
