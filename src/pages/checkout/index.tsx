@@ -87,11 +87,11 @@ const Checkout = () => {
             return showToast(false, 'تمام اطلاعات خواسته شده صورتحساب را وارد کنید')
         } // here we just check all values to not be empty
 
-        if (formData.name.trim().length > 20 || formData.name.trim().length < 3) { return showToast(false, 'نام باید بیشتر از 3 و کمتر از 20 کاراکتر باشد') }
-        if (formData.lName.trim().length > 20 || formData.lName.trim().length < 3) { return showToast(false, 'نام خانوادگی باید بیشتر از 3 و کمتر از 20 کاراکتر باشد') }
-        if (isNaN(+formData.codePost) || formData.codePost.trim().length != 10) { return showToast(false, 'کد پستی یک عدد ده رقمی است') }
-        if (!/^09\d{9}$/.test(formData.phoneNum)) { return showToast(false, 'شماره موبایل معتبر نیست') }
-        if (!doesUserAccept) { return showToast(false, 'موافقت با قوانین و مقررات الزامی است') }
+        if (formData.name.trim().length > 20 || formData.name.trim().length < 3) return showToast(false, 'نام باید بیشتر از 3 و کمتر از 20 کاراکتر باشد')
+        if (formData.lName.trim().length > 20 || formData.lName.trim().length < 3) return showToast(false, 'نام خانوادگی باید بیشتر از 3 و کمتر از 20 کاراکتر باشد')
+        if (isNaN(+formData.codePost) || formData.codePost.trim().length != 10) return showToast(false, 'کد پستی یک عدد ده رقمی است')
+        if (!/^09\d{9}$/.test(formData.phoneNum)) return showToast(false, 'شماره موبایل معتبر نیست')
+        if (!doesUserAccept) return showToast(false, 'موافقت با قوانین و مقررات الزامی است')
 
         setIsLoading(true)
 
@@ -122,16 +122,11 @@ const Checkout = () => {
 
             if (res.ok) {
                 dispatch(userUpdater())
-                setIsLoading(false)
-                setTimeout(() => { navigate.replace(`/transactionDetails/${resData.transaction._id}`) }, 500);
+                setTimeout(() => { navigate.replace(`/transactionDetails/${resData.transaction._id}`) }, 2500);
             }
 
-            setIsLoading(false)
-
-        } catch (err) {
-            console.log(err)
-            setIsLoading(false)
-        }
+        } catch (err) { console.log(err) }
+        finally { setIsLoading(false) }
     }
 
     return (

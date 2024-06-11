@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <ScrollToTop />
                 <FetchOnLoad />
                 <Modal />
-                <div className="ch:z-[10000]"><NextNProgress showOnShallow height={1} startPosition={0} color="#FFD300" /></div>
+                <NextNProgress showOnShallow height={1} startPosition={0} color="#FFD300" />
                 <Component {...pageProps} />
             </Provider>
         </>
