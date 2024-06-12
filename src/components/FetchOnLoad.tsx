@@ -18,7 +18,7 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
                     res = await fetch('/api/UserRelatedData/get')
                     const { userData, userRelatedData } = await res.json()
                     dispatch(userDataUpdater({ userData, userRelatedData, isLogin: res.ok }))
-                } catch (error) { res?.status == 500 ? dispatch(userUpdater()) : showToast(res.ok, 'از اتصال به اینترنت مطمان شوید') }
+                } catch (error) { res?.status == 500 ? dispatch(userUpdater()) : showToast(Boolean(res?.ok), 'از اتصال به اینترنت مطمان شوید') }
             }
         )()
     }, [updater, dispatch])
