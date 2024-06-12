@@ -1,5 +1,4 @@
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
-import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { userDataUpdater } from "@/Redux/Features/userSlice"
 import { useEffect } from "react"
 
@@ -12,7 +11,6 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
         (
             async () => {
                 try {
-
                     const res = await fetch('/api/UserRelatedData/get')
                     const { userData, userRelatedData } = await res.json()
 

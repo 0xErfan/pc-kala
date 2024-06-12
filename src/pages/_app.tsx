@@ -14,29 +14,28 @@ import 'react-loading-skeleton'
 import prefix from "@/config/prefix";
 import NextNProgress from 'nextjs-progressbar'
 
+
 export default function App({ Component, pageProps }: AppProps) {
 
     const [isHydrated, setIsHydrated] = useState(false)
-
     useEffect(() => { setIsHydrated(true), Aos.init() }, [])
-
     if (!isHydrated) return <div className='text-[30px] text-red-600 fixed inset-0 w-full h-screen text-center flex items-center bg-secondary-black justify-center'>بروزرسانی...</div>;
 
     return (
-        <>
+        <main>
             <Head>
                 <link rel="icon" href={`${prefix}/images/fav-logo.png`}></link>
                 <title>پی سی کالا | رقابت قدرت </title>
             </Head>
 
             <Provider store={store}>
+                <FetchOnLoad />
                 <Toaster />
                 <ScrollToTop />
-                <FetchOnLoad />
                 <Modal />
-                <NextNProgress showOnShallow height={1} startPosition={0} color="#FFD300" />
+                <NextNProgress showOnShallow height={1} options={{ showSpinner: false, }} startPosition={0} color="#FFD300" />
                 <Component {...pageProps} />
             </Provider>
-        </>
+        </main>
     );
 }

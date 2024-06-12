@@ -33,7 +33,7 @@ export default function Header() {
     }
 
     return (
-        <section className="z-[150] fixed left-0 right-0 w-full">
+        <section className="z-[150] fixed left-0 right-0 w-full shadow-regular">
 
             {/* for large screens */}
             <div className="hidden md:block bg-secondary-black py-4">
