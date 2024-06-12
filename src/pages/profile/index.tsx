@@ -14,7 +14,7 @@ import UserDataUpdater from "@/components/UserDataUpdater"
 import { showToast } from "@/utils";
 import { useRouter } from "next/router";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
-import { changeProfileActiveMenu, modalDataUpdater } from "@/Redux/Features/globalVarsSlice";
+import { changeProfileActiveMenu, modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice";
 import Image from "next/image";
 import { userDataUpdater } from "@/Redux/Features/userSlice";
 import CommentData from '@/components/p-user/CommentData'
@@ -22,6 +22,7 @@ import Message from "@/components/p-user/Message";
 import TransactionData from "@/components/p-user/TransactionData";
 import { userDataTypes, userRelatedDataTypes } from "@/global.t";
 import prefix from "@/config/prefix";
+import Button from "@/components/Button";
 
 interface orderStatusProps {
     count: number
@@ -72,6 +73,20 @@ const Profile = () => {
 
         return { processing, delivered, canceled }
     }, [Transaction])
+
+    const deleteAllNotifications = async () => {
+
+        const res = await fetch('/api/notifications/deleteAll', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(_id)
+        })
+
+        const data = await res.json()
+
+        if (res.ok) dispatch(userUpdater())
+        showToast(res.ok, data.message)
+    }
 
     useEffect(() => {
         (
@@ -201,7 +216,16 @@ const Profile = () => {
                             {
                                 Notification?.length
                                     ?
-                                    [...Notification].reverse().map(data => <Message key={data._id} {...data} />)
+                                    <>
+                                        {
+                                            [...Notification].reverse().map(data => <Message key={data._id} {...data} />)
+                                        }
+                                        <Button
+                                            fn={deleteAllNotifications}
+                                            text="حذف همه پیام ها"
+                                            filled
+                                        />
+                                    </>
                                     :
                                     <div className="flex-center pb-6 text-[17px] font-peyda text-center text-white-red">پیامی وجود ندارد</div>
                             }

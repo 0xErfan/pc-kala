@@ -61,7 +61,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
     const { name, price, discount, specs, _id, image, category } = product || {}
 
-    const productSpecs = useMemo(() => { return Object.entries(specs) }, [specs])
+    const productSpecs = useMemo(() => { return Object.entries(specs || {}) }, [specs])
 
     const updateProductCount = async (count: number) => {
 
