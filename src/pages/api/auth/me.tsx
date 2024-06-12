@@ -29,8 +29,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(200).send(userData)
 
     } catch (err) {
-        console.log(err)
-        return res.status(421).json({ message: 'خطای ناشناخته / بعدا تلاش کنید' })
+        return res.status(500).json({ message: 'خطای ناشناخته / بعدا تلاش کنید' })
     }
 }
 

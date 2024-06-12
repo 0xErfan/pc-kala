@@ -98,7 +98,13 @@ const showToast = (status: boolean, message: string, duration: number = 2500) =>
     )
 }
 
-const tokenDecoder = (token: string) => verify(token, process.env.secretKey as Secret)
+const tokenDecoder = (token: string) => {
+    try {
+        return verify(token, process.env.secretKey as Secret)
+    } catch (error) {
+        return false
+    }
+}
 
 const tokenGenerator = (data: object, days: number = 7) => sign({ email: data }, process.env.secretKey as Secret, { expiresIn: 60 * 60 * 24 * days })
 

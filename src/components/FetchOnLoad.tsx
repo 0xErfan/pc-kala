@@ -1,5 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
+import { userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { userDataUpdater } from "@/Redux/Features/userSlice"
+import { showToast } from "@/utils"
 import { useEffect } from "react"
 
 const FetchOnLoad = () => { // insure that after the hydration, always the userSlice updates(bcs this component wrapped in the main _app)
@@ -10,12 +12,13 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
     useEffect(() => {
         (
             async () => {
-                try {
-                    const res = await fetch('/api/UserRelatedData/get')
-                    const { userData, userRelatedData } = await res.json()
+                let res;
 
+                try {
+                    res = await fetch('/api/UserRelatedData/get')
+                    const { userData, userRelatedData } = await res.json()
                     dispatch(userDataUpdater({ userData, userRelatedData, isLogin: res.ok }))
-                } catch (error) {  }
+                } catch (error) { res?.status == 500 ? dispatch(userUpdater()) : showToast(res.ok, 'از اتصال به اینترنت مطمان شوید') }
             }
         )()
     }, [updater, dispatch])
