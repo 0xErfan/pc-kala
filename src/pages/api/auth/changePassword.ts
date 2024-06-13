@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request!" })
 
     try {
-        connectToDB()
+        await connectToDB()
 
         const { compare: passwordToCompare, password, _id } = req.body
         const userData = await UserModel.findOne({ _id })

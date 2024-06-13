@@ -11,7 +11,8 @@ const ProductSchema = new Schema({
         required: true,
     },
     specs: { type: Schema.Types.Mixed },
-    category: { type: String, required: true }
+    category: { type: String, required: true },
+    customers: { type: Number, default: 0 }
 });
 
 const ProductModel = models.Product || model('Product', ProductSchema);

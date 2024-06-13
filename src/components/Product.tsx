@@ -16,7 +16,7 @@ import prefix from "@/config/prefix";
 const Product = (product: productDataTypes) => {
 
     const { data, relatedData } = useAppSelector(state => state.userSlice) || {}
-    const { discount, price, name, category, specs, _id } = product || {}
+    const { discount, price, name, category, specs, _id, image } = product || {}
     const priceAfterOff = price - (price * (discount / 100))
 
     const dispatch = useAppDispatch()
@@ -76,17 +76,28 @@ const Product = (product: productDataTypes) => {
 
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-IR')}٪</div>}
 
-            <Link href={`/products/search/${_id}`}>
-                <Image
-                    className="m-auto object-cover cursor-pointer md:size-[80%] size-[73%]"
-                    src={`${prefix}/images/laptop-default.webp`}
-                    width={500}
-                    height={500}
-                    priority
-                    alt="product-name"
-                    blurDataURL="true"
-                />
-            </Link>
+            <div className="w-full flex-center max-h-[220px]">
+                <Link
+                    href={`/products/search/${_id}`}
+                    className="sm:size-[90%] size-[75%] bg-secondary-black m-auto ch:m-auto my-4 p-2 flex-center"
+                >
+                    <Image
+                        className="object-cover cursor-pointer w-full h-full bg-transparent bg-center"
+                        src={
+                            image?.length
+                                ?
+                                `${image[0]}`
+                                :
+                                `/images/imageNotFound.webp`
+                        }
+                        width={500}
+                        height={500}
+                        priority
+                        alt="product-name"
+                        blurDataURL="true"
+                    />
+                </Link>
+            </div>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">
                 {discount && <div className="red-line-through text-white ">{Number(price)?.toLocaleString('fa-IR')}</div>}

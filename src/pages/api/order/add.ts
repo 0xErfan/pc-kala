@@ -1,5 +1,4 @@
 import connectToDB from "@/config/db";
-import { unknownObjProps } from "@/global.t";
 import ActiveDiscountModel from "@/models/Discount/ActiveDiscount";
 import DiscountModel from "@/models/Discount/Discount";
 import { transactionModel } from "@/models/Transactions";
