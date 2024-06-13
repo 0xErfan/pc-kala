@@ -43,7 +43,7 @@ interface productDataTypes {
     discount: number
     category: categories
     'sub-cat'?: string
-    image: string
+    image: Array<string>
     type: 'pc' | 'laptop' | 'parts' | 'accessory' | 'console'
     specs: unknownObjProps<unknownObjProps<string>>
 }
