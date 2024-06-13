@@ -4,12 +4,12 @@
 
 @font-face {
     font-family: "sans";
-    src: url("https://pc-kala.liara.run/fonts/Iransans/FontsFree-Net-ir_sans.ttf") format("truetype");
+    src: url("/fonts/Iransans/FontsFree-Net-ir_sans.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "peyda";
-    src: url("https://pc-kala.liara.run/fonts/Peyda/PeydaWeb.ttf") format("truetype");
+    src: url("/fonts/Peyda/PeydaWeb.ttf") format("truetype");
 }
 
 * {
