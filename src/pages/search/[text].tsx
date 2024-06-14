@@ -7,6 +7,9 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/router";
 import { GetStaticPropsContext } from "next";
 import Pagination from "@/components/Pagination";
+import ProductModel from "@/models/Product";
+import connectToDB from "@/config/db";
+import { productDataTypes } from "@/global.t";
 
 const Search = ({ products }: { products: [] }) => {
 
@@ -55,23 +58,32 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
     try {
 
-        const { text } = context.params!
+        await connectToDB()
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/products/globalSearch`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text })
-        });
+        const text = context.params?.text
+        const allProducts = await ProductModel.find({})
 
-        if (!response.ok) throw new Error('Failed to fetch product')
+        const matchedProducts = [...allProducts]
+            .filter(product =>
+                product.name?.toLowerCase().includes(text) ||
+                product.category?.toLowerCase().includes(text)
+            )
+            .concat([...allProducts] // just search in the product spec values for filtering
+                .map((product: productDataTypes) => Object.values(product.specs)
+                    .some(spec => spec?.value.toString().toLowerCase().includes(text as string)) ? product : null)
+                .filter(Boolean));
 
-        const products = await response.json();
+        const matchedProductsWithoutRepeatedProducts = [...new Set(matchedProducts)]
 
-        return { props: { products } };
+        return {
+            props: {
+                products: JSON.parse(JSON.stringify(matchedProductsWithoutRepeatedProducts))
+            }
+        }
 
-    } catch (error) {
-        console.error('Error fetching product:', error);
-        return { notFound: true }
+    } catch (err) {
+        console.log(err)
+        return { props: { products: [] } }
     }
 }
 

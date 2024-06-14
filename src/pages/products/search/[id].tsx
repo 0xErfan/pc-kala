@@ -27,6 +27,7 @@ import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
 import prefix from "@/config/prefix";
 import ProductModel from "@/models/Product";
+import connectToDB from "@/config/db";
 
 interface coordinates {
     x: number
@@ -693,6 +694,8 @@ const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImagePro
 export async function getStaticProps(context: GetStaticPropsContext) {
 
     try {
+
+        await connectToDB()
 
         const foundedProduct = await ProductModel.findOne({ _id: context?.params?.id })
         if (!foundedProduct) return { notFound: true }
