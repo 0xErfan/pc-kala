@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const productComments = await CommentModel.find({ productID: _id }, ['username', 'body', 'rate', 'createdAt', 'isCreatedByCustomer', 'accepted']).populate(['productID', 'creator'])
 
-        return res.status(201).json([...productComments])
+        return res.status(201).json(productComments || [])
 
     } catch (err) {
         console.log(err)

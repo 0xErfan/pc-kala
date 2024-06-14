@@ -64,7 +64,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
                 <BreadCrumb path={breadCrumbData} />
 
-                <BlockTitle title={`${product?.length} کالا`} Icon={<HiOutlineInformationCircle className="p-[6px]" />} />
+                <BlockTitle title={`${products?.length} کالا`} Icon={<HiOutlineInformationCircle className="p-[6px]" />} />
 
                 <Pagination itemsArray={filter ? products! : product || []} />
 

@@ -25,7 +25,6 @@ import { useRouter } from "next/router";
 import { commentProps, productDataTypes, unknownObjProps } from "@/global.t";
 import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
-import prefix from "@/config/prefix";
 
 interface coordinates {
     x: number
@@ -58,9 +57,10 @@ const Product = ({ product }: { product: productDataTypes }) => {
     const [productComments, setProductComments] = useState<commentProps[]>([])
     const [isUpdating, setIsUpdating] = useState(false)
     const [productServices, setProductServices] = useState<unknownObjProps<number>>({ 'گارانتی ۱۸ ماهه پیسی کالا': 0 })
+    const [currentImage, setCurrentImage] = useState(0)
 
     const { name, price, discount, specs, _id, image, category } = product || {}
-
+    BreadCrumb
     const productSpecs = useMemo(() => { return Object.entries(specs || {}) }, [specs])
 
     const updateProductCount = async (count: number) => {
@@ -248,12 +248,11 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                 <BreadCrumb path={breadCrumbData} />
 
-                <div
-                    className=" flex flex-col lg:flex-row items-center md:gap-4 gap-8 bg-secondary-black container rounded-md p-4 text-white">
+                <div className=" flex flex-col lg:flex-row items-center md:gap-4 gap-8 bg-secondary-black container rounded-md p-4 text-white">
 
-                    <div className=" flex-1">
+                    <div className=" flex-1 flex flex-col">
 
-                        <div className="flex items-center justify-between text-[11px]">
+                        <div className="flex flex-1 items-center justify-between text-[11px]">
 
                             <div className="text-sm">
                                 <span className="font-peyda text-gold text-[15px]">پیشنهاد ویژه</span>
@@ -287,27 +286,40 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                         </div>
 
-                        <div className="flex gap-3 items-center my-4">
+                        <div className="flex gap-3 flex-1 h-full items-center my-4">
 
-                            <div className="flex-1">
-                                <div className="flex items-center gap-2 flex-col ch:cursor-pointer">
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-red" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
-                                    <Image className="flex-center object-cover p-1 rounded-md border border-dark-gold" src={`${prefix}/images/laptop-default.webp`} width={500} height={500} alt="product-img" />
+                            <div className="flex-1  mb-auto">
+                                <div className="flex items-center gap-2 flex-col ch:cursor-pointer w-full h-[47px]">
+                                    {
+                                        image?.length
+                                            ?
+                                            image.map((src, index) =>
+                                                <Image
+                                                    key={src}
+                                                    className="flex-center object-cover p-1 rounded-md border border-dark-red size-[90%]"
+                                                    src={src}
+                                                    width={100}
+                                                    height={100}
+                                                    quality={95}
+                                                    alt="product-img"
+                                                    onClick={() => setCurrentImage(index)}
+                                                />
+                                            )
+                                            : null
+                                    }
                                 </div>
                             </div>
 
                             <div
-                                className="flex-[5] text-[13px] border relative overflow-hidden border-dark-gold rounded-md text-description-text">
-                                <div className={"relative overflow-hidden z-10"}>
+                                className="flex-[5] text-[13px] border relative overflow-hidden mb-auto border-dark-gold rounded-md text-description-text h-[265px] flex-center">
+                                <div className={"relative overflow-hidden z-10 mb-auto w-[95%] h-[90%]"}>
                                     <Image
                                         ref={productImgRef}
-                                        className="flex-center w-full object-cover py-4"
-                                        src={`${prefix}/images/laptop-default.webp`}
+                                        className="flex-center object-cover m-auto py-2 size-full"
+                                        src={image[currentImage]}
                                         width={600}
                                         height={600}
+                                        priority
                                         alt="product-img"
                                         onPointerEnter={() => { setIsZoomShown(true) }}
                                         onPointerLeave={() => setIsZoomShown(false)}
@@ -316,28 +328,32 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                                     <span
                                         style={{ left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current ? productImgRef.current.clientHeight / 2 : 0) + "px" }}
-                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: `url('${prefix}/images/laptop-default.webp')`, backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} />
+                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: `url('${image[currentImage]}')`, backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} />
                                     </span>
 
                                 </div>
 
                                 <span
                                     onClick={() => setFullScreenShown(true)}
-                                    className="absolute cursor-pointer flex-center size-10 border z-40 border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch />
+                                    className="absolute cursor-pointer flex-center bg-secondary-black size-10 border z-40 border-dark-gold left-3 bottom-3 ch:size-5 text-description-text rounded-sm"><IoSearch />
                                 </span>
 
                                 <span
                                     onClick={() => sharePage(location.href)}
-                                    className="absolute size-10 border z-40 border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline />
+                                    className="absolute size-10 border z-40 bg-secondary-black border-dark-gold left-16 bottom-3 ch:size-5 cursor-pointer flex-center rounded-sm"><IoShareSocialOutline />
                                 </span>
 
                             </div>
 
-                            <FullScreenImage url={`${prefix}/images/laptop-default.webp`} isShown={fullScreenShown} closeFullScreenFn={() => setFullScreenShown(false)} />
+                            <FullScreenImage
+                                url={image[currentImage]}
+                                isShown={fullScreenShown}
+                                closeFullScreenFn={() => setFullScreenShown(false)}
+                            />
 
                         </div>
 
-                        <div className="bg-green rounded-md p-4 text-sm text-center">قدرت ما در بهترین قیمت بازار است بهترین عرضه کننده لپ تاپ در ایران</div>
+                        <div className="bg-green flex-1 rounded-md p-4 text-sm text-center">قدرت ما در بهترین قیمت بازار است بهترین عرضه کننده لپ تاپ در ایران</div>
 
                     </div>
 
@@ -359,7 +375,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                         </div>
 
-                        <div className={`${(category == 'pc' || category == 'laptop') ? 'visible' : 'invisible'} xl:py-6 py-0 `}>
+                        <div className={`${(category == 'pc' || category == 'laptop') ? 'visible' : 'invisible'} py-0 `}>
                             <p className="text-dark-red mt-6 text-sm">خدمات ویژه پی سی کالا :</p>
 
                             <div className="text-[12px] ch:my-3 ch:text-description-text">
@@ -497,7 +513,6 @@ const Product = ({ product }: { product: productDataTypes }) => {
                         </div>
 
                     </div>
-
 
                 </div>
 
@@ -658,11 +673,17 @@ const Product = ({ product }: { product: productDataTypes }) => {
 }
 
 const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImageProps) => (
-    <div
-        onClick={e => e.target instanceof HTMLDivElement && e.target.tagName == 'DIV' && closeFullScreenFn()}
-        className={`fixed inset-0 w-full ${isShown ? 'fixed' : 'invisible'} bg-transparent px-3 sm:p-0 transition-all duration-200 ease-linear backdrop-blur-sm z-50 flex-center`}
+    <div className={`fixed left-[50%] top-[50%] -translate-x-[50%] -translate-y-[50%] size-[350px] sm:size-[400px] md:size-[500px] lg:size-[600px] ${isShown ? 'fixed' : 'invisible'} bg-transparent px-3 sm:p-0 transition-all duration-200 ease-linear z-[999999] flex-center`}
     >
-        <Image width={500} height={500} className="object-cover bg-primary-black rounded-md cursor-zoom-in size-[350px] sm:size-[400px] md:size-[500px] lg:size-[600px]" src={url} alt="full-screen-image" />
+        <Image
+            width={500}
+            height={500}
+            quality={100}
+            className="object-cover bg-primary-black rounded-md cursor-zoom-in "
+            src={url}
+            alt="full-screen-image"
+        />
+
         <div onClick={closeFullScreenFn} className="size-12 absolute bg-white-red ch:size-8 ch:cursor-pointer right-8 top-8 rounded-md flex-center"><MdClose /></div>
     </div>
 );

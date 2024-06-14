@@ -11,7 +11,6 @@ import { productDataTypes } from "@/global.t";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { useEffect, useState } from "react";
 import { userUpdater } from "@/Redux/Features/globalVarsSlice";
-import prefix from "@/config/prefix";
 
 const Product = (product: productDataTypes) => {
 
@@ -76,13 +75,13 @@ const Product = (product: productDataTypes) => {
 
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-IR')}٪</div>}
 
-            <div className="w-full flex-center max-h-[220px]">
+            <div className="w-full flex-center h-[240px]">
                 <Link
                     href={`/products/search/${_id}`}
-                    className="sm:size-[90%] size-[75%] bg-secondary-black m-auto ch:m-auto my-4 p-2 flex-center"
+                    className="sm:size-full size-[75%] h-full bg-secondary-black m-auto ch:m-auto mb-5 mt-1 flex-center"
                 >
                     <Image
-                        className="object-cover cursor-pointer w-full h-full bg-transparent bg-center"
+                        className="object-cover cursor-pointer bg-transparent bg-center"
                         src={
                             image?.length
                                 ?
@@ -116,7 +115,7 @@ const Product = (product: productDataTypes) => {
                         <div className="flex-center flex-col py-[6px] gap-1 ch:size-5 ch:flex ch:items-center ch:justify-center whitespace-pre"> <RiRam2Line /> <p className="text-blue-white">{specs.ram.value.split(' ').find(value => value.includes('GB') || value.includes('MB'))}</p></div>
                     </div>
                     :
-                    <div className="md:h-[56px]"></div>
+                    null
             }
 
             <div className="flex items-center gap-3 mt-4 text-description-text ch:cursor-pointer ch:size-8">
