@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 import Button from "./Button"
-import { productDataTypes, unknownObjProps } from "@/global.t"
+import { productDataTypes } from "@/global.t"
 import Product from "./Product"
 import { itemsSorter } from "@/utils"
 import { productSortOptions } from "@/data"
@@ -12,6 +12,32 @@ interface paginationProps {
     itemsArray: productDataTypes[]
     paginationType?: 'withPage' | 'seeMore'
 }
+
+// useEffect(() => {
+
+//     const handleScroll = () => {
+
+//         if (loadingRef.current && !isVisible) {
+
+//             const rect = loadingRef.current.getBoundingClientRect();
+
+//             const isInView = (
+//                 rect.top >= 0
+//                 &&
+//                 rect.left >= 0
+//                 &&
+//                 rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+//                 &&
+//                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+//             );
+
+//             setIsVisible(isInView);
+//         }
+//     };
+
+//     window.addEventListener('scroll', handleScroll);
+//     return () => { window.removeEventListener('scroll', handleScroll) }
+// }, [isVisible]);
 
 const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' }: paginationProps) => {
 
@@ -86,7 +112,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
                         {
                             paginationType == 'seeMore'
                                 ?
-                                <Button filled fn={nextPageHandler} text="مشاهده بیشتر" size="md" />
+                                <div className="w-full ch:w-full"><Button filled fn={nextPageHandler} text="مشاهده بیشتر" size="md" /></div>
                                 :
                                 <>
 

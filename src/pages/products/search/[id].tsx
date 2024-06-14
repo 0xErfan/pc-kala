@@ -25,6 +25,8 @@ import { useRouter } from "next/router";
 import { commentProps, productDataTypes, unknownObjProps } from "@/global.t";
 import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
+import prefix from "@/config/prefix";
+import ProductModel from "@/models/Product";
 
 interface coordinates {
     x: number
@@ -60,7 +62,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
     const [currentImage, setCurrentImage] = useState(0)
 
     const { name, price, discount, specs, _id, image, category } = product || {}
-    BreadCrumb
+
     const productSpecs = useMemo(() => { return Object.entries(specs || {}) }, [specs])
 
     const updateProductCount = async (count: number) => {
@@ -139,7 +141,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
     const addNewComment = async () => {
 
-        if (isUpdating) return // prevent click spams of clown users 🤡
+        if (isUpdating) return
         if (newCommentData.text.length < 5) return showToast(false, 'نظر شما باید بیشتر از پنج کاراکتر باشد😙', 3500)
         if (newCommentData.text.length > 4000) return showToast(false, 'نظر شما بسیار طولانی است', 3500)
 
@@ -316,7 +318,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                     <Image
                                         ref={productImgRef}
                                         className="flex-center object-cover m-auto py-2 size-full"
-                                        src={image[currentImage]}
+                                        src={image?.length ? image[currentImage] : '/images/imageNotFound.webp'}
                                         width={600}
                                         height={600}
                                         priority
@@ -346,7 +348,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
                             </div>
 
                             <FullScreenImage
-                                url={image[currentImage]}
+                                url={image?.length ? image[currentImage] : '/images/imageNotFound.webp'}
                                 isShown={fullScreenShown}
                                 closeFullScreenFn={() => setFullScreenShown(false)}
                             />

@@ -131,7 +131,7 @@ const Card = () => {
                                                 price={totalPriceCalculator(productID?.price, productID?.discount, 1, services, false)}
                                                 finalPrice={totalPriceCalculator(productID?.price, productID?.discount, count, services, false)}
                                                 id={productID?._id}
-                                                src={`${prefix}/images/laptop-default.webp`}
+                                                src={productID?.image?.length ? productID?.image[0] : '/images/imageNotFound.webp'}
                                             />
                                         })
                                         : <div className="text-center w-full text-white-red font-peyda text-[16px]">سبد خرید خالی است</div>
@@ -168,7 +168,7 @@ const Card = () => {
                                                     price={totalPriceCalculator(productID?.price, productID?.discount, 1, services, false)}
                                                     finalPrice={totalPriceCalculator(productID?.price, productID?.discount, count, services, false)}
                                                     id={productID?._id}
-                                                    src={`${prefix}/images/laptop-default.webp`}
+                                                    src={productID?.image?.length ? productID?.image[0] : '/images/imageNotFound.webp'}
                                                 />
                                             })
                                             : null

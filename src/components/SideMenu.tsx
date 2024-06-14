@@ -107,7 +107,14 @@ const SideMenu = ({ dataToShow, changeTypeFn }: SideMenuProps) => {
 
                                                     <span onClick={() => deleteProductFromBasket(productID?._id)} className='absolute right-2 top-0 size-5 border border-dark-gold flex-center rounded-sm ch:size-4 cursor-pointer text-white-red'><IoCloseOutline /></span>
 
-                                                    <div className='flex-1'><Image alt={productID?.name} width={400} height={400} className='object-cover size-full' src={`${prefix}/images/laptop-default.webp`} /></div>
+                                                    <div className='flex-1'>
+                                                        <Image
+                                                            alt={productID?.name}
+                                                            width={400}
+                                                            height={400}
+                                                            className='object-cover size-full'
+                                                            src={productID?.image?.length ? productID?.image[0] : '/images/imageNotFound.webp'} />
+                                                    </div>
 
                                                     <div className='flex-[2]'>
 

@@ -7,7 +7,6 @@ import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/router";
 import { GetStaticPropsContext } from "next";
 import Pagination from "@/components/Pagination";
-import { ParsedUrlQuery } from "querystring";
 
 const Search = ({ products }: { products: [] }) => {
 
