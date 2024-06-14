@@ -15,12 +15,13 @@ import connectToDB from '@/config/db';
 import Image from 'next/image';
 import ProductModel from '@/models/Product';
 import { shuffleArray } from '@/utils';
-import { productDataTypes } from '@/global.t';
+import { productDataTypes, unknownObjProps } from '@/global.t';
 import prefix from '@/config/prefix';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 
 const DynamicFooter = dynamic(() => import('@/components/Footer'))
+
 interface ProductsDataType {
     products: { [key: string]: productDataTypes[] }
 }
@@ -249,15 +250,19 @@ export default function Home({ products }: ProductsDataType) {
     )
 }
 
-export async function getStaticProps() { // static rendering(SSG) for needed products to show in main page
+export async function getStaticProps() { // static rendering(SSG) for main page static products.
 
     await connectToDB()
 
-    let products: { [key: string]: productDataTypes[] } = {}
+    let products: unknownObjProps<ProductsDataType[]> = {}
 
-    products.laptops = await ProductModel.find({ category: 'laptop' }).limit(8) as []
-    products.pcs = await ProductModel.find({ category: 'pc' }).limit(8) as []
-    products.parts = shuffleArray(await ProductModel.find({ category: 'parts' }), 8) as []
+    products.laptops = await ProductModel.find({ category: 'laptop' }).limit(8)
+    products.pcs = await ProductModel.find({ category: 'pc' }).limit(8)
+    products.parts = shuffleArray(await ProductModel.find({ category: 'parts' }), 8)
 
-    return { props: { products: JSON.parse(JSON.stringify(products as {})) } }
+    return {
+        props: {
+            products: JSON.parse(JSON.stringify(products))
+        }
+    }
 }

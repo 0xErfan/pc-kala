@@ -694,21 +694,14 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
     try {
 
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/products/search`, {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ _id: context.params?.id })
-        });
+        const foundedProduct = await ProductModel.findOne({ _id: context?.params?.id })
+        if (!foundedProduct) return { notFound: true }
 
-        if (!response.ok) throw new Error('Failed to fetch product')
-
-        const product = await response.json();
-
-        return { props: { product } };
+        return { props: { product: JSON.parse(JSON.stringify(foundedProduct)) } };
 
     } catch (error) {
         console.error('Error fetching product:', error);
-        return { props: { product: [] } }
+        return { notFound: true }
     }
 }
 
