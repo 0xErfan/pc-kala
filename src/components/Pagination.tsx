@@ -1,50 +1,32 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import Button from "./Button"
-import { productDataTypes } from "@/global.t"
+import { categories, productDataTypes } from "@/global.t"
 import Product from "./Product"
 import { itemsSorter } from "@/utils"
 import { productSortOptions } from "@/data"
 import { BsSortDown } from "react-icons/bs"
+import Loader from "./Loader"
+import { useRouter } from "next/router"
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
+import { loadMoreUpdater } from "@/Redux/Features/globalVarsSlice"
 
 interface paginationProps {
     currentPage?: number
     itemsPerPage?: number
     itemsArray: productDataTypes[]
     paginationType?: 'withPage' | 'seeMore'
+    showLoader: boolean
 }
 
-// useEffect(() => {
-
-//     const handleScroll = () => {
-
-//         if (loadingRef.current && !isVisible) {
-
-//             const rect = loadingRef.current.getBoundingClientRect();
-
-//             const isInView = (
-//                 rect.top >= 0
-//                 &&
-//                 rect.left >= 0
-//                 &&
-//                 rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-//                 &&
-//                 rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-//             );
-
-//             setIsVisible(isInView);
-//         }
-//     };
-
-//     window.addEventListener('scroll', handleScroll);
-//     return () => { window.removeEventListener('scroll', handleScroll) }
-// }, [isVisible]);
-
-const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' }: paginationProps) => {
+const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore', showLoader }: paginationProps) => {
 
     // static codes
     const [currentPage, setCurrentPage] = useState(1)
     const [paginatedItems, setPaginatedItems] = useState([...itemsArray])
     const [sortBy, setSortBy] = useState('')
+    const loadingRef = useRef<HTMLDivElement>(null)
+    const isVisible = useAppSelector(state => state.globalVarsSlice.loadMore)
+    const dispatch = useAppDispatch()
 
     const { startIndex, endIndex } = useMemo(() => {
         return {
@@ -52,6 +34,35 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
             endIndex: currentPage * itemsPerPage
         }
     }, [currentPage, itemsPerPage, paginationType])
+
+    useEffect(() => {
+
+        const handleScroll = () => {
+
+            if (showLoader) return
+
+            if (loadingRef.current && !isVisible) {
+
+                const rect = loadingRef.current.getBoundingClientRect();
+
+                const isInView = (
+                    rect.top >= 0
+                    &&
+                    rect.left >= 0
+                    &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+                    &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+
+                dispatch(loadMoreUpdater(isInView))
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll)
+
+    }, [isVisible, showLoader]);
 
     const availablePages = Math.ceil(itemsArray.length / itemsPerPage)
 
@@ -73,7 +84,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
     useEffect(() => { setSortBy('') }, [itemsArray])
 
     useEffect(() => {
-        setPaginatedItems(itemsSorter(sortBy, [...itemsArray as []].slice(startIndex, endIndex)))
+        setPaginatedItems(itemsSorter(sortBy, [...itemsArray as []]))
     }, [currentPage, itemsArray, sortBy, startIndex, endIndex]) // this effect first of all sort the pure items and then slice them to prevent losing sorted items between current page changing
 
     return (
@@ -107,12 +118,21 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore' 
 
             {/* static html */}
             <>
-                {(availablePages > 1 && currentPage < availablePages) &&
+                {("availablePages > 1 && currentPage < availablePages") &&
                     <div className={`flex ${paginationType == 'withPage' && 'border'} max-w-[250px] m-auto w-full ch:flex ch:items-center ch:justify-center border-black/20 -space-x-px ch:overflow-hidden font-peyda cursor-pointer text-title-text text-[13px] ch:border-l overflow-hidden ch:border-white/10 bg-secondary-black ch:transition-all h-10 ch:w-full ch:h-full rounded-md mt-7`}>
                         {
                             paginationType == 'seeMore'
                                 ?
-                                <div className="w-full ch:w-full"><Button filled fn={nextPageHandler} text="مشاهده بیشتر" size="md" /></div>
+                                <div
+                                    ref={loadingRef}
+                                    className={`w-full ch:w-full`}
+                                >
+                                    <Button
+                                        filled
+                                        text={!showLoader ? '' : 'تمام محصولات نمایش داده شده'}
+                                        Icon={!showLoader ? <Loader /> : <></>} size="md"
+                                    />
+                                </div>
                                 :
                                 <>
 

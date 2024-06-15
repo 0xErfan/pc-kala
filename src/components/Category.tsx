@@ -24,7 +24,12 @@ export default memo(function Category({ screen, title, Icon, submenus }: Categor
                     ?
                     <li className="flex-center relative cursor-pointer flex-col gap-2">
 
-                        <Link href={`/products/category/${engCategoryToPersian(title as categories)}`} onMouseLeave={() => setIsCategoryShown(false)} onMouseOver={() => setIsCategoryShown(true)} className={`flex-center ${isCategoryShown && "text-dark-red"} transition-all delay-[40] duration-200 gap-1`}>
+                        <Link
+                            href={`/products/category/${engCategoryToPersian(title as categories)}`}
+                            onMouseLeave={() => setIsCategoryShown(false)}
+                            onMouseOver={() => setIsCategoryShown(true)}
+                            className={`flex-center ${isCategoryShown && "text-dark-red"} transition-all delay-[40] duration-200 gap-1`}
+                        >
                             <div className="flex font-peyda text-[14px] items-center gap-2">{Icon}{title}</div>
                             <FaAngleDown className={` ${isCategoryShown && "rotate-180"} size-4 duration-200 transition-all delay-[40]`} />
                         </Link>

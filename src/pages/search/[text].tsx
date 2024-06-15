@@ -65,7 +65,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
         const matchedProducts = [...allProducts]
             .filter(product =>
-                product.name?.toLowerCase().includes(text) ||
+                product.name?.toLowerCase().includes(text)
+                ||
                 product.category?.toLowerCase().includes(text)
             )
             .concat([...allProducts] // just search in the product spec values for filtering
@@ -82,8 +83,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         }
 
     } catch (err) {
-        console.log(err)
-        return { props: { products: [] } }
+        console.log('globalSearch page error -> ', err)
+        return { notFound: true }
     }
 }
 

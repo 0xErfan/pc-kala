@@ -3,7 +3,7 @@ import { ReactElement } from "react"
 interface ButtonProps {
     filled?: boolean
     active?: boolean
-    fn: () => unknown
+    fn?: () => unknown
     text?: string
     size?: "sm" | "md"
     Icon?: ReactElement
