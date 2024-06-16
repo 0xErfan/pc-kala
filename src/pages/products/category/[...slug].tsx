@@ -4,7 +4,6 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { engCategoryToPersian } from "@/utils";
 import { GetStaticPropsContext } from "next";
-import Pagination from "@/components/Pagination";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { categories, productDataTypes } from "@/global.t";
@@ -28,7 +27,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
     const breadCrumbData = [
         { text: "دسته بندی ها", link: `/products/category/${category}` },
-        { text: `${engCategoryToPersian(category as categories)}` }
+        { text: `${engCategoryToPersian((router.query?.slug?.length ? router.query?.slug[0] : 'accessory') as categories)}` }
     ]
 
     const loadMoreProduct = useCallback(async () => {
@@ -74,7 +73,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
     useEffect(() => {
 
-        if (!filter || !filter.toString().trim().length) return
+        if (!filter || !filter.toString().trim().length || shouldLoadMoreProduct) return
 
         const filteredItems = [...product].filter(item => {
             switch (filter) {
@@ -91,7 +90,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
         setProducts(filteredItems)
 
-    }, [filter, product, router.query])
+    }, [filter, product, router.asPath, shouldLoadMoreProduct])
 
     return (
 

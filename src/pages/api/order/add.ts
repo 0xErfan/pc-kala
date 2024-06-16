@@ -1,6 +1,8 @@
 import connectToDB from "@/config/db";
+import { TransactionProductsTypes, productDataTypes } from "@/global.t";
 import ActiveDiscountModel from "@/models/Discount/ActiveDiscount";
 import DiscountModel from "@/models/Discount/Discount";
+import ProductModel from "@/models/Product";
 import { transactionModel } from "@/models/Transactions";
 import { BasketItemModel, NotificationModel } from "@/models/UserRelatedSchemas";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -32,6 +34,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const newOrderTransaction = await transactionModel.create({ productsList: userOrders, userID, customerData, totalPrice, status: 'PROCESSING' })
 
+        userOrders.map(async (data: TransactionProductsTypes) => {
+            await ProductModel.findOneAndUpdate({ _id: data.productID._id }, { $inc: { customers: 1 } })
+        })
 
         await BasketItemModel.deleteMany({ userID }) // clear the user basket
 

@@ -56,6 +56,7 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                 dispatch(loadMoreUpdater(isInView))
             }
         };
+        handleScroll()
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll)
