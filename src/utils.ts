@@ -1,6 +1,6 @@
 import { Secret, sign, verify } from "jsonwebtoken"
 import toast from "react-hot-toast"
-import { categories, unknownObjProps, userDataTypes } from "./global.t"
+import { categories, productDataTypes, unknownObjProps, userDataTypes } from "./global.t"
 import { userUpdater } from "./Redux/Features/globalVarsSlice"
 import { store } from "./Redux/store"
 
@@ -193,13 +193,13 @@ const sharePage = (url: string) => {
 
 const itemsSorter = (type: string, items: never[]) => {
 
-    let sortedProducts = [...items]
+    let sortedProducts: productDataTypes[] = [...items]
 
     switch (type) {
         case 'view':
-        case 'well-sell': { sortedProducts = shuffleArray(sortedProducts as never); break }
-        case 'cheap': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => a.price - b.price); break }
-        case 'exp': { sortedProducts.sort((a: unknownObjProps<number>, b: unknownObjProps<number>) => b.price - a.price); break }
+        case 'well-sell': { sortedProducts = sortedProducts.sort((a, b) => b.customers - a.customers); break }
+        case 'cheap': { sortedProducts.sort((a, b) => a.price - b.price); break }
+        case 'exp': { sortedProducts.sort((a, b) => b.price - a.price); break }
         default: { break }
     }
 

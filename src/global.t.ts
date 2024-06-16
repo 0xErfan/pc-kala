@@ -46,6 +46,7 @@ interface productDataTypes {
     image: Array<string>
     type: 'pc' | 'laptop' | 'parts' | 'accessory' | 'console'
     specs: unknownObjProps<unknownObjProps<string>>
+    customers: number
 }
 
 interface TransactionProductsTypes {

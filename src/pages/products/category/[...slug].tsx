@@ -13,6 +13,7 @@ import connectToDB from "@/config/db";
 import ProductModel from "@/models/Product";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { loadMoreUpdater } from "@/Redux/Features/globalVarsSlice";
+import InfiniteScroll from "@/components/InfiniteScroll";
 
 const Category = ({ product }: { product: productDataTypes[] }) => {
 
@@ -30,7 +31,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
         { text: `${engCategoryToPersian(category as categories)}` }
     ]
 
-    const loadMoreProduct =  useCallback(async () => {
+    const loadMoreProduct = useCallback(async () => {
 
         if (allOfProductsLoaded) return
 
@@ -45,7 +46,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
         const { product: updatedProducts } = await res.json()
 
-        if (!updatedProducts?.length) { // no product length means all products are shown
+        if (!updatedProducts?.length) { // no product length means user scrolled to end
             dispatch(loadMoreUpdater(false))
             setAllOfProductsLoaded(true)
             return
@@ -56,14 +57,16 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
             dispatch(loadMoreUpdater(false))
 
             const currentProducts = [...products, ...updatedProducts]
-            setProducts([...new Set([...currentProducts])])
+            setProducts([...new Set([...currentProducts])]) // be sure not to add duplicated products
 
             setCurrentPage(prev => prev + 1)
         }
 
-    }, [currentPage, router, dispatch, products, allOfProductsLoaded])
+    }, [currentPage, router.query, dispatch, products, allOfProductsLoaded])
 
-    useEffect(() => { shouldLoadMoreProduct && loadMoreProduct() }, [shouldLoadMoreProduct, loadMoreProduct])
+    useEffect(() => { shouldLoadMoreProduct && loadMoreProduct() }, [shouldLoadMoreProduct, loadMoreProduct, router.query?.slug])
+
+    useEffect(() => { setAllOfProductsLoaded(false), setCurrentPage(1) }, [router.query?.slug]) // reset currentPage and load state when category type changes
 
     useEffect(() => { product?.length && setProducts(product) }, [product])
 
@@ -106,7 +109,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
                 <BlockTitle title={`${products?.length} کالا`} Icon={<HiOutlineInformationCircle className="p-[6px]" />} />
 
-                <Pagination showLoader={allOfProductsLoaded} itemsArray={products} />
+                <InfiniteScroll itemsArray={products} showLoader={allOfProductsLoaded} />
 
             </div>
 

@@ -39,7 +39,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore',
 
         const handleScroll = () => {
 
-            if (showLoader) return
+            // if (showLoader) return
 
             if (loadingRef.current && !isVisible) {
 
@@ -62,7 +62,7 @@ const Pagination = ({ itemsArray, itemsPerPage = 12, paginationType = 'seeMore',
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll)
 
-    }, [isVisible, showLoader]);
+    }, [isVisible, dispatch]);
 
     const availablePages = Math.ceil(itemsArray.length / itemsPerPage)
 

@@ -14,6 +14,7 @@ import 'react-loading-skeleton'
 import prefix from "@/config/prefix";
 import dynamic from "next/dynamic";
 
+
 const DynamicNextProgress = dynamic(async () => await import('nextjs-progressbar'))
 
 
