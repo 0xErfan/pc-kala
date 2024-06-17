@@ -6,15 +6,63 @@ import Button from "@/components/Button";
 import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/router";
 import { GetStaticPropsContext } from "next";
-import Pagination from "@/components/Pagination";
 import ProductModel from "@/models/Product";
 import connectToDB from "@/config/db";
 import { productDataTypes } from "@/global.t";
+import InfiniteScroll from "@/components/InfiniteScroll";
+import { useCallback, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
+import { loadMoreUpdater } from "@/Redux/Features/globalVarsSlice";
 
-const Search = ({ products }: { products: [] }) => {
+const Search = ({ product }: { product: productDataTypes[] }) => {
 
+    const [products, setProducts] = useState<productDataTypes[]>(product || [])
     const navigate = useRouter()
     const params = navigate.query
+    const shouldLoadMoreProduct = useAppSelector(state => state.globalVarsSlice.loadMore)
+    const [allOfProductsLoaded, setAllOfProductsLoaded] = useState(false)
+    const [currentPage, setCurrentPage] = useState(1)
+    const router = useRouter()
+    const dispatch = useAppDispatch()
+
+    const loadMoreProduct = useCallback(async () => {
+
+        if (allOfProductsLoaded) return
+
+        const res = await fetch('/api/products/globalSearch', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                text: router.query?.text,
+                currentPage: currentPage + 1
+            })
+        })
+
+        const { products: updatedProducts } = await res.json()
+
+        if (!updatedProducts?.length) { // no product length means user scrolled to end
+            dispatch(loadMoreUpdater(false))
+            setAllOfProductsLoaded(true)
+            return
+        }
+
+        if (res.ok) {
+
+            dispatch(loadMoreUpdater(false))
+
+            const currentProducts = [...products, ...updatedProducts]
+            setProducts([...new Set([...currentProducts])]) // be sure not to add duplicated products
+
+            setCurrentPage(prev => prev + 1)
+        }
+
+    }, [currentPage, router.query?.text, dispatch, products, allOfProductsLoaded])
+
+    useEffect(() => { shouldLoadMoreProduct && loadMoreProduct() }, [shouldLoadMoreProduct, loadMoreProduct, router.query?.text])
+
+    useEffect(() => { setAllOfProductsLoaded(false), setCurrentPage(1) }, [router.query?.text]) // reset currentPage and load state when text param changes
+
+    useEffect(() => { product?.length && setProducts(product) }, [product])
 
     const breadCrumbData = [
         { text: "جستجو", link: `/search/${params?.text}` },
@@ -34,8 +82,8 @@ const Search = ({ products }: { products: [] }) => {
                 <BlockTitle title={`جستوجو برای ${params.text}`} Icon={<GrFormSearch />} />
 
                 {
-                    products.length ?
-                        <Pagination itemsArray={products} />
+                    products?.length ?
+                        <InfiniteScroll itemsArray={products} showLoader={allOfProductsLoaded} />
                         :
                         <div
                             className={"flex items-center justify-between p-3 bg-secondary-black text-center rounded-md mt-6 text-[16px] text-white-red"}>
@@ -69,16 +117,16 @@ export async function getStaticProps(context: GetStaticPropsContext) {
                 ||
                 product.category?.toLowerCase().includes(text)
             )
-            .concat([...allProducts] // just search in the product spec values for filtering
+            .concat([...allProducts] // search in the product spec values for filtering
                 .map((product: productDataTypes) => Object.values(product.specs)
                     .some(spec => spec?.value.toString().toLowerCase().includes(text as string)) ? product : null)
                 .filter(Boolean));
 
-        const matchedProductsWithoutRepeatedProducts = [...new Set(matchedProducts)]
+        const matchedProductsWithoutRepeatedProducts = [...new Set(matchedProducts)].slice(0, 12)
 
         return {
             props: {
-                products: JSON.parse(JSON.stringify(matchedProductsWithoutRepeatedProducts))
+                product: JSON.parse(JSON.stringify(matchedProductsWithoutRepeatedProducts))
             }
         }
 

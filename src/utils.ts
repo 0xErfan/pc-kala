@@ -196,7 +196,6 @@ const itemsSorter = (type: string, items: never[]) => {
     let sortedProducts: productDataTypes[] = [...items]
 
     switch (type) {
-        case 'view':
         case 'well-sell': { sortedProducts = sortedProducts.sort((a, b) => b.customers - a.customers); break }
         case 'cheap': { sortedProducts.sort((a, b) => a.price - b.price); break }
         case 'exp': { sortedProducts.sort((a, b) => b.price - a.price); break }

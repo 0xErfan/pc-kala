@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 import { engCategoryToPersian } from "@/utils";
 import { GetStaticPropsContext } from "next";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, memo } from "react";
 import { categories, productDataTypes } from "@/global.t";
 import { HiOutlineInformationCircle } from "react-icons/hi"
 import connectToDB from "@/config/db";
@@ -120,7 +120,7 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
     );
 }
 
-export default Category;
+export default memo(Category);
 
 export async function getStaticProps(context: GetStaticPropsContext) {
 

@@ -9,6 +9,7 @@ import Loader from "./Loader"
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import { loadMoreUpdater } from "@/Redux/Features/globalVarsSlice"
 
+
 interface InfiniteScrollProps {
     itemsArray: productDataTypes[]
     showLoader: boolean
@@ -34,7 +35,6 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
 
     useEffect(() => {
 
-
         const handleScroll = () => {
 
             // if (showLoader) return
@@ -56,6 +56,7 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                 dispatch(loadMoreUpdater(isInView))
             }
         };
+
         handleScroll()
 
         window.addEventListener('scroll', handleScroll);
