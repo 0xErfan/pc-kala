@@ -34,7 +34,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 .filter(Boolean));
 
 
-        const matchedProductsWithoutRepeatedProducts = [...new Set(matchedProducts)].slice(skipValueForProductFetch, skipValueForProductFetch + limit)
+        const matchedProductsWithoutRepeatedProducts = [...new Set(matchedProducts)].slice(skipValueForProductFetch, (skipValueForProductFetch + limit))
 
         return res.json({ products: matchedProductsWithoutRepeatedProducts })
 

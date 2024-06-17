@@ -8,6 +8,7 @@ import { BsSortDown } from "react-icons/bs"
 import Loader from "./Loader"
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import { loadMoreUpdater } from "@/Redux/Features/globalVarsSlice"
+import { useRouter } from "next/router"
 
 
 interface InfiniteScrollProps {
@@ -20,8 +21,8 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
     const [paginatedItems, setPaginatedItems] = useState([...itemsArray])
     const [sortBy, setSortBy] = useState('')
     const loadingRef = useRef<HTMLDivElement>(null)
-    const isVisible = useAppSelector(state => state.globalVarsSlice.loadMore)
     const dispatch = useAppDispatch()
+    const router = useRouter()
 
     const sortOptions = [...productSortOptions].map(opt => (
         <li
@@ -37,9 +38,7 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
 
         const handleScroll = () => {
 
-            // if (showLoader) return
-
-            if (loadingRef.current && !isVisible) {
+            if (loadingRef.current) {
 
                 const rect = loadingRef.current.getBoundingClientRect();
 
@@ -62,11 +61,11 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll)
 
-    }, [isVisible, dispatch]);
+    }, [dispatch, router.asPath]);
 
     useEffect(() => {
         setPaginatedItems(itemsSorter(sortBy, [...itemsArray as []]))
-    }, [itemsArray, sortBy]) // keep the existing products and add the updated products to them.
+    }, [itemsArray, sortBy]) // keep the existing products and add the updated products to them and then filter again
 
     return (
         <>
@@ -111,6 +110,7 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                         </div>
                     }
                 </div>
+
             </>
         </>
     )

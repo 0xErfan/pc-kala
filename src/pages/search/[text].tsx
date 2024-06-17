@@ -38,6 +38,8 @@ const Search = ({ product }: { product: productDataTypes[] }) => {
             })
         })
 
+        console.log(`form page ${currentPage}, we update`)
+
         const { products: updatedProducts } = await res.json()
 
         if (!updatedProducts?.length) { // no product length means user scrolled to end
@@ -56,11 +58,11 @@ const Search = ({ product }: { product: productDataTypes[] }) => {
             setCurrentPage(prev => prev + 1)
         }
 
-    }, [currentPage, router.query?.text, dispatch, products, allOfProductsLoaded])
+    }, [currentPage, allOfProductsLoaded, products, dispatch])
 
     useEffect(() => { shouldLoadMoreProduct && loadMoreProduct() }, [shouldLoadMoreProduct, loadMoreProduct, router.query?.text])
 
-    useEffect(() => { setAllOfProductsLoaded(false), setCurrentPage(1) }, [router.query?.text]) // reset currentPage and load state when text param changes
+    useEffect(() => { setCurrentPage(1) }, [router.query?.text]) // reset currentPage and load state when text param changes
 
     useEffect(() => { product?.length && setProducts(product) }, [product])
 
