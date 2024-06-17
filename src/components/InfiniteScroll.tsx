@@ -6,7 +6,7 @@ import { itemsSorter } from "@/utils"
 import { productSortOptions } from "@/data"
 import { BsSortDown } from "react-icons/bs"
 import Loader from "./Loader"
-import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
+import { useAppDispatch } from "@/Hooks/useRedux"
 import { loadMoreUpdater } from "@/Redux/Features/globalVarsSlice"
 import { useRouter } from "next/router"
 
@@ -43,15 +43,13 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                 const rect = loadingRef.current.getBoundingClientRect();
 
                 const isInView = (
-                    rect.top >= 0
-                    &&
-                    rect.left >= 0
-                    &&
-                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-                    &&
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
                     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
                 );
 
+                isInView && console.log('im in view now buddy')
                 dispatch(loadMoreUpdater(isInView))
             }
         };
@@ -61,7 +59,7 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll)
 
-    }, [dispatch, router.asPath]);
+    }, [dispatch, router.query]);
 
     useEffect(() => {
         setPaginatedItems(itemsSorter(sortBy, [...itemsArray as []]))
