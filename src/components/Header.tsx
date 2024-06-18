@@ -111,11 +111,11 @@ export default function Header() {
                                 title="کامپیوتر" screen="large"
                                 Icon={<FaComputer className="size-5" />}
                                 submenus={[
-                                    { title: 'کامپیوتر گیمینگ', path: '/products/category/pc?filter=gaming' },
-                                    { title: 'کامپیوتر اقتصادی', path: '/products/category/pc?filter=affordable' },
-                                    { title: 'کامپیوتر دانشجویی', path: '/products/category/pc?filter=student' },
-                                    { title: 'کامپیوتر رندرینک', path: '/products/category/pc?filter=rendering' },
-                                    { title: 'سیستم اداری', path: '/products/category/pc?filter=office' },
+                                    { title: 'کامپیوتر گیمینگ', path: '/products/category/pc/gaming' },
+                                    { title: 'کامپیوتر اقتصادی', path: '/products/category/pc/affordable' },
+                                    { title: 'کامپیوتر دانشجویی', path: '/products/category/pc/student' },
+                                    { title: 'کامپیوتر رندرینک', path: '/products/category/pc/rendering' },
+                                    { title: 'سیستم اداری', path: '/products/category/pc/office' },
                                 ]}
                             />
                             <Category
@@ -123,11 +123,11 @@ export default function Header() {
                                 title="لپتاپ" screen="large"
                                 Icon={<IoIosLaptop className="size-6" />}
                                 submenus={[
-                                    { title: 'لپتاپ Lonovo ', path: '/products/category/laptop?filter=lenovo' },
-                                    { title: 'لپتاپ Asus ', path: '/products/category/laptop?filter=asus' },
-                                    { title: 'لپتاپ Msi ', path: '/products/category/laptop?filter=msi' },
-                                    { title: 'لپتاپ Hp ', path: '/products/category/laptop?filter=hp' },
-                                    { title: 'لپتاپ Acer ', path: '/products/category/laptop?filter=acer' },
+                                    { title: 'لپتاپ Lonovo ', path: '/products/category/laptop/lenovo' },
+                                    { title: 'لپتاپ Asus ', path: '/products/category/laptop/asus' },
+                                    { title: 'لپتاپ Msi ', path: '/products/category/laptop/msi' },
+                                    { title: 'لپتاپ Hp ', path: '/products/category/laptop/hp' },
+                                    { title: 'لپتاپ Acer ', path: '/products/category/laptop/acer' },
                                 ]}
                             />
                             <Category
@@ -135,13 +135,13 @@ export default function Header() {
                                 title="قطعات کامپیوتر" screen="large"
                                 Icon={<HiOutlineCpuChip className="size-6" />}
                                 submenus={[
-                                    { title: 'مادربرد', path: '/products/category/parts?filter=motherboard' },
-                                    { title: 'سیپیو', path: '/products/category/parts?filter=cpu' },
-                                    { title: 'کارت گرافیک', path: '/products/category/parts?filter=gpu' },
-                                    { title: 'رم', path: '/products/category/parts?filter=ram' },
-                                    { title: 'خنک کننده', path: '/products/category/parts?filter=cooler' },
-                                    { title: 'حافظه SSD', path: '/products/category/parts?filter=ssd' },
-                                    { title: 'مانیتور', path: '/products/category/parts?filter=monitor' },
+                                    { title: 'مادربرد', path: '/products/category/parts/motherboard' },
+                                    { title: 'سیپیو', path: '/products/category/parts/cpu' },
+                                    { title: 'کارت گرافیک', path: '/products/category/parts/gpu' },
+                                    { title: 'رم', path: '/products/category/parts/ram' },
+                                    { title: 'خنک کننده', path: '/products/category/parts/cooler' },
+                                    { title: 'حافظه SSD', path: '/products/category/parts/ssd' },
+                                    { title: 'مانیتور', path: '/products/category/parts/monitor' },
                                 ]}
                             />
                             <Category
@@ -149,10 +149,10 @@ export default function Header() {
                                 title="لوازم جانبی" screen="large"
                                 Icon={<PiHeadphones className="size-6" />}
                                 submenus={[
-                                    { title: 'موس', path: '/products/category/accessory?filter=mouse' },
-                                    { title: 'کیبرد', path: '/products/category/accessory?filter=keyboard' },
-                                    { title: 'هدفون', path: '/products/category/accessory?filter=headphone' },
-                                    { title: 'وبکم', path: '/products/category/accessory?filter=webcam' },
+                                    { title: 'موس', path: '/products/category/accessory/mouse' },
+                                    { title: 'کیبرد', path: '/products/category/accessory/keyboard' },
+                                    { title: 'هدفون', path: '/products/category/accessory/headphone' },
+                                    { title: 'وبکم', path: '/products/category/accessory/webcam' },
                                 ]}
                             />
                             <Category
@@ -160,8 +160,8 @@ export default function Header() {
                                 title="کنسول بازی" screen="large"
                                 Icon={<GiConsoleController className="size-6" />}
                                 submenus={[
-                                    { title: 'کنسول ps5', path: '/products/category/console?filter=ps5' },
-                                    { title: 'کنسول xbox', path: '/products/category/console?filter=xbox' },
+                                    { title: 'کنسول ps5', path: '/products/category/console/ps5' },
+                                    { title: 'کنسول xbox', path: '/products/category/console/xbox' },
                                 ]}
                             />
                         </ul>

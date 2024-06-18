@@ -14,7 +14,12 @@ import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
 import { loadMoreUpdater } from "@/Redux/Features/globalVarsSlice";
 import InfiniteScroll from "@/components/InfiniteScroll";
 
-const Category = ({ product }: { product: productDataTypes[] }) => {
+interface Props {
+    product: productDataTypes[]
+    allProductsCount: number
+}
+
+const Category = ({ product, allProductsCount }: Props) => {
 
     const [products, setProducts] = useState<productDataTypes[]>(product || [])
     const shouldLoadMoreProduct = useAppSelector(state => state.globalVarsSlice.loadMore)
@@ -32,13 +37,15 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
     const loadMoreProduct = useCallback(async () => {
 
-        if (allOfProductsLoaded) return
+        if (allOfProductsLoaded) return;
+        const filterBy = router.query?.slug?.length && router.query.slug[1]
 
-        const res = await fetch('/api/products/get', {
+        const res = await fetch(`/api/products/${filterBy ? 'getByFilter' : 'get'}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 category: router.query?.slug?.length && router.query?.slug[0],
+                filterBy,
                 currentPage: currentPage + 1
             })
         })
@@ -98,21 +105,17 @@ const Category = ({ product }: { product: productDataTypes[] }) => {
 
             <Header />
 
-            {
-                !product?.length && <div></div>
-            }
-
             <div className={"space-y-6 container"}>
 
                 <BreadCrumb path={breadCrumbData} />
 
-                <BlockTitle title={`${products?.length} کالا`} Icon={<HiOutlineInformationCircle className="p-[6px]" />} />
+                <BlockTitle title={`${allProductsCount || 0} کالا`} Icon={<HiOutlineInformationCircle className="p-[6px]" />} />
 
                 <InfiniteScroll itemsArray={products} showLoader={allOfProductsLoaded} />
 
             </div>
 
-            <div className={`${products?.length ? 'h-12' : 'h-48'}`}></div>
+            <div className={'h-44'}></div>
 
             <Footer />
 
@@ -134,12 +137,21 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         if (!isCategoryValid?.length) return { notFound: true } // In case user manually change the route with wrong category name.
 
         await connectToDB()
+        let allProductsCount: number
+        let product: productDataTypes[] = []
 
-        const product = await ProductModel.find({ category }).limit(12)
+        if (!!filterBySubCategory) {
+            allProductsCount = await ProductModel.countDocuments({ category, ['sub-cat']: filterBySubCategory })
+            product = [...product, ...await ProductModel.find({ category, ['sub-cat']: filterBySubCategory }).skip(0).limit(12)]
+        } else {
+            allProductsCount = await ProductModel.countDocuments({ category })
+            product = await ProductModel.find({ category }).limit(12)
+        }
 
         return {
             props: {
-                product: JSON.parse(JSON.stringify(product))
+                product: JSON.parse(JSON.stringify(product)),
+                allProductsCount
             }
         }
 

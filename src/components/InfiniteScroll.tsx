@@ -39,22 +39,18 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
         const handleScroll = () => {
 
             if (loadingRef.current) {
-
                 const rect = loadingRef.current.getBoundingClientRect();
 
                 const isInView = (
                     rect.top >= 0 &&
                     rect.left >= 0 &&
-                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                    rect.bottom - 50 <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right - 50 <= (window.innerWidth || document.documentElement.clientWidth)
                 );
 
-                isInView && console.log('im in view now buddy')
                 dispatch(loadMoreUpdater(isInView))
             }
         };
-
-        handleScroll()
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll)
@@ -91,7 +87,6 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                 </div >
 
             </div>
-
 
             <>
                 <div className={`flex max-w-[250px] m-auto w-full ch:flex ch:items-center ch:justify-center border-black/20 -space-x-px ch:overflow-hidden font-peyda cursor-pointer text-title-text text-[13px] ch:border-l overflow-hidden ch:border-white/10 bg-secondary-black ch:transition-all h-10 ch:w-full ch:h-full rounded-md mt-7`}>

@@ -38,8 +38,6 @@ const Search = ({ product }: { product: productDataTypes[] }) => {
             })
         })
 
-        console.log(`form page ${currentPage}, we update`)
-
         const { products: updatedProducts } = await res.json()
 
         if (!updatedProducts?.length) { // no product length means user scrolled to end
