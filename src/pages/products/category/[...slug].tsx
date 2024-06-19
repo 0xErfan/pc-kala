@@ -89,7 +89,7 @@ const Category = ({ product, allProductsCount }: Props) => {
                 case 'student': { return item.price > 25_000_000 }
                 case 'rendering': { return item.price > 42_000_000 }
                 case 'office': { return item.price > 15_000_000 }
-                default: { return item["sub-cat"]?.toLowerCase() == filter || item.name.toLowerCase().includes(filter as string) }
+                default: { return }
             }
         })
 
@@ -151,7 +151,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
                 product = [...product, ...await ProductModel.find({ category, name: { $regex: regexPattern } }).skip(0).limit(12)]
                 allProductsCount = await ProductModel.countDocuments({ category, name: { $regex: regexPattern } })
             }
-            
+
         } else {
             allProductsCount = await ProductModel.countDocuments({ category })
             product = await ProductModel.find({ category }).limit(12)
