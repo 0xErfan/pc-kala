@@ -17,11 +17,11 @@ const BlockTitle = ({ title, url, Icon }: BlockTitleProps) => {
 
             {
                 url &&
-                <div
+                <Link href={url}
                     className="bg-description-text text-[10px] p-[6px] relative px-3 flex items-center gap-1 rounded-full cursor-pointer">
-                    <Link href={url} className="">مشاهده همه</Link>
+                    <div className="">مشاهده همه</div>
                     <FaAngleLeft className="size-4 text-blue-dark z-20" />
-                </div>
+                </Link>
             }
 
         </div>

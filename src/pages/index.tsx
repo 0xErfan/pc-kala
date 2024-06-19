@@ -75,7 +75,7 @@ export default function Home({ products }: ProductsDataType) {
                 <BlockTitle Icon={<BsLaptop />} title="پرفروش ترین ها" url="/products/category/laptop" />
                 <Slider>
                     {
-                        [...laptops].map((data) => <SwiperSlide key={data._id}><Product key={data._id} {...data} /></SwiperSlide>)
+                        [...laptops].map((data) => <SwiperSlide key={data._id}><Product key={data._id} useMotion={false} productData={{ ...data }} /></SwiperSlide>)
                     }
                 </Slider>
             </div>
@@ -121,7 +121,7 @@ export default function Home({ products }: ProductsDataType) {
 
                 <Slider>
                     {
-                        [...pcs].map(data => <SwiperSlide key={data._id}><Product key={data._id} {...data} /></SwiperSlide>)
+                        [...pcs].map(data => <SwiperSlide key={data._id}><Product key={data._id} productData={{ ...data }} /></SwiperSlide>)
                     }
                 </Slider>
 
@@ -196,7 +196,7 @@ export default function Home({ products }: ProductsDataType) {
 
                 <Slider>
                     {
-                        [...parts].map(data => <SwiperSlide key={data._id}><Product key={data._id} {...data} /></SwiperSlide>)
+                        [...parts].map(data => <SwiperSlide key={data._id}><Product key={data._id} productData={{ ...data }} /></SwiperSlide>)
                     }
                 </Slider>
 
