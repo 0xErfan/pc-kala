@@ -62,7 +62,12 @@ const Search = ({ product }: { product: productDataTypes[] }) => {
 
     useEffect(() => { setCurrentPage(1) }, [router.query?.text]) // reset currentPage and load state when text param changes
 
-    useEffect(() => { product?.length && setProducts(product) }, [product])
+    useEffect(() => {
+        if (product?.length) {
+            setProducts(product)
+            if (product.length <= 4) loadMoreProduct() // check if we can load more product or show the 'you see all the products' message
+        }
+    }, [product])
 
     const breadCrumbData = [
         { text: "جستجو", link: `/search/${params?.text}` },
@@ -108,7 +113,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
 
         await connectToDB()
 
-        const text = context.params?.text
+        const text = String(context.params?.text).toLocaleLowerCase()
         const allProducts = await ProductModel.find({})
 
         const matchedProducts = [...allProducts]
@@ -119,7 +124,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
             )
             .concat([...allProducts] // search in the product spec values for filtering
                 .map((product: productDataTypes) => Object.values(product.specs)
-                    .some(spec => spec?.value.toString().toLowerCase().includes(text as string)) ? product : null)
+                    .some(spec => spec?.value.toString().toLowerCase().includes(text)) ? product : null)
                 .filter(Boolean));
 
         const matchedProductsWithoutRepeatedProducts = [...new Set(matchedProducts)].slice(0, 12)

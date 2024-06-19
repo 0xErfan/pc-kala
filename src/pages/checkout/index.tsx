@@ -122,7 +122,7 @@ const Checkout = () => {
 
             if (res.ok) {
                 dispatch(userUpdater())
-                setTimeout(() => { navigate.replace(`/transactionDetails/${resData.transaction._id}`) }, 2500);
+                setTimeout(() => { navigate.replace(`/transactionDetails/${resData.transaction._id}`) }, 1800);
             }
 
         } catch (err) { console.log(err) }
