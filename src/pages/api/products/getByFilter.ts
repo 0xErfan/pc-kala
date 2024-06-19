@@ -26,7 +26,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         let product: productDataTypes[] = []
 
-        product = [...product, ...await ProductModel.find({ category, ['sub-cat']: filterBy }).skip(skipValueForProductFetch).limit(limit)]
+        const filterProductsWithCategoryAndSubMenu = await ProductModel.find({ category, ['sub-cat']: filterBy }).skip(skipValueForProductFetch).limit(limit)
+
+        if (filterProductsWithCategoryAndSubMenu.length) {
+            product = filterProductsWithCategoryAndSubMenu
+        } else {
+            const regexPattern = new RegExp(`.*${filterBy}.*`, 'i');
+            product = await ProductModel.find({ category, name: { $regex: regexPattern } }).skip(skipValueForProductFetch).limit(limit)
+        }
 
         return res.json({ product: [...new Set([...product])].slice(0, 12) })
 

@@ -111,11 +111,11 @@ export default function Header() {
                                 title="کامپیوتر" screen="large"
                                 Icon={<FaComputer className="size-5" />}
                                 submenus={[
-                                    { title: 'کامپیوتر گیمینگ', path: '/products/category/pc/gaming' },
-                                    { title: 'کامپیوتر اقتصادی', path: '/products/category/pc/affordable' },
-                                    { title: 'کامپیوتر دانشجویی', path: '/products/category/pc/student' },
-                                    { title: 'کامپیوتر رندرینک', path: '/products/category/pc/rendering' },
-                                    { title: 'سیستم اداری', path: '/products/category/pc/office' },
+                                    { title: 'کامپیوتر گیمینگ', path: '/products/category/pc?filter=gaming' },
+                                    { title: 'کامپیوتر اقتصادی', path: '/products/category/pc?filter=affordable' },
+                                    { title: 'کامپیوتر دانشجویی', path: '/products/category/pc?filter=student' },
+                                    { title: 'کامپیوتر رندرینک', path: '/products/category/pc?filter=rendering' },
+                                    { title: 'سیستم اداری', path: '/products/category/pc?filter=office' },
                                 ]}
                             />
                             <Category

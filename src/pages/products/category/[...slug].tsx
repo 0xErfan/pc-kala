@@ -93,7 +93,7 @@ const Category = ({ product, allProductsCount }: Props) => {
             }
         })
 
-        // if (!filteredItems.length) { location.href = pathnameWithoutFilter }
+        if (!filteredItems.length) { location.href = pathnameWithoutFilter }
 
         setProducts(filteredItems)
 
@@ -141,8 +141,17 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         let product: productDataTypes[] = []
 
         if (!!filterBySubCategory) {
-            allProductsCount = await ProductModel.countDocuments({ category, ['sub-cat']: filterBySubCategory })
-            product = [...product, ...await ProductModel.find({ category, ['sub-cat']: filterBySubCategory }).skip(0).limit(12)]
+
+            const filterProductsWithCategoryAndSubMenu = [...product, ...await ProductModel.find({ category, ['sub-cat']: filterBySubCategory }).skip(0).limit(12)]
+            if (filterProductsWithCategoryAndSubMenu.length) {
+                allProductsCount = await ProductModel.countDocuments({ category, ['sub-cat']: filterBySubCategory })
+                product = filterProductsWithCategoryAndSubMenu
+            } else {
+                const regexPattern = new RegExp(`.*${filterBySubCategory}.*`, 'i');
+                product = [...product, ...await ProductModel.find({ category, name: { $regex: regexPattern } }).skip(0).limit(12)]
+                allProductsCount = await ProductModel.countDocuments({ category, name: { $regex: regexPattern } })
+            }
+            
         } else {
             allProductsCount = await ProductModel.countDocuments({ category })
             product = await ProductModel.find({ category }).limit(12)

@@ -44,8 +44,8 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                 const isInView = (
                     rect.top >= 0 &&
                     rect.left >= 0 &&
-                    rect.bottom - 10 <= (window.innerHeight || document.documentElement.clientHeight) &&
-                    rect.right - 10 <= (window.innerWidth || document.documentElement.clientWidth)
+                    rect.bottom - 40 <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right - 40 <= (window.innerWidth || document.documentElement.clientWidth)
                 );
 
                 dispatch(loadMoreUpdater(isInView))
