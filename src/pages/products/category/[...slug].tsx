@@ -40,7 +40,7 @@ const Category = ({ product, allProductsCount }: Props) => {
         if (allOfProductsLoaded) return;
         const filterBy = router.query?.slug?.length && router.query.slug[1]
 
-        const res = await fetch(`/api/products/${filterBy ? 'getByFilter' : 'get'}`, {
+        const res = await fetch(`/api/products/${!!filterBy ? 'getByFilter' : 'get'}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
