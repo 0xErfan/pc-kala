@@ -46,7 +46,7 @@ const Category = ({ product, allProductsCount }: Props) => {
             body: JSON.stringify({
                 category: router.query?.slug?.length && router.query?.slug[0],
                 filterBy,
-                currentPage: currentPage + 1
+                currentPage
             })
         })
 
@@ -60,12 +60,12 @@ const Category = ({ product, allProductsCount }: Props) => {
 
         if (res.ok) {
 
+            setCurrentPage(prev => prev + 1)
             dispatch(loadMoreUpdater(false))
 
             const currentProducts = [...products, ...updatedProducts]
             setProducts([...new Set([...currentProducts])]) // be sure not to add duplicated products
 
-            setCurrentPage(prev => prev + 1)
         }
 
     }, [currentPage, router.query, dispatch, products, allOfProductsLoaded])

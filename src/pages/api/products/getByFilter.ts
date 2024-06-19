@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== 'POST') return res.status(421).json({ message: "This route can't be accessed without POST request_" })
 
     const { category, limit = 12, currentPage, filterBy }: reqProps = req.body;
-    const skipValueForProductFetch = (currentPage - 1) * limit
+    const skipValueForProductFetch = currentPage * limit
 
     try {
 
