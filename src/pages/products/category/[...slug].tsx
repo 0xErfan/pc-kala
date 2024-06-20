@@ -37,6 +37,12 @@ const Category = ({ product, allProductsCount }: Props) => {
 
     const loadMoreProduct = useCallback(async () => {
 
+        if (product?.length <= 4) {
+            setAllOfProductsLoaded(true)
+            dispatch(loadMoreUpdater(false))
+            return
+        }
+        
         if (allOfProductsLoaded || !product?.length) return
 
         const filterBy = router.query?.slug?.length && router.query.slug[1]
@@ -68,7 +74,7 @@ const Category = ({ product, allProductsCount }: Props) => {
             setProducts([...new Set([...currentProducts])]) // be sure not to add duplicated products
         }
 
-    }, [router.query, dispatch, products, allOfProductsLoaded])
+    }, [router.query?.slug, dispatch, products, allOfProductsLoaded])
 
     useEffect(() => { shouldLoadMoreProduct && loadMoreProduct() }, [shouldLoadMoreProduct, loadMoreProduct, router.query?.slug])
 

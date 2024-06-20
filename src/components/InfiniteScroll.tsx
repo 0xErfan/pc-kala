@@ -51,11 +51,12 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                 dispatch(loadMoreUpdater(isInView))
             }
         };
+        handleScroll()
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll)
 
-    }, [dispatch, router.query]);
+    }, [dispatch, router.query?.slug]);
 
     useEffect(() => {
         setPaginatedItems(itemsSorter(sortBy, [...itemsArray as []]))
