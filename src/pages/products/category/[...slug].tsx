@@ -37,12 +37,12 @@ const Category = ({ product, allProductsCount }: Props) => {
 
     const loadMoreProduct = useCallback(async () => {
 
-        if (product?.length <= 4) {
+        if (product?.length && product.length <= 4) {
             setAllOfProductsLoaded(true)
             dispatch(loadMoreUpdater(false))
             return
         }
-        
+
         if (allOfProductsLoaded || !product?.length) return
 
         const filterBy = router.query?.slug?.length && router.query.slug[1]
@@ -68,26 +68,24 @@ const Category = ({ product, allProductsCount }: Props) => {
         if (res.ok) {
 
             dispatch(loadMoreUpdater(false))
-            setCurrentPage(prev => prev + 1)
 
             const currentProducts = [...products, ...updatedProducts]
-            setProducts([...new Set([...currentProducts])]) // be sure not to add duplicated products
+            setProducts([...currentProducts])
+
+            setCurrentPage(Math.ceil(currentProducts.length / 12))
         }
 
     }, [router.query?.slug, dispatch, products, allOfProductsLoaded])
 
     useEffect(() => { shouldLoadMoreProduct && loadMoreProduct() }, [shouldLoadMoreProduct, loadMoreProduct, router.query?.slug])
 
-    useEffect(() => { setAllOfProductsLoaded(false), setCurrentPage(1) }, [router.query?.slug]) // reset currentPage and load state when category type changes
-
     useEffect(() => {
         if (product?.length) {
             setProducts(product)
             if (product.length <= 4) loadMoreProduct() // check if we can load more product or show the 'you see all the products' message
         }
+        return () => { setAllOfProductsLoaded(false), setCurrentPage(1) }
     }, [product])
-
-    const pathnameWithoutFilter = router.pathname.split('/').filter(value => !value.startsWith('[')).join('/').concat('/' + category)
 
     useEffect(() => {
 
@@ -104,7 +102,7 @@ const Category = ({ product, allProductsCount }: Props) => {
             }
         })
 
-        if (!filteredItems.length) { location.href = pathnameWithoutFilter }
+        if (!filteredItems.length) router.replace('/404')
 
         setProducts(filteredItems)
 
