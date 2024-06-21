@@ -41,7 +41,15 @@ export default memo(function Category({ screen, title, Icon, submenus }: Categor
                         >
 
                             <ul className="border-t-2 border-b-2 border-dark-red ch:py-2 bg-primary-black p-4 fixed w-full max-w-[180px] ch:cursor-pointer rounded-xl overflow-hidden ch:relative ">
-                                {submenus.map(menu => <li key={menu.title} className="submenu"><Link href={menu.path} > {menu.title} </Link></li>)}
+                                {
+                                    submenus.map(menu => <li
+                                        key={menu.title}
+                                        className="submenu"
+                                        onClick={() => navigate.push(menu.path)}
+                                    >
+                                        <div> {menu.title} </div>
+                                    </li>)
+                                }
                             </ul>
 
                         </div>
