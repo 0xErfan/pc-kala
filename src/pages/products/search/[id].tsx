@@ -45,10 +45,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
     const [activeSection, setActiveSection] = useState<"details" | "comments">("details")
     const [productCount, setProductCount] = useState(1)
     const [productOffTimer, setProductOffTimer] = useState<productOffTimerProps | null>(null)
-    const [circleCoordinates, setCircleCoordinates] = useState<coordinates>({ x: 0, y: 0 })
-    const [zoomShown, setIsZoomShown] = useState<boolean>(false)
     const [fullScreenShown, setFullScreenShown] = useState(false)
-    const productImgRef = useRef<HTMLImageElement | null>(null);
 
     const dispatch = useAppDispatch()
     const navigate = useRouter()
@@ -313,27 +310,16 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                 </div>
                             </div>
 
-                            <div
-                                className="flex-[5] text-[13px] border relative overflow-hidden mb-auto border-dark-gold rounded-md text-description-text h-[265px] flex-center">
-                                <div className={"relative overflow-hidden z-10 mb-auto w-[95%] h-[90%]"}>
+                            <div className="flex-[5] text-[13px] border relative overflow-hidden mb-auto border-dark-gold rounded-md text-description-text h-[265px] flex-center">
+                                <div className="relative overflow-hidden z-10 mb-auto w-[95%] h-[90%]">
                                     <Image
-                                        ref={productImgRef}
                                         className="flex-center object-cover m-auto py-2 size-full"
                                         src={image?.length ? image[currentImage] : '/images/imageNotFound.webp'}
                                         width={600}
                                         height={600}
                                         priority
                                         alt="product-img"
-                                        onPointerEnter={() => { setIsZoomShown(true) }}
-                                        onPointerLeave={() => setIsZoomShown(false)}
-                                        onPointerMove={e => { setCircleCoordinates({ x: e.clientX, y: e.clientY }) }}
                                     />
-
-                                    <span
-                                        style={{ left: (circleCoordinates.x - 70) + "px", top: (circleCoordinates.y + 70) - (productImgRef.current ? productImgRef.current.clientHeight / 2 : 0) + "px" }}
-                                        className={`${zoomShown ? "fixed" : "invisible"} fixed overflow-hidden rounded-full border-2 border-white size-36`}><div style={{ backgroundImage: `url('${image[currentImage]}')`, backgroundPosition: (circleCoordinates.x - (productImgRef.current ? productImgRef.current.x : 0) - 100) + "% " + (circleCoordinates.y - (productImgRef.current ? productImgRef.current.y : 0) - 110) + "%" }} className={"absolute size-full z-20 zoomedImg scale-[2.5]"} />
-                                    </span>
-
                                 </div>
 
                                 <span
