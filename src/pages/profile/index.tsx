@@ -106,7 +106,7 @@ const Profile = () => {
                     setFetchedData({ ...data })
                     setIsLoaded(true)
 
-                } catch (error) { showToast(false, 'از اتصال به اینترنت مطمان شوید', 3000) }
+                } catch (error) { console.log(error) }
             }
         )()
     }, [data])
@@ -313,13 +313,14 @@ const Profile = () => {
             isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروج از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
 
                 const res = await fetch('/api/auth/logout')
+                const resData = await res.json()
 
-                if (!res.ok) { showToast(false, 'خطا - اتصال به اینترنت خود را برسسی کنید'); return }
+                showToast(res.ok, resData.message)
 
-                showToast(true, 'خروج از حساب موفقیت امیز بود')
-
-                dispatch(userDataUpdater({ isLogin: false }))
-                navigate.reload()
+                if (res.ok) {
+                    dispatch(userDataUpdater({ isLogin: false }))
+                    navigate.push('/')
+                }
             }
         }))
     }
