@@ -1,9 +1,11 @@
-import React from 'react'
+import Layout from '@/components/p-admin/Layout';
 
 const MainAdminPage = () => {
-  return (
-    <div className='w-full text-center font-bold text-[34px] flex-center'>Hi this is our new admin page that is gonna be fire in a week</div>
-  )
+    return (
+        <Layout>
+            <div className='h-[2000]'></div>
+        </Layout>
+    )
 }
 
 export default MainAdminPage;

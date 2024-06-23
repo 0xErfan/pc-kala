@@ -1,0 +1,160 @@
+import { ReactNode } from 'react'
+import { IoHomeOutline } from "react-icons/io5";
+import { FiUsers } from "react-icons/fi";
+import { RiFileList3Line } from "react-icons/ri";
+import { LiaComment } from "react-icons/lia";
+import PageLinks from '@/components/p-admin/PageLinks';
+import { CiSearch } from "react-icons/ci";
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { CiSettings } from "react-icons/ci";
+import { RiLogoutBoxLine } from "react-icons/ri";
+import Link from 'next/link';
+import { useAppDispatch } from '@/Hooks/useRedux';
+import { useRouter } from 'next/router';
+import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
+import { showToast } from '@/utils';
+import { userDataUpdater } from '@/Redux/Features/userSlice';
+
+const Layout = ({ children }: { children: ReactNode }) => {
+
+    const dispatch = useAppDispatch()
+    const navigate = useRouter()
+
+    const logout = async () => {
+
+        dispatch(modalDataUpdater({
+            isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروج از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
+
+                const res = await fetch('/api/auth/logout')
+                const resData = await res.json()
+
+                showToast(res.ok, resData.message)
+
+                if (res.ok) {
+                    dispatch(userDataUpdater({ isLogin: false }))
+                    navigate.push('/')
+                }
+            }
+        }))
+    }
+
+    return (
+        <div className='flex bg-panel-white min-h-screen'>
+
+            <aside className='bg-white flex-[1]'>
+                <div className='sticky top-0 p-5'>
+
+                    <div>
+                        <Link href={'/admin-panel'} className='flex items-start justify-center gap-px flex-col'>
+                            <div className='relative'>
+                                <h1 className='text-[#333333] font-extrabold text-[25px] font-peyda'>پیسی کالا</h1>
+                                <span className='absolute size-2 rounded-full bg-panel-darkGreen bottom-2 -left-3'></span>
+                            </div>
+                        </Link>
+
+                        <div className='flex justify-center flex-col mt-10'>
+
+                            <PageLinks
+                                Icon={<IoHomeOutline />}
+                                title={'داشبرد'}
+                                path='/admin-panel'
+                                key={'dashboard'}
+                            />
+
+                            <PageLinks
+                                Icon={<FiUsers />}
+                                title={'کاربران'}
+                                path='/admin-panel/users'
+                                key={'users'}
+                            />
+
+                            <PageLinks
+                                Icon={<RiFileList3Line />}
+                                title={'تراکنش ها'}
+                                path='/admin-panel/transactions'
+                                key={'transactions'}
+                            />
+
+                            <PageLinks
+                                Icon={<LiaComment />}
+                                title={'کامنت ها'}
+                                path='/admin-panel/comments'
+                                key={'comments'}
+                            />
+
+                            <span className='py-10 border-b mb-4 border-[#D0D6DE]'></span>
+
+                            <button
+                                className={`flex gap-2 items-center p-3 text-red-500 bg-red-500/15 ch:transition-all duration-200 ease-in-out rounded-md ch:font-extrabold font-peyda`}
+                                onClick={logout}
+                            >
+                                <RiLogoutBoxLine className='size-6' />
+                                <span>خروج</span>
+                            </button>
+
+                        </div>
+                    </div>
+
+
+                    {/* <div className='font-peyda text-panel-darkTitle text-center'>
+
+                        <p>ادمین پنل پیسی کالا</p>
+                        <p>© 2020 All Rights Reserved</p>
+
+                        <div dir='ltr'>
+                            Made with ❤️ by
+                            <Link
+                                target='_blank'
+                                href={'https://github.com/0xErfan'}
+                                className='text-panel-darkBlue font-bold px-2'>0xErfan
+                            </Link>
+                        </div>
+                    </div> */}
+
+                </div>
+
+            </aside>
+
+            <section className='flex-[6] p-10'>
+
+                <section className='flex items-center ch:flex-1 sticky top-10'>
+
+                    <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-md h-[56px] px-2'>
+                        <input className='bg-transparent px-4 h-full placeholder:font-peyda w-full' placeholder='جستجو کن' type="text" />
+                        <CiSearch className='size-8 cursor-pointer' />
+                    </div>
+
+                    <div className='flex items-center justify-end'>
+
+                        <div className='flex items-center flex-row-reverse gap-4'>
+
+                            <div className='flex-center size-12 bg-panel-lightBlue rounded-xl cursor-pointer relative'>
+                                <IoMdNotificationsOutline className='text-panel-darkBlue size-[60%]' />
+                                <span className='size-[28px] absolute text-[12px] rounded-full flex-center text-center bg-panel-darkBlue border-[4px] border-panel-white text-white -top-[9px] -right-[9px]'>12</span>
+                            </div>
+
+                            <div className='flex-center size-12 bg-panel-lightRed rounded-xl cursor-pointer relative'>
+                                <CiSettings className='text-panel-darkRed size-[60%]' />
+                                <span className='size-[28px] absolute text-[12px] rounded-full flex-center text-center bg-panel-darkRed border-[4px] border-panel-white text-white -top-[9px] -right-[9px]'>12</span>
+                            </div>
+
+                        </div>
+
+                        <div className='inline-block border h-px rotate-90 border-[#D0D6DE] px-6'></div>
+
+                        <div className='flex items-center gap-4'>
+                            <div className='text-[14px] text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold'>{'gsdf'}</span></div>
+                            <div className='size-[56px] rounded-full border-4 border-white'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section className='pt-[35px]'>{children}</section>
+
+            </section>
+        </div>
+    )
+}
+
+export default Layout;
