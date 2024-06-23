@@ -44,7 +44,18 @@ const config: Config = {
         "secondary-black": "#202124",
 
         "title-text": "#e3e3e3",
-        "description-text": "#b7b7b7"
+        "description-text": "#b7b7b7",
+
+        "panel-white": "#F3F2F7",
+        "panel-darkTitle": "#464255",
+        "panel-caption": "#B9BBBD",
+        "panel-darkGreen": "#00B074",
+        "panel-lightGreen": "rgba(0, 175, 116, 0.15)",
+        "panel-darkBlue": "#2D9CDB",
+        "panel-lightBlue": "rgba(45, 156, 219, 0.15)",
+        "panel-darkRed": "#FF5B5B",
+        "panel-lightRed": "rgba(255, 91, 91, 0.15)",
+
       },
       fontFamily: {
         "sans": "sans",
