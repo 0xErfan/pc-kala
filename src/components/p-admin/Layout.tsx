@@ -95,11 +95,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
                             <span className='py-10 border-b mb-4 border-[#D0D6DE]'></span>
 
                             <button
-                                className={`flex gap-2 items-center justify-center xl:justify-start p-3 text-red-500 bg-red-500/15 ch:transition-all duration-200 ease-in-out rounded-md ch:font-extrabold font-peyda`}
+                                className={`flex gap-2 items-center relative justify-center xl:justify-start p-3 text-red-500 bg-red-500/15 ch:transition-all duration-200 ease-in-out rounded-md ch:font-extrabold font-peyda`}
                                 onClick={logout}
                             >
                                 <RiLogoutBoxLine className='size-6' />
                                 <span className='xl:block hidden'>خروج</span>
+                                <span className='absolute -right-5 h-5/6 w-[6px] rounded-l-md bg-panel-darkRed'></span>
                             </button>
 
                         </div>
