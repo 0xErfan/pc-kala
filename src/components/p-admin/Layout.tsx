@@ -1,3 +1,4 @@
+import '@/styles/noScroll.module.css'
 import { ReactNode } from 'react'
 import { IoHomeOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
@@ -6,7 +7,6 @@ import { LiaComment } from "react-icons/lia";
 import PageLinks from '@/components/p-admin/PageLinks';
 import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
-import { CiSettings } from "react-icons/ci";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import Link from 'next/link';
@@ -130,7 +130,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                 <section className='flex items-center ch:flex-1 xl:gap-0 gap-10 sticky top-10'>
 
-                    <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-md h-[56px] px-2'>
+                    <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-md h-[56px] px-2 shadow-sm'>
                         <input className='bg-transparent px-4 h-full placeholder:font-peyda w-full' placeholder='جستجو کن' type="text" />
                         <CiSearch className='size-8 cursor-pointer' />
                     </div>
@@ -146,7 +146,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                         <div className='flex items-center gap-4'>
                             <div className='text-[14px] xl:block hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold'>{'gsdf'}</span></div>
-                            <div className='size-[56px] rounded-full border-4 border-white'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
+                            <div className='size-[56px] rounded-full border-4 border-white shadow-sm'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
                         </div>
 
                     </div>

@@ -13,7 +13,7 @@ interface Props {
 const OrderCard = ({ value, title, bottomTitle, condition, src }: Props) => {
 
     return (
-        <div className='flex-center gap-4 bg-white py-7 rounded-xl'>
+        <div className='flex-center gap-4 bg-white py-7 rounded-xl shadow-sm'>
 
             <div>
                 <h3 className='font-extrabold text-panel-darkTitle text-[30px] font-peyda text-end'>{value}</h3>
