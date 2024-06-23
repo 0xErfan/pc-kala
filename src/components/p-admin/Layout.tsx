@@ -8,12 +8,14 @@ import { CiSearch } from "react-icons/ci";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { CiSettings } from "react-icons/ci";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { IoSettingsOutline } from "react-icons/io5";
 import Link from 'next/link';
 import { useAppDispatch } from '@/Hooks/useRedux';
 import { useRouter } from 'next/router';
 import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
 import { showToast } from '@/utils';
 import { userDataUpdater } from '@/Redux/Features/userSlice';
+import Image from 'next/image';
 
 const Layout = ({ children }: { children: ReactNode }) => {
 
@@ -41,18 +43,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
     return (
         <div className='flex bg-panel-white min-h-screen'>
 
-            <aside className='bg-white flex-[1]'>
-                <div className='sticky top-0 p-5'>
+            <aside className='bg-white xl:w-full w-20 xl:flex-[1]'>
+                <div className='sticky top-0 xl:p-5 p-3'>
 
                     <div>
                         <Link href={'/admin-panel'} className='flex items-start justify-center gap-px flex-col'>
-                            <div className='relative'>
+                            <div className='relative xl:block hidden'>
                                 <h1 className='text-[#333333] font-extrabold text-[25px] font-peyda'>پیسی کالا</h1>
                                 <span className='absolute size-2 rounded-full bg-panel-darkGreen bottom-2 -left-3'></span>
                             </div>
+                            <div className='xl:hidden block'><Image width={100} height={100} quality={100} alt='pc-kala favicon' src='/images/fav-logo.png' /></div>
                         </Link>
 
-                        <div className='flex justify-center flex-col mt-10'>
+                        <div className='flex justify-center ch:ch:shrink-0 flex-col mt-10'>
 
                             <PageLinks
                                 Icon={<IoHomeOutline />}
@@ -82,14 +85,21 @@ const Layout = ({ children }: { children: ReactNode }) => {
                                 key={'comments'}
                             />
 
+                            <PageLinks
+                                Icon={<IoSettingsOutline />}
+                                title={'تنظیمات'}
+                                path='/admin-panel/settings'
+                                key={'settings'}
+                            />
+
                             <span className='py-10 border-b mb-4 border-[#D0D6DE]'></span>
 
                             <button
-                                className={`flex gap-2 items-center p-3 text-red-500 bg-red-500/15 ch:transition-all duration-200 ease-in-out rounded-md ch:font-extrabold font-peyda`}
+                                className={`flex gap-2 items-center justify-center xl:justify-start p-3 text-red-500 bg-red-500/15 ch:transition-all duration-200 ease-in-out rounded-md ch:font-extrabold font-peyda`}
                                 onClick={logout}
                             >
                                 <RiLogoutBoxLine className='size-6' />
-                                <span>خروج</span>
+                                <span className='xl:block hidden'>خروج</span>
                             </button>
 
                         </div>
@@ -115,9 +125,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
             </aside>
 
-            <section className='flex-[6] p-10'>
+            <section className='flex-[6] xl:p-10 p-5'>
 
-                <section className='flex items-center ch:flex-1 sticky top-10'>
+                <section className='flex items-center ch:flex-1 xl:gap-0 gap-10 sticky top-10'>
 
                     <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-md h-[56px] px-2'>
                         <input className='bg-transparent px-4 h-full placeholder:font-peyda w-full' placeholder='جستجو کن' type="text" />
@@ -126,24 +136,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                     <div className='flex items-center justify-end'>
 
-                        <div className='flex items-center flex-row-reverse gap-4'>
-
-                            <div className='flex-center size-12 bg-panel-lightBlue rounded-xl cursor-pointer relative'>
-                                <IoMdNotificationsOutline className='text-panel-darkBlue size-[60%]' />
-                                <span className='size-[28px] absolute text-[12px] rounded-full flex-center text-center bg-panel-darkBlue border-[4px] border-panel-white text-white -top-[9px] -right-[9px]'>12</span>
-                            </div>
-
-                            <div className='flex-center size-12 bg-panel-lightRed rounded-xl cursor-pointer relative'>
-                                <CiSettings className='text-panel-darkRed size-[60%]' />
-                                <span className='size-[28px] absolute text-[12px] rounded-full flex-center text-center bg-panel-darkRed border-[4px] border-panel-white text-white -top-[9px] -right-[9px]'>12</span>
-                            </div>
-
+                        <div className='flex-center size-12 bg-panel-lightBlue rounded-xl cursor-pointer relative'>
+                            <IoMdNotificationsOutline className='text-panel-darkBlue size-[60%]' />
+                            <span className='size-[28px] absolute text-[12px] rounded-full flex-center text-center bg-panel-darkBlue border-[4px] border-panel-white text-white -top-[9px] -right-[9px]'>12</span>
                         </div>
 
                         <div className='inline-block border h-px rotate-90 border-[#D0D6DE] px-6'></div>
 
                         <div className='flex items-center gap-4'>
-                            <div className='text-[14px] text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold'>{'gsdf'}</span></div>
+                            <div className='text-[14px] xl:block hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold'>{'gsdf'}</span></div>
                             <div className='size-[56px] rounded-full border-4 border-white'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
                         </div>
 

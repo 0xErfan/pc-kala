@@ -22,10 +22,10 @@ const PageLinks = ({ path, Icon, title }: Props) => {
     return (
         <Link
             href={path}
-            className={`flex gap-2 items-center p-3 transition-all rounded-md ${isActive && 'bg-panel-lightGreen text-panel-darkGreen'}  ch:font-extrabold font-peyda`}
+            className={`flex gap-2 items-center justify-center xl:justify-start p-3 transition-all rounded-md ${isActive && 'bg-panel-lightGreen text-panel-darkGreen'}  ch:font-extrabold font-peyda`}
         >
             <div className={`size-6 flex-center ch:size-full`}>{Icon}</div>
-            <span className='mt-1'>{title}</span>
+            <span className='mt-1 hidden xl:block whitespace-nowrap'>{title}</span>
         </Link>
     )
 }
