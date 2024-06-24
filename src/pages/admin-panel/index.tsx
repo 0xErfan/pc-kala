@@ -102,16 +102,10 @@ const MainAdminPage = () => {
                                 width={500}
                                 height={400}
                                 data={data}
-                                margin={{
-                                    top: 10,
-                                    right: 30,
-                                    left: 0,
-                                    bottom: 0,
-                                }}
                             >
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <XAxis dataKey="name" />
-                                <YAxis />
+                                <YAxis tickMargin={40} width={80} />
                                 <Tooltip />
                                 <Area type="monotone" dataKey="uv" stroke="#2D9CDB" fill="#2D9CDB" />
                             </AreaChart>
@@ -127,7 +121,7 @@ const MainAdminPage = () => {
                         <p className='text-[#A3A3A3] text-[13px]'>نمای کلی از معیارهای کلیدی سایت را ارائه می‌دهد</p>
                     </div>
 
-                    <div className='flex items-center justify-evenly font-peyda h-[250px]'>
+                    <div className='flex items-center md:flex-nowrap flex-wrap justify-center gap-6 font-peyda min-h-[250px] h-full'>
                         <PieChartComponent color='red' percentage={81} title='تراکنش ها' />
                         <PieChartComponent color='green' percentage={22} title='رشد مشتری' />
                         <PieChartComponent color='blue' percentage={62} title='درامد کلی' />

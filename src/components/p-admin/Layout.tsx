@@ -129,7 +129,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
             <section className='flex-[6] xl:p-10 p-5 relative'>
 
-                <span className='right-0 left-0 fixed top-0 w-full h-[120px] bg-panel-white z-30'></span>
+                <span className='right-0 left-0 fixed top-0 w-full xl:h-[120px] h-[110px] bg-panel-white z-30'></span>
 
                 <div className='flex items-center ch:flex-1 xl:gap-0 gap-10 sticky top-10 z-40'>
 
