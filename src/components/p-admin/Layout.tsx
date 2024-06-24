@@ -43,7 +43,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     return (
         <div className='flex bg-panel-white min-h-screen'>
 
-            <aside className='bg-white xl:w-full w-20 xl:flex-[1]'>
+            <aside className='bg-white xl:w-full w-20 xl:flex-[1] z-40'>
                 <div className='sticky top-0 xl:p-5 p-3'>
 
                     <div>
@@ -126,9 +126,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
             </aside>
 
-            <section className='flex-[6] xl:p-10 p-5'>
 
-                <section className='flex items-center ch:flex-1 xl:gap-0 gap-10 sticky top-10'>
+            <section className='flex-[6] xl:p-10 p-5 relative'>
+
+                <span className='right-0 left-0 fixed top-0 w-full h-[120px] bg-panel-white z-30'></span>
+
+                <div className='flex items-center ch:flex-1 xl:gap-0 gap-10 sticky top-10 z-40'>
 
                     <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-md h-[56px] px-2 shadow-sm'>
                         <input className='bg-transparent px-4 h-full placeholder:font-peyda w-full' placeholder='جستجو کن' type="text" />
@@ -145,12 +148,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
                         <div className='inline-block border h-px rotate-90 border-[#D0D6DE] px-6'></div>
 
                         <div className='flex items-center gap-4'>
-                            <div className='text-[14px] xl:block hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold'>{'gsdf'}</span></div>
+                            <div className='text-[14px] xl:block hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold'>{'Erfan'}</span></div>
                             <div className='size-[56px] rounded-full border-4 border-white shadow-sm'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
                         </div>
 
                     </div>
-                </section>
+                </div>
 
                 <section className='pt-[35px]'>{children}</section>
 
