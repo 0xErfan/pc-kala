@@ -3,16 +3,21 @@ import { ReactNode } from 'react';
 import { Autoplay } from 'swiper/modules'
 import { Swiper } from 'swiper/react';
 
-interface SliderProps { children: ReactNode }
+interface SliderProps {
+    children: ReactNode
+    gap?: number
+    withContainer?: boolean
+    slidePerView?: number | null
+}
 
-const Slider = ({ children }: SliderProps) => {
+const Slider = ({ children, gap = 12, withContainer = true, slidePerView = null }: SliderProps) => {
 
     return (
 
-        <div className="container mt-6">
+        <div className={` ${withContainer ? 'container' : 'w-full'} mt-6`}>
             <Swiper
-                slidesPerView={4}
-                spaceBetween={12}
+                slidesPerView={slidePerView ?? 4}
+                spaceBetween={gap}
                 loop={true}
                 autoplay={{
                     delay: 3300,
@@ -21,13 +26,13 @@ const Slider = ({ children }: SliderProps) => {
                 }}
                 breakpoints={{
                     0: {
-                        slidesPerView: 1
+                        slidesPerView: slidePerView ?? 1
                     },
                     640: {
-                        slidesPerView: 2,
+                        slidesPerView: slidePerView ?? 2,
                     },
                     1024: {
-                        slidesPerView: 4,
+                        slidesPerView: slidePerView ?? 4,
                     },
                 }}
                 modules={[Autoplay]}
