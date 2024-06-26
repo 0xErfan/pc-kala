@@ -1,3 +1,5 @@
+import 'swiper/css';
+import 'swiper/css/pagination';
 import Layout from '@/components/p-admin/Layout';
 import OrderCard from '@/components/p-admin/OrderCard';
 import PieChartComponent from '@/components/p-admin/PieChart';
@@ -5,6 +7,8 @@ import { FaAngleLeft } from "react-icons/fa6";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Rectangle, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import CustomerReview from './CustomerReview';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation } from 'swiper/modules';
 
 const MainAdminPage = () => {
 
@@ -56,7 +60,7 @@ const MainAdminPage = () => {
     return (
         <Layout>
 
-            <div className='flex flex-col gap-4 2xl:gap-8'>
+            <div className='flex flex-col gap-4 2xl:gap-8 overflow-hidden ch:overflow-hidden'>
 
                 <div className='space-y-1'>
                     <h3 className='font-extrabold text-panel-darkTitle font-peyda text-[28px]'>داشبرد</h3>
@@ -148,7 +152,7 @@ const MainAdminPage = () => {
 
                 <div className='flex xl:flex-row flex-col items-center 2xl:gap-8 gap-4'>
 
-                    <div className='bg-white rounded-xl flex-1 shadow-sm flex flex-col w-full gap-3 p-6 h-[430px]'>
+                    <div className='bg-white rounded-xl flex-1 shadow-sm flex flex-col w-full gap-3 p-6 xl:h-[430px] h-auto'>
 
                         <div>
                             <h4 className='font-bold text-2xl text-panel-darkTitle font-peyda'>نمودار تراکنش ها</h4>
@@ -172,7 +176,7 @@ const MainAdminPage = () => {
                         </ResponsiveContainer>
                     </div>
 
-                    <div className='bg-white rounded-xl flex-[2] shadow-sm w-full flex flex-col gap-6 p-6 h-[430px]'>
+                    <div className='bg-white rounded-xl flex-1 xl:flex-[2] shadow-sm w-full flex flex-col gap-6 p-6 xl:h-[430px] h-auto'>
 
                         <div>
                             <h4 className='font-bold text-2xl text-panel-darkTitle font-peyda'>نمودار تراکنش ها</h4>
@@ -203,24 +207,77 @@ const MainAdminPage = () => {
 
                 <div className='flex flex-col gap-5'>
 
-                    <div className='flex items-center justify-between'>
+                    <div className='flex items-center justify-between relative'>
                         <div>
                             <h4 className='font-bold text-2xl text-panel-darkTitle font-peyda'>نظرات مشتری ها</h4>
                             <p className='font-sans text-[12px] text-panel-caption flex items-center justify-start'>جدید ترین نظرات ثبت شده توسط خریداران</p>
                         </div>
-                        <div className='flex items-center gap-3'>
-                            <button className='shadow-sm bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
+                    </div>
+
+                    <div className='relative grid grid-cols-1'>
+                        <Swiper
+                            className='w-full mySwiper items-start overflow-hidden'
+                            loop
+                            slidesPerView={2}
+                            spaceBetween={35}
+                            autoplay={{
+                                delay: 3300,
+                                disableOnInteraction: false,
+                                pauseOnMouseEnter: true
+                            }}
+                            breakpoints={{
+                                0: {
+                                    slidesPerView: 1,
+                                },
+                                640: {
+                                    slidesPerView: 1,
+                                },
+                                1024: {
+                                    slidesPerView: 2,
+                                },
+                            }}
+                            modules={[Autoplay, Navigation]}
+                            navigation={{
+                                nextEl: '.swiper-button-next',
+                                prevEl: '.swiper-button-prev',
+                            }}
+                        >
+                            <SwiperSlide>
+                                <CustomerReview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <CustomerReview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <CustomerReview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <CustomerReview />
+                            </SwiperSlide>
+                            <SwiperSlide>
+                                <CustomerReview />
+                            </SwiperSlide>
+
+                        </Swiper>
+
+                        <div className='flex items-center gap-3 absolute -top-[65px] z-20 left-0'>
+                            <button className='shadow-sm swiper-button-next bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
                                 <FaAngleLeft className=' rotate-180 size-[22px]' />
                             </button>
-                            <button className='shadow-sm bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
+                            <button className='shadow-sm swiper-button-prev bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
                                 <FaAngleLeft className='size-[22px]' />
                             </button>
                         </div>
+
                     </div>
 
-                    <div className='flex items-center gap-30'>
-                        <CustomerReview />
-                    </div>
+                    {/* <div className='grid grid-rows-2 overflow-scroll self-center gap-12'>
+                        <CustomerReview/>
+                        <CustomerReview/>
+                        <CustomerReview/>
+                        <CustomerReview/>
+                    </div> */}
+
                 </div>
 
             </div>
