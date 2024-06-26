@@ -62,11 +62,6 @@ const MainAdminPage = () => {
 
             <div className='flex flex-col gap-4 2xl:gap-8 overflow-hidden ch:overflow-hidden'>
 
-                <div className='space-y-1'>
-                    <h3 className='font-extrabold text-panel-darkTitle font-peyda text-[28px]'>داشبرد</h3>
-                    <p className='text-[#A3A3A3] text-[13px]'>سلام عرفان. به پنل ادمین پیسی کالا خوشومدی</p>
-                </div>
-
                 <div className='grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 2xl:gap-8 gap-4 pt-10'>
 
                     <OrderCard
@@ -271,19 +266,9 @@ const MainAdminPage = () => {
 
                     </div>
 
-                    {/* <div className='grid grid-rows-2 overflow-scroll self-center gap-12'>
-                        <CustomerReview/>
-                        <CustomerReview/>
-                        <CustomerReview/>
-                        <CustomerReview/>
-                    </div> */}
-
                 </div>
 
             </div>
-
-
-            <div className='h-[100px]'></div>
 
         </Layout>
     )
