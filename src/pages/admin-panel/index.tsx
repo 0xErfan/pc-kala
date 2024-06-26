@@ -62,7 +62,7 @@ const MainAdminPage = () => {
 
             <div className='flex flex-col gap-4 2xl:gap-8 overflow-hidden ch:overflow-hidden'>
 
-                <div className='grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 2xl:gap-8 gap-4 pt-10'>
+                <div className='grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 2xl:gap-8 gap-4 pt-0'>
 
                     <OrderCard
                         value='23'
