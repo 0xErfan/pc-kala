@@ -1,5 +1,5 @@
 import '@/styles/noScroll.module.css'
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { IoHomeOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
 import { RiFileList3Line } from "react-icons/ri";
@@ -16,8 +16,11 @@ import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
 import { showToast } from '@/utils';
 import { userDataUpdater } from '@/Redux/Features/userSlice';
 import Image from 'next/image';
+import Button from '../Button';
+import Notifications from './Notifications';
 
 const Layout = ({ children }: { children: ReactNode }) => {
+
 
     const dispatch = useAppDispatch()
     const navigate = useRouter()
@@ -140,16 +143,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                     <div className='flex items-center justify-end'>
 
-                        <div className='flex-center size-12 bg-panel-lightBlue rounded-xl cursor-pointer relative'>
-                            <IoMdNotificationsOutline className='text-panel-darkBlue size-[60%]' />
-                            <span className='size-[28px] absolute text-[12px] rounded-full flex-center text-center bg-panel-darkBlue border-[4px] border-panel-white text-white -top-[9px] -right-[9px]'>12</span>
-                        </div>
+                        <Notifications/>
 
                         <div className='inline-block border h-px rotate-90 border-[#D0D6DE] px-6'></div>
 
                         <div className='flex items-center gap-4'>
-                            <div className='text-[14px] xl:block hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold'>{'Erfan'}</span></div>
-                            <div className='size-[56px] rounded-full border-4 border-white shadow-sm'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
+                            <div className='text-[16px] xl:block font-peyda hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold px-px'>{'Erfan'}</span></div>
+                            <div className='size-[56px] border-panel-darkGreen rounded-full border-2 shadow-sm'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
                         </div>
 
                     </div>
