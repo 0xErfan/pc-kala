@@ -7,6 +7,8 @@ import { LiaComment } from "react-icons/lia";
 import PageLinks from '@/components/p-admin/PageLinks';
 import { CiSearch } from "react-icons/ci";
 import { RiLogoutBoxLine } from "react-icons/ri";
+import { RiDiscountPercentLine } from "react-icons/ri";
+import { RiShoppingBasket2Line } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import Link from 'next/link';
 import { useAppDispatch } from '@/Hooks/useRedux';
@@ -66,6 +68,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
                             />
 
                             <PageLinks
+                                Icon={<RiShoppingBasket2Line />}
+                                title={'محصولات'}
+                                path='/admin-panel/products'
+                                key={'products'}
+                            />
+
+                            <PageLinks
                                 Icon={<FiUsers />}
                                 title={'کاربران'}
                                 path='/admin-panel/users'
@@ -77,6 +86,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
                                 title={'تراکنش ها'}
                                 path='/admin-panel/transactions'
                                 key={'transactions'}
+                            />
+
+                            <PageLinks
+                                Icon={<RiDiscountPercentLine />}
+                                title={'کدهای تخفیف'}
+                                path='/admin-panel/discountCodes'
+                                key={'discountCodes'}
                             />
 
                             <PageLinks
