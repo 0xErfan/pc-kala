@@ -1,12 +1,11 @@
 import '@/styles/noScroll.module.css'
-import { ReactNode, useState } from 'react'
+import { ReactNode } from 'react'
 import { IoHomeOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
 import { RiFileList3Line } from "react-icons/ri";
 import { LiaComment } from "react-icons/lia";
 import PageLinks from '@/components/p-admin/PageLinks';
 import { CiSearch } from "react-icons/ci";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import Link from 'next/link';
@@ -16,7 +15,6 @@ import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
 import { showToast } from '@/utils';
 import { userDataUpdater } from '@/Redux/Features/userSlice';
 import Image from 'next/image';
-import Button from '../Button';
 import Notifications from './Notifications';
 
 const Layout = ({ children }: { children: ReactNode }) => {
