@@ -1,8 +1,9 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { authUser } from "./utils";
+import { userDataTypes } from "./global.t";
 
 export const config = {
-    matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout'],
+    matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout', '/admin-panel'],
 };
 
 export default async function middleware(request: NextRequest) {
@@ -38,6 +39,29 @@ export default async function middleware(request: NextRequest) {
 
     if (path == '/transactionDetails') {
         if (!cookie) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
+    }
+
+    if (path == '/admin-panel') {
+
+        try {
+
+            if (!cookie) throw new Error('Access denied bro')
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/auth/me`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(cookie)
+            })
+
+            const data: userDataTypes = await res.json()
+            if (!res.ok || data.role !== 'ADMIN') throw new Error('Access denied bro')
+
+            return NextResponse.next()
+
+        } catch (error) {
+            console.log(error)
+            return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
+        }
     }
 
     return NextResponse.next()
