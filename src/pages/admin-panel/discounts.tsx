@@ -7,7 +7,7 @@ const discountCodes = () => {
         <Layout>
             <div>
 
-                <h3 className='text-[26px] font-peyda font-bold text-panel-darkTitle'>مدریت کد های تخفیف</h3>
+                <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>مدریت کد های تخفیف</h3>
 
                 <div className='grid sm:grid-cols-3 grid-cols-1 sm:gap-3 gap-7 font-peyda pt-12'>
 
