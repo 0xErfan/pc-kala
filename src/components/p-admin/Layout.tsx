@@ -91,8 +91,8 @@ const Layout = ({ children }: { children: ReactNode }) => {
                             <PageLinks
                                 Icon={<RiDiscountPercentLine />}
                                 title={'کدهای تخفیف'}
-                                path='/admin-panel/discountCodes'
-                                key={'discountCodes'}
+                                path='/admin-panel/discounts'
+                                key={'discounts'}
                             />
 
                             <PageLinks
