@@ -6,7 +6,7 @@ import PieChartComponent from '@/components/p-admin/PieChart';
 import { FaAngleLeft } from "react-icons/fa6";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Rectangle, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import CustomerReview from './CustomerReview';
+import CustomerReview from '../../components/p-admin/CustomerReview';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
 
