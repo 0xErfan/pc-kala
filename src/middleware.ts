@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authUser } from "./utils";
 import { userDataTypes } from "./global.t";
+import { pages } from "next/dist/build/templates/app-page";
 
 export const config = {
-    matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout', '/admin-panel'],
+    matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout', '/admin-panel/:path*'],
 };
 
 export default async function middleware(request: NextRequest) {
@@ -41,7 +42,7 @@ export default async function middleware(request: NextRequest) {
         if (!cookie) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
     }
 
-    if (path == '/admin-panel') {
+    if (path.startsWith('/admin-panel')) {
 
         try {
 
