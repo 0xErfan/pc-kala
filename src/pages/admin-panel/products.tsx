@@ -54,10 +54,28 @@ const Products = () => {
                         </div>
 
                     </div>
+
+                    <div className="flex flex-col gap-2 text-panel-darkTitle font-peyda text-[20px]">
+                        
+                        <p>مشخصات محصول</p>
+                        <div className="flex ch:bg-panel-white items-center justify-center gap-2 rounded-xl">
+                            <input className="bg-panel-white flex-[5] rounded-xl p-2" placeholder="صفحه نمایش" type="text" />
+                            <div className="flex-1 bg-panel-white text-center text-xl rounded-xl p-2"> = </div>
+                            <input className="bg-panel-white flex-[5] rounded-xl p-2" placeholder="12 اینچ 1440p" type="text" />
+                        </div>
+
+                        <div className="flex items-center cursor-pointer whitespace-nowrap text-[15px] ml-auto w-min gap-1 rounded-md text-panel-darkGreen bg-panel-lightGreen p-1">
+                            <p className="text-md">افزودن بیشتر</p>
+                            <FiPlus className="size-6" />
+                        </div>
+                    </div>
+
+                    <button className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>ایجاد محصول جدید</button>
+
                 </div>
             </div>
 
-            <div className={'flex-1 rounded-xl p-4 bg-white shadow-sm'}>
+            <div className={'flex-1 rounded-xl p-4 h-full mb-auto bg-white shadow-sm'}>
                 <div className={'font-peyda text-[25px] pb-3'}>اپلود عکس</div>
                 <div className={'flex flex-col gap-3'}>
                     <div className={' aspect-square h-[370px] bg-panel-white rounded-xl size-full'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
@@ -71,8 +89,6 @@ const Products = () => {
             </div>
 
         </div>
-
-        <button className='p-3 text-center font-peyda text-[18px] px-5 flex-center bg-panel-lightGreen text-panel-darkGreen rounded-xl'>ساخت محصول جدید</button>
 
     </Layout>
 }
