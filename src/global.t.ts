@@ -6,7 +6,7 @@ interface commentProps {
     _id: string
     body: string
     rate: number
-    creator: unknownObjProps<string>
+    creator: userDataTypes
     productID: productDataTypes
     accepted: 0 | -1 | 1
     createdAt?: string

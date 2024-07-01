@@ -50,7 +50,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 <div className='sticky top-0 xl:p-5 p-3'>
 
                     <div>
-                        <Link href={'/admin-panel'} className='flex items-start justify-center gap-px flex-col'>
+                        <Link href={'/'} className='flex items-start justify-center gap-px flex-col'>
                             <div className='relative xl:block hidden'>
                                 <h1 className='text-[#333333] font-extrabold text-[25px] font-peyda'>پیسی کالا</h1>
                                 <span className='absolute size-2 rounded-full bg-panel-darkGreen bottom-2 -left-3'></span>
