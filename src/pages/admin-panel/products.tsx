@@ -2,10 +2,11 @@ import Layout from "@/components/p-admin/Layout";
 import { FiPlus } from "react-icons/fi";
 import React, { useState } from "react";
 import Image from "next/image";
+import Product from "@/components/p-admin/Product";
 
 const Products = () => {
 
-    const [showAddNewProduct, setShowAddNewProduct] = useState(true)
+    const [showAddNewProduct, setShowAddNewProduct] = useState(false)
 
     return <Layout>
 
@@ -14,10 +15,12 @@ const Products = () => {
             <button onClick={() => setShowAddNewProduct(prev => !prev)} className={`p-3 ${showAddNewProduct ? 'bg-panel-darkRed' : 'bg-panel-darkGreen'} text-center w-44 whitespace-nowrap font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-md`}>{showAddNewProduct ? 'لغو' : 'ایجاد محصول جدید'}</button>
         </div>
 
+        {/* Don't forget to push the responsive commit right fucking now haha! */}
+
         {
             showAddNewProduct
                 ?
-                <div data-aos="zoom-in" className="mt-12">
+                <div data-aos="zoom-in" className="mt-12 mb-20">
                     <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>ایجاد محصول جدید</h3>
 
                     <div className='flex items-center xl:flex-row flex-col ch:w-full gap-4 my-4'>
@@ -93,7 +96,7 @@ const Products = () => {
 
                             <div className={'xl:flex block gap-3 flex-col'}>
 
-                                <div className={' aspect-square xl:block hidden size-[370px] bg-panel-white rounded-xl'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
+                                <div className={' aspect-square xl:block hidden w-full size-[370px] bg-panel-white rounded-xl'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
 
                                 <div className={'grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3'}>
                                     <div className={' aspect-square bg-panel-white rounded-xl'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
@@ -109,7 +112,16 @@ const Products = () => {
                 : null
         }
 
-
+        <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 2xl:gap-10 mt-6 ch:w-full justify-between"}>
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+            <Product />
+        </div >
 
     </Layout>
 }
