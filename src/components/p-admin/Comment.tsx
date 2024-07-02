@@ -67,11 +67,11 @@ const Comment = ({ creator, accepted, _id, body, rate, productID, createdAt, row
 
             <td onClick={showCommentProduct} className='text-panel-darkBlue cursor-pointer'>...</td>
 
-            <td className=''>{new Date(createdAt!).toLocaleDateString()}</td>
+            <td className=''>{new Date(createdAt!).toLocaleDateString('fa-IR')}</td>
 
             <td
                 onClick={showCommentMessage}
-                className='bg-black/10 cursor-pointer'
+                className='cursor-pointer'
             >
                 <div className='flex-center ch:size-5 md:ch:size-6'><FaRegEye /></div>
             </td>

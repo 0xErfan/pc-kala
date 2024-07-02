@@ -61,7 +61,12 @@ const index = () => {
                                 {
                                     comments?.length
                                         ?
-                                        comments.map((commentData, index) => <Comment commentsUpdater={() => setUpdater(prev => !prev)} rowNumber={index + ((currentPage - 1) * 12)} key={commentData._id} {...commentData} />)
+                                        comments.map((commentData, index) => <Comment
+                                            commentsUpdater={() => setUpdater(prev => !prev)}
+                                            rowNumber={index + ((currentPage - 1) * 12)}
+                                            key={commentData._id}
+                                            {...commentData}
+                                        />)
                                         : null
                                 }
                             </tbody>
