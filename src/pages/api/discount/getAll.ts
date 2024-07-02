@@ -10,13 +10,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const { code } = req.body
+        const { currentPage, itemsPerPage = 12 } = req.body;
+        const skippedDiscounts = itemsPerPage * (currentPage - 1);
 
-        if (!code) return res.status(422).json({ message: 'Hey we need the discount code to delete it k?' })
+        const allDiscounts = await DiscountModel.countDocuments()
+        const availablePages = Math.ceil(allDiscounts / itemsPerPage)
 
-        await DiscountModel.findOneAndDelete({ code })
+        const newDiscounts = await DiscountModel.find({}).sort({ createdAt: -1 }).skip(skippedDiscounts).limit(itemsPerPage)
 
-        return res.status(200).json({ message: 'کد تخفیف با موفقیت حذف شد' })
+        return res.status(201).json({ newDiscounts, availablePages })
 
     } catch (err) {
         console.log(err)

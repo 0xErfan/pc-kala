@@ -1,7 +1,7 @@
 import Comment from '@/components/p-admin/Comment';
 import Layout from '@/components/p-admin/Layout'
 import { commentProps } from '@/global.t';
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import Pagination from '@/components/p-admin/Pagination'
 
 const index = () => {
@@ -11,6 +11,7 @@ const index = () => {
     const [allPages, setAllPages] = useState(0)
     const [updater, setUpdater] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [isEmpty, setIsEmpty] = useState(false)
 
     useLayoutEffect(() => {
 
@@ -28,6 +29,7 @@ const index = () => {
                 })
 
                 const { comments: newComments, availablePages } = await res.json()
+                if (!newComments?.length) return setIsEmpty(true)
 
                 setAllPages(availablePages)
                 setComments([...newComments])
@@ -91,6 +93,8 @@ const index = () => {
                                 />
                                 : null
                         }
+
+                        {isEmpty ? <div className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>نظری  وجود ندارد</div> : null}
 
                     </div>
 

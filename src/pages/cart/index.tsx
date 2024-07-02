@@ -75,7 +75,7 @@ const Card = () => {
             }
         }
 
-        const res = await fetch('/api/discount/delete', {
+        const res = await fetch('/api/discount/discard', {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ productID: productWithDiscount?.productID, services: updatedProductServices, userID })

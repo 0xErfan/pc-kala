@@ -55,7 +55,7 @@ const Comment = ({ creator, accepted, _id, body, rate, productID, createdAt, row
     }
 
     return (
-        <tr className='ch:border-2 ch:border-white ch:ch:text-[11px] font-peyda ch:md:text-[15px] ch:py-2'>
+        <tr data-aos='zoom-in' className='ch:border-2 ch:overflow-hidden ch:border-white ch:ch:text-[11px] font-peyda ch:md:text-[15px] ch:py-2'>
 
             <td>{rowNumber + 1}</td>
 

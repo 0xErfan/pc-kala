@@ -9,6 +9,8 @@ interface Props {
 
 const Pagination = ({ currentPage, latestPage, currentPageUpdater }: Props) => {
 
+    if (latestPage == 1) return null;
+
     const nextPageHandler = () => {
         if (currentPage == latestPage) return;
         currentPageUpdater(currentPage + 1)

@@ -60,6 +60,7 @@ interface DiscountDataTypes {
     code: string
     value: number
     maxUse: number
+    expireAfter: number
     createdAt: string
 }
 

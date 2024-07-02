@@ -1,10 +1,47 @@
+import Discount from '@/components/p-admin/Discount';
 import Layout from '@/components/p-admin/Layout'
-import React, { useState } from 'react'
-import { MdDeleteOutline } from "react-icons/md";
+import Pagination from '@/components/p-admin/Pagination';
+import { DiscountDataTypes } from '@/global.t';
+import React, { useLayoutEffect, useState } from 'react'
+
 
 const discountCodes = () => {
 
     const [showAddNewProduct, setShowAddNewProduct] = useState(false)
+    const [discounts, setDiscounts] = useState<DiscountDataTypes[]>([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [allPages, setAllPages] = useState(0)
+    const [updater, setUpdater] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isEmpty, setIsEmpty] = useState(false)
+
+    useLayoutEffect(() => {
+
+        (async () => {
+
+            if (isLoading) return
+
+            try {
+                setIsLoading(true)
+
+                const res = await fetch('/api/discount/getAll', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ currentPage })
+                })
+
+                const { newDiscounts, availablePages } = await res.json()
+
+                if (!newDiscounts?.length) return setIsEmpty(true)
+
+                setAllPages(availablePages)
+                setDiscounts([...newDiscounts])
+
+            } catch (error) { console.log(error) }
+            finally { setIsLoading(false) }
+        })()
+
+    }, [currentPage, updater])
 
     return (
 
@@ -65,33 +102,32 @@ const discountCodes = () => {
                         </thead>
 
                         <tbody className='overflow-auto border border-white'>
-
-                            <tr className='ch:border-2 even:bg-panel-lightRed ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
-                                <td>1</td>
-                                <td>oneMilOffForSummer</td>
-                                <td>12000000</td>
-                                <td>2000</td>
-                                <td>651</td>
-                                <td className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></td>
-                            </tr>
-                            <tr className='ch:border-2 even:bg-panel-lightRed ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
-                                <td>1</td>
-                                <td>oneMilOffForSummer</td>
-                                <td>12000000</td>
-                                <td>2000</td>
-                                <td>651</td>
-                                <td className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></td>
-                            </tr>
-                            <tr className='ch:border-2 even:bg-panel-lightRed ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
-                                <td>1</td>
-                                <td>oneMilOffForSummer</td>
-                                <td>12000000</td>
-                                <td>2000</td>
-                                <td>651</td>
-                                <td className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></td>
-                            </tr>
+                            {
+                                discounts?.length
+                                    ?
+                                    discounts.map((discountData, index) => <Discount
+                                        discountsUpdater={() => setUpdater(prev => !prev)}
+                                        rowNumber={index + ((currentPage - 1) * 12)}
+                                        key={discountData.createdAt}
+                                        {...discountData}
+                                    />)
+                                    : null
+                            }
                         </tbody>
                     </table>
+
+                    {
+                        discounts?.length
+                            ?
+                            <Pagination
+                                currentPage={currentPage}
+                                latestPage={allPages}
+                                currentPageUpdater={page => setCurrentPage(page)}
+                            />
+                            : null
+                    }
+
+                    { isEmpty ? <div className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>کد تخفیفی  وجود ندارد</div> : null }
 
                 </div>
 
