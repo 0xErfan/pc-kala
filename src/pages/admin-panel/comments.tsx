@@ -1,7 +1,7 @@
 import Comment from '@/components/p-admin/Comment';
 import Layout from '@/components/p-admin/Layout'
 import { commentProps } from '@/global.t';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import Pagination from '@/components/p-admin/Pagination'
 
 const index = () => {
@@ -10,12 +10,16 @@ const index = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [allPages, setAllPages] = useState(0)
     const [updater, setUpdater] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
-    useEffect(() => {
+    useLayoutEffect(() => {
 
         (async () => {
 
+            if (isLoading) return
+
             try {
+                setIsLoading(true)
 
                 const res = await fetch('/api/comment/getAll', {
                     method: 'POST',
@@ -29,6 +33,7 @@ const index = () => {
                 setComments([...newComments])
 
             } catch (error) { console.log(error) }
+            finally { setIsLoading(false) }
         })()
 
     }, [currentPage, updater])
@@ -58,6 +63,9 @@ const index = () => {
                             </thead>
 
                             <tbody className='overflow-auto border border-white'>
+
+                                {/* { CommentsSuspense()} */}
+
                                 {
                                     comments?.length
                                         ?
