@@ -11,13 +11,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         await connectToDB()
 
         const { currentPage, itemsPerPage = 12 } = req.body;
-        const skippedComments = itemsPerPage * currentPage;
+        const skippedComments = itemsPerPage * (currentPage - 1);
+
+        const allComments = await CommentModel.countDocuments()
+        const availablePages = Math.ceil(allComments / itemsPerPage)
 
         const comments = await CommentModel.find({}).sort({ createdAt: -1 }).skip(skippedComments).limit(itemsPerPage)
             .populate('creator', ['email', 'username', 'nameLastName'])
             .populate('productID', ['name'])
 
-        return res.status(201).json({ comments })
+        return res.status(201).json({ comments, availablePages })
 
     } catch (err) {
         console.log(err)

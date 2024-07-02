@@ -1,16 +1,15 @@
 import Comment from '@/components/p-admin/Comment';
 import Layout from '@/components/p-admin/Layout'
 import { commentProps } from '@/global.t';
-import { showToast } from '@/utils';
 import React, { useEffect, useState } from 'react'
-
+import Pagination from '@/components/p-admin/Pagination'
 
 const index = () => {
 
     const [comments, setComments] = useState<commentProps[]>([])
-    const [currentPage, setCurrentPage] = useState(0)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [allPages, setAllPages] = useState(0)
     const [updater, setUpdater] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
 
@@ -24,8 +23,9 @@ const index = () => {
                     body: JSON.stringify({ currentPage })
                 })
 
-                const { comments: newComments } = await res.json()
+                const { comments: newComments, availablePages } = await res.json()
 
+                setAllPages(availablePages)
                 setComments([...newComments])
 
             } catch (error) { console.log(error) }
@@ -61,12 +61,24 @@ const index = () => {
                                 {
                                     comments?.length
                                         ?
-                                        comments.map((commentData, index) => <Comment commentsUpdater={() => setUpdater(prev => !prev)} rowNumber={index} key={commentData._id} {...commentData} />)
+                                        comments.map((commentData, index) => <Comment commentsUpdater={() => setUpdater(prev => !prev)} rowNumber={index + ((currentPage - 1) * 12)} key={commentData._id} {...commentData} />)
                                         : null
                                 }
                             </tbody>
 
                         </table>
+
+                        {
+                            comments?.length
+                                ?
+                                <Pagination
+                                    currentPage={currentPage}
+                                    latestPage={allPages}
+                                    currentPageUpdater={page => setCurrentPage(page)}
+                                />
+                                : null
+                        }
+
                     </div>
 
                 </div>
