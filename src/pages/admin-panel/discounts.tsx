@@ -1,12 +1,17 @@
+import { useAppDispatch } from '@/Hooks/useRedux';
+import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
+import { ModalProps } from '@/components/Modal';
 import Discount from '@/components/p-admin/Discount';
 import Layout from '@/components/p-admin/Layout'
 import Pagination from '@/components/p-admin/Pagination';
 import { DiscountDataTypes } from '@/global.t';
+import { showToast } from '@/utils';
 import React, { useLayoutEffect, useState } from 'react'
 
 
 const discountCodes = () => {
 
+    const dispatch = useAppDispatch()
     const [showAddNewProduct, setShowAddNewProduct] = useState(false)
     const [discounts, setDiscounts] = useState<DiscountDataTypes[]>([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -14,6 +19,52 @@ const discountCodes = () => {
     const [updater, setUpdater] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isEmpty, setIsEmpty] = useState(false)
+    const [newDiscountData, setNewDiscountData] = useState<Partial<DiscountDataTypes>>({ code: '', expireAfter: 0, maxUse: 0, value: 0 })
+
+    const newDiscountDataUpdater = (key: string, value: string | number) => { setNewDiscountData(prev => ({ ...prev, [key]: value })) }
+
+    const createDiscount = () => {
+
+        if (isLoading) return
+
+        const { code, maxUse, value } = newDiscountData;
+
+        if (!code?.trim().length) return showToast(false, 'یک شناسه معتبر انتخاب کنید')
+        if (!value || isNaN(value) || value <= 0) return showToast(false, 'فیلد "مقدار تخفیف" یک عدد بزرگتر از صفر است', 3500)
+        if (!maxUse || isNaN(maxUse) || maxUse <= 0) return showToast(false, 'فیلد "حداکثر استفاده" یک عدد بزرگتر از صفر است', 3500)
+
+        dispatch(modalDataUpdater({
+            isShown: true,
+            message: `آیا از ایجاد کد تخفیف با کد ${code} و با ارزش ${Number(value).toLocaleString('fa-IR') + ' تومان'} با حداکثر استفاده ${maxUse} مطمان هستید؟`,
+            status: false,
+            title: 'افزودن کد تخفیف جدید',
+
+            fn: async () => {
+
+                try {
+                    setIsLoading(true)
+
+                    const res = await fetch('/api/discount/add', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ code: code.trim(), maxUse, value, expireAfter: maxUse })
+                    })
+
+                    const data = await res.json()
+
+                    showToast(res.ok, data.message)
+
+                    if (res.ok) {
+                        setUpdater(prev => !prev)
+                        setShowAddNewProduct(false)
+                        setNewDiscountData({})
+                    }
+
+                } catch (error) { console.log(error) }
+                finally { setIsLoading(false) }
+            }
+        } as ModalProps))
+    }
 
     useLayoutEffect(() => {
 
@@ -32,10 +83,15 @@ const discountCodes = () => {
 
                 const { newDiscounts, availablePages } = await res.json()
 
-                if (!newDiscounts?.length) return setIsEmpty(true)
+                if (!newDiscounts?.length) {
+                    setIsEmpty(true)
+                    setDiscounts([])
+                    return
+                }
 
                 setAllPages(availablePages)
                 setDiscounts([...newDiscounts])
+                setIsEmpty(false)
 
             } catch (error) { console.log(error) }
             finally { setIsLoading(false) }
@@ -56,24 +112,40 @@ const discountCodes = () => {
                     showAddNewProduct
                         ?
                         <div data-aos="zoom-in" className="mt-12 mb-20">
+
                             <div className='grid sm:grid-cols-3 grid-cols-1 sm:gap-3 gap-7 font-peyda pt-0'>
 
                                 <div className='flex gap-2 flex-col text-panel-darkTitle'>
                                     <p>شناسه تخفیف</p>
-                                    <input placeholder='1M-SummerOff' className=' rounded-md p-1 px-2 text-[25px] border-2 pt-2 border-panel-darkTitle placeholder:text-xl' type="text" />
+                                    <input
+                                        onChange={e => newDiscountDataUpdater('code', e.target.value)}
+                                        placeholder='1M-SummerOff'
+                                        className=' rounded-md p-1 px-2 text-[25px] border-2 pt-2 border-panel-darkTitle placeholder:text-xl'
+                                        type="text"
+                                    />
                                 </div>
 
                                 <div className='flex gap-2 flex-col text-panel-darkTitle'>
                                     <p>مقدار تخفیف(تومان)</p>
-                                    <input placeholder='1000000T' className=' rounded-md p-1 px-2 text-[25px] border-2 pt-2 border-panel-darkTitle placeholder:text-xl' type="text" />
+                                    <input
+                                        onChange={e => newDiscountDataUpdater('value', e.target.value)}
+                                        placeholder='1000000T'
+                                        className=' rounded-md p-1 px-2 text-[25px] border-2 pt-2 border-panel-darkTitle placeholder:text-xl'
+                                        type="number"
+                                    />
                                 </div>
 
                                 <div className='flex gap-2 flex-col text-panel-darkTitle'>
                                     <p>حداکثر استفاده</p>
-                                    <input placeholder='12' className=' rounded-md p-1 px-2 text-[25px] border-2 pt-2 border-panel-darkTitle placeholder:text-xl' type="text" />
+                                    <input
+                                        onChange={e => newDiscountDataUpdater('maxUse', e.target.value)}
+                                        placeholder='12'
+                                        className=' rounded-md p-1 px-2 text-[25px] border-2 pt-2 border-panel-darkTitle placeholder:text-xl'
+                                        type="number"
+                                    />
                                 </div>
 
-                                <button className='p-3 flex-center text-center border-2 border-panel-darkBlue bg-panel-lightBlue rounded-md'>افزودن کد تخفیف</button>
+                                <button onClick={createDiscount} className='p-3 flex-center text-center border-2 border-panel-darkBlue bg-panel-lightBlue rounded-md'>افزودن کد تخفیف</button>
                                 <span></span>
                                 <span></span>
 
@@ -127,7 +199,7 @@ const discountCodes = () => {
                             : null
                     }
 
-                    { isEmpty ? <div className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>کد تخفیفی  وجود ندارد</div> : null }
+                    {isEmpty ? <div data-aos='zoom-in' className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>کد تخفیفی  وجود ندارد</div> : null}
 
                 </div>
 

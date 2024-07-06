@@ -52,7 +52,7 @@ const Discount = ({ code, maxUse, value, expireAfter, rowNumber, discountsUpdate
 
             <td>{expireAfter}</td>
 
-            <td>{maxUse}</td>
+            <td>{expireAfter - maxUse}</td>
 
             <td onClick={deleteDiscount} className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></td>
         </tr>

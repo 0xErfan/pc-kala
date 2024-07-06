@@ -94,7 +94,7 @@ const index = () => {
                                 : null
                         }
 
-                        {isEmpty ? <div className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>نظری  وجود ندارد</div> : null}
+                        {isEmpty ? <div data-aos='zoom-in' className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>نظری  وجود ندارد</div> : null}
 
                     </div>
 
