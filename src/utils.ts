@@ -277,7 +277,7 @@ const totalPriceCalculator = (price: number, discount: number, count: number, se
     return totalPrice < 0 ? 0 : totalPrice
 }
 
-const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boolean, cookie?: string }) => {
+const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boolean, cookie?: string }): Promise<userDataTypes | null | undefined> => {
 
     try {
         const res = await fetch(`${isFromClient ? '' : process.env.NEXT_PUBLIC_BASE_PATH}/api/auth/me`, isFromClient ? {} : {
@@ -288,7 +288,7 @@ const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boole
 
         if (!res.ok) return null;
 
-        const userData: userDataTypes = await res.json()
+        const userData = await res.json()
 
         return userData;
     }

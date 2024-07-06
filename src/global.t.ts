@@ -34,6 +34,7 @@ interface userDataTypes {
     password: string
     nationalCode: number
     role: 'USER' | 'ADMIN'
+    isBan: boolean
 }
 
 interface productDataTypes {

@@ -1,9 +1,46 @@
 import Layout from '@/components/p-admin/Layout'
-import React from 'react'
-import { IoBan } from "react-icons/io5";
-import { MdDeleteOutline } from 'react-icons/md'
+import Pagination from '@/components/p-admin/Pagination';
+import User from '@/components/p-admin/User';
+import { userDataTypes } from '@/global.t';
+import React, { useLayoutEffect, useState } from 'react'
 
-const index = () => {
+
+const Users = () => {
+
+    const [users, updateUsers] = useState<userDataTypes[]>([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [allPages, setAllPages] = useState(0)
+    const [updater, setUpdater] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isEmpty, setIsEmpty] = useState(false)
+
+    useLayoutEffect(() => {
+
+        (async () => {
+
+            if (isLoading) return
+
+            try {
+                setIsLoading(true)
+
+                const res = await fetch('/api/users/getAll', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ currentPage })
+                })
+
+                const { users: newUsers, availablePages } = await res.json()
+                if (!newUsers?.length) return setIsEmpty(true)
+
+                setAllPages(availablePages)
+                updateUsers([...newUsers])
+
+            } catch (error) { console.log(error) }
+            finally { setIsLoading(false) }
+        })()
+
+    }, [currentPage, updater])
+
     return (
         <Layout>
             <div>
@@ -27,54 +64,35 @@ const index = () => {
 
                         <tbody className='overflow-auto border border-white'>
 
-                            <tr className='ch:border-2 ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
-                                <td>1</td>
-                                <td>عرفان افتخاری</td>
-                                <td>eftekharierfan@gmail.com</td>
-                                <td className='w-[120px] m-auto'>
-                                    <div className="grid grid-cols-1 pl-4">
-                                        <select className='w-full h-full ch:p-2 text-center font-peyda text-[18px] bg-panel-white'>
-                                            <option value='USER' selected>کاربر</option>
-                                            <option value="ADMIN">ادمین</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td className='bg-panel-lightRed cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><IoBan /></div></td>
-                                <td className='bg-panel-lightRed cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></div></td>
-                            </tr>
-                            <tr className='ch:border-2 ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
-                                <td>1</td>
-                                <td>عرفان افتخاری</td>
-                                <td>eftekharierfan@gmail.com</td>
-                                <td className='w-[120px] m-auto'>
-                                    <div className="grid grid-cols-1 pl-4">
-                                        <select className='w-full h-full ch:p-2 text-center font-peyda text-[18px] bg-panel-white'>
-                                            <option value='USER' selected>کاربر</option>
-                                            <option value="ADMIN">ادمین</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td className='bg-panel-lightRed cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><IoBan /></div></td>
-                                <td className='bg-panel-lightRed cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></div></td>
-                            </tr>
-                            <tr className='ch:border-2 ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
-                                <td>1</td>
-                                <td>عرفان افتخاری</td>
-                                <td>eftekharierfan@gmail.com</td>
-                                <td className='w-[120px] m-auto'>
-                                    <div className="grid grid-cols-1 pl-4">
-                                        <select className='w-full h-full ch:p-2 text-center font-peyda text-[18px] bg-panel-white'>
-                                            <option value='USER' selected>کاربر</option>
-                                            <option value="ADMIN">ادمین</option>
-                                        </select>
-                                    </div>
-                                </td>
-                                <td className='bg-panel-lightRed cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><IoBan /></div></td>
-                                <td className='bg-panel-lightRed cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></div></td>
-                            </tr>
+                            {
+                                users?.length
+                                    ?
+                                    users.map((userData, index) => <User
+                                        rowNumber={index * (currentPage)}
+                                        usersUpdater={() => setUpdater(prev => !prev)}
+                                        key={userData._id}
+                                        {...userData}
+                                    />)
+                                    : null
+                            }
 
                         </tbody>
+
                     </table>
+
+                    {
+                        users?.length
+                            ?
+                            <Pagination
+                                currentPage={currentPage}
+                                latestPage={allPages}
+                                currentPageUpdater={page => setCurrentPage(page)}
+                            />
+                            : null
+                    }
+
+                    {isEmpty ? <div data-aos='zoom-in' className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>کاربری  وجود ندارد</div> : null}
+
                 </div>
 
 
@@ -83,4 +101,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Users
