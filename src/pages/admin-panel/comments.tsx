@@ -4,7 +4,7 @@ import { commentProps } from '@/global.t';
 import React, { useLayoutEffect, useState } from 'react'
 import Pagination from '@/components/p-admin/Pagination'
 
-const index = () => {
+const Comments = () => {
 
     const [comments, setComments] = useState<commentProps[]>([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -105,4 +105,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Comments

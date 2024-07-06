@@ -6,7 +6,12 @@ import React, { useState } from 'react'
 import { MdDeleteOutline } from 'react-icons/md'
 import { ModalProps } from '../Modal'
 
-const Discount = ({ code, maxUse, value, expireAfter, rowNumber, discountsUpdater }: DiscountDataTypes & { rowNumber: number, discountsUpdater: () => void }) => {
+interface Props {
+    rowNumber: number
+    discountsUpdater: () => void
+} 
+
+const Discount = ({ code, maxUse, value, expireAfter, rowNumber, discountsUpdater }: DiscountDataTypes & Props) => {
 
     const dispatch = useAppDispatch()
     const [isLoading, setIsLoading] = useState(false)
