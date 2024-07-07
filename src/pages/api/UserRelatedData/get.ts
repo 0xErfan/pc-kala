@@ -30,6 +30,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userData = await response.json()
 
+        if (userData?.isBan) {
+            res.setHeader("Set-Cookie", serialize("isBan", "true", { path: '/' }))
+        }
+
         const userRelatedModels = [NotificationModel, WishModel, BasketItemModel, transactionModel, CommentModel]
 
         const userRelatedData: unknownObjProps<string | number> = {}

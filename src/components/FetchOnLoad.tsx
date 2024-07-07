@@ -10,19 +10,21 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
     const dispatch = useAppDispatch()
     const updater = useAppSelector(state => state.globalVarsSlice.userUpdater)
     const router = useRouter()
+    document.cookie.split('=')?.length && document.cookie.split('=')[1] && router.replace('/bannedUser')
 
     useEffect(() => {
         (
             async () => {
                 let res;
-
                 try {
+
                     res = await fetch('/api/UserRelatedData/get')
 
                     const { userData, userRelatedData } = await res.json()
                     if (userData?.isBan) router.replace('/bannedUser')
-                    
+
                     dispatch(userDataUpdater({ userData, userRelatedData, isLogin: res.ok }))
+
                 } catch (error) { res?.status == 500 ? dispatch(userUpdater()) : showToast(Boolean(res?.ok), 'از اتصال به اینترنت مطمان شوید') }
             }
         )()
