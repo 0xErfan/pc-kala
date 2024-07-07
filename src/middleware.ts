@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { authUser } from "./utils";
 import { userDataTypes } from "./global.t";
-import { pages } from "next/dist/build/templates/app-page";
 
 export const config = {
     matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout', '/admin-panel/:path*'],

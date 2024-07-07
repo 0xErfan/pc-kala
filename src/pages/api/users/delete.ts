@@ -22,8 +22,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         if (user._id == _id) return res.status(401).json({ message: 'Admin account can not be deleted' })
 
         await UserModel.findOneAndDelete({ _id })
-        await WishModel.findOneAndDelete({ creator: _id })
-        await NotificationModel.findOneAndDelete({ userID: _id })
+        await WishModel.deleteMany({ creator: _id })
+        await NotificationModel.deleteMany({ userID: _id })
 
         return res.json({ message: 'حساب کاربر با موفقیت خذف شد' })
 

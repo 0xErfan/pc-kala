@@ -23,7 +23,7 @@ import { useRouter } from 'next/router';
 const DynamicFooter = dynamic(() => import('@/components/Footer'))
 
 interface ProductsDataType {
-    products: { [key: string]: productDataTypes[] }
+    products: unknownObjProps<productDataTypes[]>
 }
 
 export default function Home({ products }: ProductsDataType) {
