@@ -14,7 +14,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const { category, limit = 12, currentPage }: reqProps = req.body;
     const skipValueForProductFetch = currentPage * limit
-    console.log('coming from page -> ', currentPage)
+    
     try {
 
         const isCategoryValid = ['accessory', 'pc', 'parts', 'laptop', 'console'].find(cat => cat == category)

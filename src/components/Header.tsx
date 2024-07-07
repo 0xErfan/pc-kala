@@ -141,7 +141,6 @@ export default function Header() {
                                     { title: 'رم', path: '/products/category/parts/ram' },
                                     { title: 'خنک کننده', path: '/products/category/parts/cooler' },
                                     { title: 'حافظه SSD', path: '/products/category/parts/ssd' },
-                                    { title: 'مانیتور', path: '/products/category/parts/monitor' },
                                 ]}
                             />
                             <Category

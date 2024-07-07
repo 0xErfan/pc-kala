@@ -166,6 +166,8 @@ export async function getStaticProps(context: GetStaticPropsContext) {
             product = await ProductModel.find({ category }).limit(12)
         }
 
+        if (!product?.length) return { notFound: true }
+
         return {
             props: {
                 product: JSON.parse(JSON.stringify(product)),
