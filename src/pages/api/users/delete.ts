@@ -1,5 +1,6 @@
 import connectToDB from "@/config/db";
 import UserModel from "@/models/User";
+import { NotificationModel, WishModel } from "@/models/UserRelatedSchemas";
 import { authUser } from "@/utils";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -18,7 +19,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const { _id } = req.body
         if (!_id) return res.status(421).json({ message: 'need user id to ban' })
 
+        if (user._id == _id) return res.status(401).json({ message: 'Admin account can not be deleted' })
+
         await UserModel.findOneAndDelete({ _id })
+        await WishModel.findOneAndDelete({ creator: _id })
+        await NotificationModel.findOneAndDelete({ userID: _id })
 
         return res.json({ message: 'حساب کاربر با موفقیت خذف شد' })
 

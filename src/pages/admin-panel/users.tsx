@@ -54,7 +54,7 @@ const Users = () => {
                         <thead>
                             <tr className='font-peyda md:text-[18px] sm:text-[16px] text-[14px] text-center w-full ch:bg-white ch:py-2 ch:text-panel-darkTitle'>
                                 <td>شناسه</td>
-                                <td>نام</td>
+                                <td>نام/نام کاربری</td>
                                 <td>ایمیل</td>
                                 <td>نقش</td>
                                 <td>بن</td>

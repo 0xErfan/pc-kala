@@ -11,7 +11,7 @@ interface Props {
     usersUpdater: () => void
 }
 
-const User = ({ nameLastName, email, role, isBan, rowNumber, _id, usersUpdater }: userDataTypes & Props) => {
+const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, usersUpdater }: userDataTypes & Props) => {
 
     const dispatch = useAppDispatch()
 
@@ -46,8 +46,33 @@ const User = ({ nameLastName, email, role, isBan, rowNumber, _id, usersUpdater }
     }
 
     const deleteUser = async () => {
-        //...
-        usersUpdater()
+
+        if (role == 'ADMIN') return showToast(false, 'امکان حذف حساب ادمین وجود نداره')
+
+        dispatch(modalDataUpdater({
+            isShown: true,
+            message: `آیا از حذف حساب این کاربر اطمینان دارید؟ اطلاعات شخص مورد نظر قابل بازکشت نخواهد بود`,
+            status: false,
+            title: 'حذف حساب کاربری',
+
+            fn: async () => {
+
+                try {
+
+                    const res = await fetch('/api/users/delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ _id })
+                    })
+
+                    const data = await res.json()
+                    showToast(res.ok, data.message)
+
+                    res.ok && usersUpdater()
+
+                } catch (error) { console.log(error) }
+            }
+        } as ModalProps))
     }
 
     const changeUserRole = async () => {
@@ -60,7 +85,7 @@ const User = ({ nameLastName, email, role, isBan, rowNumber, _id, usersUpdater }
 
             <td>{rowNumber + 1}</td>
 
-            <td>{nameLastName}</td>
+            <td>{nameLastName || username || 'یافت نشد'}</td>
 
             <td>{email}</td>
 
@@ -79,8 +104,8 @@ const User = ({ nameLastName, email, role, isBan, rowNumber, _id, usersUpdater }
 
             </td>
 
-            <td onClick={banUser} className='size-14 cursor-pointer'><div className={`flex-center border-none md:border ${isBan ? 'text-panel-darkGreen' : 'text-panel-darkRed' }`}>{isBan ? 'حذف بن' : 'بن'}</div></td>
-            <td className='size-14 cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-6 md:ch:size-7'><MdDeleteOutline /></div></td>
+            <td onClick={banUser} className='size-14 cursor-pointer'><div className={`flex-center border-none md:border ${isBan ? 'text-panel-darkGreen' : 'text-panel-darkRed'}`}>{isBan ? 'حذف بن' : 'بن'}</div></td>
+            <td onClick={deleteUser} className='size-14 cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-6 md:ch:size-7'><MdDeleteOutline /></div></td>
         </tr>
     )
 }
