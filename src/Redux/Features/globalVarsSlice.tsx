@@ -34,6 +34,7 @@ const globalVarsSlice = createSlice({
                     isShown: false,
                     message: '',
                     fn: () => { },
+                    onCancel: () => { },
                     okBtnText: 'تایید',
                     cancelBtnText: 'لغو',
                 }

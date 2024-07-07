@@ -8,6 +8,7 @@ export interface ModalProps {
     message: string
     isShown: boolean
     fn: () => unknown
+    onCancel?: () => void
     okBtnText?: string
     cancelBtnText?: string | false
 }
@@ -18,7 +19,7 @@ const Modal = () => {
 
     const modalData: ModalProps = useAppSelector(state => state.globalVarsSlice.modalData)
 
-    const { status, isShown, title, message, fn, okBtnText = 'تایید', cancelBtnText = 'لغو' } = modalData
+    const { status, isShown, title, message, fn, onCancel, okBtnText = 'تایید', cancelBtnText = 'لغو' } = modalData
 
     const [moveModal, setMoveModal] = useState(false)
 
@@ -36,6 +37,7 @@ const Modal = () => {
     const closeModal = () => {
 
         dispatch(modalDataUpdater({ isShown: false }))
+        typeof onCancel == 'function' && onCancel()
 
         setTimeout(() => { // if instantly reset the modal, the message and title will be empty and user will see it(bad ux i think), so we will make it disappear first
             dispatch(modalDataReset())

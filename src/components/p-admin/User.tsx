@@ -2,7 +2,6 @@ import { useAppDispatch } from '@/Hooks/useRedux'
 import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice'
 import { userDataTypes } from '@/global.t'
 import { showToast } from '@/utils'
-import React from 'react'
 import { MdDeleteOutline } from 'react-icons/md'
 import { ModalProps } from '../Modal'
 
@@ -75,9 +74,33 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
         } as ModalProps))
     }
 
-    const changeUserRole = async () => {
-        //...
-        usersUpdater()
+    const changeUserRole = async (roleValue: typeof role) => {
+
+        dispatch(modalDataUpdater({
+            isShown: true,
+            message: `آیا از تغییر نقش به ${roleValue == 'ADMIN' ? 'ادمین' : 'کاربر'} اطمینان دارید؟`,
+            status: false,
+            title: 'تغییر نقش',
+
+            fn: async () => {
+
+                try {
+
+                    const res = await fetch('/api/users/roleChange', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ _id })
+                    })
+
+                    const data = await res.json()
+                    showToast(res.ok, data.message)
+
+                } catch (error) { console.log(error) }
+                finally { usersUpdater() }
+            },
+
+        } as ModalProps))
+
     }
 
     return (
@@ -93,8 +116,8 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
 
                 <div className="grid grid-cols-1 pl-4">
                     <select
-                        onChange={changeUserRole}
-                        defaultValue={role == 'ADMIN' ? 'ADMIN' : 'USER'}
+                        onChange={e => changeUserRole(e.target.value as typeof role)}
+                        value={role == 'ADMIN' ? 'ADMIN' : 'USER'}
                         className={`w-full h-full ch:p-2 ${role == 'ADMIN' && 'text-panel-darkGreen ch:text-panel-darkTitle'} text-center font-peyda text-[18px] bg-panel-white`}
                     >
                         <option value='USER'>کاربر</option>
@@ -104,8 +127,8 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
 
             </td>
 
-            <td onClick={banUser} className='size-14 cursor-pointer'><div className={`flex-center border-none md:border ${isBan ? 'text-panel-darkGreen' : 'text-panel-darkRed'}`}>{isBan ? 'حذف بن' : 'بن'}</div></td>
-            <td onClick={deleteUser} className='size-14 cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-6 md:ch:size-7'><MdDeleteOutline /></div></td>
+            <td onClick={banUser} className='w-20 text-xl font-bold cursor-pointer'><div className={`flex-center border-none md:border ${isBan ? 'text-panel-darkGreen' : 'text-panel-darkRed'}`}>{isBan ? 'حذف بن' : 'بن'}</div></td>
+            <td onClick={deleteUser} className='w-14 cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-6 md:ch:size-7'><MdDeleteOutline /></div></td>
         </tr>
     )
 }
