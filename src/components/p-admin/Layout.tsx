@@ -11,7 +11,7 @@ import { RiDiscountPercentLine } from "react-icons/ri";
 import { RiShoppingBasket2Line } from "react-icons/ri";
 import { IoSettingsOutline } from "react-icons/io5";
 import Link from 'next/link';
-import { useAppDispatch } from '@/Hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux';
 import { useRouter } from 'next/router';
 import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
 import { showToast } from '@/utils';
@@ -23,6 +23,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
 
     const dispatch = useAppDispatch()
+    const { nameLastName, username } = useAppSelector(state => state.userSlice.data)
     const navigate = useRouter()
 
     const logout = async () => {
@@ -157,12 +158,12 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                     <div className='flex items-center justify-end'>
 
-                        <Notifications/>
+                        <Notifications />
 
                         <div className='inline-block border h-px rotate-90 border-[#D0D6DE] px-6'></div>
 
                         <div className='flex items-center gap-4'>
-                            <div className='text-[16px] xl:block font-peyda hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold px-px'>{'Erfan'}</span></div>
+                            <div className='text-[16px] xl:block font-peyda hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold px-px'>{nameLastName || username}</span></div>
                             <div className='size-[56px] border-panel-darkGreen rounded-full border-2 shadow-sm'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
                         </div>
 

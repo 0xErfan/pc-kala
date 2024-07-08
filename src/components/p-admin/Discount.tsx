@@ -47,7 +47,7 @@ const Discount = ({ code, maxUse, value, expireAfter, rowNumber, discountsUpdate
     }
 
     return (
-        <tr data-aos='zoom-in' className='ch:border-2 even:bg-panel-lightRed ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
+        <tr data-aos='zoom-in' className='ch:border-2 ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
 
             <td>{rowNumber + 1}</td>
 
@@ -59,7 +59,8 @@ const Discount = ({ code, maxUse, value, expireAfter, rowNumber, discountsUpdate
 
             <td>{expireAfter - maxUse}</td>
 
-            <td onClick={deleteDiscount} className='flex-center border-none md:border text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><MdDeleteOutline /></td>
+            {/* <td onClick={deleteDiscount} className='flex-center w-12 text-panel-darkRed cursor-pointer ch:size-5 md:ch:size-6'><div><MdDeleteOutline /></div></td> */}
+            <td onClick={deleteDiscount} className='w-14 cursor-pointer'><div className='flex-center border-none md:border text-panel-darkRed ch:size-6 md:ch:size-7'><MdDeleteOutline /></div></td>
         </tr>
     )
 }
