@@ -48,7 +48,7 @@ const Card = () => {
         const res = await fetch('/api/discount/use', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: discountInput, basketID: BasketItem[0]._id, userID })
+            body: JSON.stringify({ code: discountInput.trim(), basketID: BasketItem[0]._id, userID })
         })
 
         const data = await res.json()

@@ -3,7 +3,7 @@ import React from 'react'
 import { IoIosArrowRoundUp } from 'react-icons/io'
 
 interface Props {
-    value: string
+    value: number | string
     title: string
     bottomTitle: string
     condition: 'up' | 'down'

@@ -9,8 +9,22 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart,
 import CustomerReview from '../../components/p-admin/CustomerReview';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation } from 'swiper/modules';
+import { useEffect, useState } from 'react';
+import { unknownObjProps } from '@/global.t';
 
 const MainAdminPage = () => {
+
+    const [transactionsStatus, setTransactionsStatus] = useState<unknownObjProps<number>>({})
+
+    useEffect(() => {
+        (
+            async () => {
+                await fetch('/api/order/transactionsStatus').then(res => res.json()).then(data => {
+                    setTransactionsStatus(data.transactionsData)
+                })
+            }
+        )()
+    }, [])
 
     const data = [
         {
@@ -65,7 +79,7 @@ const MainAdminPage = () => {
                 <div className='grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 2xl:gap-8 gap-4 pt-0'>
 
                     <OrderCard
-                        value='23'
+                        value={Object.values(transactionsStatus).reduce((prev, cur) => prev + cur, 0) || '...'}
                         condition='down'
                         src='/images/totalOrder.svg'
                         bottomTitle='4% (این ماه)'
@@ -73,7 +87,7 @@ const MainAdminPage = () => {
                     />
 
                     <OrderCard
-                        value='432'
+                        value={transactionsStatus?.delivered}
                         condition='up'
                         src='/images/totalDeliver.svg'
                         bottomTitle='12% (این ماه)'
@@ -81,7 +95,7 @@ const MainAdminPage = () => {
                     />
 
                     <OrderCard
-                        value='51'
+                        value={transactionsStatus?.rejected || '...'}
                         condition='down'
                         src='/images/totalCancel.svg'
                         bottomTitle='2% (این ماه)'
