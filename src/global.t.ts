@@ -107,13 +107,15 @@ interface userRelatedDataTypes {
     Notification: NotificationProps[],
     Transaction: TransactionProps[]
     Comment: commentProps[]
+    dashboardNotifications: dashboardNotification[]
 }
 
 interface dashboardNotification {
+    _id: string
     message: string
     isSeen: boolean
-    creator: string | userDataTypes
-    target: string | userDataTypes
+    creator: userDataTypes
+    target: userDataTypes
     createdAt: string
 }
 

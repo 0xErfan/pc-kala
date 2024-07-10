@@ -10,7 +10,6 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
     const dispatch = useAppDispatch()
     const updater = useAppSelector(state => state.globalVarsSlice.userUpdater)
     const router = useRouter()
-    document.cookie.split('=')?.length && document.cookie.split('=')[1] && router.replace('/bannedUser')
 
     useEffect(() => {
         (

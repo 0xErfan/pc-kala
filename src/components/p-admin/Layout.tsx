@@ -9,7 +9,7 @@ import { CiSearch } from "react-icons/ci";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { RiDiscountPercentLine } from "react-icons/ri";
 import { RiShoppingBasket2Line } from "react-icons/ri";
-import { IoSettingsOutline } from "react-icons/io5";
+import { MdNotificationsNone } from "react-icons/md";
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux';
 import { useRouter } from 'next/router';
@@ -21,9 +21,9 @@ import Notifications from './Notifications';
 
 const Layout = ({ children }: { children: ReactNode }) => {
 
-
     const dispatch = useAppDispatch()
-    const { nameLastName, username } = useAppSelector(state => state.userSlice.data)
+    const notifications = useAppSelector(state => state.userSlice.relatedData?.dashboardNotifications) || []
+    const { nameLastName, username } = useAppSelector(state => state.userSlice.data) || {}
     const navigate = useRouter()
 
     const logout = async () => {
@@ -104,9 +104,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
                             />
 
                             <PageLinks
-                                Icon={<IoSettingsOutline />}
-                                title={'تنظیمات'}
-                                path='/admin-panel/settings'
+                                Icon={<MdNotificationsNone />}
+                                title={'ارسال پیام'}
+                                path='/admin-panel/notifications'
                                 key={'settings'}
                             />
 
@@ -158,7 +158,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                     <div className='flex items-center justify-end'>
 
-                        <Notifications />
+                        <Notifications notifications={notifications} />
 
                         <div className='inline-block border h-px rotate-90 border-[#D0D6DE] px-6'></div>
 

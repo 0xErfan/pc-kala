@@ -5,7 +5,6 @@ import React from 'react'
 import { FaRegEye } from 'react-icons/fa'
 import { TiTick } from 'react-icons/ti'
 import { ModalProps } from '../Modal'
-import { MdOutlineCancel } from "react-icons/md";
 import { showToast } from '@/utils'
 
 interface Props {

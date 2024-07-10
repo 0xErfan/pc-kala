@@ -1,5 +1,6 @@
-import { unknownObjProps } from "@/global.t";
+import { dashboardNotification, unknownObjProps } from "@/global.t";
 import { CommentModel } from "@/models/Comment";
+import { DashboardNotificationModel } from "@/models/DashboardNotification";
 import { transactionModel } from "@/models/Transactions";
 import { BasketItemModel, NotificationModel, WishModel } from "@/models/UserRelatedSchemas";
 import { serialize } from "cookie";
@@ -36,7 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const userRelatedModels = [NotificationModel, WishModel, BasketItemModel, transactionModel, CommentModel]
 
-        const userRelatedData: unknownObjProps<string | number> = {}
+        const userRelatedData: unknownObjProps<string | number | unknown[]> = {}
 
         mongoose.set('strictPopulate', false); // if the 'productID' didn't exist to populate, we won't get any error
 
@@ -48,6 +49,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 .exec()
 
             userRelatedData[Model.modelName] = foundedData
+        }
+
+        if (userData.role == "ADMIN") {
+            const adminNotifications = await DashboardNotificationModel.find({ target: userData._id }).sort({ createdAt: -1 }).populate(['creator', 'target'])
+            userRelatedData.dashboardNotifications = adminNotifications
         }
 
         return res.status(200).json({ userData, userRelatedData })

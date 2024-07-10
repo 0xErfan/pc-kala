@@ -1,11 +1,9 @@
 import connectToDB from "@/config/db";
-import { DashboardNotificationModel } from "@/models/DashboardNotification";
+import UserModel from "@/models/User";
 import { authUser } from "@/utils";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-
-    if (req.method !== 'DELETE') return res.status(421).json({ message: "This route can't be accessed without DELETE request_" })
 
     try {
 
@@ -14,11 +12,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const { target } = req.body
+        const allAdmins = await UserModel.find({ role: 'ADMIN' })
 
-        await DashboardNotificationModel.deleteMany({ target })
-
-        return res.status(201).json({ message: 'Notifications deleted' })
+        return res.status(201).json({ message: 'out admin list is here', adminLists: allAdmins })
 
     } catch (err) {
         console.log(err)
