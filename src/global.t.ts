@@ -35,6 +35,7 @@ interface userDataTypes {
     nationalCode: number
     role: 'USER' | 'ADMIN'
     isBan: boolean
+    dashboardNotifications: ''
 }
 
 interface productDataTypes {
@@ -108,6 +109,14 @@ interface userRelatedDataTypes {
     Comment: commentProps[]
 }
 
+interface dashboardNotification {
+    message: string
+    isSeen: boolean
+    creator: string | userDataTypes
+    target: string | userDataTypes
+    createdAt: string
+}
+
 export type {
     unknownObjProps,
     categories,
@@ -123,4 +132,5 @@ export type {
     OrderDataTypes,
     WishDataTypes,
     DiscountDataTypes,
+    dashboardNotification,
 }
