@@ -149,23 +149,26 @@ const Products = () => {
             {
                 products?.length
                     ?
-                    products.map(data => <Product {...data} key={data._id} />)
+                    products.map(data => <Product {...data} productUpdater={() => setUpdater(prev => !prev)} key={data._id} />)
                     : null
             }
         </div >
 
-        {
-            products?.length
-                ?
-                <Pagination
-                    currentPage={currentPage}
-                    latestPage={allPages}
-                    currentPageUpdater={page => setCurrentPage(page)}
-                />
-                : null
-        }
+        <div className="flex-center max-w-[300px] m-auto">
+            {
+                products?.length
+                    ?
+                    <Pagination
+                        currentPage={currentPage}
+                        latestPage={allPages}
+                        currentPageUpdater={page => setCurrentPage(page)}
+                    />
+                    : null
+            }
 
-        {isEmpty ? <div data-aos='zoom-in' className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>کاربری  وجود ندارد</div> : null}
+            {isEmpty ? <div data-aos='zoom-in' className='w-full flex-center text-[22px] text-panel-darkRed py-2 border border-white font-peyda font-bold text-center'>محصولی  وجود ندارد</div> : null}
+        </div>
+
 
     </Layout>
 }
