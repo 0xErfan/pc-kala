@@ -33,9 +33,10 @@ const Products = () => {
 
                 const { products: newProducts, availablePages } = await res.json()
                 if (!newProducts?.length) return setIsEmpty(true)
-
+                
                 setAllPages(availablePages)
                 updateProducts([...newProducts])
+                setIsEmpty(false)
 
             } catch (error) { console.log(error) }
             finally { setIsLoading(false) }

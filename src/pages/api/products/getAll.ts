@@ -11,12 +11,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         await connectToDB()
 
         const { currentPage, itemsPerPage = 12 } = req.body;
-        const skippedComments = itemsPerPage * (currentPage - 1);
+        const skippedProducts = itemsPerPage * (currentPage - 1);
 
-        const allComments = await ProductModel.countDocuments()
-        const availablePages = Math.ceil(allComments / itemsPerPage)
+        const allProducts = await ProductModel.countDocuments()
+        const availablePages = Math.ceil(allProducts / itemsPerPage)
 
-        const products = await ProductModel.find({}).sort({ createdAt: -1 }).skip(skippedComments).limit(itemsPerPage)
+        const products = await ProductModel.find({}).skip(skippedProducts).limit(itemsPerPage)
 
         return res.status(201).json({ products, availablePages })
 

@@ -46,11 +46,11 @@ const Product = ({ _id, price, discount, image, name, productUpdater }: productD
                     <Image
                         className="object-cover bg-transparent bg-center"
                         src={
-                            !image?.length
+                            image?.length
                                 ?
                                 image[0]
                                 :
-                                `https://pc-kala.storage.iran.liara.space/Acer%20Nitro%205%203060%20Gaming%20Laptop%2C%2015.6%20FHD%20IPS%20144Hz%2C%20GeForce%20RTX%203060.webp`
+                                `/images/imageNotFound.webp`
                         }
                         width={500}
                         height={500}
