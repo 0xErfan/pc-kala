@@ -1,6 +1,7 @@
+import { productDataTypes } from "@/global.t";
 import Image from "next/image";
 
-const Product = () => {
+const Product = ({ _id, price, discount, image, name }: productDataTypes) => {
 
     return (
         <div data-aos={`fade-in`} data-aos-duration="550" className={` transition-all duration-300 w-full relative m-auto bg-white shadow-sm rounded-xl p-3 overflow-hidden text-panel-darkTitle text-sm`}>
