@@ -1,8 +1,9 @@
 import { userDataTypes } from '@/global.t'
 import { showToast } from '@/utils'
+import { RiAdminFill } from "react-icons/ri";
 import React, { useState } from 'react'
 
-const AdminData = ({ nameLastName, _id, email, creator, username }: userDataTypes & { creator: string }) => {
+const AdminData = ({ nameLastName, _id, email, creator, username, profile }: userDataTypes & { creator: string }) => {
 
     const [isSending, setIsSending] = useState(false)
     const [message, setMessage] = useState('')
@@ -35,10 +36,24 @@ const AdminData = ({ nameLastName, _id, email, creator, username }: userDataType
             {
                 isSending
                     ?
-                    <textarea onChange={e => setMessage(e.target.value)} data-aos='zoom-out' placeholder='پیام را وارد کنید:' className='min-h-[72px] bg-panel-white rounded-xl px-4 py-2 w-full text-xl'></textarea>
+                    <textarea
+                        data-aos='zoom-out'
+                        className='min-h-[72px] bg-panel-white rounded-xl px-4 py-2 w-full text-xl'
+                        onChange={e => setMessage(e.target.value)}
+                        placeholder='پیام را وارد کنید:'>
+                    </textarea>
                     :
                     <div className='flex items-center gap-3'>
-                        <div className='rounded-full size-14 '><img className='rounded-full size-full bg-center object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUd5slHL5adwDL8TxpEsESk01qN8dGV0Xeg&usqp=CAU" alt="random image" /></div>
+
+                        <div className='rounded-full size-14 flex-center'>
+                            {
+                                !!profile
+                                    ?
+                                    <img className='rounded-full size-full bg-center object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUd5slHL5adwDL8TxpEsESk01qN8dGV0Xeg&usqp=CAU" alt="random image" />
+                                    :
+                                    <RiAdminFill className='size-10 flex text-black' />
+                            }
+                        </div>
 
                         <div className='flex flex-col gap-1'>
                             <div className='font-bold text-[19px]'>{nameLastName || username}</div>

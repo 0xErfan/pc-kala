@@ -149,9 +149,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                 <span className='right-0 left-0 fixed top-0 w-full xl:h-[120px] h-[110px] bg-panel-white z-30'></span>
 
-                <div className='flex items-center ch:flex-1 xl:gap-0 gap-10 sticky top-10 z-40'>
+                <div className='flex items-center ch:flex-1 2xl:gap-10 gap-10 sticky top-10 z-40'>
 
-                    <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-md h-[56px] px-2 shadow-sm'>
+                    <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-xl h-[56px] px-2 shadow-sm'>
                         <input className='bg-transparent px-4 h-full placeholder:font-peyda w-full' placeholder='جستجو کن' type="text" />
                         <CiSearch className='size-8 cursor-pointer' />
                     </div>

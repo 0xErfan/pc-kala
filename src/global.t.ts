@@ -32,10 +32,11 @@ interface userDataTypes {
     email: string
     phoneNumber: number
     password: string
+    profile: string | undefined
     nationalCode: number
     role: 'USER' | 'ADMIN'
     isBan: boolean
-    dashboardNotifications: ''
+    dashboardNotifications: dashboardNotification[]
 }
 
 interface productDataTypes {

@@ -36,7 +36,7 @@ const notifications = () => {
 
             <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>لیست ادمین ها</h3>
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-6'>
                 {
                     adminLists?.length
                         ?
