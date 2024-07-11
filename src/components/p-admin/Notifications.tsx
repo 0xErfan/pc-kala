@@ -75,7 +75,7 @@ const Notifications = ({ notifications }: { notifications: dashboardNotification
                     : null
             }
 
-            <span className={`absolute w-[400px] transition-all duration-400 bg-white border-2 border-panel-darkBlue rounded-xl ${!showNotifications ? "left-0 top-0 opacity-0 z-0 cursor-pointer invisible" : "left-12 top-12 opacity-100 z-50 cursor-default visible"}  shadow-sm ch:w-full overflow-hidden`}>
+            <span className={`sm:absolute fixed w-[400px] transition-all duration-400 bg-white border-2 border-panel-darkBlue rounded-xl ${!showNotifications ? "left-0 top-0 opacity-0 z-0 cursor-pointer invisible" : "left-12 top-12 opacity-100 z-50 cursor-default visible"}  shadow-sm ch:w-full overflow-hidden`}>
 
                 <div onClick={() => setShowNotifications(false)}>
 

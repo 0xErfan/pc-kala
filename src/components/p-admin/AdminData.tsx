@@ -84,7 +84,7 @@ const AdminData = ({ nameLastName, _id, email, creator, username, profile }: use
                     :
                     <button
                         onClick={() => setIsSending(true)}
-                        className={`mr-auto max-w-28 w-full h-full bg-panel-darkGreen transition-all px-4 rounded-[10px] text-white`}>
+                        className={`mr-auto max-w-28 w-full h-full bg-panel-darkGreen transition-all px-1 sm:px-4 rounded-[10px] text-white`}>
                         ارسال پیام
                     </button>
             }
