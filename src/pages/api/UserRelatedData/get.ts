@@ -42,13 +42,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         mongoose.set('strictPopulate', false); // if the 'productID' didn't exist to populate, we won't get any error
 
         for (const Model of userRelatedModels) {
+            let populatedData;
+            try {
+                populatedData = await Model
+                    .find({ $or: [{ creator: userData._id }, { user: userData._id }, { userID: userData._id }] })
+                    .populate('productID') // Ensure 'productID' is correctly named in your schema
+                    .exec();
+            } catch (error) {
+                console.error(`Failed to populate data for ${Model.modelName}: `, error);
+                continue; // Skip this iteration if population fails
+            }
 
-            const foundedData = await Model
-                .find({ $or: [{ creator: userData._id }, { user: userData._id }, { userID: userData._id }] })
-                .populate(['productID'])
-                .exec()
-
-            userRelatedData[Model.modelName] = foundedData
+            userRelatedData[Model.modelName] = populatedData;
         }
 
         if (userData.role == "ADMIN") {

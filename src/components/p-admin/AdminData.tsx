@@ -1,23 +1,79 @@
 import { userDataTypes } from '@/global.t'
 import { showToast } from '@/utils'
-import React from 'react'
+import React, { useState } from 'react'
 
-const AdminData = ({ nameLastName, _id, email, creator }: userDataTypes & { creator: string }) => {
+const AdminData = ({ nameLastName, _id, email, creator, username }: userDataTypes & { creator: string }) => {
+
+    const [isSending, setIsSending] = useState(false)
+    const [message, setMessage] = useState('')
 
     const sendMessage = async () => {
 
-        const res = await fetch('/api/dashboardNotifications/create', {
-            method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: 'hi this is a test message for erfan@gmail.com admin', creator, target: _id })
-        })
-        const data = await res.json()
+        if (!message?.trim().length) return showToast(false, 'پیام رو وارد کن خب')
 
-        showToast(res.ok, data.message)
+        try {
+            const res = await fetch('/api/dashboardNotifications/create', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, creator, target: _id })
+            })
+            const data = await res.json()
+
+            showToast(res.ok, data.message)
+
+            if (res.ok) {
+                setMessage('')
+                setIsSending(false)
+            }
+
+        } catch (error) { console.log(error) }
     }
 
     return (
-        <div onClick={sendMessage}>{nameLastName + ' ' + email}</div>
+        <div onKeyDown={e => e.key == 'Enter' && sendMessage()} data-aos='fade-in' className='flex items-center ch:h-full font-peyda gap-2 bg-white p-3 rounded-xl overflow-hidden shadow-sm'>
+
+            {
+                isSending
+                    ?
+                    <textarea onChange={e => setMessage(e.target.value)} data-aos='zoom-out' placeholder='پیام را وارد کنید:' className='min-h-[72px] bg-panel-white rounded-xl px-4 py-2 w-full text-xl'></textarea>
+                    :
+                    <div className='flex items-center gap-3'>
+                        <div className='rounded-full size-14 '><img className='rounded-full size-full bg-center object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUd5slHL5adwDL8TxpEsESk01qN8dGV0Xeg&usqp=CAU" alt="random image" /></div>
+
+                        <div className='flex flex-col gap-1'>
+                            <div className='font-bold text-[19px]'>{nameLastName || username}</div>
+                            <div className='text-panel-darkTitle'>{email}</div>
+                        </div>
+                    </div>
+            }
+
+            {
+                isSending
+                    ?
+                    <div className='flex gap-1 flex-col max-h-20 h-full mb-auto'>
+
+                        <button
+                            data-aos='fade-right'
+                            onClick={sendMessage}
+                            className={`mr-auto max-w-28 w-full h-full bg-panel-darkGreen transition-all px-4 rounded-md text-white`}>
+                            ارسال
+                        </button>
+                        <button
+                            data-aos='fade-left'
+                            onClick={() => setIsSending(false)}
+                            className={`mr-auto max-w-28 w-full h-full bg-panel-darkRed transition-all px-4 rounded-md text-white`}>
+                            لغو
+                        </button>
+
+                    </div>
+                    :
+                    <button
+                        onClick={() => setIsSending(true)}
+                        className={`mr-auto max-w-28 w-full h-full bg-panel-darkGreen transition-all px-4 rounded-[10px] text-white`}>
+                        ارسال پیام
+                    </button>
+            }
+        </div>
     )
 }
 
