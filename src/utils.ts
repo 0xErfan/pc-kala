@@ -297,6 +297,28 @@ const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boole
     }
 }
 
+const getLastMonthDate = () => {
+
+    const today = new Date()
+
+    if (today.getMonth() == 0) {
+        today.setFullYear(today.getFullYear() - 1)
+        today.setMonth(11)
+    } else {
+        today.setMonth(today.getMonth() - 1)
+    }
+
+    return today;
+}
+
+const roundedPrice = (price: number): string => {
+
+    const priceLength = price.toString().length
+    const visiblePartOfPrice = price.toString().slice(0, 4)
+
+    return Number(visiblePartOfPrice).toLocaleString() + (priceLength <= 10 ? 'MY' : 'M')
+}
+
 export {
     getTimer,
     fetchData,
@@ -315,4 +337,6 @@ export {
     addProductToBasket,
     totalPriceCalculator,
     authUser,
+    getLastMonthDate,
+    roundedPrice,
 }

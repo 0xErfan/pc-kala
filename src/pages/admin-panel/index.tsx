@@ -6,10 +6,13 @@ import PieChartComponent from '@/components/p-admin/PieChart';
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Rectangle, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useEffect, useState } from 'react';
-import { unknownObjProps } from '@/global.t';
+import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
+import connectToDB from '@/config/db';
+import { transactionModel } from '@/models/Transactions';
+import { getLastMonthDate, roundedPrice } from '@/utils';
 
-const MainAdminPage = () => {
+const MainAdminPage = ({ totalIncome }: { totalIncome: number }) => {
 
     const [transactionsStatus, setTransactionsStatus] = useState<unknownObjProps<number>>({})
 
@@ -76,11 +79,11 @@ const MainAdminPage = () => {
                 <div className='grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 2xl:gap-8 gap-4 pt-0'>
 
                     <OrderCard
-                        value={Object.values(transactionsStatus).reduce((prev, cur) => prev + cur, 0) || '...'}
+                        value={transactionsStatus?.pending || '...'}
                         condition='down'
                         src='/images/totalOrder.svg'
                         bottomTitle='4% (این ماه)'
-                        title='سفارشات'
+                        title='درحال ارسال'
                     />
 
                     <OrderCard
@@ -100,7 +103,7 @@ const MainAdminPage = () => {
                     />
 
                     <OrderCard
-                        value='32M'
+                        value={roundedPrice(totalIncome)}
                         condition='up'
                         src='/images/totalRevenue.svg'
                         bottomTitle='21% (این ماه)'
@@ -217,6 +220,24 @@ const MainAdminPage = () => {
 
         </Layout>
     )
+}
+
+export async function getStaticProps() {
+
+    await connectToDB()
+
+    const lastMonthDate = getLastMonthDate()
+    let lastMonthIncome: TransactionProps[] = await transactionModel.find({}).populate('productID', 'totalPrice');
+    if (lastMonthIncome?.length) { lastMonthIncome = lastMonthIncome.filter(data => new Date(data.createdAt) > lastMonthDate) }
+
+
+
+    return {
+        props: {
+            totalIncome: lastMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
+            name: "blabla"
+        }
+    }
 }
 
 export default MainAdminPage;
