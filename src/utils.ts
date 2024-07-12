@@ -297,24 +297,33 @@ const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boole
     }
 }
 
-const getPastDateTime = (last: 'MONTH' | 'WEEK' | 'DAY' | number) => {
+const getPastDateTime = (last: 'MONTH' | 'WEEK' | 'DAY' | number): Date => {
+    const now = new Date();
 
-    const now = new Date()
+    let daysBack: number;
+    if (typeof last === 'number') {
+        daysBack = last;
+    } else {
+        switch (last) {
+            case 'MONTH':
+                daysBack = 30;
+                break;
+            case 'WEEK':
+                daysBack = 7;
+                break;
+            case 'DAY':
+                daysBack = 1;
+                break;
+            default:
+                throw new Error(`Invalid unit: ${last}`);
+        }
+    }
 
-    const daysBeforeToday =
-        last == 'MONTH'
-            ? 30
-            :
-            last == 'WEEK'
-                ? 7
-                : last == 'DAY'
-                    ? 1
-                    : last
+    const millisecondsBack = daysBack * 24 * 60 * 60 * 1000;
 
-    const dateTimeBeforeThisDays = daysBeforeToday * 24 * 60 * 60 * 1000
-
-    return new Date(now.getTime() - dateTimeBeforeThisDays)
+    return new Date(now.getTime() - millisecondsBack);
 }
+
 
 const roundedPrice = (price: number): string => {
 

@@ -12,7 +12,7 @@ import connectToDB from '@/config/db';
 import { transactionModel } from '@/models/Transactions';
 import { getPastDateTime, roundedPrice } from '@/utils';
 
-const MainAdminPage = ({ totalIncome }: { totalIncome: number }) => {
+const MainAdminPage = ({ totalIncome, transactions }: { totalIncome: number, transactions: TransactionProps[] }) => {
 
     const [transactionsStatus, setTransactionsStatus] = useState<unknownObjProps<number>>({})
 
@@ -25,6 +25,8 @@ const MainAdminPage = ({ totalIncome }: { totalIncome: number }) => {
             }
         )()
     }, [])
+
+    console.log(transactions)
 
     const data = [
         {
@@ -226,16 +228,24 @@ export async function getStaticProps() {
 
     await connectToDB()
 
-    const lastMonthDate = getPastDateTime('MONTH')
-    let lastMonthIncome: TransactionProps[] = await transactionModel.find({}).populate('productID', 'totalPrice');
-    if (lastMonthIncome?.length) { lastMonthIncome = lastMonthIncome.filter(data => new Date(data.createdAt) > lastMonthDate) }
+    const lastMonthIncome = await transactionModel.find({
+        createdAt: {
+            $gte: getPastDateTime('MONTH'),
+            $lte: new Date()
+        }
+    }).populate('productID', 'totalPrice');
 
-    console.log(getPastDateTime('WEEK'))
+    const transactions = await transactionModel.find({
+        createdAt: {
+            $gte: getPastDateTime('WEEK'),
+            $lte: new Date()
+        }
+    })
 
     return {
         props: {
             totalIncome: lastMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
-            name: "blabla"
+            transactions: JSON.parse(JSON.stringify(transactions))
         }
     }
 }
