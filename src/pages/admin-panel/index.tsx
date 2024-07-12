@@ -10,7 +10,7 @@ import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
 import connectToDB from '@/config/db';
 import { transactionModel } from '@/models/Transactions';
-import { getLastMonthDate, roundedPrice } from '@/utils';
+import { getPastDateTime, roundedPrice } from '@/utils';
 
 const MainAdminPage = ({ totalIncome }: { totalIncome: number }) => {
 
@@ -226,11 +226,11 @@ export async function getStaticProps() {
 
     await connectToDB()
 
-    const lastMonthDate = getLastMonthDate()
+    const lastMonthDate = getPastDateTime('MONTH')
     let lastMonthIncome: TransactionProps[] = await transactionModel.find({}).populate('productID', 'totalPrice');
     if (lastMonthIncome?.length) { lastMonthIncome = lastMonthIncome.filter(data => new Date(data.createdAt) > lastMonthDate) }
 
-
+    console.log(getPastDateTime('WEEK'))
 
     return {
         props: {

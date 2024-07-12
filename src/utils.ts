@@ -297,18 +297,23 @@ const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boole
     }
 }
 
-const getLastMonthDate = () => {
+const getPastDateTime = (last: 'MONTH' | 'WEEK' | 'DAY' | number) => {
 
-    const today = new Date()
+    const now = new Date()
 
-    if (today.getMonth() == 0) {
-        today.setFullYear(today.getFullYear() - 1)
-        today.setMonth(11)
-    } else {
-        today.setMonth(today.getMonth() - 1)
-    }
+    const daysBeforeToday =
+        last == 'MONTH'
+            ? 30
+            :
+            last == 'WEEK'
+                ? 7
+                : last == 'DAY'
+                    ? 1
+                    : last
 
-    return today;
+    const dateTimeBeforeThisDays = daysBeforeToday * 24 * 60 * 60 * 1000
+
+    return new Date(now.getTime() - dateTimeBeforeThisDays)
 }
 
 const roundedPrice = (price: number): string => {
@@ -337,6 +342,6 @@ export {
     addProductToBasket,
     totalPriceCalculator,
     authUser,
-    getLastMonthDate,
+    getPastDateTime,
     roundedPrice,
 }
