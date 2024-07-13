@@ -81,7 +81,7 @@ export default function Header() {
                             <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
 
                             {
-                                Notification?.length
+                                Notification?.length || !isLogin
                                     ?
                                     <span onClick={() => navigate.push(isLogin ? '/profile' : '/login')} className="absolute size-2 rounded-full bg-gold right-1 top-px cursor-pointer animate-bounce"></span>
                                     : null
@@ -199,7 +199,7 @@ export default function Header() {
                             <Link href={` ${isLogin ? '/profile' : '/login'} `}><FaRegUser /></Link>
 
                             {
-                                Notification?.length
+                                Notification?.length || !isLogin
                                     ?
                                     <span onClick={() => navigate.push(isLogin ? '/profile' : '/login')} className="absolute size-2 rounded-full bg-gold right-1 top-px cursor-pointer animate-bounce"></span>
                                     : null
