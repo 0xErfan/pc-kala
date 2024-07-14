@@ -2,8 +2,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import Layout from '@/components/p-admin/Layout';
 import OrderCard from '@/components/p-admin/OrderCard';
-import PieChartComponent from '@/components/p-admin/PieChart';
-import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Rectangle, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
 import connectToDB from '@/config/db';
@@ -12,15 +11,19 @@ import { getPastDateTime, roundedPrice } from '@/utils';
 import TransactionsChart from '@/components/p-admin/TransactionsChart';
 import mongoose from 'mongoose';
 import UserModel from '@/models/User';
+import VisitModel from '@/models/Visit';
+import PerformanceIndicatorsChart from '@/components/p-admin/PerformanceIndicatorsChart';
+import VisitsChartDate from '@/components/p-admin/VisitsChartDate';
 
-interface Props {
+export interface MainPageDashboardProps {
     totalIncome: number,
     transactions: TransactionProps[],
     transactionsData: unknownObjProps<number>
     performanceIndicators: { totalIncomeGrowsPercentage: number, userCountGrowsPercentage: number, transactionsCountPercentage: number }
+    visitsData: { lastWeekVisitsData: { count: number, createdAt: string }[], currentWeekVisitsData: { count: number, createdAt: string }[] }
 }
 
-const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanceIndicators }: Props) => {
+const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanceIndicators, visitsData }: MainPageDashboardProps) => {
 
     const data = [
         {
@@ -111,46 +114,13 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
 
                     <TransactionsChart chartData={transactions} />
 
-                    <div className='bg-white rounded-xl shadow-sm flex flex-col w-full gap-3 p-6 h-[372px]'>
+                    <PerformanceIndicatorsChart performanceIndicators={performanceIndicators} />
 
-                        <div className='space-y-1'>
-                            <h3 className='font-extrabold text-panel-darkTitle font-peyda text-[28px]'>نمودار شاخص‌های عملکرد</h3>
-                            <p className='text-[#A3A3A3] text-[13px]'>نمای کلی از معیارهای کلیدی سایت را ارائه می‌دهد(نسبت به ماه پیش)</p>
-                        </div>
-
-                        <div className='flex items-center md:flex-nowrap flex-wrap justify-center gap-6 font-peyda min-h-[250px] h-full'>
-                            <PieChartComponent color='red' percentage={performanceIndicators.transactionsCountPercentage} title='تراکنش ها' />
-                            <PieChartComponent color='green' percentage={performanceIndicators.userCountGrowsPercentage} title='رشد کاربر' />
-                            <PieChartComponent color='blue' percentage={performanceIndicators.totalIncomeGrowsPercentage} title='درامد کلی' />
-                        </div>
-                    </div>
                 </div>
 
                 <div className='flex xl:flex-row flex-col items-center 2xl:gap-8 gap-4'>
 
-                    <div className='bg-white rounded-xl flex-1 shadow-sm flex flex-col w-full gap-3 p-6 xl:h-[430px] h-auto'>
-
-                        <div>
-                            <h4 className='font-bold text-2xl text-panel-darkTitle font-peyda'>نمودار تراکنش ها</h4>
-                            <p className='font-sans text-[12px] text-panel-caption flex items-center justify-start'>نمودار تعداد تراکنش ها در روز های مختلف هفته</p>
-                        </div>
-
-                        <ResponsiveContainer className={'text-panel-caption text-sm font-peyda'} width="100%" height="100%">
-                            <BarChart
-                                width={500}
-                                height={300}
-                                data={data}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                                <XAxis dataKey="name" />
-                                <YAxis tickMargin={40} width={80} />
-                                <Tooltip />
-                                <Legend />
-                                <Bar dataKey="pv" fill="#FF5B5B" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                                <Bar dataKey="uv" fill="#00B074" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <VisitsChartDate visitsData={visitsData} />
 
                     <div className='bg-white rounded-xl flex-1 xl:flex-[2] shadow-sm w-full flex flex-col gap-6 p-6 xl:h-[430px] h-auto'>
 
@@ -271,16 +241,19 @@ export async function getStaticProps() {
     const totalIncomeGrowsPercentage = ((currentMonthIncome_ - lastMonthIncome) / lastMonthIncome) * 100
     const userCountGrowsPercentage = ((currentMonthUsersCount - lastMonthUserCounts) / lastMonthUserCounts) * 100
     const transactionsCountPercentage = ((currentMonthTransactionsCount - lastMonthTransactionsCount) / (lastMonthTransactionsCount || 1)) * 100
-    
-    // -----------------------------------------------------
 
+    // -------------------------VisitsData----------------------------
+
+    const lastWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(14), $lt: getPastDateTime(7) } }, 'count createdAt')
+    const currentWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(7), $lte: new Date() } }, 'count createdAt')
 
     return {
         props: {
             totalIncome: currentMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
             transactions: JSON.parse(JSON.stringify(transactions)),
             transactionsData: { ...transactionsStatusCount[0] },
-            performanceIndicators: { totalIncomeGrowsPercentage, userCountGrowsPercentage, transactionsCountPercentage }
+            performanceIndicators: { totalIncomeGrowsPercentage, userCountGrowsPercentage, transactionsCountPercentage },
+            visitsData: JSON.parse(JSON.stringify({ lastWeekVisitsData, currentWeekVisitsData }))
         }
     }
 }
