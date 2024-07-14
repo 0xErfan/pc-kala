@@ -12,7 +12,7 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
     }));
 
     chartData.forEach(data => {
-        
+
         const weekday = getCurrentPersianWeekday(new Date(data.createdAt).getDay());
         const chartItemIndex = updatedChartData.findIndex(chartData => chartData.name === weekday);
 
@@ -53,7 +53,7 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
                             tickFormatter={tick => Math.round(tick).toString()}
                             tickMargin={40}
                             width={80}
-                            domain={[0, maxValueInChart !== 3 ? maxValueInChart : maxValueInChart + 1]}
+                            domain={[0, maxValueInChart % 2 == 0 ? maxValueInChart : maxValueInChart + 1]}
                         />
                         <Tooltip formatter={(value) => [`${value}`, 'تعداد']} />
                         <Area type="monotone" dataKey="uv" stroke="#2D9CDB" fill="#2D9CDB" />
