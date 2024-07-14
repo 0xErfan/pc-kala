@@ -19,4 +19,42 @@ const chartColors = {
     }
 }
 
-export { productSortOptions, chartColors }
+type WeekDays = 'دوشنبه' | 'سه‌شنبه' | 'چهارشنبه' | 'پنج‌شنبه' | 'جمعه' | 'شنبه' | 'یکشنبه'
+
+export interface weekDaysChartProps {
+    name: WeekDays,
+    uv: number
+}
+
+let weekDaysChart: weekDaysChartProps[] = [
+    {
+        name: 'شنبه',
+        uv: 0,
+    },
+    {
+        name: 'یکشنبه',
+        uv: 0,
+    },
+    {
+        name: 'دوشنبه',
+        uv: 0,
+    },
+    {
+        name: 'سه‌شنبه',
+        uv: 0,
+    },
+    {
+        name: 'چهارشنبه',
+        uv: 0,
+    },
+    {
+        name: 'پنج‌شنبه',
+        uv: 0,
+    },
+    {
+        name: 'جمعه',
+        uv: 0,
+    },
+];
+
+export { productSortOptions, chartColors, weekDaysChart }

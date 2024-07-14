@@ -333,6 +333,14 @@ const roundedPrice = (price: number): string => {
     return Number(visiblePartOfPrice).toLocaleString() + (priceLength <= 10 ? 'MY' : 'M')
 }
 
+const getCurrentPersianWeekday = (day: number) => {
+
+    const persianDays = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
+    const persianDayIndex = day; // Add 1 to align with our assumption of Saturday being the first day
+
+    return persianDays[persianDayIndex];
+}
+
 export {
     getTimer,
     fetchData,
@@ -353,4 +361,5 @@ export {
     authUser,
     getPastDateTime,
     roundedPrice,
+    getCurrentPersianWeekday,
 }

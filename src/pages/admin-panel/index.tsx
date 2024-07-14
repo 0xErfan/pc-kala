@@ -3,30 +3,22 @@ import 'swiper/css/pagination';
 import Layout from '@/components/p-admin/Layout';
 import OrderCard from '@/components/p-admin/OrderCard';
 import PieChartComponent from '@/components/p-admin/PieChart';
-import { MdOutlineFileDownload } from "react-icons/md";
-import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Rectangle, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { useEffect, useState } from 'react';
+import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Rectangle, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
 import connectToDB from '@/config/db';
 import { transactionModel } from '@/models/Transactions';
 import { getPastDateTime, roundedPrice } from '@/utils';
+import TransactionsChart from '@/components/p-admin/TransactionsChart';
+import mongoose from 'mongoose';
 
-const MainAdminPage = ({ totalIncome, transactions }: { totalIncome: number, transactions: TransactionProps[] }) => {
+interface Props {
+    totalIncome: number,
+    transactions: TransactionProps[],
+    transactionsData: unknownObjProps<number>
+}
 
-    const [transactionsStatus, setTransactionsStatus] = useState<unknownObjProps<number>>({})
-
-    useEffect(() => {
-        (
-            async () => {
-                await fetch('/api/order/transactionsStatus').then(res => res.json()).then(data => {
-                    setTransactionsStatus(data.transactionsData)
-                })
-            }
-        )()
-    }, [])
-
-    console.log(transactions)
+const MainAdminPage = ({ totalIncome, transactions, transactionsData }: Props) => {
 
     const data = [
         {
@@ -81,7 +73,7 @@ const MainAdminPage = ({ totalIncome, transactions }: { totalIncome: number, tra
                 <div className='grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 2xl:gap-8 gap-4 pt-0'>
 
                     <OrderCard
-                        value={transactionsStatus?.pending || '...'}
+                        value={transactionsData?.pending ?? '...'}
                         condition='down'
                         src='/images/totalOrder.svg'
                         bottomTitle='4% (این ماه)'
@@ -89,7 +81,7 @@ const MainAdminPage = ({ totalIncome, transactions }: { totalIncome: number, tra
                     />
 
                     <OrderCard
-                        value={transactionsStatus?.delivered}
+                        value={transactionsData?.delivered ?? '...'}
                         condition='up'
                         src='/images/totalDeliver.svg'
                         bottomTitle='12% (این ماه)'
@@ -97,7 +89,7 @@ const MainAdminPage = ({ totalIncome, transactions }: { totalIncome: number, tra
                     />
 
                     <OrderCard
-                        value={transactionsStatus?.rejected || '...'}
+                        value={transactionsData?.rejected ?? '...'}
                         condition='down'
                         src='/images/totalCancel.svg'
                         bottomTitle='2% (این ماه)'
@@ -115,36 +107,7 @@ const MainAdminPage = ({ totalIncome, transactions }: { totalIncome: number, tra
 
                 <div className='flex xl:flex-row flex-col items-center ch:flex-1 2xl:gap-8 gap-4'>
 
-                    <div className='bg-white rounded-xl shadow-sm w-full flex flex-col gap-6 p-6'>
-
-                        <div className='flex items-center justify-between'>
-                            <div>
-                                <h4 className='font-bold text-2xl text-panel-darkTitle font-peyda'>نمودار تراکنش ها</h4>
-                                <p className='font-sans text-[12px] text-panel-caption flex items-center justify-start'>نمودار تعداد تراکنش ها در روز های مختلف هفته</p>
-                            </div>
-                            <button className='border border-panel-darkBlue font-bold transition-all duration-300 hover:bg-panel-darkBlue hover:text-white flex items-center gap-2 font-peyda rounded-md text-panel-darkBlue text-sm text-center p-3'>
-                                <p>دانلود تراکنش ها</p>
-                                <MdOutlineFileDownload className='size-[22px]' />
-                            </button>
-                        </div>
-
-                        <div className='flex items-center justify-evenly h-[250px] font-peyda'>
-                            <ResponsiveContainer width="100%" height="100%">
-                                <AreaChart
-                                    width={500}
-                                    height={400}
-                                    data={data}
-                                >
-                                    <CartesianGrid strokeDasharray="3 3" />
-                                    <XAxis dataKey="name" />
-                                    <YAxis tickMargin={40} width={80} />
-                                    <Tooltip />
-                                    <Area type="monotone" dataKey="uv" stroke="#2D9CDB" fill="#2D9CDB" />
-                                </AreaChart>
-                            </ResponsiveContainer>
-                        </div>
-
-                    </div>
+                    <TransactionsChart chartData={transactions} />
 
                     <div className='bg-white rounded-xl shadow-sm flex flex-col w-full gap-3 p-6 h-[372px]'>
 
@@ -228,6 +191,8 @@ export async function getStaticProps() {
 
     await connectToDB()
 
+    mongoose.set('strictPopulate', false); // if the 'productID' didn't exist to populate, we won't get any error
+
     const lastMonthIncome = await transactionModel.find({
         createdAt: {
             $gte: getPastDateTime('MONTH'),
@@ -242,10 +207,24 @@ export async function getStaticProps() {
         }
     })
 
+    const pipeline = [
+        {
+            $group: {
+                _id: null,
+                rejected: { $sum: { $cond: [{ $eq: ["$status", "CANCELED"] }, 1, 0] } }, // if the $cond is true, return 1 else 0 and add it to the counter
+                delivered: { $sum: { $cond: [{ $eq: ["$status", "DELIVERED"] }, 1, 0] } },
+                pending: { $sum: { $cond: [{ $eq: ["$status", "PROCESSING"] }, 1, 0] } }
+            }
+        }
+    ];
+    // we use Mongoose's aggregate() method to perform the grouping and counting operation directly in the database instead of fetching all documents and processing them in Node.js(lead in performance issues).
+    const transactionsStatusCount = await transactionModel.aggregate(pipeline);
+
     return {
         props: {
             totalIncome: lastMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
-            transactions: JSON.parse(JSON.stringify(transactions))
+            transactions: JSON.parse(JSON.stringify(transactions)),
+            transactionsData: { ...transactionsStatusCount[0] }
         }
     }
 }
