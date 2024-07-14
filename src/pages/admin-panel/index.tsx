@@ -271,8 +271,7 @@ export async function getStaticProps() {
     const totalIncomeGrowsPercentage = ((currentMonthIncome_ - lastMonthIncome) / lastMonthIncome) * 100
     const userCountGrowsPercentage = ((currentMonthUsersCount - lastMonthUserCounts) / lastMonthUserCounts) * 100
     const transactionsCountPercentage = ((currentMonthTransactionsCount - lastMonthTransactionsCount) / (lastMonthTransactionsCount || 1)) * 100
-    console.log(userCountGrowsPercentage)
-
+    
     // -----------------------------------------------------
 
 
