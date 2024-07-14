@@ -11,14 +11,16 @@ import { transactionModel } from '@/models/Transactions';
 import { getPastDateTime, roundedPrice } from '@/utils';
 import TransactionsChart from '@/components/p-admin/TransactionsChart';
 import mongoose from 'mongoose';
+import UserModel from '@/models/User';
 
 interface Props {
     totalIncome: number,
     transactions: TransactionProps[],
     transactionsData: unknownObjProps<number>
+    performanceIndicators: { totalIncomeGrowsPercentage: number, userCountGrowsPercentage: number, transactionsCountPercentage: number }
 }
 
-const MainAdminPage = ({ totalIncome, transactions, transactionsData }: Props) => {
+const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanceIndicators }: Props) => {
 
     const data = [
         {
@@ -113,13 +115,13 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData }: Props) =
 
                         <div className='space-y-1'>
                             <h3 className='font-extrabold text-panel-darkTitle font-peyda text-[28px]'>نمودار شاخص‌های عملکرد</h3>
-                            <p className='text-[#A3A3A3] text-[13px]'>نمای کلی از معیارهای کلیدی سایت را ارائه می‌دهد</p>
+                            <p className='text-[#A3A3A3] text-[13px]'>نمای کلی از معیارهای کلیدی سایت را ارائه می‌دهد(نسبت به ماه پیش)</p>
                         </div>
 
                         <div className='flex items-center md:flex-nowrap flex-wrap justify-center gap-6 font-peyda min-h-[250px] h-full'>
-                            <PieChartComponent color='red' percentage={81} title='تراکنش ها' />
-                            <PieChartComponent color='green' percentage={22} title='رشد مشتری' />
-                            <PieChartComponent color='blue' percentage={62} title='درامد کلی' />
+                            <PieChartComponent color='red' percentage={performanceIndicators.transactionsCountPercentage} title='تراکنش ها' />
+                            <PieChartComponent color='green' percentage={performanceIndicators.userCountGrowsPercentage} title='رشد کاربر' />
+                            <PieChartComponent color='blue' percentage={performanceIndicators.totalIncomeGrowsPercentage} title='درامد کلی' />
                         </div>
                     </div>
                 </div>
@@ -191,14 +193,18 @@ export async function getStaticProps() {
 
     await connectToDB()
 
+    // -----------------------TotalIncome------------------------------
+
     mongoose.set('strictPopulate', false); // if the 'productID' didn't exist to populate, we won't get any error
 
-    const lastMonthIncome = await transactionModel.find({
+    const currentMonthIncome = await transactionModel.find({
         createdAt: {
             $gte: getPastDateTime('MONTH'),
             $lte: new Date()
         }
     }).populate('productID', 'totalPrice');
+
+    // ------------------------Transactions-----------------------------
 
     const transactions = await transactionModel.find({
         createdAt: {
@@ -206,6 +212,8 @@ export async function getStaticProps() {
             $lte: new Date()
         }
     })
+
+    // ------------------------TransactionsStatusCount-----------------------------
 
     const pipeline = [
         {
@@ -220,11 +228,60 @@ export async function getStaticProps() {
     // we use Mongoose's aggregate() method to perform the grouping and counting operation directly in the database instead of fetching all documents and processing them in Node.js(lead in performance issues).
     const transactionsStatusCount = await transactionModel.aggregate(pipeline);
 
+    // -------------------------PerformanceIndicators----------------------------
+
+    const lastMonthTransactions = await transactionModel.find({
+        createdAt: {
+            $gte: getPastDateTime(60),
+            $lte: getPastDateTime(30)
+        }
+    })
+
+    const lastMonthUserCounts = await UserModel.countDocuments({
+        createdAt: {
+            $gte: getPastDateTime(60),
+            $lte: getPastDateTime(30)
+        }
+    })
+
+    const currentMonthUsersCount = await UserModel.countDocuments({
+        createdAt: {
+            $gte: getPastDateTime(30),
+            $lte: new Date()
+        }
+    })
+
+    const lastMonthTransactionsCount = await transactionModel.countDocuments({
+        createdAt: {
+            $gte: getPastDateTime(60),
+            $lte: getPastDateTime(30)
+        }
+    })
+
+    const currentMonthTransactionsCount = await transactionModel.countDocuments({
+        createdAt: {
+            $gte: getPastDateTime(30),
+            $lte: new Date()
+        }
+    })
+
+    const lastMonthIncome = lastMonthTransactions.reduce((prev, next) => prev + next.totalPrice, 0) || 1
+    const currentMonthIncome_ = currentMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0) || 1
+
+    const totalIncomeGrowsPercentage = ((currentMonthIncome_ - lastMonthIncome) / lastMonthIncome) * 100
+    const userCountGrowsPercentage = ((currentMonthUsersCount - lastMonthUserCounts) / lastMonthUserCounts) * 100
+    const transactionsCountPercentage = ((currentMonthTransactionsCount - lastMonthTransactionsCount) / (lastMonthTransactionsCount || 1)) * 100
+    console.log(userCountGrowsPercentage)
+
+    // -----------------------------------------------------
+
+
     return {
         props: {
-            totalIncome: lastMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
+            totalIncome: currentMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
             transactions: JSON.parse(JSON.stringify(transactions)),
-            transactionsData: { ...transactionsStatusCount[0] }
+            transactionsData: { ...transactionsStatusCount[0] },
+            performanceIndicators: { totalIncomeGrowsPercentage, userCountGrowsPercentage, transactionsCountPercentage }
         }
     }
 }
