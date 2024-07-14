@@ -29,6 +29,26 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
         )()
     }, [updater, dispatch])
 
+    useEffect(() => {
+
+        const updateVisits = async () => {
+            try {
+                
+                const now = new Date()
+                const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+
+                await fetch('/api/visits/update', {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(todayDate)
+                })
+
+            } catch (error) { console.log(error) }
+        }
+        updateVisits()
+
+    }, [])
+
     return null;
 }
 
