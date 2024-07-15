@@ -298,7 +298,12 @@ const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boole
 }
 
 const getPastDateTime = (last: 'MONTH' | 'WEEK' | 'DAY' | number): Date => {
+
     const now = new Date();
+    
+    now.setHours(0)
+    now.setMinutes(0)
+    now.setSeconds(0)
 
     let daysBack: number;
     if (typeof last === 'number') {

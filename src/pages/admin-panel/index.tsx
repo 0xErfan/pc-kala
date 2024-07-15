@@ -37,7 +37,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
                         value={pending.count}
                         condition={`${pending.percentage.toString().includes('-') ? 'down' : 'up'}`}
                         src='/images/totalOrder.svg'
-                        bottomTitle={`${pending.percentage}% (این ماه)`}
+                        bottomTitle={`${pending.percentage < -100 ? -100 : pending.percentage > 100 ? 100 : pending.percentage}% (این ماه)`}
                         title='درحال ارسال'
                     />
 
@@ -45,7 +45,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
                         value={delivered.count}
                         condition={`${delivered.percentage.toString().includes('-') ? 'down' : 'up'}`}
                         src='/images/totalDeliver.svg'
-                        bottomTitle={`${delivered.percentage}% (این ماه)`}
+                        bottomTitle={`${delivered.percentage < -100 ? -100 : delivered.percentage > 100 ? 100 : delivered.percentage}% (این ماه)`}
                         title='ارسال شده'
                     />
 
@@ -53,7 +53,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
                         value={rejected.count}
                         condition={`${rejected.percentage.toString().includes('-') ? 'down' : 'up'}`}
                         src='/images/totalCancel.svg'
-                        bottomTitle={`${rejected.percentage}% (این ماه)`}
+                        bottomTitle={`${rejected.percentage < -100 ? -100 : rejected.percentage > 100 ? 100 : rejected.percentage}% (این ماه)`}
                         title='مرجوع شده'
                     />
 
@@ -147,15 +147,15 @@ export async function getStaticProps() {
 
     const transactionsStatusCountData = {
         rejected: {
-            percentage: ((transactionsStatusCount[0]?.rejected - lastMonthTransactionsStatusCount[0]?.rejected || 1) / lastMonthTransactionsStatusCount[0]?.rejected || 1) * 100,
+            percentage: ((transactionsStatusCount[0]?.rejected || 0) - (lastMonthTransactionsStatusCount[0]?.rejected || 0)) / (lastMonthTransactionsStatusCount[0]?.rejected || 1) * 100,
             count: transactionsStatusCount[0]?.rejected
         },
         delivered: {
-            percentage: ((transactionsStatusCount[0]?.delivered - lastMonthTransactionsStatusCount[0]?.delivered || 1) / lastMonthTransactionsStatusCount[0]?.delivered || 1) * 100,
+            percentage: ((transactionsStatusCount[0]?.delivered || 0) - (lastMonthTransactionsStatusCount[0]?.delivered || 0)) / (lastMonthTransactionsStatusCount[0]?.delivered || 1) * 100,
             count: transactionsStatusCount[0]?.delivered
         },
         pending: {
-            percentage: ((transactionsStatusCount[0]?.pending - lastMonthTransactionsStatusCount[0]?.pending || 1) / lastMonthTransactionsStatusCount[0]?.pending || 1) * 100,
+            percentage: ((transactionsStatusCount[0]?.pending || 0) - (lastMonthTransactionsStatusCount[0]?.pending || 0)) / (lastMonthTransactionsStatusCount[0]?.pending || 1) * 100,
             count: transactionsStatusCount[0]?.pending
         }
     }
