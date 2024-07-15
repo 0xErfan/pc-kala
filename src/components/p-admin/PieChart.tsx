@@ -11,7 +11,7 @@ interface Props {
 const PieChartComponent = ({ percentage, color, title }: Props) => {
 
     const colors = Object.entries(chartColors).find(c => c[0] == color)![1]
-    const finalPercentage = percentage > 100 ? 100 : percentage
+    const finalPercentage = percentage > 100 ? 100 : percentage < -100 ? -100 : percentage
 
     const data = [
         { value: percentage > 100 ? 0 : 100 - percentage, fill: colors.light },
