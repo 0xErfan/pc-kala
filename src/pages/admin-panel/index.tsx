@@ -35,7 +35,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
 
                     <OrderCard
                         value={pending.count}
-                        condition={`${pending.percentage.toString().includes('-') ? 'down' : 'up'}`}
+                        condition={`${pending.percentage >= 0 ? 'up' : 'down'}`}
                         src='/images/totalOrder.svg'
                         bottomTitle={`${pending.percentage < -100 ? -100 : pending.percentage > 100 ? 100 : pending.percentage}% (این ماه)`}
                         title='درحال ارسال'
@@ -43,7 +43,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
 
                     <OrderCard
                         value={delivered.count}
-                        condition={`${delivered.percentage.toString().includes('-') ? 'down' : 'up'}`}
+                        condition={`${delivered.percentage >= 0 ? 'up' : 'down'}`}
                         src='/images/totalDeliver.svg'
                         bottomTitle={`${delivered.percentage < -100 ? -100 : delivered.percentage > 100 ? 100 : delivered.percentage}% (این ماه)`}
                         title='ارسال شده'
@@ -51,7 +51,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
 
                     <OrderCard
                         value={rejected.count}
-                        condition={`${rejected.percentage.toString().includes('-') ? 'down' : 'up'}`}
+                        condition={`${rejected.percentage >= 0 ? 'up' : 'down'}`}
                         src='/images/totalCancel.svg'
                         bottomTitle={`${rejected.percentage < -100 ? -100 : rejected.percentage > 100 ? 100 : rejected.percentage}% (این ماه)`}
                         title='مرجوع شده'
