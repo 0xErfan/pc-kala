@@ -2,7 +2,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import Layout from '@/components/p-admin/Layout';
 import OrderCard from '@/components/p-admin/OrderCard';
-import { Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
 import connectToDB from '@/config/db';
@@ -18,57 +17,14 @@ import VisitsChartDate from '@/components/p-admin/VisitsChartDate';
 export interface MainPageDashboardProps {
     totalIncome: number,
     transactions: TransactionProps[],
-    transactionsData: unknownObjProps<number>
+    transactionsData: [unknownObjProps<unknownObjProps<number>>]
     performanceIndicators: { totalIncomeGrowsPercentage: number, userCountGrowsPercentage: number, transactionsCountPercentage: number }
     visitsData: { lastWeekVisitsData: { count: number, createdAt: string, date: string }[], currentWeekVisitsData: { count: number, createdAt: string, date: string }[] }
 }
 
 const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanceIndicators, visitsData }: MainPageDashboardProps) => {
 
-    const data = [
-        {
-            name: 'شنبه',
-            uv: 4000,
-            pv: 2400,
-            amt: 2400,
-        },
-        {
-            name: 'یک شنبه',
-            uv: 3000,
-            pv: 1398,
-            amt: 2210,
-        },
-        {
-            name: 'دوشنبه',
-            uv: 2000,
-            pv: 9800,
-            amt: 2290,
-        },
-        {
-            name: 'سه شنبه',
-            uv: 2780,
-            pv: 3908,
-            amt: 2000,
-        },
-        {
-            name: 'چهارشنبه',
-            uv: 1890,
-            pv: 4800,
-            amt: 2181,
-        },
-        {
-            name: 'پنجشنبه',
-            uv: 1890,
-            pv: 4800,
-            amt: 2181,
-        },
-        {
-            name: 'جمعه',
-            uv: 2390,
-            pv: 3800,
-            amt: 2500,
-        },
-    ];
+    const { rejected, pending, delivered } = transactionsData[0]
 
     return (
         <Layout>
@@ -78,34 +34,34 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
                 <div className='grid xl:grid-cols-4 sm:grid-cols-2 grid-cols-1 2xl:gap-8 gap-4 pt-0'>
 
                     <OrderCard
-                        value={transactionsData?.pending ?? '...'}
-                        condition='down'
+                        value={pending.count}
+                        condition={`${pending.percentage.toString().includes('-') ? 'down' : 'up'}`}
                         src='/images/totalOrder.svg'
-                        bottomTitle='4% (این ماه)'
+                        bottomTitle={`${pending.percentage}% (این ماه)`}
                         title='درحال ارسال'
                     />
 
                     <OrderCard
-                        value={transactionsData?.delivered ?? '...'}
-                        condition='up'
+                        value={delivered.count}
+                        condition={`${delivered.percentage.toString().includes('-') ? 'down' : 'up'}`}
                         src='/images/totalDeliver.svg'
-                        bottomTitle='12% (این ماه)'
+                        bottomTitle={`${delivered.percentage}% (این ماه)`}
                         title='ارسال شده'
                     />
 
                     <OrderCard
-                        value={transactionsData?.rejected ?? '...'}
-                        condition='down'
+                        value={rejected.count}
+                        condition={`${rejected.percentage.toString().includes('-') ? 'down' : 'up'}`}
                         src='/images/totalCancel.svg'
-                        bottomTitle='2% (این ماه)'
+                        bottomTitle={`${rejected.percentage}% (این ماه)`}
                         title='مرجوع شده'
                     />
 
                     <OrderCard
                         value={roundedPrice(totalIncome)}
-                        condition='up'
+                        condition={`${performanceIndicators.totalIncomeGrowsPercentage.toString().includes('-') ? 'down' : 'up'}`}
                         src='/images/totalRevenue.svg'
-                        bottomTitle='21% (این ماه)'
+                        bottomTitle={`${performanceIndicators.totalIncomeGrowsPercentage > 100 ? 100 : performanceIndicators.totalIncomeGrowsPercentage}% (این ماه)`}
                         title='درامد'
                     />
                 </div>
@@ -119,36 +75,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
                 </div>
 
                 <div className='flex xl:flex-row flex-col items-center 2xl:gap-8 gap-4'>
-
                     <VisitsChartDate visitsData={visitsData} />
-
-                    <div className='bg-white rounded-xl flex-1 xl:flex-[2] shadow-sm w-full flex flex-col gap-6 p-6 xl:h-[430px] h-auto'>
-
-                        <div>
-                            <h4 className='font-bold text-2xl text-panel-darkTitle font-peyda'>نمودار تراکنش ها</h4>
-                            <p className='font-sans text-[12px] text-panel-caption flex items-center justify-start'>نمودار تعداد تراکنش ها در روز های مختلف هفته</p>
-                        </div>
-
-                        <ResponsiveContainer className={'text-panel-caption text-sm font-peyda'} width="100%" height="100%">
-                            <LineChart
-                                width={500}
-                                height={300}
-                                data={data}
-                            >
-                                <XAxis dataKey="name" />
-                                <YAxis tickMargin={40} width={80} />
-                                <ReferenceLine y={2500} stroke="#E0E0E0" />
-                                <ReferenceLine y={5000} stroke="#E0E0E0" />
-                                <ReferenceLine y={7500} stroke="#E0E0E0" />
-                                <ReferenceLine y={10000} stroke="#E0E0E0" />
-                                <Tooltip />
-                                <Legend />
-                                <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-                                <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    </div>
-
                 </div>
 
                 <CustomersReview />
@@ -185,7 +112,13 @@ export async function getStaticProps() {
 
     // ------------------------TransactionsStatusCount-----------------------------
 
-    const pipeline = [
+    // we use Mongoose's aggregate() method to perform the grouping and counting operation directly in the database instead of fetching all documents and processing them in Node.js(lead in performance issues).
+    const transactionsStatusCount = await transactionModel.aggregate([
+        {
+            $match: {
+                createdAt: { $gte: getPastDateTime('MONTH') }
+            }
+        },
         {
             $group: {
                 _id: null,
@@ -194,9 +127,38 @@ export async function getStaticProps() {
                 pending: { $sum: { $cond: [{ $eq: ["$status", "PROCESSING"] }, 1, 0] } }
             }
         }
-    ];
-    // we use Mongoose's aggregate() method to perform the grouping and counting operation directly in the database instead of fetching all documents and processing them in Node.js(lead in performance issues).
-    const transactionsStatusCount = await transactionModel.aggregate(pipeline);
+    ]);
+
+    const lastMonthTransactionsStatusCount = await transactionModel.aggregate([
+        {
+            $match: {
+                createdAt: { $gte: getPastDateTime(60), $lt: getPastDateTime(30) }
+            }
+        },
+        {
+            $group: {
+                _id: null,
+                rejected: { $sum: { $cond: [{ $eq: ["$status", "CANCELED"] }, 1, 0] } },
+                delivered: { $sum: { $cond: [{ $eq: ["$status", "DELIVERED"] }, 1, 0] } },
+                pending: { $sum: { $cond: [{ $eq: ["$status", "PROCESSING"] }, 1, 0] } }
+            }
+        }
+    ]);
+
+    const transactionsStatusCountData = {
+        rejected: {
+            percentage: ((transactionsStatusCount[0]?.rejected - lastMonthTransactionsStatusCount[0]?.rejected || 1) / lastMonthTransactionsStatusCount[0]?.rejected || 1) * 100,
+            count: transactionsStatusCount[0]?.rejected
+        },
+        delivered: {
+            percentage: ((transactionsStatusCount[0]?.delivered - lastMonthTransactionsStatusCount[0]?.delivered || 1) / lastMonthTransactionsStatusCount[0]?.delivered || 1) * 100,
+            count: transactionsStatusCount[0]?.delivered
+        },
+        pending: {
+            percentage: ((transactionsStatusCount[0]?.pending - lastMonthTransactionsStatusCount[0]?.pending || 1) / lastMonthTransactionsStatusCount[0]?.pending || 1) * 100,
+            count: transactionsStatusCount[0]?.pending
+        }
+    }
 
     // -------------------------PerformanceIndicators----------------------------
 
@@ -251,7 +213,7 @@ export async function getStaticProps() {
         props: {
             totalIncome: currentMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
             transactions: JSON.parse(JSON.stringify(transactions)),
-            transactionsData: { ...transactionsStatusCount[0] },
+            transactionsData: [transactionsStatusCountData],
             performanceIndicators: { totalIncomeGrowsPercentage, userCountGrowsPercentage, transactionsCountPercentage },
             visitsData: JSON.parse(JSON.stringify({ lastWeekVisitsData, currentWeekVisitsData }))
         }
