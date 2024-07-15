@@ -19,6 +19,7 @@ import { productDataTypes, unknownObjProps } from '@/global.t';
 import prefix from '@/config/prefix';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import VisitModel from '@/models/Visit';
 
 const DynamicFooter = dynamic(() => import('@/components/Footer'))
 

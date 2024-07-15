@@ -1,4 +1,3 @@
-import { weekDaysChart } from '@/data';
 import { MainPageDashboardProps } from '@/pages/admin-panel';
 import { getCurrentPersianWeekday } from '@/utils';
 import React from 'react'
@@ -6,41 +5,66 @@ import { Bar, BarChart, CartesianGrid, Legend, Rectangle, ResponsiveContainer, T
 
 const VisitsChartDate = ({ visitsData }: Partial<MainPageDashboardProps>) => {
 
-    let lastWeekVisits = weekDaysChart.map(chartItem => ({
-        ...chartItem,
-        pv: 12
-    }));
-
-    lastWeekVisits = lastWeekVisits.map(data => { delete data.uv })
-
-    const currentWeekVisits = weekDaysChart.map(chartItem => ({
-        ...chartItem,
-        uv: chartItem.uv
-    }));
+    let currentAndLastWeekVisitData = [
+        {
+            name: 'شنبه',
+            "هفته قبل": 0,
+            "هفته فعلی": 0
+        },
+        {
+            name: 'یکشنبه',
+            "هفته قبل": 0,
+            "هفته فعلی": 0
+        },
+        {
+            name: 'دوشنبه',
+            "هفته قبل": 0,
+            "هفته فعلی": 0
+        },
+        {
+            name: 'سه‌شنبه',
+            "هفته قبل": 0,
+            "هفته فعلی": 0
+        },
+        {
+            name: 'چهارشنبه',
+            "هفته قبل": 0,
+            "هفته فعلی": 0
+        },
+        {
+            name: 'پنج‌شنبه',
+            "هفته قبل": 0,
+            "هفته فعلی": 0
+        },
+        {
+            name: 'جمعه',
+            "هفته قبل": 0,
+            "هفته فعلی": 0
+        },
+    ];
 
     visitsData?.lastWeekVisitsData.forEach(data => {
 
-        const weekday = getCurrentPersianWeekday(new Date(data.createdAt).getDay());
-        const chartItemIndex = lastWeekVisits.findIndex(chartData => chartData.name === weekday);
-        console.log(data)
+        const weekday = getCurrentPersianWeekday(new Date(data.date).getDay());
+        const chartItemIndex = currentAndLastWeekVisitData.findIndex(chartData => chartData.name === weekday);
 
         if (chartItemIndex !== -1) {
-            lastWeekVisits[chartItemIndex] = {
-                ...lastWeekVisits[chartItemIndex],
-                pv: lastWeekVisits[chartItemIndex].pv += data.count
+            currentAndLastWeekVisitData[chartItemIndex] = {
+                ...currentAndLastWeekVisitData[chartItemIndex],
+                ['هفته قبل']: currentAndLastWeekVisitData[chartItemIndex]['هفته قبل'] += data.count
             };
         }
     });
 
     visitsData?.currentWeekVisitsData.forEach(data => {
 
-        const weekday = getCurrentPersianWeekday(new Date(data.createdAt).getDay());
-        const chartItemIndex = currentWeekVisits.findIndex(chartData => chartData.name === weekday);
+        const weekday = getCurrentPersianWeekday(new Date(data.date).getDay());
+        const chartItemIndex = currentAndLastWeekVisitData.findIndex(chartData => chartData.name === weekday);
 
         if (chartItemIndex !== -1) {
-            currentWeekVisits[chartItemIndex] = {
-                ...currentWeekVisits[chartItemIndex],
-                uv: currentWeekVisits[chartItemIndex].uv += data.count
+            currentAndLastWeekVisitData[chartItemIndex] = {
+                ...currentAndLastWeekVisitData[chartItemIndex],
+                ["هفته فعلی"]: currentAndLastWeekVisitData[chartItemIndex]["هفته فعلی"] += data.count
             };
         }
     });
@@ -57,15 +81,15 @@ const VisitsChartDate = ({ visitsData }: Partial<MainPageDashboardProps>) => {
                 <BarChart
                     width={500}
                     height={300}
-                    data={currentWeekVisits}
+                    data={currentAndLastWeekVisitData}
                 >
                     <CartesianGrid strokeDasharray="3 3" vertical={false} />
                     <XAxis dataKey="name" />
                     <YAxis tickMargin={40} width={80} />
-                    <Tooltip formatter={(value) => [`${value}`, 'بازدید']} />
+                    <Tooltip formatter={(value) => [`${value}`, 'بازدید']} cursor={false} />
                     <Legend />
-                    <Bar dataKey="pv" fill="#FF5B5B" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-                    <Bar dataKey="uv" fill="#00B074" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+                    <Bar dataKey="هفته فعلی" fill="#00B074" activeBar={<Rectangle fill="gold" stroke="purple" />} />
+                    <Bar dataKey="هفته قبل" fill="#FF5B5B" activeBar={<Rectangle fill="pink" stroke="blue" />} />
                 </BarChart>
             </ResponsiveContainer>
         </div>

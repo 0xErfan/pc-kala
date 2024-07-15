@@ -20,7 +20,7 @@ export interface MainPageDashboardProps {
     transactions: TransactionProps[],
     transactionsData: unknownObjProps<number>
     performanceIndicators: { totalIncomeGrowsPercentage: number, userCountGrowsPercentage: number, transactionsCountPercentage: number }
-    visitsData: { lastWeekVisitsData: { count: number, createdAt: string }[], currentWeekVisitsData: { count: number, createdAt: string }[] }
+    visitsData: { lastWeekVisitsData: { count: number, createdAt: string, date: string }[], currentWeekVisitsData: { count: number, createdAt: string, date: string }[] }
 }
 
 const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanceIndicators, visitsData }: MainPageDashboardProps) => {
@@ -244,8 +244,8 @@ export async function getStaticProps() {
 
     // -------------------------VisitsData----------------------------
 
-    const lastWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(14), $lt: getPastDateTime(7) } }, 'count createdAt')
-    const currentWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(7), $lte: new Date() } }, 'count createdAt')
+    const lastWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(14), $lte: getPastDateTime(6) } }, 'count date')
+    const currentWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(7), $lte: new Date() } }, 'count date')
 
     return {
         props: {
