@@ -176,6 +176,41 @@ const engCategoryToPersian = (category: categories) => {
     return translatedCategory;
 }
 
+const engSubCategoryToPersian = (category: string) => {
+
+    let translatedSubCategory = null
+
+    switch (category) {
+        case 'mouse': { translatedSubCategory = 'موس'; break }
+        case 'motherboard': { translatedSubCategory = 'مادربرد'; break }
+        case 'keyboard': { translatedSubCategory = 'کیبرد'; break }
+        case 'headphone': { translatedSubCategory = 'هدفون'; break }
+        case 'webcam': { translatedSubCategory = 'وبکم'; break }
+        case 'cpu': { translatedSubCategory = 'سیپییو'; break }
+        case 'gpu': { translatedSubCategory = 'کارت گرافیک'; break }
+        case 'ram': { translatedSubCategory = 'رم'; break }
+        case 'cooler': { translatedSubCategory = 'خنک کننده'; break }
+        case 'ssd': { translatedSubCategory = 'حافظه SSD'; break }
+    }
+
+    if (!translatedSubCategory) {
+        switch (category) {
+            case 'موس': { translatedSubCategory = 'mouse'; break; }
+            case 'مادربرد': { translatedSubCategory = 'motherboard'; break; }
+            case 'کیبرد': { translatedSubCategory = 'keyboard'; break; }
+            case 'هدفون': { translatedSubCategory = 'headphone'; break; }
+            case 'وبکم': { translatedSubCategory = 'webcam'; break; }
+            case 'سیپییو': { translatedSubCategory = 'cpu'; break; }
+            case 'کارت گرافیک': { translatedSubCategory = 'gpu'; break; }
+            case 'رم': { translatedSubCategory = 'ram'; break; }
+            case 'خنک کننده': { translatedSubCategory = 'cooler'; break; }
+            case 'حافظه SSD': { translatedSubCategory = 'ssd'; break; }
+        }
+    }
+
+    return translatedSubCategory;
+}
+
 const sharePage = (url: string) => {
 
     if (navigator.share) {
@@ -300,7 +335,7 @@ const authUser = async ({ isFromClient = false, cookie }: { isFromClient?: boole
 const getPastDateTime = (last: 'MONTH' | 'WEEK' | 'DAY' | number): Date => {
 
     const now = new Date();
-    
+
     now.setHours(0)
     now.setMinutes(0)
     now.setSeconds(0)
@@ -356,6 +391,7 @@ export {
     inputValidations,
     shuffleArray,
     engCategoryToPersian,
+    engSubCategoryToPersian,
     sharePage,
     itemsSorter,
     addWish,

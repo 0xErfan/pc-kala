@@ -9,7 +9,7 @@ import ProductTemplate from "@/components/p-admin/ProductTemplate";
 
 const Products = () => {
 
-    const [showAddNewProduct, setShowAddNewProduct] = useState(false)
+    const [showAddNewProduct, setShowAddNewProduct] = useState(true)
     const [products, updateProducts] = useState<productDataTypes[]>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [allPages, setAllPages] = useState(0)

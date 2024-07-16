@@ -1,3 +1,5 @@
+import { categories } from "./global.t";
+
 const productSortOptions = [
     { text: "ارزان‌ترین", sort: "cheap" },
     { text: "گران‌ترین", sort: "exp" },
@@ -57,4 +59,12 @@ let weekDaysChart: weekDaysChartProps[] = [
     },
 ];
 
-export { productSortOptions, chartColors, weekDaysChart }
+const categoriesDate: Partial<{ [key in categories]: string[] }> = {
+    accessory: ['mouse', 'keyboard', 'headphone', 'webcam'],
+    console: [],
+    laptop: [],
+    parts: ['motherboard', 'cpu', 'gpu', 'ram', 'cooler', 'ssd'],
+    pc: []
+}
+
+export { productSortOptions, chartColors, weekDaysChart, categoriesDate }
