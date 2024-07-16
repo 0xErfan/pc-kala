@@ -2,10 +2,10 @@ import { categoriesDate } from '@/data'
 import { categories } from '@/global.t'
 import { engCategoryToPersian, engSubCategoryToPersian } from '@/utils'
 import { MdDeleteOutline } from "react-icons/md";
-import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import ProductSpec from './ProductSpec';
+import ImageUploader from './ImageUploader';
 
 export interface ProductSpecs {
     specKey: string
@@ -21,6 +21,7 @@ const ProductTemplate = () => {
     const [productsSpecs, setProductSpecs] = useState<Omit<ProductSpecs, 'canDelete'>[]>([{ id: 1, specKey: '', value: '' }])
     const [isDeleting, setIsDeleting] = useState(false)
     const [lastAddedSpecID, setLastAddedSpecID] = useState(1)
+    const [imageLinks, setImageLinks] = useState<Array<string>>()
 
     const updateProductSpec = (key: string, value: string, id: number) => {
         let currentProductSpecs = [...productsSpecs]
@@ -166,22 +167,7 @@ const ProductTemplate = () => {
                     </div>
                 </div>
 
-                <div className={'flex-1 rounded-xl p-4 h-full mb-auto bg-white shadow-sm'}>
-
-                    <div className={'font-peyda text-[25px] pb-3'}>اپلود عکس</div>
-
-                    <div className={'xl:flex block gap-3 flex-col'}>
-
-                        <div className={' aspect-square xl:block hidden w-full size-[370px] bg-panel-white rounded-xl'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
-
-                        <div className={'grid xl:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-3'}>
-                            <div className={' aspect-square bg-panel-white rounded-xl'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
-                            <div className={' aspect-square bg-panel-white rounded-xl'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
-                            <div className={' aspect-square bg-panel-white rounded-xl'}><Image className={'object-cover size-full'} width={300} height={300} src="/images/imageNotFound.webp" alt="idk" /></div>
-                            <div className={' border-dotted border-[3px] cursor-pointer aspect-square flex-center rounded-xl'}><FiPlus className={'size-7 text-panel-darkGreen bg-panel-lightGreen p-1 rounded-full'} /></div>
-                        </div>
-                    </div>
-                </div>
+                <ImageUploader imageDataSender={imageLink => setImageLinks(imageLink)} />
 
             </div>
         </div>

@@ -1,7 +1,5 @@
 import Layout from "@/components/p-admin/Layout";
-import { FiPlus } from "react-icons/fi";
 import React, { useLayoutEffect, useState } from "react";
-import Image from "next/image";
 import Product from "@/components/p-admin/Product";
 import { productDataTypes } from "@/global.t";
 import Pagination from "@/components/p-admin/Pagination";
