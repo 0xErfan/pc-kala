@@ -9,6 +9,7 @@ import ImageUploader from './ImageUploader';
 import { useAppDispatch } from '@/Hooks/useRedux';
 import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
 import { ModalProps } from '../Modal';
+import Loader from '../Loader';
 
 export interface ProductSpecs {
     specKey: string
@@ -17,14 +18,14 @@ export interface ProductSpecs {
     canDelete: boolean
 }
 
-const ProductTemplate = () => {
+const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) => {
 
     const [name, setName] = useState('')
-    const [price, setPrice] = useState<number>()
-    const [discount, setDiscount] = useState<number>()
+    const [price, setPrice] = useState<number | string>()
+    const [discount, setDiscount] = useState<number | string>()
     const [selectedCategory, setSelectedCategory] = useState<string | number>(-1)
-    const [subCategory, setSubCategory] = useState<string | -1>(-1)
     const [availableSubCategories, setAvailableSubCategories] = useState<string[]>([])
+    const [subCategory, setSubCategory] = useState<string>()
     const [productsSpecs, setProductSpecs] = useState<Omit<ProductSpecs, 'canDelete'>[]>([{ id: 1, specKey: '', value: '' }])
     const [imageLinks, setImageLinks] = useState<Array<string> | 0>()
 
@@ -32,35 +33,84 @@ const ProductTemplate = () => {
     const [lastAddedSpecID, setLastAddedSpecID] = useState(1)
     const [trigger, setTrigger] = useState(false)
     const [createProductTrigger, setCreateProductTrigger] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
 
         if (createProductTrigger) {
+
             setTrigger(true);
-            (imageLinks === 0 || imageLinks?.length) && createNewProduct(imageLinks)
+
+            if (typeof imageLinks == 'number' && imageLinks === 0) {
+                setImageLinks(undefined)
+                setTrigger(false)
+                setCreateProductTrigger(false)
+                return
+            }
+
+            imageLinks?.length && createNewProduct(imageLinks)
         }
 
     }, [imageLinks, createProductTrigger])
 
     const createNewProduct = async (links: string[] | 0) => {
 
-        setCreateProductTrigger(false)
-        setTrigger(false)
-        setImageLinks(undefined)
+        try {
 
+            const formattedSpecs = Object.entries(productsSpecs)
+                .map(data => {
+
+                    const key = data[1].specKey
+
+                    return {
+                        [key]: {
+                            title: data[1]['specKey'],
+                            value: data[1]['value']
+                        }
+                    }
+                })
+
+            const res = await fetch('/api/products/create', {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name,
+                    price,
+                    discount,
+                    image: links,
+                    category: selectedCategory,
+                    ['sub-cat']: subCategory,
+                    specs: formattedSpecs
+                })
+            })
+
+            const data = await res.json()
+
+            dispatch(modalDataUpdater({
+                isShown: true,
+                message: data.message,
+                status: res.ok,
+                cancelBtnText: false,
+                title: 'محصول جدید',
+            } as ModalProps))
+
+            res.ok && productsUpdater()
+
+        } catch (error) { console.log(error) }
+        finally { setIsLoading(false) }
     };
 
     const checkDataFieldsAndCreate = () => {
 
         if (!name.trim().length) return showToast(false, 'نام محصول را وارد کنید')
-        if (isNaN(price!) || !price) return showToast(false, 'قیمتو به درستی وارد کن')
-        if (isNaN(discount!) || discount! > 100 || discount! < 0) return showToast(false, 'تخفیف عددی بین ۰ و ۱۰۰ است')
+        if (isNaN(+price!) || !price) return showToast(false, 'قیمتو به درستی وارد کن')
+        if (isNaN(+discount!) || +discount! > 100 || +discount! < 0) return showToast(false, 'تخفیف عددی بین ۰ و ۱۰۰ است')
         if (selectedCategory == -1) return showToast(false, 'دسته بندی محصول را انتخاب کنید')
 
         const isProductSpecsValuesEmpty = productsSpecs.some(data => !data.specKey?.trim().length || !data.value.trim().length)
-        if (isProductSpecsValuesEmpty) return showToast(false, 'مشخصات محصول را بدرستی وارد کنید')
+        if (isProductSpecsValuesEmpty) return showToast(false, 'مشخصات محصول را کامل وارد کنید')
 
         dispatch(modalDataUpdater({
             isShown: true,
@@ -91,9 +141,11 @@ const ProductTemplate = () => {
         const doesHaveSubCategories = Object.entries(categoriesDate).some(category => {
             if (category[0] == selectedCategory) {
                 setAvailableSubCategories(category[1])
+                setSubCategory(category[1][0])
                 return true
             }
         })
+
         !doesHaveSubCategories && setAvailableSubCategories([])
     }, [selectedCategory])
 
@@ -127,10 +179,10 @@ const ProductTemplate = () => {
 
                                 <input
                                     value={price}
-                                    onChange={e => setPrice(+e.target.value)}
+                                    onChange={e => setPrice(e.target.value)}
                                     className="bg-panel-white rounded-xl p-3"
                                     placeholder="1,000,000"
-                                    type='number'
+                                    type='text'
                                 />
                             </div>
 
@@ -139,10 +191,10 @@ const ProductTemplate = () => {
 
                                 <input
                                     value={discount}
-                                    onChange={e => setDiscount(+e.target.value)}
+                                    onChange={e => setDiscount(e.target.value)}
                                     className="bg-panel-white rounded-xl p-3"
                                     placeholder="0"
-                                    type="number"
+                                    type="text"
                                 />
                             </div>
 
@@ -244,12 +296,20 @@ const ProductTemplate = () => {
                             </div>
                         </div>
 
-                        <button onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>ایجاد محصول جدید</button>
+                        <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
+                            {
+                                isLoading
+                                    ?
+                                    <Loader />
+                                    :
+                                    'ایجاد محصول جدید'
+                            }
+                        </button>
 
                     </div>
                 </div>
 
-                <ImageUploader trigger={trigger} imageDataSender={imageLink => setImageLinks(imageLink)} />
+                <ImageUploader trigger={trigger} updateLoading={(status: boolean) => setIsLoading(status)} imageDataSender={imageLink => setImageLinks(imageLink)} />
 
             </div>
         </div>

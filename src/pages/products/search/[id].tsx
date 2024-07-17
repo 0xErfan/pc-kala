@@ -9,7 +9,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { BsFilterLeft } from "react-icons/bs";
 import { GrGroup } from "react-icons/gr";
 import Button from "@/components/Button";
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Comment from "@/components/Comment";
 import Header from "@/components/Header";
@@ -25,14 +25,8 @@ import { useRouter } from "next/router";
 import { commentProps, productDataTypes, unknownObjProps } from "@/global.t";
 import { BsStarFill } from "react-icons/bs";
 import Loader from "@/components/Loader";
-import prefix from "@/config/prefix";
 import ProductModel from "@/models/Product";
 import connectToDB from "@/config/db";
-
-interface coordinates {
-    x: number
-    y: number
-}
 
 interface FullScreenImageProps {
     url: string

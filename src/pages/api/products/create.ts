@@ -18,7 +18,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await ProductModel.create(data)
 
-        return res.status(201).json({ message: 'محصول با موفقیت ساخته شد' })
+        return res.status(201).json({ message: 'محصول با موفقیت ایجاد شد' })
 
     } catch (err) {
         console.log(err)

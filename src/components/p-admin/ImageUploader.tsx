@@ -13,9 +13,10 @@ const BUCKET = 'pc-kala'
 interface Props {
     imageDataSender: (links: Array<string> | 0) => void
     trigger: boolean
+    updateLoading: (status: boolean) => void
 }
 
-const ImageUploader = ({ imageDataSender, trigger }: Props) => {
+const ImageUploader = ({ imageDataSender, trigger, updateLoading }: Props) => {
 
     const [imagesSrc, setImagesSrc] = useState<Array<string>>([])
     const [selectedFilesData, setSelectedFilesData] = useState<File[]>([])
@@ -32,6 +33,8 @@ const ImageUploader = ({ imageDataSender, trigger }: Props) => {
             showToast(false, 'حداقل یک عکس برای محصول وارد کنید');
             return 0;
         }
+
+        updateLoading(true)
 
         const imageLinks: Array<string> = [];
 

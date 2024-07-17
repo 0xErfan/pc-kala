@@ -1,5 +1,5 @@
 import Layout from "@/components/p-admin/Layout";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Product from "@/components/p-admin/Product";
 import { productDataTypes } from "@/global.t";
 import Pagination from "@/components/p-admin/Pagination";
@@ -7,7 +7,7 @@ import ProductTemplate from "@/components/p-admin/ProductTemplate";
 
 const Products = () => {
 
-    const [showAddNewProduct, setShowAddNewProduct] = useState(true)
+    const [showAddNewProduct, setShowAddNewProduct] = useState(false)
     const [products, updateProducts] = useState<productDataTypes[]>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [allPages, setAllPages] = useState(0)
@@ -15,7 +15,7 @@ const Products = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isEmpty, setIsEmpty] = useState(false)
 
-    useLayoutEffect(() => {
+    useEffect(() => {
 
         (async () => {
 
@@ -51,7 +51,7 @@ const Products = () => {
         </div>
 
         {
-            showAddNewProduct ? <ProductTemplate /> : null
+            showAddNewProduct ? <ProductTemplate productsUpdater={() => { setShowAddNewProduct(false), setUpdater(prev => !prev) }} /> : null
         }
 
         <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 2xl:gap-10 mt-6 ch:w-full justify-between"}>
