@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { S3 } from 'aws-sdk';
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import { MdOutlineDelete } from "react-icons/md";
 import { showToast } from '@/utils';
@@ -10,30 +10,50 @@ const SECRETKEY = "edd76ff6-505b-43b6-8d8d-51eb83b39b2f"
 const ENDPOINT = "storage.iran.liara.space"
 const BUCKET = 'pc-kala'
 
+interface Props {
+    imageDataSender: (links: Array<string> | 0) => void
+    trigger: boolean
+}
 
-const ImageUploader = ({ imageDataSender }: { imageDataSender: (links: Array<string>) => void }) => {
+const ImageUploader = ({ imageDataSender, trigger }: Props) => {
 
     const [imagesSrc, setImagesSrc] = useState<Array<string>>([])
     const [selectedFilesData, setSelectedFilesData] = useState<File[]>([])
 
+    useEffect(() => {
+        (
+            async () => { trigger && imageDataSender(await sendImagesData()) }
+        )()
+    }, [trigger])
+
     const sendImagesData = async () => {
 
-        const imageLinks: Array<string> = []
+        if (!selectedFilesData?.length) {
+            showToast(false, 'حداقل یک عکس برای محصول وارد کنید');
+            return 0;
+        }
+
+        const imageLinks: Array<string> = [];
 
         for (let i = 0; i < selectedFilesData.length; i++) {
 
-            const link = await handleUpload(selectedFilesData[i])
+            const link = await handleUpload(selectedFilesData[i]);
 
             if (!link) {
-                showToast(false, 'خطا در اپلود')
-                break;
-            } else {
-                imageLinks.push(link)
+                showToast(false, 'خطا در اپلود');
+                return 0;
             }
+
+            imageLinks.push(link);
         }
 
-        imageDataSender(imageLinks)
-    }
+        if (imageLinks?.length) {
+            setSelectedFilesData([])
+            setImagesSrc([])
+        }
+
+        return imageLinks;
+    };
 
     const newImageUploader = (e: ChangeEvent<HTMLInputElement>) => {
 
@@ -56,7 +76,7 @@ const ImageUploader = ({ imageDataSender }: { imageDataSender: (links: Array<str
         e.target.value = '' // reset the input value after every change
     }
 
-    const handleUpload = async (file: File): Promise<string | null> => {
+    const handleUpload = async (file: File): Promise<string | 0> => {
 
         try {
 
@@ -82,7 +102,7 @@ const ImageUploader = ({ imageDataSender }: { imageDataSender: (links: Array<str
 
             return permanentSignedUrl;
 
-        } catch (error) { return null }
+        } catch (error) { return 0 }
     };
 
     const deleteImage = (link: string, id: number) => {
