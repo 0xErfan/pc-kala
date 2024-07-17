@@ -1,5 +1,5 @@
 import { categoriesDate } from '@/data'
-import { categories } from '@/global.t'
+import { categories, unknownObjProps } from '@/global.t'
 import { engCategoryToPersian, engSubCategoryToPersian, showToast } from '@/utils'
 import { MdDeleteOutline } from "react-icons/md";
 import React, { useEffect, useState } from 'react'
@@ -59,16 +59,17 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
 
         try {
 
-            const formattedSpecs = Object.entries(productsSpecs)
-                .map(data => {
+            const formattedSpecs: unknownObjProps<unknownObjProps<string>> = {}
+
+            Object.entries(productsSpecs)
+
+                .forEach(data => {
 
                     const key = data[1].specKey
 
-                    return {
-                        [key]: {
-                            title: data[1]['specKey'],
-                            value: data[1]['value']
-                        }
+                    formattedSpecs[key] = {
+                        title: data[1]['specKey'],
+                        value: data[1]['value']
                     }
                 })
 
