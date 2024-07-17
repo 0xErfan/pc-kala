@@ -14,15 +14,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const { ...data } = req.body
+        const { ...data } = req.body || {}
 
-        if (!data) return res.status(421).json({ message: 'requirement data to make product not found idiot!' })
+        await ProductModel.create(data)
 
-        const newProduct = await ProductModel.create(data)
-
-        console.log('created successfully :))', newProduct)
-
-        return res.status(201).json({ message: 'Product created successfully :))' })
+        return res.status(201).json({ message: 'محصول با موفقیت ساخته شد' })
 
     } catch (err) {
         console.log(err)
