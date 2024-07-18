@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { userDataTypes } from "./global.t";
 
 export const config = {
-    matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout', '/admin-panel/:path*'],
+    matcher: ['/login', '/register', '/profile', '/transactionDetails', '/checkout', '/bannedUser', '/admin-panel/:path*'],
 };
 
 export default async function middleware(request: NextRequest) {
@@ -29,6 +29,27 @@ export default async function middleware(request: NextRequest) {
         } catch (error) {
             console.log(error)
             if (cookie) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
+        }
+    }
+
+    if (path == '/bannedUser') {
+
+        try {
+
+            const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH}/api/auth/me`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(cookie)
+            })
+            const data: userDataTypes = await res.json()
+
+            if (!res.ok || !data.isBan) return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
+
+            return NextResponse.next()
+
+        } catch (error) {
+            console.log(error)
+            return NextResponse.redirect(new URL(`${process.env.NEXT_PUBLIC_BASE_PATH}/`, request.url));
         }
     }
 
