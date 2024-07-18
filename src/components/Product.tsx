@@ -28,6 +28,7 @@ const Product = ({ productData, useMotion = true }: Props) => {
     const [isProductInUserWish, setIsProductInUserWish] = useState(false)
     const [isProductInBasket, setIsProductInBasket] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [currentImage, setCurrentImage] = useState(0)
 
     const isLoggedIn = useAppSelector(state => state.userSlice.isLogin)
 
@@ -83,15 +84,15 @@ const Product = ({ productData, useMotion = true }: Props) => {
 
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-IR')}٪</div>}
 
-            <div className="size-[90%] m-auto aspect-square">
+            <div onMouseLeave={() => setCurrentImage(0)} onMouseEnter={() => image?.length > 1 && setCurrentImage(1)} className="size-[90%] m-auto aspect-square">
 
-                <div className="size-full bg-center bg-secondary-black m-auto ch:m-auto flex-center">
+                <Link href={`/products/search/${_id}`} className="size-full transition-all duration-300 bg-center bg-secondary-black m-auto ch:m-auto flex-center">
                     <Image
-                        className="object-cover bg-transparent bg-center"
+                        className="object-cover bg-transparent transition-all duration-300 cursor-pointer bg-center"
                         src={
                             image?.length
                                 ?
-                                image[0]
+                                image[currentImage]
                                 :
                                 `/images/imageNotFound.webp`
                         }
@@ -101,7 +102,7 @@ const Product = ({ productData, useMotion = true }: Props) => {
                         alt="product-name"
                         blurDataURL="true"
                     />
-                </div>
+                </Link>
             </div>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">

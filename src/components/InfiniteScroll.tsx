@@ -90,7 +90,7 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
             </div>
 
             <>
-                <div className={`flex max-w-[250px] m-auto w-full ch:flex ch:items-center ch:justify-center border-black/20 -space-x-px ch:overflow-hidden font-peyda cursor-pointer text-title-text text-[13px] ch:border-l overflow-hidden ch:border-white/10 bg-secondary-black ch:transition-all h-10 ch:w-full ch:h-full rounded-md mt-7`}>
+                <div className={`flex max-w-[250px] cursor-default ch:ch:cursor-default m-auto w-full ch:flex ch:items-center ch:justify-center border-black/20 -space-x-px ch:overflow-hidden font-peyda text-title-text text-[13px] ch:border-l overflow-hidden ch:border-white/10 bg-secondary-black ch:transition-all h-10 ch:w-full ch:h-full rounded-md mt-7`}>
                     {
                         <div
                             ref={loadingRef}
@@ -104,7 +104,6 @@ const InfiniteScroll = ({ itemsArray, showLoader }: InfiniteScrollProps) => {
                         </div>
                     }
                 </div>
-
             </>
         </>
     )
