@@ -25,7 +25,7 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
         }
     });
 
-    const chartDataUrl = encodeURIComponent(JSON.stringify(updatedChartData))
+    const chartDataUrl = encodeURIComponent(JSON.stringify(chartData))
 
     const maxValueInChart = updatedChartData.reduce((prev, next) => (prev > next.uv ? prev : next.uv), 0)
 

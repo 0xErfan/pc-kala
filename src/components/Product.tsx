@@ -83,17 +83,15 @@ const Product = ({ productData, useMotion = true }: Props) => {
 
             {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount?.toLocaleString('fa-IR')}٪</div>}
 
-            <div className="w-full flex-center h-[240px]">
-                <Link
-                    href={`/products/search/${_id}`}
-                    className="sm:size-full size-[75%] h-full bg-secondary-black m-auto ch:m-auto mb-5 mt-1 flex-center"
-                >
+            <div className="size-[90%] m-auto aspect-square">
+
+                <div className="size-full bg-center bg-secondary-black m-auto ch:m-auto flex-center">
                     <Image
-                        className="object-cover cursor-pointer bg-transparent bg-center"
+                        className="object-cover bg-transparent bg-center"
                         src={
                             image?.length
                                 ?
-                                `${image[0]}`
+                                image[0]
                                 :
                                 `/images/imageNotFound.webp`
                         }
@@ -103,7 +101,7 @@ const Product = ({ productData, useMotion = true }: Props) => {
                         alt="product-name"
                         blurDataURL="true"
                     />
-                </Link>
+                </div>
             </div>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">
