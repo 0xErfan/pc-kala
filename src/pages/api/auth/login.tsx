@@ -19,6 +19,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (! await compare(password, userData.password)) return res.status(401).json({ message: 'نام کاربری یا ایمیل با رمز وارد شده مطابقت ندارد' })
 
+        if (userData.isBan) return res.status(403).json({ message: 'حساب شما بدلیل نقض قوانین مسدود شده' })
+
         const token = tokenGenerator(userData.email, 7)
 
         return res

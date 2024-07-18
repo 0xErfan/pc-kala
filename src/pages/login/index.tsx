@@ -19,7 +19,7 @@ const Login = () => {
     const formSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if (isEmptyInput(loginForm, ['payload', 'password'])) { showToast(false, 'لطفا تمام فیلد هارا پر کنید'); return }
+        if (isEmptyInput(loginForm, ['payload', 'password'])) return showToast(false, 'لطفا تمام فیلد هارا پر کنید')
 
         setLoading(true)
 
@@ -32,14 +32,11 @@ const Login = () => {
             })
 
             const data = await res.json()
-
             showToast(res.ok, data.message, 3000)
 
             if (res.ok) {
-
                 setLoginFrom({})
                 dispatch(userUpdater())
-
                 setTimeout(() => { navigate.replace('/') }, 1500);
             }
 
