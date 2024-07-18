@@ -72,9 +72,7 @@ const TransactionDetails = () => {
     }
 
     const sumOfProductsWithDiscount = useMemo(() => {
-        let sum = 0
-        transactionData?.productsList?.map(({ productID, count, services }) => { sum += totalPriceCalculator(productID?.price, productID?.discount, count, services) })
-        return +sum
+        return transactionData?.productsList.reduce((a, b) => a + totalPriceCalculator(b.productID.price, b.productID.discount, b.count, b.services), 0)
     }, [transactionData?.productsList])
 
     return (
@@ -131,7 +129,7 @@ const TransactionDetails = () => {
 
                                     <div className="flex justify-between">
                                         <p className="font-peyda text-md">جمع خرید:</p>
-                                        <p> {sumOfProductsWithDiscount.toLocaleString('fa-IR')} تومان </p>
+                                        <p> {sumOfProductsWithDiscount?.toLocaleString('fa-IR')} تومان </p>
                                     </div>
 
                                 </div>
@@ -222,7 +220,7 @@ const TransactionDetails = () => {
 
                                     <div className="flex items-center gap-2">
                                         <p className="text-gold/75">مجموع: </p>
-                                        <div className="text-description-text font-sans font-bold mt-1"> <span>{sumOfProductsWithDiscount.toLocaleString('fa-IR')}</span> تومان </div>
+                                        <div className="text-description-text font-sans font-bold mt-1"> <span>{sumOfProductsWithDiscount?.toLocaleString('fa-IR')}</span> تومان </div>
                                     </div>
                                 </div>
 
@@ -247,9 +245,9 @@ const UserOrder = ({ productID, count, services }: TransactionProductsTypes) => 
 
             <div className="flex gap-2 ch:h-18 ch:m-auto">
 
-                <div className="size-24">
+                <div className="size-24 aspect">
                     <Image
-                        className=" object-cover bg-center flex-1 h-full w-full"
+                        className=" object-contain bg-center flex-1 h-full w-full"
                         alt={productID?.name}
                         width={100}
                         height={100}
