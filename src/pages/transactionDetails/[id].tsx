@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import Loader from "@/components/Loader"
 import { modalDataUpdater, userUpdater } from "@/Redux/Features/globalVarsSlice"
 import { TransactionProductsTypes, TransactionProps } from "@/global.t"
+import Link from "next/link"
 
 
 const TransactionDetails = () => {
@@ -258,7 +259,7 @@ const UserOrder = ({ productID, count, services }: TransactionProductsTypes) => 
                 </div>
 
                 <div className="flex-[4] mb-auto">
-                    <p className="text-title-text text-md">{productID?.name} <span className="text-[12px] text-description-text">({Object.keys(services)?.join(', ')} )</span> </p>
+                    <Link href={`/products/search/${productID._id}`} className="text-title-text text-md">{productID?.name} <span className="text-[12px] text-description-text">({Object.keys(services)?.join(', ')} )</span> </Link>
                 </div>
 
             </div>
