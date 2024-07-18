@@ -22,7 +22,7 @@ export default function Header() {
     const [sideMenuDataToShow, setSideMenuDataToShow] = useState<"basket" | "sideMenu">("sideMenu")
     const navigate = useRouter()
     const textInputElem = useRef<HTMLInputElement | null>(null)
-    const isLogin = useAppSelector(state => state.userSlice.isLogin)
+    const { isLogin, data } = useAppSelector(state => state.userSlice)
     const { BasketItem, Notification } = useAppSelector(state => state.userSlice.relatedData) || []
 
     const menusShown = useAppSelector(state => state.globalVarsSlice.isScrolledDown)
@@ -34,6 +34,14 @@ export default function Header() {
 
     return (
         <section className="z-[150] fixed left-0 right-0 w-full shadow-regular">
+
+            {
+                data?.role == 'ADMIN'
+                    ?
+                    <Link href={'/admin-panel'} className="p-1 fixed z-50 left-0 px-2 top-0 bg-[#393A3D] rounded-br-xl text-[15px] text-description-text cursor-pointer font-peyda">داشبرد</Link>
+                    :
+                    null
+            }
 
             {/* for large screens */}
             <div className="hidden md:block bg-secondary-black py-4">
