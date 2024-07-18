@@ -1,6 +1,7 @@
 import { weekDaysChart } from '@/data'
 import { TransactionProps } from '@/global.t'
 import { getCurrentPersianWeekday } from '@/utils'
+import Link from 'next/link'
 import { MdOutlineFileDownload } from 'react-icons/md'
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 
@@ -24,6 +25,8 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
         }
     });
 
+    const chartDataUrl = encodeURIComponent(JSON.stringify(updatedChartData))
+
     const maxValueInChart = updatedChartData.reduce((prev, next) => (prev > next.uv ? prev : next.uv), 0)
 
     return (
@@ -35,7 +38,7 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
                     <p className='font-sans text-[12px] text-panel-caption flex items-center justify-start'>نمودار تعداد تراکنش ها در روز های مختلف هفته</p>
                 </div>
                 <button className='border border-panel-darkBlue font-bold transition-all duration-300 hover:bg-panel-darkBlue hover:text-white flex items-center gap-2 font-peyda rounded-md text-panel-darkBlue text-sm text-center p-3'>
-                    <p>دانلود تراکنش ها</p>
+                    <Link href={`data:text/json;charset=utf-8,${chartDataUrl}`} download={'This week transactions hah'}>دانلود تراکنش ها</Link>
                     <MdOutlineFileDownload className='size-[22px]' />
                 </button>
             </div>

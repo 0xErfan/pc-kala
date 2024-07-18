@@ -13,7 +13,6 @@ import UserModel from '@/models/User';
 import VisitModel from '@/models/Visit';
 import PerformanceIndicatorsChart from '@/components/p-admin/PerformanceIndicatorsChart';
 import VisitsChartDate from '@/components/p-admin/VisitsChartDate';
-import ProductModel from '@/models/Product';
 
 export interface MainPageDashboardProps {
     totalIncome: number,
