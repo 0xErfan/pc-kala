@@ -74,9 +74,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
 
                 </div>
 
-                <div className='flex xl:flex-row flex-col items-center 2xl:gap-8 gap-4'>
-                    <VisitsChartDate visitsData={visitsData} />
-                </div>
+                <div className='flex xl:flex-row flex-col items-center 2xl:gap-8 gap-4'><VisitsChartDate visitsData={visitsData} /></div>
 
                 <CustomersReview />
 

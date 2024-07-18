@@ -305,9 +305,10 @@ const Product = ({ product }: { product: productDataTypes }) => {
                             </div>
 
                             <div className="flex-[5] text-[13px] border relative overflow-hidden mb-auto border-dark-gold rounded-md text-description-text h-[265px] flex-center">
-                                <div className="relative overflow-hidden z-10 mb-auto w-[95%] h-[90%]">
+
+                                <div className="relative overflow-hidden z-10 mb-auto size-full flex-center aspect-square">
                                     <Image
-                                        className="flex-center object-cover m-auto py-2 size-full"
+                                        className="flex-center object-contain m-auto py-2 bg-center size-full"
                                         src={image?.length ? image[currentImage] : '/images/imageNotFound.webp'}
                                         width={600}
                                         height={600}
