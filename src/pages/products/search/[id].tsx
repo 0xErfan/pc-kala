@@ -283,14 +283,14 @@ const Product = ({ product }: { product: productDataTypes }) => {
                         <div className="flex gap-3 flex-1 h-full items-center my-4">
 
                             <div className="flex-1  mb-auto">
-                                <div className="flex items-center gap-2 flex-col ch:cursor-pointer w-full h-[47px]">
+                                <div className="flex items-center gap-2 flex-col ch:cursor-pointer aspect-square w-full h-[47px]">
                                     {
                                         image?.length
                                             ?
                                             image.map((src, index) =>
                                                 <Image
                                                     key={src}
-                                                    className="flex-center object-cover p-1 rounded-md border border-dark-red size-[90%]"
+                                                    className="flex-center object-contain p-1 rounded-md border border-dark-red size-[95%]"
                                                     src={src}
                                                     width={100}
                                                     height={100}
@@ -312,6 +312,7 @@ const Product = ({ product }: { product: productDataTypes }) => {
                                         src={image?.length ? image[currentImage] : '/images/imageNotFound.webp'}
                                         width={600}
                                         height={600}
+                                        quality={100}
                                         priority
                                         alt="product-img"
                                     />
@@ -663,7 +664,7 @@ const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImagePro
             width={500}
             height={500}
             quality={100}
-            className="object-cover bg-primary-black rounded-md cursor-zoom-in "
+            className="object-cover bg-primary-black rounded-md cursor-zoom-in"
             src={url}
             alt="full-screen-image"
         />
