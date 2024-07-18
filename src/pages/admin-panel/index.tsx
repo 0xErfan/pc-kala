@@ -99,7 +99,8 @@ export async function getStaticProps() {
         createdAt: {
             $gte: getPastDateTime('MONTH'),
             $lte: new Date()
-        }
+        },
+        $or: [{ status: 'DELIVERED' }, { status: 'PROCESSING' }]
     }).populate('productID', 'totalPrice');
 
     // ------------------------Transactions-----------------------------
@@ -148,15 +149,15 @@ export async function getStaticProps() {
 
     const transactionsStatusCountData = {
         rejected: {
-            percentage: ((transactionsStatusCount[0]?.rejected || 0) - (lastMonthTransactionsStatusCount[0]?.rejected || 0)) / (lastMonthTransactionsStatusCount[0]?.rejected || 1) * 100,
+            percentage: Math.floor(((transactionsStatusCount[0]?.rejected || 0) - (lastMonthTransactionsStatusCount[0]?.rejected || 0)) / (lastMonthTransactionsStatusCount[0]?.rejected || 1) * 100),
             count: transactionsStatusCount[0]?.rejected
         },
         delivered: {
-            percentage: ((transactionsStatusCount[0]?.delivered || 0) - (lastMonthTransactionsStatusCount[0]?.delivered || 0)) / (lastMonthTransactionsStatusCount[0]?.delivered || 1) * 100,
+            percentage: Math.floor(((transactionsStatusCount[0]?.delivered || 0) - (lastMonthTransactionsStatusCount[0]?.delivered || 0)) / (lastMonthTransactionsStatusCount[0]?.delivered || 1) * 100),
             count: transactionsStatusCount[0]?.delivered
         },
         pending: {
-            percentage: ((transactionsStatusCount[0]?.pending || 0) - (lastMonthTransactionsStatusCount[0]?.pending || 0)) / (lastMonthTransactionsStatusCount[0]?.pending || 1) * 100,
+            percentage: Math.floor(((transactionsStatusCount[0]?.pending || 0) - (lastMonthTransactionsStatusCount[0]?.pending || 0)) / (lastMonthTransactionsStatusCount[0]?.pending || 1) * 100),
             count: transactionsStatusCount[0]?.pending
         }
     }
@@ -167,7 +168,8 @@ export async function getStaticProps() {
         createdAt: {
             $gte: getPastDateTime(60),
             $lte: getPastDateTime(30)
-        }
+        },
+        $or: [{ status: 'DELIVERED' }, { status: 'PROCESSING' }]
     })
 
     const lastMonthUserCounts = await UserModel.countDocuments({
@@ -198,12 +200,12 @@ export async function getStaticProps() {
         }
     })
 
-    const lastMonthIncome = lastMonthTransactions.reduce((prev, next) => prev + next.totalPrice, 0) || 1
-    const currentMonthIncome_ = currentMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0) || 1
+    const lastMonthIncome = Math.floor(lastMonthTransactions.reduce((prev, next) => prev + next.totalPrice, 0) || 1)
+    const currentMonthIncome_ = Math.floor(currentMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0) || 1)
 
-    const totalIncomeGrowsPercentage = ((currentMonthIncome_ - lastMonthIncome) / lastMonthIncome) * 100
-    const userCountGrowsPercentage = ((currentMonthUsersCount - lastMonthUserCounts) / lastMonthUserCounts) * 100
-    const transactionsCountPercentage = ((currentMonthTransactionsCount - lastMonthTransactionsCount) / (lastMonthTransactionsCount || 1)) * 100
+    const totalIncomeGrowsPercentage = Math.floor(((currentMonthIncome_ - lastMonthIncome) / lastMonthIncome) * 100)
+    const userCountGrowsPercentage = Math.floor(((currentMonthUsersCount - lastMonthUserCounts) / lastMonthUserCounts) * 100)
+    const transactionsCountPercentage = Math.floor(((currentMonthTransactionsCount - lastMonthTransactionsCount) / (lastMonthTransactionsCount || 1)) * 100)
 
     // -------------------------VisitsData----------------------------
 
@@ -212,7 +214,7 @@ export async function getStaticProps() {
 
     return {
         props: {
-            totalIncome: currentMonthIncome.reduce((prev, next) => prev + next.totalPrice, 0),
+            totalIncome: currentMonthIncome_,
             transactions: JSON.parse(JSON.stringify(transactions)),
             transactionsData: [transactionsStatusCountData],
             performanceIndicators: { totalIncomeGrowsPercentage, userCountGrowsPercentage, transactionsCountPercentage },

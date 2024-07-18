@@ -368,9 +368,9 @@ const getPastDateTime = (last: 'MONTH' | 'WEEK' | 'DAY' | number): Date => {
 const roundedPrice = (price: number): string => {
 
     const priceLength = price.toString().length
-    const visiblePartOfPrice = price.toString().slice(0, 4)
+    const visiblePartOfPrice = price.toString().slice(0, priceLength >= 10 ? 4 : 3)
 
-    return Number(visiblePartOfPrice).toLocaleString() + (priceLength <= 10 ? 'MY' : 'M')
+    return Number(visiblePartOfPrice).toLocaleString() + (priceLength >= 10 ? 'MY' : 'M')
 }
 
 const getCurrentPersianWeekday = (day: number) => {
