@@ -5,12 +5,11 @@ import Image from "next/image";
 import { ModalProps } from "../Modal";
 import { showToast } from "@/utils";
 
-const Product = ({ _id, price, discount, image, name, productUpdater }: productDataTypes & { productUpdater: () => void }) => {
+const Product = ({ data, productUpdater, productEditor }: { data: productDataTypes } & { productUpdater: () => void, productEditor: (data: productDataTypes) => void }) => {
 
     const dispatch = useAppDispatch()
 
     const deleteProduct = () => {
-
         dispatch(modalDataUpdater({
             isShown: true,
             message: 'آیا از حذف این محصول اطمینان دارید؟',
@@ -22,11 +21,11 @@ const Product = ({ _id, price, discount, image, name, productUpdater }: productD
                     const res = await fetch('/api/products/delete', {
                         method: 'DELETE',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ _id })
+                        body: JSON.stringify({ _id: data._id })
                     })
-                    const data = await res.json()
+                    const fetchData = await res.json()
 
-                    showToast(res.ok, data.message)
+                    showToast(res.ok, fetchData.message)
                     if (res.ok) productUpdater()
 
                 } catch (error) { console.log(error) }
@@ -38,7 +37,7 @@ const Product = ({ _id, price, discount, image, name, productUpdater }: productD
     return (
         <div data-aos={`fade-in`} data-aos-duration="550" className={` transition-all duration-300 w-full relative m-auto bg-white shadow-sm rounded-xl p-3 overflow-hidden text-panel-darkTitle text-sm`}>
 
-            {discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{discount}٪</div>}
+            {data.discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{data.discount}٪</div>}
 
             <div className="size-[90%] m-auto aspect-square">
 
@@ -46,9 +45,9 @@ const Product = ({ _id, price, discount, image, name, productUpdater }: productD
                     <Image
                         className="object-cover bg-transparent bg-center"
                         src={
-                            image?.length
+                            data.image?.length
                                 ?
-                                image[0]
+                                data.image[0]
                                 :
                                 `/images/imageNotFound.webp`
                         }
@@ -62,16 +61,17 @@ const Product = ({ _id, price, discount, image, name, productUpdater }: productD
             </div>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">
-                {discount && <div className="red-line-through text-panel-darkTitle ">{price.toLocaleString('fa-IR')}</div>}
-                <div className="text-panel-darkBlue">{Number(price - (price * (discount / 100))).toLocaleString('fa-IR')} <span className="text-[10px] text-panel-darkTitle">تومان</span></div>
+                {data.discount && <div className="red-line-through text-panel-darkTitle ">{data.price.toLocaleString('fa-IR')}</div>}
+                <div className="text-panel-darkBlue">{Number(data.price - (data.price * (data.discount / 100))).toLocaleString('fa-IR')} <span className="text-[10px] text-panel-darkTitle">تومان</span></div>
             </div>
 
-            <div className="text-center px-3 transition-all min-h-[50px] h-full line-clamp-2 text-panel-darkTitle break-all leading-[25px] my-4 ">{name}</div>
+            <div className="text-center px-3 transition-all min-h-[50px] h-full line-clamp-2 text-panel-darkTitle break-all leading-[25px] my-4 ">{data.name}</div>
 
             <div className="flex items-center gap-3 ch:flex-1 ch:w-full mt-4 text-description-text ch:cursor-pointer font-peyda">
-                <button className="flex items-center gap-1 justify-center p-3 text-center rounded-md border bg-panel-lightBlue text-panel-darkBlue border-panel-darkBlue">ادیت</button>
+                <button onClick={() => productEditor(data)} className="flex items-center gap-1 justify-center p-3 text-center rounded-md border bg-panel-lightBlue text-panel-darkBlue border-panel-darkBlue">ادیت</button>
                 <button onClick={deleteProduct} className="flex items-center gap-1 justify-center p-3 text-center rounded-md border bg-panel-lightRed text-panel-darkRed border-panel-darkRed">حذف</button>
             </div>
+
         </div>
     )
 }

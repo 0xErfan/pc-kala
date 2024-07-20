@@ -4,10 +4,13 @@ import Product from "@/components/p-admin/Product";
 import { productDataTypes } from "@/global.t";
 import Pagination from "@/components/p-admin/Pagination";
 import ProductTemplate from "@/components/p-admin/ProductTemplate";
+import ProductDataEditor from "@/components/p-admin/ProductDataEditor";
 
 const Products = () => {
 
     const [showAddNewProduct, setShowAddNewProduct] = useState(false)
+    const [showProductDataEditor, setShowProductDataEditor] = useState(false)
+    const [productDataToEdit, setProductDataToEdit] = useState<productDataTypes>()
     const [products, updateProducts] = useState<productDataTypes[]>([])
     const [currentPage, setCurrentPage] = useState(1)
     const [allPages, setAllPages] = useState(0)
@@ -43,15 +46,39 @@ const Products = () => {
 
     }, [currentPage, updater])
 
+    const productEditor = (data: productDataTypes) => {
+        setShowProductDataEditor(true)
+        setShowAddNewProduct(false)
+        setProductDataToEdit(data)
+    }
+
+    useEffect(() => { showAddNewProduct && setShowProductDataEditor(false) }, [showAddNewProduct])
+
     return <Layout>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between relative">
             <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>مدیریت محصولات</h3>
             <button onClick={() => setShowAddNewProduct(prev => !prev)} className={`p-3 ${showAddNewProduct ? 'bg-panel-darkRed' : 'bg-panel-darkGreen'} text-center w-44 whitespace-nowrap font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-md`}>{showAddNewProduct ? 'لغو' : 'ایجاد محصول جدید'}</button>
         </div>
 
         {
-            showAddNewProduct ? <ProductTemplate productsUpdater={() => { setShowAddNewProduct(false), setUpdater(prev => !prev) }} /> : null
+            showProductDataEditor
+                ?
+                <ProductDataEditor
+                    {...productDataToEdit as productDataTypes}
+                    closeUpdateForm={() => setShowProductDataEditor(false)}
+                    productsUpdater={() => { setShowProductDataEditor(false), setUpdater(prev => !prev) }}
+                />
+                :
+                null
+        }
+
+        {
+            showAddNewProduct
+                ?
+                <ProductTemplate productsUpdater={() => { setShowAddNewProduct(false), setUpdater(prev => !prev) }} />
+                :
+                null
         }
 
         <div className={"grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 2xl:gap-10 mt-6 ch:w-full justify-between"}>
@@ -60,7 +87,8 @@ const Products = () => {
                     ?
                     products.map(data => (
                         <Product
-                            {...data}
+                            data={{ ...data }}
+                            productEditor={productEditor}
                             productUpdater={() => setUpdater(prev => !prev)}
                             key={data._id}
                         />)
