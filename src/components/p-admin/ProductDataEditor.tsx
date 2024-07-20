@@ -71,35 +71,19 @@ const ProductDataEditor = (
                 return
             }
 
-            // check if the images didn't changed, so no need to update
-            // const doesLinksChanged = imageLinks.some(data => image.includes(data))
-
-            updateProductData(imageLinks)
+            if (imageLinks?.length !== image.length) {
+                updateProductData(imageLinks)
+            } else {
+                const isLinkAndImageLinkArraysAreEqual = imageLinks.every(data => image.some(imageLinks => imageLinks === data))
+                if (!isLinkAndImageLinkArraysAreEqual) updateProductData(imageLinks)
+            }
         }
 
     }, [imageLinks, createProductTrigger, image])
 
-    // useEffect(() => {
-    //     console.log(image)
-    //     console.log(imageLinks)
-    //     console.log(trigger)
-    // }, [imageLinks, image, trigger])
-
     const updateProductData = async (links: string[]) => {
 
         try {
-            const doesLinksChanged = links.some(data => image.includes(data))
-
-            // console.log(links)
-            // console.log(image)
-
-            if (!doesLinksChanged) {
-                showToast(false, 'تغییری در اطلاعات یافت نشد')
-                setImageLinks(image)
-                setCreateProductTrigger(false)
-                setTrigger(false)
-            }
-            return;
 
             const formattedSpecs: unknownObjProps<unknownObjProps<string>> = {}
 
@@ -342,7 +326,7 @@ const ProductDataEditor = (
                             </div>
                         </div>
 
-                        <div className='w-full flex ch:flex-1 ch:w-full gap-3'>
+                        <div className='w-full hidden xl:flex ch:flex-1 ch:w-full gap-3'>
                             <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
                                 {
                                     isLoading
@@ -359,6 +343,20 @@ const ProductDataEditor = (
                 </div>
 
                 <ProductImageUpdater imagesData={image} trigger={trigger} updateLoading={(status: boolean) => setIsLoading(status)} imageDataSender={imageLink => setImageLinks(imageLink)} />
+
+                <div className='w-full xl:hidden flex ch:flex-1 ch:w-full gap-3'>
+                    <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
+                        {
+                            isLoading
+                                ?
+                                <Loader />
+                                :
+                                ' بروزرسانی اطلاعات محصول'
+                        }
+                    </button>
+
+                    <button onClick={closeUpdateForm} className='p-3 text-center font-peyda text-[18px] px-5 flex-center bg-panel-darkRed text-white rounded-xl'>لغو</button>
+                </div>
 
             </div>
         </div>

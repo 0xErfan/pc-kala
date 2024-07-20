@@ -23,8 +23,6 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
     const [imagesSrc, setImagesSrc] = useState<Array<string>>(imagesData)
     const [selectedFilesData, setSelectedFilesData] = useState<File[]>([])
 
-    useEffect(() => { console.log('triggered', trigger) }, [trigger])
-
     useEffect(() => {
         (
             async () => { trigger && imageDataSender(await sendImagesData()) }
@@ -137,7 +135,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
     return (
         <div className={'flex-1 rounded-xl p-4 h-full mb-auto bg-white shadow-sm'}>
 
-            <div className={'font-peyda text-[25px] pb-3'}>اپلود عکس</div>
+            <div className={'font-peyda text-[25px] pb-3'}>عکس های محصول</div>
 
             <div className={'xl:flex block gap-3 flex-col'}>
 
@@ -155,7 +153,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
                         </label>
                 }
 
-                <div className='grid grid-cols-4 gap-2'>
+                <div dir='ltr' className='grid xl:grid-cols-4 grid-cols-5 gap-2'>
 
                     {
                         imagesSrc.slice(1).map((url, index) =>
