@@ -67,7 +67,11 @@ const Products = () => {
                 <ProductDataEditor
                     {...productDataToEdit as productDataTypes}
                     closeUpdateForm={() => setShowProductDataEditor(false)}
-                    productsUpdater={() => { setShowProductDataEditor(false), setUpdater(prev => !prev) }}
+                    productsUpdater={() => {
+                        setShowProductDataEditor(false)
+                        setUpdater(prev => !prev)
+                        window.scrollTo({ top: 0, behavior: 'smooth' })
+                    }}
                 />
                 :
                 null

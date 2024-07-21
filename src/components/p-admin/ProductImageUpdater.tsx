@@ -56,7 +56,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
 
             imageLinks.push(link);
         }
-        console.log(imageLinks)
+        
         return imageLinks;
     };
 
