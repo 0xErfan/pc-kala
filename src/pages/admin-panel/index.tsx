@@ -6,7 +6,7 @@ import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
 import connectToDB from '@/config/db';
 import { transactionModel } from '@/models/Transactions';
-import { getPastDateTime, roundedPrice } from '@/utils';
+import { getPastDateTime, getStartOfWeek, roundedPrice } from '@/utils';
 import TransactionsChart from '@/components/p-admin/TransactionsChart';
 import mongoose from 'mongoose';
 import UserModel from '@/models/User';
@@ -104,7 +104,7 @@ export async function getStaticProps() {
 
     const transactions = await transactionModel.find({
         createdAt: {
-            $gte: getPastDateTime('WEEK'),
+            $gte: getStartOfWeek(),
             $lte: new Date()
         }
     })

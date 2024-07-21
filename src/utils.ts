@@ -381,6 +381,17 @@ const getCurrentPersianWeekday = (day: number) => {
     return persianDays[persianDayIndex];
 }
 
+const getStartOfWeek = (): Date => {
+    const currentDate = new Date();
+    const currentDay = currentDate.getDay();
+    const diff = currentDate.getDate() - currentDay + (currentDay === 0 ? -6 : 1);
+
+    console.log(new Date(currentDate.setDate(diff)))
+    console.log(new Date())
+    
+    return new Date(currentDate.setDate(diff));
+}
+
 export {
     getTimer,
     fetchData,
@@ -403,4 +414,5 @@ export {
     getPastDateTime,
     roundedPrice,
     getCurrentPersianWeekday,
+    getStartOfWeek
 }
