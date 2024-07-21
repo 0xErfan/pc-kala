@@ -2,7 +2,6 @@ import connectToDB from "@/config/db";
 import { TransactionProductsTypes } from "@/global.t";
 import ProductModel from "@/models/Product";
 import { transactionModel } from "@/models/Transactions";
-import { NotificationModel } from "@/models/UserRelatedSchemas";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -13,21 +12,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         await connectToDB()
 
-        const { key, value, transactionID } = req.body
+        const { _id, status } = req.body
 
-        if (!key || !value || !transactionID) return res.status(422).json({ message: 'all needed data to update the transaction did not received' })
+        const updatedTransaction = await transactionModel.findOneAndUpdate({ _id }, { status })
 
-        const updatedTransaction = await transactionModel.findOneAndUpdate({ _id: transactionID }, { [key]: value })
-
-        if (key == 'status' && value == 'CANCELED') {
+        if (status == 'CANCELED') {
             updatedTransaction.productsList.map(async (data: TransactionProductsTypes) => {
                 await ProductModel.findOneAndUpdate({ _id: data.productID._id }, { $inc: { customers: -1 } })
             })
         }
 
-        await NotificationModel.create({ userID: updatedTransaction.userID, body: `سفارش شما با کد ${transactionID.slice(-6, -1).toUpperCase()}  با موفقیت لغو شد 🥲‍` })
-
-        return res.status(200).json({ message: `سفارش شما با موفقیت لغو شد` })
+        return res.status(200).json({ message: `وضعیت سفارش به ${status == 'CANCELED' ? '"لغو شده"' : status == 'PROCESSING' ? '"درحال ارسال"' : '"ارسال شده"'} تغییر یافت` })
 
     } catch (err) {
         console.log(err)
