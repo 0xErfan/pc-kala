@@ -13,8 +13,8 @@ const BUCKET = 'pc-kala'
 
 interface Props {
     imageDataSender: (links: Array<string> | 0) => void
-    trigger: boolean
     updateLoading: (status: boolean) => void
+    trigger: boolean
     imagesData: string[]
 }
 
@@ -22,6 +22,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
 
     const [imagesSrc, setImagesSrc] = useState<Array<string>>(imagesData)
     const [selectedFilesData, setSelectedFilesData] = useState<File[]>([])
+    const [isDeleteUsed, setIsDeleteUsed] = useState(false)
 
     useEffect(() => {
         (
@@ -30,7 +31,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
     }, [trigger])
 
     useEffect(() => {
-        for (const image of imagesSrc) newImageUploaderFromUrl(image)
+        for (const image of imagesSrc) createImageFileFromSrc(image)
     }, [imagesSrc])
 
     const sendImagesData = async () => {
@@ -44,9 +45,9 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
 
         const imageLinks: Array<string> = [];
 
-        for (let image of selectedFilesData) {
+        for (let image of (isDeleteUsed && selectedFilesData.length == 2 ? selectedFilesData.reverse() : selectedFilesData)) { // if delete image fn get used, we should reverse the array so the main image don't become last image k?
 
-            const link = await handleUpload(image);
+            const link = await uploadImage(image);
 
             if (!link) {
                 showToast(false, 'خطا در اپلود');
@@ -55,7 +56,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
 
             imageLinks.push(link);
         }
-
+        console.log(imageLinks)
         return imageLinks;
     };
 
@@ -77,7 +78,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
         e.target.value = '' // reset the input value after every change
     }
 
-    const newImageUploaderFromUrl = async (imageUrl: string) => {
+    const createImageFileFromSrc = async (imageUrl: string) => {
 
         try {
             const response = await fetch(imageUrl);
@@ -95,7 +96,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
 
     };
 
-    const handleUpload = async (file: File): Promise<string | 0> => {
+    const uploadImage = async (file: File): Promise<string | 0> => {
 
         let encodedFileName = file.name?.replace(/[\?\=\%\&\+\-\.\_\s]/g, '_')
         encodedFileName = encodedFileName?.slice(encodedFileName.length - 30)
@@ -128,8 +129,9 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
     };
 
     const deleteImage = (link: string, id: number) => {
+        setIsDeleteUsed(true)
         setImagesSrc(prev => prev.filter(url => url !== link))
-        setSelectedFilesData(prev => prev.splice(id, 1))
+        setSelectedFilesData(prev => prev.splice(id, 1).reverse())
     }
 
     return (
