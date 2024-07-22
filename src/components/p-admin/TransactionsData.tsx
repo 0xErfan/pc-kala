@@ -1,8 +1,8 @@
-import { useAppDispatch } from '@/Hooks/useRedux'
-import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice'
+import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux'
+import { modalDataUpdater, transactionStatusUpdater } from '@/Redux/Features/globalVarsSlice'
 import { showToast } from '@/utils'
 import { MdKeyboardArrowDown } from "react-icons/md";
-import React, { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ModalProps } from '../Modal'
 import { TransactionProps } from '@/global.t'
 
@@ -14,8 +14,13 @@ interface Props {
 const TransactionData = ({ _id, createdAt, customerData, totalPrice, status, rowNumber, transactionsUpdater }: TransactionProps & Props) => {
 
     const dispatch = useAppDispatch()
+    const transactionStatusShown = useAppSelector(state => state.globalVarsSlice.transactionStatusShown)
     const [isLoading, setIsLoading] = useState(false)
     const [isDropDownShown, setIsDropDownShown] = useState(false)
+
+    // useEffect(() => { setIsDropDownShown(false) }, [transactionStatusShown]) // when a dropDown gets open, the other ones get closed
+
+    console.log(transactionStatusShown)
 
     const changeTransactionStatus = async (value: typeof status) => {
 
@@ -47,9 +52,11 @@ const TransactionData = ({ _id, createdAt, customerData, totalPrice, status, row
         } as ModalProps))
     }
 
+    // useEffect(() => { !isDropDownShown && dispatch(transactionStatusUpdater()) }, [isDropDownShown])
+
     return (
 
-        <tr data-aos='zoom-in' className='ch:border-2 ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
+        <tr className='ch:border-2 ch:border-white ch:ch:text-[10px] ch:md:text-[15px] ch:py-2 font-peyda'>
 
             <td>{rowNumber + 1}</td>
 
@@ -61,7 +68,7 @@ const TransactionData = ({ _id, createdAt, customerData, totalPrice, status, row
 
             <td dir='ltr'>{totalPrice.toLocaleString('fa') + 'T'}</td>
 
-            <td className='w-20 bg-white relative'>
+            <td className='w-20 relative'>
 
                 <div className={`flex-center w-full px-2 `}>
 
@@ -74,8 +81,8 @@ const TransactionData = ({ _id, createdAt, customerData, totalPrice, status, row
 
                 </div>
 
-                <div className={`${isDropDownShown ? 'visible opacity-100' : 'invisible opacity-0'} absolute transition-all -right-32 top-2 rounded-lg font-peyda bg-black`}>
-                    <div className="flex ch:cursor-pointer items-center p-3 rounded-md text-white bg-black ch:p-2 flex-col gap-2 text-sm dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                <div className={`${isDropDownShown ? 'visible opacity-100 -right-32' : 'invisible opacity-0 -right-0'} z-[999] absolute transition-all top-4 rounded-lg font-peyda bg-black`}>
+                    <div className="flex-center m-auto ch:cursor-pointer p-3 rounded-md text-panel-darkTitle shadow-md border-2 border-black/70 bg-panel-white ch:p-2 flex-col gap-2 text-sm">
                         {
                             ['DELIVERED', 'CANCELED', 'PROCESSING']
                                 .filter(st => st !== status)

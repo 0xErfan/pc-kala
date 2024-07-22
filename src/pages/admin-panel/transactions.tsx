@@ -57,7 +57,7 @@ const index = () => {
                         <table className='w-full text-center overflow-x-auto rounded-md'>
 
                             <thead>
-                                <tr className='font-peyda md:text-[18px] sm:text-[16px] text-[14px] text-center w-full ch:bg-white ch:py-2 ch:text-panel-darkTitle'>
+                                <tr className='font-peyda sm:text-[14px] text-[13px] text-center w-full ch:bg-white ch:py-2 ch:text-panel-darkTitle'>
                                     <td>شماره</td>
                                     <td>نام/نام کاربری</td>
                                     <td>ایمیل</td>

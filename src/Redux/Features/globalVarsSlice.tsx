@@ -17,7 +17,8 @@ const globalVarsSlice = createSlice({
             okBtnText: 'تایید',
             cancelBtnText: 'لغو',
         } satisfies ModalProps,
-        loadMore: false
+        loadMore: false,
+        transactionStatusShown: false,
     },
     reducers: {
         isScrolledDownUpdater: (state, action) => { return { ...state, isScrolledDown: action.payload } },
@@ -40,7 +41,8 @@ const globalVarsSlice = createSlice({
                 }
             }
         },
-        loadMoreUpdater: (state, action) => { return { ...state, loadMore: action.payload } }
+        loadMoreUpdater: (state, action) => { return { ...state, loadMore: action.payload } },
+        transactionStatusUpdater: state => ({ ...state, transactionStatusShown: !state.transactionStatusShown })
     },
 })
 
@@ -53,5 +55,6 @@ export const {
     changeCanScroll,
     modalDataUpdater,
     modalDataReset,
-    loadMoreUpdater
+    loadMoreUpdater,
+    transactionStatusUpdater
 } = globalVarsSlice.actions
