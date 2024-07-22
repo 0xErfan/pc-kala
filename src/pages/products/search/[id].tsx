@@ -360,7 +360,10 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                         </div>
 
-                        <div className={`${(category == 'pc' || category == 'laptop') ? 'visible' : 'invisible'} py-0 `}>
+                        <div className={`${(category == 'pc' || category == 'laptop') ? 'opacity-100' : 'opacity-30'} py-0 relative`}>
+
+                            <span className="inset-0 w-full h-full z-30 cursor-no-drop absolute"></span>
+
                             <p className="text-dark-red mt-6 text-sm">خدمات ویژه پی سی کالا :</p>
 
                             <div className="text-[12px] ch:my-3 ch:text-description-text">
@@ -411,7 +414,6 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                             </div>
                         </div>
-
 
                         <div>
 

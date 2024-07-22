@@ -134,7 +134,7 @@ const ImageUploader = ({ imageDataSender, trigger, updateLoading }: Props) => {
                         </label>
                 }
 
-                <div className='grid grid-cols-4 gap-2'>
+                <div dir='ltr' className='grid grid-cols-4 gap-2'>
 
                     {
                         imagesSrc.slice(1).map((url, index) =>

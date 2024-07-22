@@ -5,10 +5,6 @@ import { Bar, BarChart, CartesianGrid, Legend, Rectangle, ResponsiveContainer, T
 
 const VisitsChartDate = ({ visitsData }: Partial<MainPageDashboardProps>) => {
 
-    visitsData?.lastWeekVisitsData.map(data => {
-        console.log(data.count + ' ' + getCurrentPersianWeekday(new Date(data.date).getDay()) + ' ' + new Date(data.date).toLocaleDateString('fa'))
-    })
-
     let currentAndLastWeekVisitData = [
         {
             name: 'شنبه',
