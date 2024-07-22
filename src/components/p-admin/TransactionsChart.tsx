@@ -21,7 +21,7 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
         const chartItemIndex = updatedChartData.findIndex(chartData => chartData.name === weekday);
 
         // we don't want to show any data from last week دوشنبه if we are in شنبه right now
-        if (chartItemIndex !== -1 && (currentDay > transactionWeekDay)) {
+        if (chartItemIndex !== -1 && (currentDay >= transactionWeekDay || transactionWeekDay == 6)) {
             updatedChartData[chartItemIndex] = {
                 ...updatedChartData[chartItemIndex],
                 uv: updatedChartData[chartItemIndex].uv + 1

@@ -5,6 +5,10 @@ import { Bar, BarChart, CartesianGrid, Legend, Rectangle, ResponsiveContainer, T
 
 const VisitsChartDate = ({ visitsData }: Partial<MainPageDashboardProps>) => {
 
+    visitsData?.lastWeekVisitsData.map(data => {
+        console.log(data.count + ' ' + getCurrentPersianWeekday(new Date(data.date).getDay()) + ' ' + new Date(data.date).toLocaleDateString('fa'))
+    })
+
     let currentAndLastWeekVisitData = [
         {
             name: 'شنبه',
@@ -45,10 +49,13 @@ const VisitsChartDate = ({ visitsData }: Partial<MainPageDashboardProps>) => {
 
     visitsData?.lastWeekVisitsData.forEach(data => {
 
-        const weekday = getCurrentPersianWeekday(new Date(data.date).getDay());
+        const currentDay = new Date().getDay()
+        const visitsWeekDay = new Date(data.date).getDay()
+
+        const weekday = getCurrentPersianWeekday(visitsWeekDay);
         const chartItemIndex = currentAndLastWeekVisitData.findIndex(chartData => chartData.name === weekday);
 
-        if (chartItemIndex !== -1) {
+        if (chartItemIndex !== -1 && (currentDay >= visitsWeekDay || visitsWeekDay == 6)) {
             currentAndLastWeekVisitData[chartItemIndex] = {
                 ...currentAndLastWeekVisitData[chartItemIndex],
                 ['هفته قبل']: currentAndLastWeekVisitData[chartItemIndex]['هفته قبل'] += data.count
@@ -58,10 +65,13 @@ const VisitsChartDate = ({ visitsData }: Partial<MainPageDashboardProps>) => {
 
     visitsData?.currentWeekVisitsData.forEach(data => {
 
-        const weekday = getCurrentPersianWeekday(new Date(data.date).getDay());
+        const currentDay = new Date().getDay()
+        const visitsWeekDay = new Date(data.date).getDay()
+
+        const weekday = getCurrentPersianWeekday(visitsWeekDay);
         const chartItemIndex = currentAndLastWeekVisitData.findIndex(chartData => chartData.name === weekday);
 
-        if (chartItemIndex !== -1) {
+        if (chartItemIndex !== -1 && (currentDay >= visitsWeekDay || visitsWeekDay == 6)) { // wtf is visitsWeekDay == 6 ? in iran its شنبه , so we always want to show it
             currentAndLastWeekVisitData[chartItemIndex] = {
                 ...currentAndLastWeekVisitData[chartItemIndex],
                 ["هفته فعلی"]: currentAndLastWeekVisitData[chartItemIndex]["هفته فعلی"] += data.count

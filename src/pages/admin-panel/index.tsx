@@ -6,7 +6,7 @@ import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
 import connectToDB from '@/config/db';
 import { transactionModel } from '@/models/Transactions';
-import { getPastDateTime, getStartOfWeek, roundedPrice } from '@/utils';
+import { getCurrentPersianWeekday, getPastDateTime, getStartOfWeek, roundedPrice } from '@/utils';
 import TransactionsChart from '@/components/p-admin/TransactionsChart';
 import mongoose from 'mongoose';
 import UserModel from '@/models/User';
@@ -75,7 +75,9 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
 
                 </div>
 
-                <div className='flex xl:flex-row flex-col items-center 2xl:gap-8 gap-4'><VisitsChartDate visitsData={visitsData} /></div>
+                <div className='flex xl:flex-row flex-col items-center 2xl:gap-8 gap-4'>
+                    <VisitsChartDate visitsData={visitsData} />
+                </div>
 
                 <CustomersReview />
 
@@ -105,7 +107,7 @@ export async function getStaticProps() {
 
     const transactions: TransactionProps[] = await transactionModel.find({
         createdAt: {
-            $gte: getPastDateTime('WEEK'),
+            $gte: getPastDateTime(6),
             $lte: new Date()
         }
     })
@@ -207,7 +209,7 @@ export async function getStaticProps() {
 
     // -------------------------VisitsData----------------------------
 
-    const lastWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(14), $lte: getPastDateTime(6) } }, 'count date')
+    const lastWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(14), $lte: getPastDateTime(7) } }, 'count date')
     const currentWeekVisitsData = await VisitModel.find({ date: { $gte: getPastDateTime(7), $lte: new Date() } }, 'count date')
 
     return {
