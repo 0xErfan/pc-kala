@@ -362,7 +362,12 @@ const Product = ({ product }: { product: productDataTypes }) => {
 
                         <div className={`${(category == 'pc' || category == 'laptop') ? 'opacity-100' : 'opacity-30'} py-0 relative`}>
 
-                            <span className="inset-0 w-full h-full z-30 cursor-no-drop absolute"></span>
+                            {
+                                !(category == 'pc' || category == 'laptop')
+                                    ?
+                                    <span className="inset-0 w-full h-full z-30 cursor-no-drop absolute"></span>
+                                    : null
+                            }
 
                             <p className="text-dark-red mt-6 text-sm">خدمات ویژه پی سی کالا :</p>
 
