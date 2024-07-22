@@ -27,6 +27,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
     const { rejected, pending, delivered } = transactionsData[0]
 
     return (
+
         <Layout>
 
             <div className='flex flex-col gap-4 2xl:gap-8 overflow-hidden ch:overflow-hidden'>
@@ -102,9 +103,9 @@ export async function getStaticProps() {
 
     // ------------------------Transactions-----------------------------
 
-    const transactions = await transactionModel.find({
+    const transactions: TransactionProps[] = await transactionModel.find({
         createdAt: {
-            $gte: getStartOfWeek(),
+            $gte: getPastDateTime('WEEK'),
             $lte: new Date()
         }
     })

@@ -33,7 +33,7 @@ const FetchOnLoad = () => { // insure that after the hydration, always the userS
 
         const updateVisits = async () => {
             try {
-                
+
                 const now = new Date()
                 const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate())
 

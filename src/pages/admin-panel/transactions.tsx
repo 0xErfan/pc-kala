@@ -4,12 +4,9 @@ import Discount from '@/components/p-admin/Discount'
 import Layout from '@/components/p-admin/Layout'
 import Pagination from '@/components/p-admin/Pagination'
 import TransactionData from '@/components/p-admin/TransactionsData'
-import User from '@/components/p-admin/User'
 import { TransactionProps } from '@/global.t'
-import { totalPriceCalculator } from '@/utils'
-import { useRouter } from 'next/router'
-import React, { useEffect, useMemo, useState } from 'react'
-import { IoIosArrowDown } from 'react-icons/io'
+import React, { useEffect, useState } from 'react'
+
 
 const index = () => {
 
@@ -37,7 +34,6 @@ const index = () => {
 
                 const { transactions: newTransactions, availablePages } = await res.json()
                 if (!newTransactions?.length) return setIsEmpty(true)
-                console.log(newTransactions)
 
                 setAllPages(availablePages)
                 updateTransactions([...newTransactions])

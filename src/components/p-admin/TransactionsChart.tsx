@@ -14,10 +14,14 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
 
     chartData.forEach(data => {
 
-        const weekday = getCurrentPersianWeekday(new Date(data.createdAt).getDay());
+        const currentDay = new Date().getDay()
+        const transactionWeekDay = new Date(data.createdAt).getDay()
+        const weekday = getCurrentPersianWeekday(transactionWeekDay);
+
         const chartItemIndex = updatedChartData.findIndex(chartData => chartData.name === weekday);
 
-        if (chartItemIndex !== -1) {
+        // we don't want to show any data from last week دوشنبه if we are in شنبه right now
+        if (chartItemIndex !== -1 && (currentDay > transactionWeekDay)) {
             updatedChartData[chartItemIndex] = {
                 ...updatedChartData[chartItemIndex],
                 uv: updatedChartData[chartItemIndex].uv + 1

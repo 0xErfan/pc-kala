@@ -374,11 +374,8 @@ const roundedPrice = (price: number): string => {
 }
 
 const getCurrentPersianWeekday = (day: number) => {
-
     const persianDays = ['یکشنبه', 'دوشنبه', 'سه‌شنبه', 'چهارشنبه', 'پنج‌شنبه', 'جمعه', 'شنبه'];
-    const persianDayIndex = day; // Add 1 to align with our assumption of Saturday being the first day
-
-    return persianDays[persianDayIndex];
+    return persianDays[day];
 }
 
 const getStartOfWeek = (): Date => {
@@ -388,7 +385,7 @@ const getStartOfWeek = (): Date => {
 
     console.log(new Date(currentDate.setDate(diff)))
     console.log(new Date())
-    
+
     return new Date(currentDate.setDate(diff));
 }
 
