@@ -45,9 +45,9 @@ const Comments = () => {
             <Layout>
                 <div>
 
-                    <h3 className='text-[26px] font-peyda pt-4 font-bold text-panel-darkBlue'>مدریت کامنت ها</h3>
+                    <h3 className='md:text-[26px] text-xl font-peyda pt-4 font-bold text-panel-darkBlue'>مدریت کامنت ها</h3>
 
-                    <div className='grid grid-cols-1 pt-4'>
+                    <div className='grid grid-cols-1 pt-4 overflow-auto'>
 
                         <table className='w-full text-center overflow-x-auto rounded-md'>
 
@@ -65,8 +65,6 @@ const Comments = () => {
                             </thead>
 
                             <tbody className='overflow-auto border border-white'>
-
-                                {/* { CommentsSuspense()} */}
 
                                 {
                                     comments?.length
