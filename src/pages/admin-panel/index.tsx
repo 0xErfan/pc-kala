@@ -6,7 +6,7 @@ import { TransactionProps, unknownObjProps } from '@/global.t';
 import CustomersReview from '@/components/p-admin/CustomersReview';
 import connectToDB from '@/config/db';
 import { transactionModel } from '@/models/Transactions';
-import { getCurrentPersianWeekday, getPastDateTime, getStartOfWeek, roundedPrice } from '@/utils';
+import { getPastDateTime, roundedPrice } from '@/utils';
 import TransactionsChart from '@/components/p-admin/TransactionsChart';
 import mongoose from 'mongoose';
 import UserModel from '@/models/User';

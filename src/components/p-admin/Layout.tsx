@@ -1,4 +1,3 @@
-import '@/styles/noScroll.module.css'
 import { ReactNode } from 'react'
 import { IoHomeOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
@@ -46,6 +45,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
     return (
         <div className='flex bg-panel-white min-h-screen'>
+            <style jsx global>
+                {
+                    `
+                        ::-webkit-scrollbar {
+                            display: none;
+                        }
+                    `
+                }
+            </style>
 
             <aside className='bg-white xl:w-full w-20 xl:flex-[1] z-40'>
                 <div className='sticky top-0 xl:p-5 p-3'>
