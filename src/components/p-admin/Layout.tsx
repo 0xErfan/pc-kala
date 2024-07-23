@@ -54,7 +54,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 <LuPanelRightOpen className={`size-6 transition-all  ${showDashboardLinks && 'rotate-180'}`} />
             </span>
 
-            {/* <style jsx global>
+            <style jsx global>
                 {
                     `
                         ::-webkit-scrollbar {
@@ -62,7 +62,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                         }
                     `
                 }
-            </style> */}
+            </style>
 
             <aside className={`bg-white fixed w-20 md:sticky ${showDashboardLinks ? 'right-0' : '-right-20 md:right-0'} transition-all top-0 bottom-0 z-[9999] xl:flex-1`}>
                 <div className='sticky top-0 xl:p-5 p-3'>
