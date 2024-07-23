@@ -50,9 +50,9 @@ const Index = () => {
             <Layout>
                 <div>
 
-                    <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>مدریت سفارش ها</h3>
+                    <h3 className='md:text-[26px] text-xl font-peyda font-bold text-panel-darkBlue'>مدریت سفارش ها</h3>
 
-                    <div className='grid grid-cols-1 mt-7'>
+                    <div className='grid grid-cols-1 mdLmt-7 mt-4 overflow-auto'>
 
                         <table className='w-full text-center overflow-x-auto rounded-md'>
 

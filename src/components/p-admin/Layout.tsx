@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useState } from 'react'
 import { IoHomeOutline } from "react-icons/io5";
 import { FiUsers } from "react-icons/fi";
 import { RiFileList3Line } from "react-icons/ri";
@@ -12,6 +12,7 @@ import { MdNotificationsNone } from "react-icons/md";
 import Link from 'next/link';
 import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux';
 import { useRouter } from 'next/router';
+import { LuPanelRightOpen } from "react-icons/lu";
 import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
 import { showToast } from '@/utils';
 import { userDataUpdater } from '@/Redux/Features/userSlice';
@@ -23,10 +24,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
     const dispatch = useAppDispatch()
     const notifications = useAppSelector(state => state.userSlice.relatedData?.dashboardNotifications) || []
     const { nameLastName, username } = useAppSelector(state => state.userSlice.data) || {}
+    const [showDashboardLinks, setShowDashboardLinks] = useState(false)
     const navigate = useRouter()
 
     const logout = async () => {
-
         dispatch(modalDataUpdater({
             isShown: true, title: 'خروج از حساب', message: 'آیا قصد خروج از حسابتان را دارید؟', okButtonText: 'بله', fn: async () => {
 
@@ -45,7 +46,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
     return (
         <div className='flex bg-panel-white min-h-screen'>
-            <style jsx global>
+
+            <span
+                onClick={() => setShowDashboardLinks(prev => !prev)}
+                className='fixed md:hidden cursor-pointer bottom-3 right-3 border-2 border-white shadow-md rounded-full size-[60px] flex-center bg-panel-caption text-white z-[9999999999]'
+            >
+                <LuPanelRightOpen className={`size-6 transition-all  ${showDashboardLinks && 'rotate-180'}`} />
+            </span>
+
+            {/* <style jsx global>
                 {
                     `
                         ::-webkit-scrollbar {
@@ -53,11 +62,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
                         }
                     `
                 }
-            </style>
+            </style> */}
 
-            <aside className='bg-white xl:w-full w-20 xl:flex-[1] z-40'>
+            <aside className={`bg-white fixed w-20 md:sticky ${showDashboardLinks ? 'right-0' : '-right-20 md:right-0'} transition-all top-0 bottom-0 z-[9999] xl:flex-1`}>
                 <div className='sticky top-0 xl:p-5 p-3'>
-
                     <div>
                         <Link href={'/'} className='flex items-start justify-center gap-px flex-col'>
                             <div className='relative xl:block hidden'>
@@ -131,29 +139,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                         </div>
                     </div>
-
-
-                    {/* <div className='font-peyda text-panel-darkTitle text-center'>
-
-                        <p>ادمین پنل پیسی کالا</p>
-                        <p>© 2020 All Rights Reserved</p>
-
-                        <div dir='ltr'>
-                            Made with ❤️ by
-                            <Link
-                                target='_blank'
-                                href={'https://github.com/0xErfan'}
-                                className='text-panel-darkBlue font-bold px-2'>0xErfan
-                            </Link>
-                        </div>
-                    </div> */}
-
                 </div>
-
             </aside>
 
-
-            <section className='flex-[6] xl:p-10 p-5 relative'>
+            <section className='flex-[6] 2xl:p-10 xl:p-6 p-5 relative'>
 
                 <span className='right-0 left-0 fixed top-0 w-full xl:h-[120px] h-[110px] bg-panel-white z-30'></span>
 
@@ -181,7 +170,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 <section className='pt-[35px]'>{children}</section>
 
             </section>
-        </div>
+        </div >
     )
 }
 

@@ -109,7 +109,7 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
     }
 
     return (
-        <tr data-aos='zoom-in' className='ch:border-2 ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2'>
+        <tr data-aos='zoom-in' className='ch:border-2 ch:border-white ch:ch:text-[11px] ch:md:text-[15px] ch:py-2 shrink-0'>
 
             <td>{rowNumber + 1}</td>
 

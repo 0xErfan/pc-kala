@@ -56,7 +56,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
 
             imageLinks.push(link);
         }
-        
+
         return imageLinks;
     };
 
@@ -156,6 +156,11 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
                 }
 
                 <div dir='ltr' className='grid xl:grid-cols-4 grid-cols-5 gap-2'>
+
+                    <div className={'xl:hidden block aspect-square relative bg-panel-white ch:rounded-xl rounded-xl'}>
+                        <Image className={'object-contain size-full'} width={300} height={300} src={imagesSrc[0]} alt="idk" />
+                        <span onClick={() => deleteImage(imagesSrc[0], 0)} className='cursor-pointer transition-all absolute size-6 text-white bg-panel-darkRed ch:size-[70%] flex-center right-1 top-1'>< MdOutlineDelete /></span>
+                    </div>
 
                     {
                         imagesSrc.slice(1).map((url, index) =>

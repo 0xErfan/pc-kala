@@ -180,14 +180,14 @@ const ProductDataEditor = (
     }, [selectedCategory])
 
     return (
-        <div ref={scrollToTopDiv} data-aos="zoom-out" className="mt-12 mb-20">
+        <div ref={scrollToTopDiv} data-aos="zoom-in" className="mt-12 mb-20">
 
-            <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>بروزرسانی اطلاعات محصول</h3>
+            <h3 className='md:text-[26px] text-xl font-peyda font-bold text-panel-darkBlue'>بروزرسانی اطلاعات محصول</h3>
 
             <div className='flex items-center xl:flex-row flex-col ch:w-full gap-4 my-4'>
 
                 <div className={'flex-[2.4] grid grid-cols-1 h-full mb-auto rounded-xl p-4 bg-white shadow-sm'}>
-                    <div className="flex items-center flex-col ch:w-full ch:flex-1 gap-8">
+                    <div className="flex items-center flex-col overflow-hidden ch:w-full ch:flex-1 gap-8">
 
                         <div className="flex flex-col gap-2 shadow-sm text-panel-darkTitle font-peyda text-[20px]">
 
