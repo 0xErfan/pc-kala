@@ -104,8 +104,8 @@ const DiscountCodes = () => {
         <Layout>
             <>
                 <div className="flex items-center justify-between">
-                    <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>مدریت کد های تخفیف</h3>
-                    <button onClick={() => setShowAddNewProduct(prev => !prev)} className={`p-3 ${showAddNewProduct ? 'bg-panel-darkRed' : 'bg-panel-darkGreen'} text-center w-44 whitespace-nowrap font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-md`}>{showAddNewProduct ? 'لغو' : 'ایجاد کد تخفیف جدید'}</button>
+                    <h3 className='md:text-[26px] text-[17px] font-peyda font-bold text-panel-darkBlue'>مدریت کد های تخفیف</h3>
+                    <button onClick={() => setShowAddNewProduct(prev => !prev)} className={`p-3 ${showAddNewProduct ? 'bg-panel-darkRed' : 'bg-panel-darkGreen'} text-center w-44 whitespace-nowrap font-peyda px-5 flex-center text-white bg-panel-darkGreen rounded-md`}>{showAddNewProduct ? 'لغو' : 'ایجاد کد تخفیف جدید'}</button>
                 </div>
 
                 {
@@ -158,7 +158,7 @@ const DiscountCodes = () => {
 
                 <div className={` ${!showAddNewProduct ? 'block' : 'hidden'} py-6 `}></div>
 
-                <div className='grid grid-cols-1'>
+                <div className='grid grid-cols-1 overflow-auto'>
 
                     <table className='w-full text-center overflow-x-auto rounded-md'>
 
