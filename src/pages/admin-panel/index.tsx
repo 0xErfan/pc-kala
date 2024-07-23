@@ -150,15 +150,15 @@ export async function getStaticProps() {
     const transactionsStatusCountData = {
         rejected: {
             percentage: Math.floor(((transactionsStatusCount[0]?.rejected || 0) - (lastMonthTransactionsStatusCount[0]?.rejected || 0)) / (lastMonthTransactionsStatusCount[0]?.rejected || 1) * 100),
-            count: transactionsStatusCount[0]?.rejected
+            count: transactionsStatusCount[0]?.rejected || 0
         },
         delivered: {
             percentage: Math.floor(((transactionsStatusCount[0]?.delivered || 0) - (lastMonthTransactionsStatusCount[0]?.delivered || 0)) / (lastMonthTransactionsStatusCount[0]?.delivered || 1) * 100),
-            count: transactionsStatusCount[0]?.delivered
+            count: transactionsStatusCount[0]?.delivered || 0
         },
         pending: {
             percentage: Math.floor(((transactionsStatusCount[0]?.pending || 0) - (lastMonthTransactionsStatusCount[0]?.pending || 0)) / (lastMonthTransactionsStatusCount[0]?.pending || 1) * 100),
-            count: transactionsStatusCount[0]?.pending
+            count: transactionsStatusCount[0]?.pending || 0
         }
     }
 
