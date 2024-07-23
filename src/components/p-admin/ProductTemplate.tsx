@@ -153,12 +153,12 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
     return (
         <div data-aos="zoom-out" className="mt-12 mb-20">
 
-            <h3 className='text-[26px] font-peyda font-bold text-panel-darkBlue'>ایجاد محصول جدید</h3>
+            <h3 className='md:text-[26px] text-xl font-peyda font-bold text-panel-darkBlue'>ایجاد محصول جدید</h3>
 
             <div className='flex items-center xl:flex-row flex-col ch:w-full gap-4 my-4'>
 
                 <div className={'flex-[2.4] grid grid-cols-1 h-full mb-auto rounded-xl p-4 bg-white shadow-sm'}>
-                    <div className="flex items-center flex-col ch:w-full ch:flex-1 gap-8">
+                    <div className="flex items-center flex-col overflow-hidden ch:w-full ch:flex-1 gap-8">
 
                         <div className="flex flex-col gap-2 shadow-sm text-panel-darkTitle font-peyda text-[20px]">
 
@@ -207,7 +207,7 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
 
                                 <p className={'text-[20px] mb-2'}>دسته بندی اصلی</p>
 
-                                <div className={'w-full ch:w-full'}>
+                                <div className={'w-full ch:w-full overflow-hidden'}>
 
                                     <select onChange={e => setSelectedCategory(e.target.value)} value={selectedCategory} className={'bg-panel-white p-4 rounded-xl'}>
 
@@ -254,7 +254,7 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
                                 deleteProductSpec={deleteProductSpec}
                             />
 
-                            <div className={`${lastAddedSpecID < 2 && 'hidden'} flex flex-col gap-2`}>
+                            <div className={`${lastAddedSpecID < 2 && 'hidden'} flex flex-col gap-2 ch:overflow-hidden ch:shrink shrink`}>
                                 {
                                     [...productsSpecs]
                                         .filter(data => data.id !== 1)
