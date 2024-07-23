@@ -9,7 +9,7 @@ import { showToast } from '@/utils';
 import React, { useLayoutEffect, useState } from 'react'
 
 
-const discountCodes = () => {
+const DiscountCodes = () => {
 
     const dispatch = useAppDispatch()
     const [showAddNewProduct, setShowAddNewProduct] = useState(false)
@@ -208,4 +208,4 @@ const discountCodes = () => {
     )
 }
 
-export default discountCodes
+export default DiscountCodes

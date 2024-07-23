@@ -82,7 +82,7 @@ const TransactionData = ({ _id, createdAt, customerData, totalPrice, status, row
                             ['DELIVERED', 'CANCELED', 'PROCESSING']
                                 .filter(st => st !== status)
                                 .map(statusValue =>
-                                    <div onClick={() => status !== statusValue && changeTransactionStatus(statusValue as typeof status)}>{
+                                    <div key={statusValue} onClick={() => status !== statusValue && changeTransactionStatus(statusValue as typeof status)}>{
                                         statusValue == 'PROCESSING'
                                             ? 'درحال ارسال'
                                             :

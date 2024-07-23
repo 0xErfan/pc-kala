@@ -25,8 +25,8 @@ const CustomerReview = ({ body, creator, createdAt, rate, productID }: commentPr
                     </div>
                     <p className='font-sans text-[13px] text-panel-darkTitle min-h-12'>{body}</p>
                     <div className='flex items-center gap-2'>
-                        {Array(rate).fill(0).map(() => <FaStar className='text-gold' />)}
-                        {Array(5 - rate).fill(0).map(() => <FaStar className='text-panel-caption' />)}
+                        {Array(rate).fill(0).map((_, index) => <FaStar key={index} className='text-gold' />)}
+                        {Array(5 - rate).fill(0).map((_, index) => <FaStar key={index} className='text-panel-caption' />)}
                         <p className='font-peyda text-panel-darkTitle pt-1'>{rate}</p>
                     </div>
                 </div>

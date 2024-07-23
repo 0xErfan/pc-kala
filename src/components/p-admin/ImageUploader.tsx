@@ -138,7 +138,7 @@ const ImageUploader = ({ imageDataSender, trigger, updateLoading }: Props) => {
 
                     {
                         imagesSrc.slice(1).map((url, index) =>
-                            <div className={' aspect-square relative bg-panel-white ch:rounded-xl rounded-xl'}>
+                            <div key={index} className={' aspect-square relative bg-panel-white ch:rounded-xl rounded-xl'}>
                                 <Image className={'object-cover size-full'} width={300} height={300} src={url} alt="idk" />
                                 <span onClick={() => deleteImage(imagesSrc[index + 1], index + 1)} className='cursor-pointer transition-all absolute size-6 text-white bg-panel-darkRed ch:size-[70%] flex-center right-1 top-1'>< MdOutlineDelete /></span>
                             </div>)

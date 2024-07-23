@@ -4,7 +4,7 @@ import Layout from '@/components/p-admin/Layout'
 import { userDataTypes } from '@/global.t'
 import React, { useEffect, useState } from 'react'
 
-const notifications = () => {
+const Notifications = () => {
 
     const [adminLists, updateAdminLists] = useState<userDataTypes[]>()
     const userData = useAppSelector(state => state.userSlice.data)
@@ -49,4 +49,4 @@ const notifications = () => {
     )
 }
 
-export default notifications
+export default Notifications

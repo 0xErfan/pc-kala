@@ -8,7 +8,7 @@ import { TransactionProps } from '@/global.t'
 import React, { useEffect, useState } from 'react'
 
 
-const index = () => {
+const Index = () => {
 
     const [transactions, updateTransactions] = useState<TransactionProps[]>([])
     const [currentPage, setCurrentPage] = useState(1)
@@ -104,4 +104,4 @@ const index = () => {
     )
 }
 
-export default index
+export default Index
