@@ -87,7 +87,7 @@ const MainAdminPage = ({ totalIncome, transactions, transactionsData, performanc
     )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
 
     await connectToDB()
 
