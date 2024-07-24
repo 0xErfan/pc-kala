@@ -21,7 +21,8 @@ const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commen
 
     return (
         <div data-aos-duration="550" data-aos="zoom-in" className="w-full p-4 md:p-5 bg-primary-black rounded-md">
-            <div className="flex items-center justify-between pb-4 mb-4 border-b border-b-neutral-200/60">
+
+            <div className="flex  sm:flex-row flex-col justify-between pb-4 mb-4 border-b border-b-neutral-200/60">
 
                 <div className="flex items-center gap-x-3.5">
 
@@ -42,7 +43,7 @@ const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commen
                     <div className="flex flex-col gap-1">
 
                         <div className="flex items-center gap-x-1 ">
-                            <span className="inline-block max-w-40 text-[15px] truncate">
+                            <span className="inline-block max-w-40 text-[15px] whitespace-nowrap">
                                 {creator?.username + `${isCreatedByCustomer ? '(خریدار)' : ''}`} <span className={`${creator.role == 'ADMIN' && 'text-gold'}`}>{creator.role == 'ADMIN' && '- ادمین'}</span>
                             </span>
                         </div>
@@ -55,7 +56,8 @@ const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commen
                     </div>
 
                 </div>
-                <div className="flex items-center text-black ch:size-[18px] h-full mb-auto gap-1">
+
+                <div className="flex items-center justify-end text-black ch:size-[18px] h-full mb-auto gap-1">
                     {userRate}
                 </div>
             </div>

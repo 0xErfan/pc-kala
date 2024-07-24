@@ -2,6 +2,7 @@ import { userDataTypes } from '@/global.t'
 import { showToast } from '@/utils'
 import { RiAdminFill } from "react-icons/ri";
 import React, { useState } from 'react'
+import Image from 'next/image';
 
 const AdminData = ({ nameLastName, _id, email, creator, username, profile }: userDataTypes & { creator: string }) => {
 
@@ -47,9 +48,15 @@ const AdminData = ({ nameLastName, _id, email, creator, username, profile }: use
 
                         <div className='rounded-full size-14 flex-center'>
                             {
-                                !!profile
+                                profile
                                     ?
-                                    <img className='rounded-full size-full bg-center object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSpUd5slHL5adwDL8TxpEsESk01qN8dGV0Xeg&usqp=CAU" alt="random image" />
+                                    <Image
+                                        className='size-full object-contain rounded-full'
+                                        src={profile}
+                                        alt='Admin profile'
+                                        width={200}
+                                        height={200}
+                                    />
                                     :
                                     <RiAdminFill className='size-10 flex text-black' />
                             }
