@@ -3,6 +3,7 @@ import { memo, useMemo } from 'react'
 import { IoStar } from 'react-icons/io5'
 import { SlUser } from 'react-icons/sl'
 import { RiAdminFill } from "react-icons/ri";
+import Image from 'next/image';
 
 const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commentProps) => {
 
@@ -24,7 +25,19 @@ const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commen
 
                 <div className="flex items-center gap-x-3.5">
 
-                    <div className={`ch:size-6 size-14 border ${creator.role == 'USER' ? 'border-white' : 'border-gold'} flex-center rounded-full bg-secondary-black`}> {creator.role == 'USER' ? <SlUser /> : <RiAdminFill />} </div>
+                    <div className={`ch:size-6 size-14 border relative ${creator.role == 'USER' ? 'border-white' : 'border-gold'} flex-center rounded-full bg-secondary-black`}>
+                        {
+                            creator.profile ?
+                                <Image
+                                    className='w-full h-full rounded-full object-contain bg-red-500'
+                                    src={creator.profile}
+                                    alt='profile'
+                                    fill
+                                />
+                                :
+                                creator.role == 'USER' ? <SlUser /> : <RiAdminFill />
+                        }
+                    </div>
 
                     <div className="flex flex-col gap-1">
 
