@@ -165,7 +165,7 @@ const ProductDataEditor = (
         setLastAddedSpecID(prev => prev - 1)
     };
 
-    useEffect(() => { scrollToTopDiv.current?.scrollIntoView({ behavior: 'smooth' }) }, [])
+    useEffect(() => { scrollToTopDiv.current?.scrollIntoView({ behavior: 'smooth', block: 'end' }) }, [])
 
     useEffect(() => {
         const doesHaveSubCategories = Object.entries(categoriesDate).some(category => {

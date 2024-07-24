@@ -9,16 +9,12 @@ interface Props {
 
 const ProductSpec = ({ specKey, value, id, canDelete, updateProductSpec, deleteProductSpec }: ProductSpecs & Props) => {
 
-    const productSpecLoadRef = useRef<HTMLInputElement | null>(null)
-    useEffect(() => productSpecLoadRef.current?.focus(), [])
-
     return (
 
         <div data-aos='zoom-in' className="flex ch:bg-panel-white items-center relative justify-center gap-2 rounded-xl">
             <input
                 onChange={e => updateProductSpec('specKey', e.target.value, id)}
                 value={specKey}
-                ref={productSpecLoadRef}
                 className="bg-panel-white flex-[5] rounded-xl p-2" placeholder="صفحه نمایش"
                 type="text"
             />

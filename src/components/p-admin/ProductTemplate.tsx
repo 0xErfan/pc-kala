@@ -2,7 +2,7 @@ import { categoriesDate } from '@/data'
 import { categories, unknownObjProps } from '@/global.t'
 import { engCategoryToPersian, engSubCategoryToPersian, showToast } from '@/utils'
 import { MdDeleteOutline } from "react-icons/md";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FiPlus } from 'react-icons/fi'
 import ProductSpec from './ProductSpec';
 import ImageUploader from './ImageUploader';
@@ -35,6 +35,7 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
     const [createProductTrigger, setCreateProductTrigger] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
 
+    const productTemplateRef = useRef<HTMLDivElement>(null)
     const dispatch = useAppDispatch()
 
     useEffect(() => {
@@ -150,12 +151,14 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
         !doesHaveSubCategories && setAvailableSubCategories([])
     }, [selectedCategory])
 
+    useEffect(() => { productTemplateRef.current?.focus() }, [])
+
     return (
-        <div data-aos="zoom-out" className="mt-12 mb-20">
+        <div data-aos="zoom-in" className="mt-12 mb-20">
 
             <h3 className='md:text-[26px] text-xl font-peyda font-bold text-panel-darkBlue'>ایجاد محصول جدید</h3>
 
-            <div className='flex items-center xl:flex-row flex-col ch:w-full gap-4 my-4'>
+            <div ref={productTemplateRef} className='flex items-center xl:flex-row flex-col ch:w-full gap-4 my-4'>
 
                 <div className={'flex-[2.4] grid grid-cols-1 h-full mb-auto rounded-xl p-4 bg-white shadow-sm'}>
                     <div className="flex items-center flex-col overflow-hidden ch:w-full ch:flex-1 gap-8">
@@ -297,7 +300,7 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
                             </div>
                         </div>
 
-                        <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
+                        <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 xl:flex hidden items-center justify-center text-white bg-panel-darkGreen rounded-xl'>
                             {
                                 isLoading
                                     ?
@@ -311,6 +314,16 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
                 </div>
 
                 <ImageUploader trigger={trigger} updateLoading={(status: boolean) => setIsLoading(status)} imageDataSender={imageLink => setImageLinks(imageLink)} />
+
+                <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex xl:hidden items-center justify-center text-white bg-panel-darkGreen rounded-xl'>
+                    {
+                        isLoading
+                            ?
+                            <Loader />
+                            :
+                            'ایجاد محصول جدید'
+                    }
+                </button>
 
             </div>
         </div>
