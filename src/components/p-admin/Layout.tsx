@@ -15,6 +15,7 @@ import { useRouter } from 'next/router';
 import { LuPanelRightOpen } from "react-icons/lu";
 import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice';
 import { showToast } from '@/utils';
+import { RiAdminFill } from "react-icons/ri";
 import { userDataUpdater } from '@/Redux/Features/userSlice';
 import Image from 'next/image';
 import Notifications from './Notifications';
@@ -161,7 +162,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                         <div className='flex items-center gap-4'>
                             <div className='text-[16px] xl:block font-peyda hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold px-px'>{nameLastName || username}</span></div>
-                            <div className='size-[56px] border-panel-darkGreen rounded-full border-2 shadow-sm'><img className='size-full rounded-full object-cover' src="https://static.vecteezy.com/system/resources/previews/029/156/453/original/admin-business-icon-businessman-business-people-male-avatar-profile-pictures-man-in-suit-for-your-web-site-design-logo-app-ui-solid-style-illustration-design-on-white-background-eps-10-vector.jpg" alt="Admin profile" /></div>
+                            <div className='size-[56px] bg-white flex-center rounded-full shadow-sm'>
+                                <RiAdminFill className='flex-center size-3/5 text-panel-darkTitle'/>
+                            </div>
                         </div>
 
                     </div>
