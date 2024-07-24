@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from '@/Hooks/useRedux'
-import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice'
+import { modalDataUpdater, setActiveStatusBox } from '@/Redux/Features/globalVarsSlice'
 import { userDataTypes } from '@/global.t'
 import { showToast } from '@/utils'
-import { MdDeleteOutline } from 'react-icons/md'
+import { MdDeleteOutline, MdKeyboardArrowDown } from 'react-icons/md'
 import { ModalProps } from '../Modal'
 
 interface Props {
@@ -14,6 +14,9 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
 
     const dispatch = useAppDispatch()
     const userData = useAppSelector(state => state.userSlice.data)
+
+    const activeStatusBoxUpdater = () => { dispatch(setActiveStatusBox(_id)) }
+    const activeStatusBox = useAppSelector(state => state.globalVarsSlice.activeStatusBox)
 
     const banUser = () => {
 
@@ -77,13 +80,13 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
         } as ModalProps))
     }
 
-    const changeUserRole = async (roleValue: typeof role) => {
+    const changeUserRole = async () => {
 
         if (userData?._id == _id) return
 
         dispatch(modalDataUpdater({
             isShown: true,
-            message: `آیا از تغییر نقش به ${roleValue == 'ADMIN' ? 'ادمین' : 'کاربر'} اطمینان دارید؟`,
+            message: `آیا از تغییر نقش به ${role == 'USER' ? 'ادمین' : 'کاربر'} اطمینان دارید؟`,
             status: false,
             title: 'تغییر نقش',
 
@@ -99,6 +102,8 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
 
                     const data = await res.json()
                     showToast(res.ok, data.message)
+
+                    res.ok && dispatch(setActiveStatusBox(0))
 
                 } catch (error) { console.log(error) }
                 finally { usersUpdater() }
@@ -117,23 +122,34 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
 
             <td>{email}</td>
 
-            <td className='w-[120px] m-auto'>
 
-                <div className="grid grid-cols-1 pl-4">
-                    <select
-                        onChange={e => changeUserRole(e.target.value as typeof role)}
-                        value={role == 'ADMIN' ? 'ADMIN' : 'USER'}
-                        className={`w-full h-full ch:p-2 ${role == 'ADMIN' && 'text-panel-darkGreen ch:text-panel-darkTitle'} text-center font-peyda text-[18px] bg-panel-white`}
-                    >
-                        <option value='USER'>کاربر</option>
-                        <option value="ADMIN">ادمین</option>
-                    </select>
+            <td className='w-20 relative'>
+
+                <div className={`flex-center w-full px-2 `}>
+
+                    <button
+                        onClick={activeStatusBoxUpdater}
+                        className={`text-black rounded-lg flex ${role == 'ADMIN' ? 'bg-panel-darkGreen text-white' : 'bg-white'} justify-between  p-2.5 text-center items-center whitespace-nowrap text-[12px] w-full`}
+                    > {role == 'ADMIN' ? 'ادمین' : 'کاربر'}
+                        <MdKeyboardArrowDown className={`size-[18px] ${activeStatusBox == (_id as any) && 'rotate-180'} transition-all`} />
+                    </button>
+
+                </div>
+
+                <div className={`${activeStatusBox == (_id as any) ? 'visible opacity-100 -right-24' : 'invisible opacity-0 -right-0'} z-[999] absolute transition-all top-4 rounded-lg font-peyda bg-black`}>
+                    <div className="flex-center m-auto ch:cursor-pointer p-3 rounded-md text-panel-darkTitle shadow-md border-2 border-black/70 bg-panel-white ch:p-2 flex-col gap-2 text-sm">
+                        <div onClick={changeUserRole}>{role == 'ADMIN' ? 'کاربر' : 'ادمین'}</div>
+                    </div>
                 </div>
 
             </td>
 
-            <td onClick={banUser} className={`w-20 text-xl font-bold ${userData?._id == _id ? 'cursor-not-allowed' : 'cursor-pointer'}`}><div className={`flex-center border-none md:border ${isBan ? 'text-panel-darkGreen' : 'text-panel-darkRed'}`}>{isBan ? 'حذف بن' : 'بن'}</div></td>
-            <td onClick={deleteUser} className={`w-14 ${userData?._id == _id ? 'cursor-not-allowed' : 'cursor-pointer'}`}><div className='flex-center border-none md:border text-panel-darkRed ch:size-6 md:ch:size-7'><MdDeleteOutline /></div></td>
+            <td onClick={banUser} className={`w-20 text-xl font-bold ${userData?._id == _id ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
+                <div className={`flex-center border-none md:border ${isBan ? 'text-panel-darkGreen' : 'text-panel-darkRed'}`}>{isBan ? 'حذف بن' : 'بن'}</div>
+            </td>
+            <td onClick={deleteUser} className={`w-14 ${userData?._id == _id ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
+                <div className='flex-center border-none md:border text-panel-darkRed ch:size-6'><MdDeleteOutline /></div>
+            </td>
         </tr>
     )
 }

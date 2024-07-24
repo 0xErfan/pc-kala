@@ -2,8 +2,7 @@ import Layout from '@/components/p-admin/Layout'
 import Pagination from '@/components/p-admin/Pagination';
 import User from '@/components/p-admin/User';
 import { userDataTypes } from '@/global.t';
-import React, { useLayoutEffect, useState } from 'react'
-
+import { useEffect, useState} from 'react'
 
 const Users = () => {
 
@@ -14,7 +13,7 @@ const Users = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isEmpty, setIsEmpty] = useState(false)
 
-    useLayoutEffect(() => {
+    useEffect(() => {
 
         (async () => {
 
@@ -47,7 +46,7 @@ const Users = () => {
 
                 <h3 className='md:text-[26px] text-xl font-peyda font-bold text-panel-darkBlue'>مدریت کاربران</h3>
 
-                <div className='grid grid-cols-1 pt-4 overflow-auto'>
+                <div className='grid grid-cols-1 pt-4 overflow-auto min-w-[730px]'>
 
                     <table className='w-full text-center overflow-x-auto rounded-md'>
 

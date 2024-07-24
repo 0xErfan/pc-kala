@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="db879b03-ce06-4925-9a55-6adf72ab0413" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/p-admin/User.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/p-admin/User.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/admin-panel/users/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/admin-panel/users/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +26,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/components/p-admin/TransactionsData.tsx" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -77,6 +82,7 @@
       <workItem from="1716138670023" duration="4000" />
       <workItem from="1716241557464" duration="3000" />
       <workItem from="1719597335637" duration="5867000" />
+      <workItem from="1721841949627" duration="1478000" />
     </task>
     <servers />
   </component>
