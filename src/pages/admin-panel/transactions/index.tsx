@@ -54,7 +54,7 @@ const Index = () => {
 
                     <div className='grid grid-cols-1 mdLmt-7 mt-4 overflow-auto'>
 
-                        <table className='w-full text-center overflow-x-auto rounded-md'>
+                        <table className='w-full text-center overflow-x-auto rounded-md min-w-[730px] '>
 
                             <thead>
                                 <tr className='font-peyda sm:text-[14px] text-[13px] text-center w-full ch:bg-white ch:py-2 ch:text-panel-darkTitle'>

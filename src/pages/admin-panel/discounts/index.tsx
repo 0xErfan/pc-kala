@@ -160,7 +160,7 @@ const DiscountCodes = () => {
 
                 <div className='grid grid-cols-1 overflow-auto'>
 
-                    <table className='w-full text-center overflow-x-auto rounded-md'>
+                    <table className='w-full text-center overflow-x-auto rounded-md min-w-[730px] '>
 
                         <thead>
                             <tr className='font-peyda md:text-[18px] sm:text-[16px] text-[14px] text-center w-full ch:bg-white ch:py-2 ch:text-panel-darkTitle'>
