@@ -1,8 +1,8 @@
 import connectToDB from "@/config/db";
 import { CommentModel } from "@/models/Comment";
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextApiResponse } from "next";
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+const handler = async (_: never, res: NextApiResponse) => {
 
     try {
 
@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .find({ accepted: 1, isCreatedByCustomer: true })
             .sort({ createdAt: -1 })
             .limit(12)
-            .populate('creator', ['nameLastName', ['username']])
+            .populate('creator', ['nameLastName', 'username', 'profile'])
             .populate('productID', 'image')
 
         return res.json({ customersReview })

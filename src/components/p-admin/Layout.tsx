@@ -24,7 +24,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
     const dispatch = useAppDispatch()
     const notifications = useAppSelector(state => state.userSlice.relatedData?.dashboardNotifications) || []
-    const { nameLastName, username } = useAppSelector(state => state.userSlice.data) || {}
+    const { nameLastName, username, profile } = useAppSelector(state => state.userSlice.data) || {}
     const [showDashboardLinks, setShowDashboardLinks] = useState(false)
     const navigate = useRouter()
 
@@ -65,7 +65,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 }
             </style>
 
-            <aside className={`bg-white fixed w-20 md:sticky ${showDashboardLinks ? 'right-0' : '-right-20 md:right-0'} transition-all top-0 bottom-0 z-[9999] xl:flex-1`}>
+            <aside className={`bg-white fixed w-20 md:sticky ${showDashboardLinks ? 'right-0' : '-right-20 md:right-0'} transition-all top-0 bottom-0 z-[9999] xl:w-[190px]`}>
                 <div className='sticky top-0 xl:p-5 p-3'>
                     <div>
                         <Link href={'/'} className='flex items-start justify-center gap-px flex-col'>
@@ -163,7 +163,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
                         <div className='flex items-center gap-4'>
                             <div className='text-[16px] xl:block font-peyda hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold px-px'>{nameLastName || username}</span></div>
                             <div className='size-[56px] bg-white flex-center rounded-full shadow-sm'>
-                                <RiAdminFill className='flex-center size-3/5 text-panel-darkTitle'/>
+                                {
+                                    profile
+                                        ?
+                                        <Image src={profile} alt='admin profile' width={200} height={200} className='object-contain rounded-full'/>
+                                        :
+                                        <RiAdminFill className='flex-center size-3/5 text-panel-darkTitle' />
+                                }
                             </div>
                         </div>
 
