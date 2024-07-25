@@ -38,7 +38,11 @@ export default function Header() {
             {
                 data?.role == 'ADMIN'
                     ?
-                    <Link href={'/admin-panel'} className="p-1 fixed z-50 left-0 px-2 top-0 bg-[#393A3D] rounded-br-xl text-[15px] text-description-text cursor-pointer font-peyda">داشبرد</Link>
+                    <Link
+                        href={'/admin-panel'}
+                        className="p-1 fixed z-50 left-0 rounded-br-xl border-r-2 border-dark-red px-2 bg-[#393A3D] top-20 text-[15px] text-description-text cursor-pointer font-peyda"
+                    >داشبرد
+                    </Link>
                     :
                     null
             }

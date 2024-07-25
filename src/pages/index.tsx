@@ -60,10 +60,10 @@ export default function Home({ products }: ProductsDataType) {
 
                 <div>
                     <Image
-                        width={500}
-                        quality={80}
+                        width={400}
+                        quality={70}
                         priority
-                        height={500}
+                        height={400}
                         className="w-full h-full object-cover"
                         src={`${prefix}/images/home/laptop.webp`}
                         alt="pc-kala"
