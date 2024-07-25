@@ -3,6 +3,13 @@ import toast from "react-hot-toast"
 import { categories, productDataTypes, unknownObjProps, userDataTypes } from "./global.t"
 import { userUpdater } from "./Redux/Features/globalVarsSlice"
 import { store } from "./Redux/store"
+import { S3 } from "aws-sdk"
+import { PutObjectRequest } from "aws-sdk/clients/s3"
+
+const ACCESSKEY = "441f4s3dcqumbv8m"
+const SECRETKEY = "80850ba4-e1fe-45f4-a998-90abcbaf2d2d"
+const ENDPOINT = "https://storage.iran.liara.space"
+const BUCKET = 'pc-kala'
 
 type addProductFunctionProps<T> = (userID: string, productID: string, count?: number, dispatch?: typeof store.dispatch, productServices?: unknownObjProps<number>) => Promise<T>
 
@@ -389,6 +396,59 @@ const getStartOfWeek = (): Date => {
     return new Date(currentDate.setDate(diff));
 }
 
+const imageUploader = async (file: File): Promise<string | Error> => {
+
+    let encodedFileName = file.name?.replace(/[\?\=\%\&\+\-\.\_\s]/g, '_')
+    encodedFileName = encodedFileName?.slice(encodedFileName.length - 30)
+
+    try {
+
+        const s3 = new S3({
+            accessKeyId: ACCESSKEY,
+            secretAccessKey: SECRETKEY,
+            endpoint: ENDPOINT,
+        });
+
+        const params = {
+            Bucket: BUCKET,
+            Key: encodeURIComponent(encodedFileName),
+            Body: file,
+        };
+
+        await s3.upload(params as PutObjectRequest).promise();
+
+        const permanentSignedUrl = s3.getSignedUrl('getObject', {
+            Bucket: BUCKET,
+            Key: encodeURIComponent(encodedFileName),
+            Expires: 3153600000
+        });
+
+        return permanentSignedUrl;
+
+    } catch (error) { throw new Error('failed to fech') }
+};
+
+const handleDeleteFile = async (name: string) => {
+
+    console.log(ACCESSKEY, SECRETKEY, ENDPOINT, name)
+
+    try {
+
+        const s3 = new S3({
+            accessKeyId: ACCESSKEY,
+            secretAccessKey: SECRETKEY,
+            endpoint: ENDPOINT,
+        });
+
+        await s3.deleteObject({ Bucket: BUCKET, Key: name }, (error, data) => { console.log(error, data) }).promise();
+        return true
+
+    } catch (error) {
+        console.error('Error deleting file: ', error);
+        return false
+    }
+};
+
 export {
     getTimer,
     fetchData,
@@ -411,5 +471,7 @@ export {
     getPastDateTime,
     roundedPrice,
     getCurrentPersianWeekday,
-    getStartOfWeek
+    getStartOfWeek,
+    imageUploader,
+    handleDeleteFile
 }

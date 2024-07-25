@@ -23,6 +23,7 @@ import TransactionData from "@/components/p-user/TransactionData";
 import { userDataTypes, userRelatedDataTypes } from "@/global.t";
 import prefix from "@/config/prefix";
 import Button from "@/components/Button";
+import ProfileData from "@/components/ProfileData";
 
 interface orderStatusProps {
     count: number
@@ -46,7 +47,7 @@ const Profile = () => {
 
     const { data, relatedData } = useAppSelector(state => state.userSlice)
 
-    const { nameLastName, username, nationalCode, email, phoneNumber, _id } = data || fetchedData?.userData || {}
+    const { nameLastName, username, nationalCode, email, phoneNumber, _id, profile } = data || fetchedData?.userData || {}
     const { Wish, Notification, Transaction, Comment } = relatedData || fetchedData?.userRelatedData || {}
 
     const { processing, canceled, delivered } = useMemo(() => {
@@ -236,6 +237,9 @@ const Profile = () => {
             default:
                 setUserDataToRender(
                     <UserPanelTemplate title="اطلاعات شخصی">
+
+                        <ProfileData _id={data?._id || _id} userProfile={data?.profile || profile} />
+
                         <div className="grid grid-cols-1 md:grid-cols-2 ch:border ch:border-gray-600/15 ch:pt-2">
 
                             <UserDataUpdater
