@@ -38,7 +38,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Toaster />
                 <ScrollToTop />
                 <Modal />
-                <DynamicNextProgress showOnShallow height={1} options={{ showSpinner: false, }} startPosition={0} color="#FFD300" />
+                <DynamicNextProgress showOnShallow height={location.href.includes('admin-panel') ? 2 : 1} options={{ showSpinner: false, }} startPosition={0} color={location.href.includes('admin-panel') ? '#E30017' : '#FFD300'} />
                 <Component {...pageProps} />
             </Provider>
         </main>
