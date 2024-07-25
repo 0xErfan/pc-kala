@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const allProducts = await ProductModel.countDocuments()
         const availablePages = Math.ceil(allProducts / itemsPerPage)
 
-        const products = await ProductModel.find({}).skip(skippedProducts).limit(itemsPerPage)
+        const products = await ProductModel.find({}).sort({ _id: -1 }).skip(skippedProducts).limit(itemsPerPage)
 
         return res.status(201).json({ products, availablePages })
 
