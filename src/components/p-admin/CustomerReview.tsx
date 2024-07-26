@@ -1,6 +1,5 @@
 import { commentProps } from '@/global.t';
 import Image from 'next/image';
-import React from 'react'
 import { FaStar } from "react-icons/fa";
 
 const CustomerReview = ({ body, creator, createdAt, rate, productID }: commentProps) => {
@@ -17,7 +16,7 @@ const CustomerReview = ({ body, creator, createdAt, rate, productID }: commentPr
 
                         <div className='size-[54px] flex-center rounded-full'>
                             <Image
-                                className='size-full object-contain rounded-full'
+                                className='size-full object-cover rounded-full'
                                 width={100}
                                 height={100}
                                 src={creator.profile ?? '/images/imageNotFound.webp'}

@@ -1,9 +1,7 @@
 import { useAppDispatch } from '@/Hooks/useRedux'
 import { modalDataUpdater } from '@/Redux/Features/globalVarsSlice'
 import { commentProps } from '@/global.t'
-import React from 'react'
 import { FaRegEye } from 'react-icons/fa'
-import { TiTick } from 'react-icons/ti'
 import { ModalProps } from '../Modal'
 import { showToast } from '@/utils'
 

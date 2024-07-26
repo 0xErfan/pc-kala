@@ -1,6 +1,5 @@
 import { MainPageDashboardProps } from '@/pages/admin-panel';
 import { getCurrentPersianWeekday } from '@/utils';
-import React from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 const VisitsChartDate = ({ visitsData }: Partial<MainPageDashboardProps>) => {

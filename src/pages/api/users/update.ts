@@ -12,7 +12,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const { prop, value, _id } = req.body
 
-        if (!prop || !value) return res.status(421).json({ message: 'اطلاعات را به درستی وارد کنید' })
+        if (!prop) return res.status(421).json({ message: 'اطلاعات را به درستی وارد کنید' })
 
         if (prop == 'username') {
             const isThisUsernameExist = await UserModel.findOne({ username: value })

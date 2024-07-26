@@ -129,7 +129,7 @@ const ImageUploader = ({ imageDataSender, trigger, updateLoading }: Props) => {
                         </div>
                         :
                         <label className='border-dotted xl:flex items-center justify-center hidden border-[3px] cursor-pointer aspect-square rounded-xl' htmlFor="main-image">
-                            <input onChange={newImageUploader} id='main-image' type="file" className='hidden' />
+                            <input onChange={newImageUploader} id='main-image' accept="image/*" type="file" className='hidden' />
                             <FiPlus className={'size-12 text-panel-darkGreen bg-panel-lightGreen p-1 rounded-full'} />
                         </label>
                 }
@@ -146,7 +146,7 @@ const ImageUploader = ({ imageDataSender, trigger, updateLoading }: Props) => {
                                 </div>
                                 :
                                 <label className='border-dotted flex items-center justify-center border-[3px] cursor-pointer aspect-square rounded-xl' htmlFor="main-image">
-                                    <input onChange={newImageUploader} id='main-image' type="file" className='hidden' />
+                                    <input onChange={newImageUploader} id='main-image' accept="image/*" type="file" className='hidden' />
                                     <FiPlus className={'size-12 text-panel-darkGreen bg-panel-lightGreen p-1 rounded-full'} />
                                 </label>
                         }
@@ -164,7 +164,7 @@ const ImageUploader = ({ imageDataSender, trigger, updateLoading }: Props) => {
                         imagesSrc.length > 0 && imagesSrc.length < 5
                             ?
                             <label className='border-dotted border-[3px] cursor-pointer aspect-square flex-center rounded-xl' htmlFor="main-image">
-                                <input onChange={newImageUploader} id='main-image' type="file" className='hidden' />
+                                <input onChange={newImageUploader} id='main-image' accept="image/*" type="file" className='hidden' />
                                 <FiPlus className={'size-7 text-panel-darkGreen bg-panel-lightGreen p-1 rounded-full'} />
                             </label>
                             : null

@@ -166,7 +166,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
                                 {
                                     profile
                                         ?
-                                        <Image src={profile} alt='admin profile' width={200} height={200} className='object-contain rounded-full'/>
+                                        <Image src={profile} alt='admin profile' width={200} height={200} className='object-cover size-full rounded-full'/>
                                         :
                                         <RiAdminFill className='flex-center size-3/5 text-panel-darkTitle' />
                                 }

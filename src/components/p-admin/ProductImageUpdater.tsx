@@ -150,7 +150,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
                         </div>
                         :
                         <label className='border-dotted border-[3px] cursor-pointer aspect-square flex-center rounded-xl' htmlFor="main-image">
-                            <input onChange={newImageUploader} id='main-image' type="file" className='hidden' />
+                            <input onChange={newImageUploader} id='main-image' type="file" accept="image/*" className='hidden' />
                             <FiPlus className={'size-12 text-panel-darkGreen bg-panel-lightGreen p-1 rounded-full'} />
                         </label>
                 }
@@ -174,7 +174,7 @@ const ProductImageUpdater = ({ imageDataSender, imagesData, trigger, updateLoadi
                         imagesSrc.length > 0 && imagesSrc.length < 5
                             ?
                             <label className='border-dotted border-[3px] cursor-pointer aspect-square flex-center rounded-xl' htmlFor="main-image">
-                                <input onChange={newImageUploader} id='main-image' type="file" className='hidden' />
+                                <input onChange={newImageUploader} id='main-image' accept="image/*" type="file" className='hidden' />
                                 <FiPlus className={'size-7 text-panel-darkGreen bg-panel-lightGreen p-1 rounded-full'} />
                             </label>
                             : null

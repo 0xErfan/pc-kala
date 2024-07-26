@@ -6,9 +6,9 @@ import { store } from "./Redux/store"
 import { S3 } from "aws-sdk"
 import { PutObjectRequest } from "aws-sdk/clients/s3"
 
-const ACCESSKEY = "441f4s3dcqumbv8m"
-const SECRETKEY = "80850ba4-e1fe-45f4-a998-90abcbaf2d2d"
-const ENDPOINT = "https://storage.iran.liara.space"
+const ACCESSKEY = "rfpsaen58kka9eso"
+const SECRETKEY = "f8eea594-08f0-40de-bef2-6ef252a88cae"
+const ENDPOINT = "storage.iran.liara.space"
 const BUCKET = 'pc-kala'
 
 type addProductFunctionProps<T> = (userID: string, productID: string, count?: number, dispatch?: typeof store.dispatch, productServices?: unknownObjProps<number>) => Promise<T>
@@ -430,22 +430,21 @@ const imageUploader = async (file: File): Promise<string | Error> => {
 
 const handleDeleteFile = async (name: string) => {
 
-    console.log(ACCESSKEY, SECRETKEY, ENDPOINT, name)
+    let formattedFileName = name.replace('https://pc-kala.storage.iran.liara.space/', '')
 
     try {
-
         const s3 = new S3({
             accessKeyId: ACCESSKEY,
             secretAccessKey: SECRETKEY,
             endpoint: ENDPOINT,
         });
 
-        await s3.deleteObject({ Bucket: BUCKET, Key: name }, (error, data) => { console.log(error, data) }).promise();
-        return true
+        const deleteStatus = await s3.deleteObject({ Bucket: BUCKET, Key: formattedFileName }).promise();
+        console.log(deleteStatus);
 
     } catch (error) {
         console.error('Error deleting file: ', error);
-        return false
+        showToast(false, 'خطا در حذف تصویر')
     }
 };
 

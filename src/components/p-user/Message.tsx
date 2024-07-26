@@ -1,4 +1,3 @@
-import React from 'react'
 import Button from '../Button'
 import { IoTrashOutline } from 'react-icons/io5'
 import { useAppDispatch } from '@/Hooks/useRedux'

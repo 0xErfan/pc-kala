@@ -28,8 +28,7 @@ const ProfileData = ({ userProfile, _id }: { userProfile: string | undefined, _i
                 try {
                     setIsLoading(true)
 
-                    const isDeleted = await handleDeleteFile('11111111111111111111111111_jpg')
-                    if (!isDeleted) return showToast(false, 'خطا در حذف تصویر')
+                    await handleDeleteFile(userProfile!)
 
                     const res = await fetch('/api/users/update', {
                         method: 'POST',
@@ -38,7 +37,7 @@ const ProfileData = ({ userProfile, _id }: { userProfile: string | undefined, _i
                             {
                                 _id,
                                 prop: 'profile',
-                                value: undefined
+                                value: null
                             })
                     })
 
@@ -90,9 +89,16 @@ const ProfileData = ({ userProfile, _id }: { userProfile: string | undefined, _i
                         dispatch(userUpdater())
                     }
 
-                } catch (error) { console.log(error) }
-                finally { setIsLoading(false) }
-            }
+                } catch (error) {
+                    console.log(error)
+                }
+                finally {
+                    setIsLoading(false)
+                    e.target.value = ''
+                }
+            },
+
+            onCancel: () => { e.target.value = '' }
 
         } as ModalProps))
     }
@@ -125,7 +131,13 @@ const ProfileData = ({ userProfile, _id }: { userProfile: string | undefined, _i
                             <RiDeleteBin6Line className="text-dark-red" />
                             :
                             <>
-                                <input id="profileUpload" onChange={addProfile} className="hidden" type="file" />
+                                <input
+                                    id="profileUpload"
+                                    onChange={addProfile}
+                                    className="hidden"
+                                    type="file"
+                                    accept="image/*"
+                                />
                                 <label className="size-full cursor-pointer flex-center" htmlFor="profileUpload">
                                     <MdOutlineFileUpload className="text-white size-20" />
                                 </label>

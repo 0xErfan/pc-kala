@@ -1,4 +1,3 @@
-import React from 'react'
 import PieChartComponent from '@/components/p-admin/PieChart';
 import { MainPageDashboardProps } from '@/pages/admin-panel';
 
