@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux"
 import { modalDataReset, modalDataUpdater } from "@/Redux/Features/globalVarsSlice"
 import { useState } from "react"
+import Loader from "./Loader"
 
 export interface ModalProps {
     status: boolean
@@ -11,15 +12,17 @@ export interface ModalProps {
     onCancel?: () => void
     okBtnText?: string
     cancelBtnText?: string | false
+    loader?: boolean
 }
 
 const Modal = () => {
 
     const dispatch = useAppDispatch()
+    const [isLoading, setIsLoading] = useState(false)
 
     const modalData: ModalProps = useAppSelector(state => state.globalVarsSlice.modalData)
 
-    const { status, isShown, title, message, fn, onCancel, okBtnText = 'تایید', cancelBtnText = 'لغو' } = modalData
+    const { status, isShown, title, message, fn, onCancel, loader = false, okBtnText = 'تایید', cancelBtnText = 'لغو' } = modalData
 
     const [moveModal, setMoveModal] = useState(false)
 
@@ -38,6 +41,7 @@ const Modal = () => {
 
         dispatch(modalDataUpdater({ isShown: false }))
         typeof onCancel == 'function' && onCancel()
+        setIsLoading(false)
 
         setTimeout(() => { // if instantly reset the modal, the message and title will be empty and user will see it(bad ux i think), so we will make it disappear first
             dispatch(modalDataReset())
@@ -93,15 +97,26 @@ const Modal = () => {
 
                 <div className="text-[#6b7280] text-[14px] leading-5 ">{message}</div>
 
-                <div className="flex items-center justify-center ch:w-full w-full ch:cursor-pointer ch:text-center gap-1 ch:flex-1 ch:shrink font-peyda">
+                <div className="flex-center ch:w-full w-full ch:cursor-pointer ch:size-9 ch:text-center gap-1 h-11 ch:h-full ch:flex-1 ch:shrink font-peyda">
 
                     <button
-                        onClick={() => Promise.resolve().then(fn).finally(closeModal)} // after fn runes, we want to close the modal too
-                        className="rounded-md py-2 bg-white-red text-white">{okBtnText}
+                        onClick={ // after fn runes, we want to close the modal too
+                            () => Promise.resolve()
+                                .then(async () => { loader && setIsLoading(true); await fn() })
+                                .finally(closeModal)
+                        }
+                        className="rounded-md py-2 bg-white-red text-white">
+                        {
+                            isLoading
+                                ?
+                                <div className="flex-center size-5/6 ch:size-5/6 m-auto"><Loader /></div>
+                                :
+                                okBtnText
+                        }
                     </button>
 
                     {
-                        cancelBtnText ? // sometimes we don't need cancel button buddy
+                        cancelBtnText ? // sometimes we don't need cancel button anyway
                             <button
                                 onClick={closeModal}
                                 className="rounded-md py-2 ">{cancelBtnText}

@@ -22,11 +22,15 @@ import Notifications from './Notifications';
 
 const Layout = ({ children }: { children: ReactNode }) => {
 
-    const dispatch = useAppDispatch()
-    const notifications = useAppSelector(state => state.userSlice.relatedData?.dashboardNotifications) || []
+    const [searchValue, setSearchValue] = useState('')
     const { nameLastName, username, profile } = useAppSelector(state => state.userSlice.data) || {}
     const [showDashboardLinks, setShowDashboardLinks] = useState(false)
+
+    const notifications = useAppSelector(state => state.userSlice.relatedData?.dashboardNotifications) || []
+    const dispatch = useAppDispatch()
     const navigate = useRouter()
+
+    const globalSearch = () => showToast(false, `نتیجه ای برای ${searchValue} پیدا نشد`) // for now (:
 
     const logout = async () => {
         dispatch(modalDataUpdater({
@@ -149,9 +153,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                 <div className='flex items-center ch:flex-1 2xl:gap-10 gap-10 sticky top-10 z-40'>
 
-                    <div className='flex items-center justify-between text-[#969BA0] bg-white rounded-xl h-[56px] px-2 shadow-sm'>
-                        <input className='bg-transparent px-4 h-full placeholder:font-peyda w-full' placeholder='جستجو کن' type="text" />
-                        <CiSearch className='size-8 cursor-pointer' />
+                    <div onKeyDown={e => e.key == 'Enter' && globalSearch()} className='flex items-center justify-between text-[#969BA0] bg-white rounded-xl h-[56px] px-2 shadow-sm'>
+                        <input
+                            value={searchValue}
+                            onChange={e => setSearchValue(e.target.value)}
+                            className='bg-transparent px-4 h-full placeholder:font-peyda w-full'
+                            placeholder='جستجو کن'
+                            type="text"
+                        />
+                        <CiSearch onClick={globalSearch} className='size-8 cursor-pointer' />
                     </div>
 
                     <div className='flex items-center justify-end'>
@@ -162,15 +172,15 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                         <div className='flex items-center gap-4'>
                             <div className='text-[16px] xl:block font-peyda hidden text-panel-darkTitle'>خوش اومدی <span className='text-[15px] font-bold px-px'>{nameLastName || username}</span></div>
-                            <div className='size-[56px] bg-white flex-center rounded-full shadow-sm'>
+                            <Link href={'/profile'} className='size-[56px] bg-white flex-center rounded-full shadow-sm'>
                                 {
                                     profile
                                         ?
-                                        <Image src={profile} alt='admin profile' width={200} height={200} className='object-cover size-full rounded-full'/>
+                                        <Image src={profile} alt='admin profile' width={200} height={200} className='object-cover size-full rounded-full' />
                                         :
                                         <RiAdminFill className='flex-center size-3/5 text-panel-darkTitle' />
                                 }
-                            </div>
+                            </Link>
                         </div>
 
                     </div>

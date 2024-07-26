@@ -431,16 +431,17 @@ const imageUploader = async (file: File): Promise<string | Error> => {
 const handleDeleteFile = async (name: string) => {
 
     let formattedFileName = name.replace('https://pc-kala.storage.iran.liara.space/', '')
+    formattedFileName = formattedFileName.slice(0, formattedFileName.lastIndexOf('?'))
 
     try {
+
         const s3 = new S3({
             accessKeyId: ACCESSKEY,
             secretAccessKey: SECRETKEY,
             endpoint: ENDPOINT,
         });
 
-        const deleteStatus = await s3.deleteObject({ Bucket: BUCKET, Key: formattedFileName }).promise();
-        console.log(deleteStatus);
+        await s3.deleteObject({ Bucket: BUCKET, Key: formattedFileName }).promise();
 
     } catch (error) {
         console.error('Error deleting file: ', error);

@@ -51,7 +51,7 @@ const AdminData = ({ nameLastName, _id, email, creator, username, profile }: use
                                 profile
                                     ?
                                     <Image
-                                        className='size-full object-contain rounded-full'
+                                        className='size-full object-cover rounded-full'
                                         src={profile}
                                         alt='Admin profile'
                                         width={200}

@@ -9,9 +9,10 @@ const globalVarsSlice = createSlice({
         canScroll: true,
         activeProfileMenu: 'account-details',
         modalData: {
-            status: false,
             title: '',
+            status: false,
             isShown: false,
+            loader: false,
             message: '',
             fn: () => { },
             okBtnText: 'تایید',
@@ -31,8 +32,9 @@ const globalVarsSlice = createSlice({
                 ...state,
                 modalData: {
                     status: false,
-                    title: '',
                     isShown: false,
+                    loader: false,
+                    title: '',
                     message: '',
                     fn: () => { },
                     onCancel: () => { },

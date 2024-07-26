@@ -20,8 +20,9 @@ const ProfileData = ({ userProfile, _id }: { userProfile: string | undefined, _i
 
         dispatch(modalDataUpdater({
             isShown: true,
-            message: 'آیا از حذف عکس اطمینان دارید؟',
             status: false,
+            loader: true,
+            message: 'آیا از حذف عکس اطمینان دارید؟',
             title: 'حذف عکس',
 
             fn: async () => {
@@ -60,8 +61,9 @@ const ProfileData = ({ userProfile, _id }: { userProfile: string | undefined, _i
 
         dispatch(modalDataUpdater({
             isShown: true,
-            message: 'آیا از آپلود عکس اطمینان دارید؟',
             status: true,
+            loader: true,
+            message: 'آیا از آپلود عکس اطمینان دارید؟',
             title: 'آپلود عکس',
 
             fn: async () => {
@@ -85,21 +87,16 @@ const ProfileData = ({ userProfile, _id }: { userProfile: string | undefined, _i
                     const data = await res.json()
                     showToast(res.ok, data.message)
 
-                    if (res.ok) {
-                        dispatch(userUpdater())
-                    }
+                    res.ok && dispatch(userUpdater())
 
-                } catch (error) {
-                    console.log(error)
-                }
+                } catch (error) { showToast(false, 'خطا در آپلود عکس') }
                 finally {
                     setIsLoading(false)
                     e.target.value = ''
                 }
             },
-
             onCancel: () => { e.target.value = '' }
-
+            
         } as ModalProps))
     }
 
