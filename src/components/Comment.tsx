@@ -30,7 +30,7 @@ const Comment = ({ body, createdAt, rate, creator, isCreatedByCustomer }: commen
                         {
                             creator.profile ?
                                 <Image
-                                    className='w-full h-full rounded-full object-contain bg-red-500'
+                                    className='w-full h-full rounded-full object-cover'
                                     src={creator.profile}
                                     alt='profile'
                                     fill
