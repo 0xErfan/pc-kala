@@ -12,7 +12,7 @@ const BlockTitle = ({ title, url, Icon }: BlockTitleProps) => {
 
             <div className="flex items-center gap-3 relative ml-auto px-3 bg-primary-black z-20">
                 <div className="ch:size-10 text-blue-dark">{Icon}</div>
-                <p className="text-white-red text-[12px]">{title}</p>
+                <p className="text-title-text tracking-wide font-peyda text-[14px]">{title}</p>
             </div>
 
             {

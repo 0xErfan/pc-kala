@@ -14,14 +14,18 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
 
     chartData.forEach(data => {
 
-        const currentDay = new Date().getDay()
-        const transactionWeekDay = new Date(data.createdAt).getDay()
+        const now = new Date().getDay()
+        const currentDay = now == 6 ? 0 : now
+
+        const transactionWeekDay = new Date(data.createdAt).getDay() == 6 ? 0 : new Date(data.createdAt).getDay()
         const weekday = getCurrentPersianWeekday(transactionWeekDay);
 
-        const chartItemIndex = updatedChartData.findIndex(chartData => chartData.name === weekday);
+        console.log(currentDay , transactionWeekDay)
+
+        const chartItemIndex = updatedChartData.findIndex(chartData => chartData.name === weekday && (currentDay >= transactionWeekDay));
 
         // we don't want to show any data from last week دوشنبه if we are in شنبه right now
-        if (chartItemIndex !== -1 && (currentDay >= transactionWeekDay || transactionWeekDay == 6)) {
+        if (chartItemIndex !== -1) {
             updatedChartData[chartItemIndex] = {
                 ...updatedChartData[chartItemIndex],
                 uv: updatedChartData[chartItemIndex].uv + 1
@@ -41,7 +45,7 @@ const TransactionsChart = ({ chartData }: { chartData: TransactionProps[] }) => 
                     <h4 className='font-bold text-2xl text-panel-darkTitle font-peyda'>نمودار تراکنش ها</h4>
                     <p className='font-sans text-[12px] text-panel-caption flex items-center justify-start'>نمودار تعداد تراکنش ها در روز های مختلف هفته</p>
                 </div>
-                <button name='transactions report download' className='border border-panel-darkBlue font-bold transition-all duration-300 hover:bg-panel-darkBlue hover:text-white flex items-center gap-2 font-peyda rounded-md text-panel-darkBlue text-sm text-center p-3'>
+                <button className='border border-panel-darkBlue font-bold transition-all duration-300 hover:bg-panel-darkBlue hover:text-white flex items-center gap-2 font-peyda rounded-md text-panel-darkBlue text-sm text-center p-3'>
                     <Link href={`data:text/json;charset=utf-8,${chartDataUrl}`} download={'This week transactions hah'}>دانلود تراکنش ها</Link>
                     <MdOutlineFileDownload className='size-[22px]' />
                 </button>
