@@ -327,7 +327,7 @@ const ProductDataEditor = (
                         </div>
 
                         <div className='w-full hidden xl:flex ch:flex-1 ch:w-full gap-3'>
-                            <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
+                            <button name='update product data' disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
                                 {
                                     isLoading
                                         ?
@@ -337,7 +337,7 @@ const ProductDataEditor = (
                                 }
                             </button>
 
-                            <button onClick={closeUpdateForm} className='p-3 text-center font-peyda text-[18px] px-5 flex-center bg-panel-darkRed text-white rounded-xl'>لغو</button>
+                            <button name='cancel operation' onClick={closeUpdateForm} className='p-3 text-center font-peyda text-[18px] px-5 flex-center bg-panel-darkRed text-white rounded-xl'>لغو</button>
                         </div>
                     </div>
                 </div>
@@ -345,7 +345,7 @@ const ProductDataEditor = (
                 <ProductImageUpdater imagesData={image} trigger={trigger} updateLoading={(status: boolean) => setIsLoading(status)} imageDataSender={imageLink => setImageLinks(imageLink)} />
 
                 <div className='w-full xl:hidden flex ch:flex-1 ch:w-full gap-3'>
-                    <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
+                    <button name='update product data' disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex-center text-white bg-panel-darkGreen rounded-xl'>
                         {
                             isLoading
                                 ?
@@ -355,7 +355,7 @@ const ProductDataEditor = (
                         }
                     </button>
 
-                    <button onClick={closeUpdateForm} className='p-3 text-center font-peyda text-[18px] px-5 flex-center bg-panel-darkRed text-white rounded-xl'>لغو</button>
+                    <button name='cancel operation' onClick={closeUpdateForm} className='p-3 text-center font-peyda text-[18px] px-5 flex-center bg-panel-darkRed text-white rounded-xl'>لغو</button>
                 </div>
 
             </div>

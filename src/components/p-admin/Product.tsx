@@ -68,8 +68,21 @@ const Product = ({ data, productUpdater, productEditor }: { data: productDataTyp
             <div className="text-center px-3 transition-all min-h-[50px] h-full line-clamp-2 text-panel-darkTitle break-all leading-[25px] my-4 ">{data.name}</div>
 
             <div className="flex items-center gap-3 ch:flex-1 ch:w-full mt-4 text-description-text ch:cursor-pointer font-peyda">
-                <button onClick={() => productEditor(data)} className="flex items-center gap-1 justify-center p-3 text-center rounded-md border bg-panel-lightBlue text-panel-darkBlue border-panel-darkBlue">ادیت</button>
-                <button onClick={deleteProduct} className="flex items-center gap-1 justify-center p-3 text-center rounded-md border bg-panel-lightRed text-panel-darkRed border-panel-darkRed">حذف</button>
+                <button
+                    onClick={() => productEditor(data)}
+                    className="flex items-center gap-1 justify-center p-3 text-center rounded-md border bg-panel-lightBlue text-panel-darkBlue border-panel-darkBlue"
+                    name="edit product"
+                >
+                    ادیت
+                </button>
+
+                <button
+                    onClick={deleteProduct}
+                    className="flex items-center gap-1 justify-center p-3 text-center rounded-md border bg-panel-lightRed text-panel-darkRed border-panel-darkRed"
+                    name="delete product"
+                >
+                    حذف
+                </button>
             </div>
 
         </div>

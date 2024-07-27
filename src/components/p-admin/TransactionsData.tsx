@@ -70,6 +70,7 @@ const TransactionData = ({ _id, createdAt, customerData, totalPrice, status, row
                     <button
                         onClick={activeStatusBoxUpdater}
                         className={`${status == 'CANCELED' ? 'bg-panel-darkRed' : status == 'DELIVERED' ? 'bg-panel-darkGreen' : 'bg-panel-darkBlue'}  text-white rounded-lg flex justify-between  p-2.5 text-center items-center whitespace-nowrap text-[12px] w-full`}
+                        name='update active status box'
                     > {status == 'CANCELED' ? 'لغو شده' : status == 'DELIVERED' ? 'ارسال شده' : 'درحال ارسال'}
                         <MdKeyboardArrowDown className={`size-5 ${activeStatusBox == (_id as any) && 'rotate-180'} transition-all`} />
                     </button>

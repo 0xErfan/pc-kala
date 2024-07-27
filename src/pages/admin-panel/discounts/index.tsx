@@ -105,7 +105,7 @@ const DiscountCodes = () => {
             <>
                 <div className="flex items-center justify-between">
                     <h3 className='md:text-[26px] text-[17px] font-peyda font-bold text-panel-darkBlue'>مدریت کد های تخفیف</h3>
-                    <button onClick={() => setShowAddNewProduct(prev => !prev)} className={`p-3 ${showAddNewProduct ? 'bg-panel-darkRed' : 'bg-panel-darkGreen'} text-center w-44 whitespace-nowrap font-peyda px-5 flex-center text-white bg-panel-darkGreen rounded-md`}>{showAddNewProduct ? 'لغو' : 'ایجاد کد تخفیف جدید'}</button>
+                    <div onClick={() => setShowAddNewProduct(prev => !prev)} className={`p-3 ${showAddNewProduct ? 'bg-panel-darkRed' : 'bg-panel-darkGreen'} text-center cursor-pointer w-44 whitespace-nowrap font-peyda px-5 flex-center text-white bg-panel-darkGreen rounded-md`}>{showAddNewProduct ? 'لغو' : 'ایجاد کد تخفیف جدید'}</div>
                 </div>
 
                 {
@@ -145,7 +145,7 @@ const DiscountCodes = () => {
                                     />
                                 </div>
 
-                                <button onClick={createDiscount} className='p-3 flex-center text-center border-2 border-panel-darkBlue bg-panel-lightBlue rounded-md'>افزودن کد تخفیف</button>
+                                <button name='create new discount' onClick={createDiscount} className='p-3 flex-center text-center border-2 border-panel-darkBlue bg-panel-lightBlue rounded-md'>افزودن کد تخفیف</button>
                                 <span></span>
                                 <span></span>
 

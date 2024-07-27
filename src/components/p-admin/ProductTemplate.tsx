@@ -300,7 +300,7 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
                             </div>
                         </div>
 
-                        <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 xl:flex hidden items-center justify-center text-white bg-panel-darkGreen rounded-xl'>
+                        <button name='create product' disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 xl:flex hidden items-center justify-center text-white bg-panel-darkGreen rounded-xl'>
                             {
                                 isLoading
                                     ?
@@ -315,7 +315,7 @@ const ProductTemplate = ({ productsUpdater }: { productsUpdater: () => void }) =
 
                 <ImageUploader trigger={trigger} updateLoading={(status: boolean) => setIsLoading(status)} imageDataSender={imageLink => setImageLinks(imageLink)} />
 
-                <button disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex xl:hidden items-center justify-center text-white bg-panel-darkGreen rounded-xl'>
+                <button name='create product' disabled={isLoading} onClick={checkDataFieldsAndCreate} className='p-3 text-center font-peyda text-[18px] px-5 flex xl:hidden items-center justify-center text-white bg-panel-darkGreen rounded-xl'>
                     {
                         isLoading
                             ?

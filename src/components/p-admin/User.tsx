@@ -130,6 +130,7 @@ const User = ({ nameLastName, email, role, username, isBan, rowNumber, _id, user
                     <button
                         onClick={activeStatusBoxUpdater}
                         className={`text-black rounded-lg flex ${role == 'ADMIN' ? 'bg-panel-darkGreen text-white' : 'bg-white'} justify-between  p-2.5 text-center items-center whitespace-nowrap text-[12px] w-full`}
+                        name='update activeStatusBox'
                     > {role == 'ADMIN' ? 'ادمین' : 'کاربر'}
                         <MdKeyboardArrowDown className={`size-[18px] ${activeStatusBox == (_id as any) && 'rotate-180'} transition-all`} />
                     </button>

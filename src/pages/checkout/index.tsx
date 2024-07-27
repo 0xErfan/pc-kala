@@ -222,7 +222,7 @@ const Checkout = () => {
                             </div>
 
                             <div onClick={submitOrder}>
-                                <button className=" w-full rounded-md p-3 text-center text-white bg-white-red">
+                                <button name="order submit" className=" w-full rounded-md p-3 text-center text-white bg-white-red">
                                     {
                                         isLoading
                                             ?

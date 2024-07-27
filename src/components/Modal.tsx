@@ -105,7 +105,9 @@ const Modal = () => {
                                 .then(async () => { loader && setIsLoading(true); await fn() })
                                 .finally(closeModal)
                         }
-                        className="rounded-md py-2 bg-white-red text-white">
+                        className="rounded-md py-2 bg-white-red text-white"
+                        name="confirm button"
+                    >
                         {
                             isLoading
                                 ?
@@ -119,7 +121,9 @@ const Modal = () => {
                         cancelBtnText ? // sometimes we don't need cancel button anyway
                             <button
                                 onClick={closeModal}
-                                className="rounded-md py-2 ">{cancelBtnText}
+                                className="rounded-md py-2 "
+                                name="close button"
+                            >{cancelBtnText}
                             </button>
                             : null
                     }

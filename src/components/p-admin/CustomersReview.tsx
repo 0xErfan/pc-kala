@@ -74,10 +74,10 @@ const CustomersReview = () => {
                         null
                         :
                         <div className='flex items-center gap-3 absolute -top-[65px] z-20 left-0'>
-                            <button className='shadow-sm swiper-button-next bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
+                            <button name='swiper control button' className='shadow-sm swiper-button-next bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
                                 <FaAngleLeft className=' rotate-180 size-[22px]' />
                             </button>
-                            <button className='shadow-sm swiper-button-prev bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
+                            <button name='swiper control button' className='shadow-sm swiper-button-prev bg-white font-bold transition-all duration-300 hover:bg-panel-darkGreen hover:text-white flex items-center gap-2 font-peyda rounded-xl text-panel-darkGreen text-sm text-center p-3'>
                                 <FaAngleLeft className='size-[22px]' />
                             </button>
                         </div>

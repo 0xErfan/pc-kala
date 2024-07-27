@@ -76,12 +76,14 @@ const AdminData = ({ nameLastName, _id, email, creator, username, profile }: use
 
                         <button
                             data-aos='fade-right'
+                            name='confirm message'
                             onClick={sendMessage}
                             className={`mr-auto max-w-28 w-full h-full bg-panel-darkGreen transition-all px-4 rounded-md text-white`}>
                             ارسال
                         </button>
                         <button
                             data-aos='fade-left'
+                            name='cancel message'
                             onClick={() => setIsSending(false)}
                             className={`mr-auto max-w-28 w-full h-full bg-panel-darkRed transition-all px-4 rounded-md text-white`}>
                             لغو
@@ -91,6 +93,7 @@ const AdminData = ({ nameLastName, _id, email, creator, username, profile }: use
                     :
                     <button
                         onClick={() => setIsSending(true)}
+                        name='open message'
                         className={`mr-auto max-w-28 whitespace-nowrap w-full h-full bg-panel-darkGreen transition-all px-1 sm:px-4 rounded-[10px] text-white`}>
                         ارسال پیام
                     </button>

@@ -135,6 +135,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
                             <button
                                 className={`flex gap-2 items-center relative justify-center xl:justify-start p-3 text-red-500 bg-red-500/15 ch:transition-all duration-200 ease-in-out rounded-md ch:font-extrabold font-peyda`}
+                                name='logout button'
                                 onClick={logout}
                             >
                                 <RiLogoutBoxLine className='size-6' />
