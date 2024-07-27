@@ -16,7 +16,7 @@ import Header from "@/components/Header";
 import { addProductToBasket, getTimer, productOffTimerProps, sharePage, showToast, totalPriceCalculator } from '@/utils'
 import BreadCrumb from "@/components/BreadCrumb";
 import { MdClose } from "react-icons/md";
-import { GetStaticPropsContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import Image from "next/image";
 import Head from "next/head";
 import { useAppDispatch, useAppSelector } from "@/Hooks/useRedux";
@@ -680,7 +680,7 @@ const FullScreenImage = ({ url, isShown, closeFullScreenFn }: FullScreenImagePro
     </div>
 );
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     try {
 
@@ -689,19 +689,14 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         const foundedProduct = await ProductModel.findOne({ _id: context?.params?.id })
         if (!foundedProduct) return { notFound: true }
 
-        return { props: { product: JSON.parse(JSON.stringify(foundedProduct)) } };
+        return {
+            props:
+                { product: JSON.parse(JSON.stringify(foundedProduct)) }
+        };
 
     } catch (error) {
         console.error('Error fetching product:', error);
-        return { notFound: true }
     }
-}
-
-export async function getStaticPaths() {
-    return {
-        paths: [],
-        fallback: 'blocking',
-    };
 }
 
 export default memo(Product)

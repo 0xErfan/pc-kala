@@ -3,7 +3,7 @@ import BreadCrumb from "@/components/BreadCrumb";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { engCategoryToPersian } from "@/utils";
-import { GetStaticPropsContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState, memo } from "react";
 import { categories, productDataTypes } from "@/global.t";
@@ -134,7 +134,7 @@ const Category = ({ product, allProductsCount }: Props) => {
 
 export default memo(Category);
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     const query = context.params
     const category = query?.slug?.length ? query.slug[0] : ''
@@ -152,6 +152,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         if (!!filterBySubCategory) {
 
             const filterProductsWithCategoryAndSubMenu = [...product, ...await ProductModel.find({ category, ['sub-cat']: filterBySubCategory }).skip(0).limit(12)]
+
             if (filterProductsWithCategoryAndSubMenu.length) {
                 allProductsCount = await ProductModel.countDocuments({ category, ['sub-cat']: filterBySubCategory })
                 product = filterProductsWithCategoryAndSubMenu
@@ -179,11 +180,4 @@ export async function getStaticProps(context: GetStaticPropsContext) {
         console.log('error from category page -> ', err)
         return { notFound: true }
     }
-}
-
-export async function getStaticPaths() {
-    return {
-        paths: [],
-        fallback: true,
-    };
 }

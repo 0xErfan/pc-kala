@@ -5,7 +5,7 @@ import { GrFormSearch } from "react-icons/gr";
 import Button from "@/components/Button";
 import BreadCrumb from "@/components/BreadCrumb";
 import { useRouter } from "next/router";
-import { GetStaticPropsContext } from "next";
+import { GetServerSidePropsContext } from "next";
 import ProductModel from "@/models/Product";
 import connectToDB from "@/config/db";
 import { productDataTypes } from "@/global.t";
@@ -107,7 +107,7 @@ const Search = ({ product }: { product: productDataTypes[] }) => {
 
 export default Search;
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
 
     try {
 
@@ -127,23 +127,15 @@ export async function getStaticProps(context: GetStaticPropsContext) {
                     .some(spec => spec?.value.toString().toLowerCase().includes(text)) ? product : null)
                 .filter(Boolean));
 
-        const matchedProductsWithoutRepeatedProducts = [...new Set(matchedProducts)].slice(0, 12)
+        const matchedProductsWithoutDuplicate = [...new Set(matchedProducts)].slice(0, 12)
 
         return {
             props: {
-                product: JSON.parse(JSON.stringify(matchedProductsWithoutRepeatedProducts))
+                product: JSON.parse(JSON.stringify(matchedProductsWithoutDuplicate))
             }
         }
 
     } catch (err) {
         console.log('globalSearch page error -> ', err)
-        return { notFound: true }
     }
-}
-
-export async function getStaticPaths() {
-    return {
-        paths: [],
-        fallback: 'blocking',
-    };
 }
