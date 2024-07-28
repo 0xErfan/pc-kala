@@ -1,8 +1,4 @@
 <h1 align="center">
-  
-<br>
-
-<br>
 
 Fullstack Next.js E-commerce
 
@@ -12,13 +8,10 @@ Fullstack Next.js E-commerce
 
 - Next.js(React)
 - TypeScript
-- Prisma
-- NextAuth
-- Stripe
+- Redux Toolkit
+- bycrypt
+- JWT
 - Tailwind
-- React Query
-- Sentry
-- Yup
 
 ## Screenshots 📸
 
