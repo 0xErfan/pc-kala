@@ -17,7 +17,7 @@ Fullstack Next.js E-commerce
 
 <br>
 
-<img src="https://user-images.githubusercontent.com/46969484/143662639-de569e93-917c-40d8-b4ff-efbd6e6e82f3.png" width="100%" />
+<img src="[https://v2-pc-kala.storage.c2.liara.space/1722126614-uLFL.png" width="100%" />
 
 <br>
 
