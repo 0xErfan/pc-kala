@@ -9,6 +9,7 @@ Fullstack Next.js E-commerce
 - Next.js(React)
 - TypeScript
 - Redux Toolkit
+- Mongoose
 - bycrypt
 - JWT
 - Tailwind
