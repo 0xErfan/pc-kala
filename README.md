@@ -31,4 +31,4 @@ Fullstack Next.js E-commerce
 
 ## Contributing
 
-This is an open source project, and contributions of any kind are welcome and appreciated. Open issues, bugs, and feature requests are all listed on the [issues](https://github.com/olafsulich/fullstack-nextjs-ecommerce/issues) tab and labeled accordingly. Feel free to open bug tickets and make feature requests.
+This is an open source project, and contributions of any kind are welcome and appreciated.
