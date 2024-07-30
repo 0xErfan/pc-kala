@@ -44,14 +44,14 @@ const AdminData = ({ nameLastName, _id, email, creator, username, profile }: use
                         placeholder='پیام را وارد کنید:'>
                     </textarea>
                     :
-                    <div className='flex items-center gap-3'>
+                    <div className='flex items-center gap-3 overflow-hidden'>
 
                         <div className='rounded-full size-14 flex-center'>
                             {
                                 profile
                                     ?
                                     <Image
-                                        className='size-full object-cover rounded-full'
+                                        className='size-full object-cover rounded-full shrink-0'
                                         src={profile}
                                         alt='Admin profile'
                                         width={200}
@@ -64,7 +64,7 @@ const AdminData = ({ nameLastName, _id, email, creator, username, profile }: use
 
                         <div className='flex flex-col gap-1'>
                             <div className='font-bold text-[19px]'>{nameLastName || username}</div>
-                            <div className='text-panel-darkTitle'>{email}</div>
+                            <div className='text-panel-darkTitle overflow-ellipsis'>{email}</div>
                         </div>
                     </div>
             }
