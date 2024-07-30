@@ -263,6 +263,7 @@ export async function getStaticProps() { // static rendering(SSG) for main page 
     return {
         props: {
             products: JSON.parse(JSON.stringify(products))
-        }
+        },
+        revalidate: 120
     }
 }

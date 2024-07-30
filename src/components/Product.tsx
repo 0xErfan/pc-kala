@@ -106,7 +106,12 @@ const Product = ({ productData, useMotion = true }: Props) => {
             </div>
 
             <div className="flex items-center gap-3 justify-center whitespace-pre text-title-text text-sm">
-                {discount && <div className="red-line-through text-white ">{Number(price)?.toLocaleString('fa-IR')}</div>}
+                {
+                    discount
+                        ?
+                        <div className="red-line-through text-white ">{Number(price)?.toLocaleString('fa-IR')}</div>
+                        : null
+                }
                 <div className="text-blue-white">{priceAfterOff.toLocaleString('fa-IR')} <span className="text-[10px] text-title-text">تومان</span></div>
             </div>
 

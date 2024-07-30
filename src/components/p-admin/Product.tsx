@@ -37,7 +37,11 @@ const Product = ({ data, productUpdater, productEditor }: { data: productDataTyp
     return (
         <div data-aos={`fade-in`} data-aos-duration="550" className={` transition-all duration-300 w-full relative m-auto bg-white shadow-sm rounded-xl p-3 overflow-hidden text-panel-darkTitle text-sm`}>
 
-            {data.discount && <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{data.discount}٪</div>}
+            {
+                data.discount ?
+                    <div className=" flex-center absolute bg-[#EE273A] size-9 text-white pt-1 text-sm discount-border">{data.discount}٪</div>
+                    : null
+            }
 
             <div className="size-[90%] m-auto aspect-square">
 
