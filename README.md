@@ -2,7 +2,7 @@
 
 Fullstack Next.js E-commerce
 
-</h1>
+</h1> 
 
 ## Technologies 🔧
 
